@@ -53,26 +53,6 @@ app.get('/', (req, res) => {
 
       res.send(data);
     });
-  } else if (extname === '.css') {
-    fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-        res.status(500).send('Error reading the CSS file');
-        return;
-      }
-
-      res.send(`
-        <html>
-        <head>
-          <title>CSS Preview</title>
-          <style>${data}</style>
-        </head>
-        <body>
-          <h1>CSS Preview</h1>
-          <p>Preview of the CSS file.</p>
-        </body>
-        </html>
-      `);
-    });
   } else {
     res.status(400).send('Unsupported file type');
   }
