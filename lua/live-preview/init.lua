@@ -40,10 +40,12 @@ function M.preview_file()
     M.stop_preview()
     local command = string.format("nodemon --exec 'node ~/.local/share/nvim/lazy/live-preview.nvim/server.js %s'", filename)
     vim.fn.jobstart(command, {
+        os.execute('echo > ~/.local/share/nvim/lazy/live-preview.nvim/log.txt')
         on_stdout = function(_, data)
         if data then
             for _, line in ipairs(data) do
               print("stdout: " .. line)
+              os.execute('echo "' .. line .. '" >> ~/.local/share/nvim/lazy/live-preview.nvim/log.txt')
             end
           end
         end,
@@ -51,6 +53,7 @@ function M.preview_file()
           if data then
             for _, line in ipairs(data) do
               print("stderr: " .. line)
+              os.execute('echo "' .. line .. '" >> ~/.local/share/nvim/lazy/live-preview.nvim/log.txt')
             end
           end
         end,
