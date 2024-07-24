@@ -20,7 +20,6 @@ end
 
 -- Function to preview the file
 function M.preview_file()
-    print("live-preview called")
     local filename = vim.fn.expand('%:p')
     if not filename or filename == "" then
         print("No file is open")

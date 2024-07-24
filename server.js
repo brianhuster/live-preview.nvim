@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
         return;
       }
 
-      const html = marked(data);
+      const html = marked.parse(data);
       res.send(`
         <!DOCTYPE html>
         <html lang="en">
