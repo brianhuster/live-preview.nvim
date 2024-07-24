@@ -21,40 +21,41 @@ end
 
 
 function M.preview_file()
-  local filename = vim.fn.expand('%:p')
-  if not filename or filename == "" then
+    print("live-preview called")
+    local filename = vim.fn.expand('%:p')
+    if not filename or filename == "" then
     print("No file is open")
     return
-  end
+    end
 
-  local extname = vim.fn.fnamemodify(filename, ":e")
-  local supported_exts = { "md", "html" }
+    local extname = vim.fn.fnamemodify(filename, ":e")
+    local supported_exts = { "md", "html" }
 
-  if not vim.tbl_contains(supported_exts, extname) then
+    if not vim.tbl_contains(supported_exts, extname) then
     print("Unsupported file type")
     return
-  end
+    end
 
-  -- Start nodemon server
-  M.stop_preview()
-  local command = string.format("nodemon --exec 'node ~/.local/share/nvim/lazy/live-preview.nvim/server.js %s'", filename)
-  vim.fn.jobstart(command, {
+    -- Start nodemon server
+    M.stop_preview()
+    local command = string.format("nodemon --exec 'node ~/.local/share/nvim/lazy/live-preview.nvim/server.js %s'", filename)
+    vim.fn.jobstart(command, {
     on_exit = function(_, code)
       if code ~= 0 then
         print("Error starting the server")
       end
     end
-  })
+    })
 
-  -- Open browser with the rendered file
-  local open_browser_command = "xdg-open"
-  if vim.fn.has("mac") == 1 then
+    -- Open browser with the rendered file
+    local open_browser_command = "xdg-open"
+    if vim.fn.has("mac") == 1 then
     open_browser_command = "open"
-  elseif vim.fn.has("win32") == 1 then
+    elseif vim.fn.has("win32") == 1 then
     open_browser_command = "start"
-  end
+    end
 
-  os.execute(open_browser_command .. " http://localhost:3000")
+    os.execute(open_browser_command .. " http://localhost:3000")
 end
 
 return M
