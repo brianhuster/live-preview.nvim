@@ -71,19 +71,23 @@ function M.preview_file()
         on_exit = function(_, code)
             if code ~= 0 then
                 print("Error starting the server")
+            else
+                -- Open browser with the rendered file
+                local open_browser_command = "xdg-open"
+                if vim.fn.has("mac") == 1 then
+                    open_browser_command = "open"
+                elseif vim.fn.has("win32") == 1 then
+                    open_browser_command = "start"
+                end
+
+                os.execute(open_browser_command .. " http://localhost:3000")
+
+                print("Open http://localhost:3000 in your browser to view the file")
+
             end
         end
     })
 
-    -- Open browser with the rendered file
-    local open_browser_command = "xdg-open"
-    if vim.fn.has("mac") == 1 then
-        open_browser_command = "open"
-    elseif vim.fn.has("win32") == 1 then
-        open_browser_command = "start"
-    end
-
-    os.execute(open_browser_command .. " http://localhost:3000")
 end
 
 return M
