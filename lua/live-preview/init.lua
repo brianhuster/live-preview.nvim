@@ -40,11 +40,25 @@ function M.preview_file()
     M.stop_preview()
     local command = string.format("nodemon --exec 'node ~/.local/share/nvim/lazy/live-preview.nvim/server.js %s'", filename)
     vim.fn.jobstart(command, {
-    on_exit = function(_, code)
-      if code ~= 0 then
-        print("Error starting the server")
-      end
-    end
+        on_stdout = function(_, data)
+        if data then
+            for _, line in ipairs(data) do
+              print("stdout: " .. line)
+            end
+          end
+        end,
+        on_stderr = function(_, data)
+          if data then
+            for _, line in ipairs(data) do
+              print("stderr: " .. line)
+            end
+          end
+        end,
+        on_exit = function(_, code)
+          if code ~= 0 then
+            print("Error starting the server")
+          end
+        end
     })
 
     -- Open browser with the rendered file
