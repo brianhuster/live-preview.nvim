@@ -16,7 +16,6 @@ function M.stop_preview()
         )
         os.execute(kill_command)
     end
-    print("Stopped live preview server")
 end
 
 -- Function to preview the file
