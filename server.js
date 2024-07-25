@@ -161,6 +161,27 @@ const md_css_style= `
     }
 `
 
+const js_script = `
+  const socket = io({
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionAttempts: 10
+  });
+  
+  socket.on('connect', () => {
+    console.log('Connected to server');
+  });
+  
+  socket.on('disconnect', () => {
+    console.log('Disconnected from server');
+  });
+  
+  socket.on('reload', () => {
+    console.log('Reload event received');
+    window.location.reload();
+  });
+`
+
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
@@ -224,8 +245,13 @@ app.get('/', (req, res) => {
 const directory = path.dirname(process.argv[2]);
 app.use(express.static(directory));
 
+io.on('connection', (socket) => {
+  console.log('A client connected');
+  socket.emit('reload');  // Send reload command to this specific client
+  socket.on('disconnect', () => console.log('A client disconnected'));
+});
+
 server.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
-  io.emit('reload')
 });
 
