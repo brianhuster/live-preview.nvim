@@ -245,13 +245,8 @@ app.get('/', (req, res) => {
 const directory = path.dirname(process.argv[2]);
 app.use(express.static(directory));
 
-io.on('connection', (socket) => {
-  console.log('A client connected');
-  socket.emit('reload');  // Send reload command to this specific client
-  socket.on('disconnect', () => console.log('A client disconnected'));
-});
-
 server.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+    io.emit('reload');
+    console.log(`Server is running at http://localhost:${port}`);
 });
 
