@@ -21,6 +21,7 @@ end
 -- Function to preview the file
 function M.preview_file()
     local filename = vim.fn.expand('%:p')
+    local target_dir = vim.fn.expand('%:p:h')`
     if not filename or filename == "" then
         print("No file is open")
         return
@@ -38,7 +39,7 @@ function M.preview_file()
     M.stop_preview()
 
     local log_file = vim.fn.stdpath('data') .. '/lazy/live-preview.nvim/log.txt'
-    local command = string.format("nodemon --exec 'node ~/.local/share/nvim/lazy/live-preview.nvim/server.js %s'", filename)
+    local command = string.format("nodemon --watch %s --exec 'node ~/.local/share/nvim/lazy/live-preview.nvim/server.js %s'", target_dir, filename)
 
     vim.fn.jobstart(command, {
         stdout_buffered = true,
