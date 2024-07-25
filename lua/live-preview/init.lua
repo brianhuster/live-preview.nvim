@@ -21,7 +21,7 @@ end
 -- Function to preview the file
 function M.preview_file()
     local filename = vim.fn.expand('%:p')
-    local target_dir = vim.fn.expand('%:p:h')`
+    local target_dir = vim.fn.expand('%:p:h')
     if not filename or filename == "" then
         print("No file is open")
         return
