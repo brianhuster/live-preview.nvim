@@ -6,7 +6,13 @@ const path = require('path');
 const marked = require('marked');
 const { exec } = require('child_process');
 
+const http = require('http');
+const socketIO = require('socket.io');
+
 const app = express();
+app.use(express.static(path.join(__dirname, 'node_modules/socket.io/client-dist')));
+const server = http.createServer(app);
+const io = socketIO(server);
 const port = 3000;
 
 app.use(express.static('public'));
@@ -40,6 +46,13 @@ app.get('/', (req, res) => {
         </head>
         <body>
           ${html}
+          <script src="/socket.io/socket.io.js"></script>
+            <script>
+                const socket = io();
+                socket.on('reload', () => {
+                    window.location.reload();
+                });
+            </script>
         </body>
         </html>
       `);
@@ -63,5 +76,6 @@ app.use(express.static(directory));
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
+  io.emit('reload')
 });
 
