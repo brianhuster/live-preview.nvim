@@ -196,7 +196,7 @@ app.get('/', (req, res) => {
           <div class="markdown-body">
             ${html}
           </div>
-          <script src="/socket.io/socket.io.js"></script>
+          <script src="socket.io.js"></script>
             <script>
                 const socket = io();
                 socket.on('reload', () => {
