@@ -191,7 +191,6 @@ app.get('/', (req, res) => {
           <style>
             ${md_css_style}
           </style>
-          <link rel="stylesheet" href="/styles.css">
         </head>
         <body>
           <div class="markdown-body">
