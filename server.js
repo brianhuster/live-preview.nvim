@@ -194,7 +194,9 @@ app.get('/', (req, res) => {
           <link rel="stylesheet" href="/styles.css">
         </head>
         <body>
-          ${html}
+          <div class="markdown-body">
+            ${html}
+          </div>
           <script src="/socket.io/socket.io.js"></script>
             <script>
                 const socket = io();
