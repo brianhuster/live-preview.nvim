@@ -77,17 +77,20 @@ function M.preview_file()
 
     })
 
+    -- Choose the appropriate command to open the browser
     local open_browser_command = "xdg-open"
     if vim.fn.has("mac") == 1 then
         open_browser_command = "open"
     elseif vim.fn.has("win32") == 1 then
         open_browser_command = "start"
     end
-
     os.execute(open_browser_command .. " http://localhost:3000")
-
-
 end
+
+M.disable_atomic_writes = function()
+    vim.opt.backupcopy = 'yes'
+end
+M.disable_atomic_writes()
 
 return M
 
