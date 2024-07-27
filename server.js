@@ -164,8 +164,6 @@ const md_css_style= `
 const js_script = `
   const socket = io({
     reconnection: true,
-    reconnectionDelay: 1000,
-    reconnectionAttempts: 10
   });
   
   socket.on('connect', () => {
