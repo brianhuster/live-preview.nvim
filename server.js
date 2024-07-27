@@ -219,10 +219,7 @@ app.get('/', (req, res) => {
           </div>
           <script src="socket.io.js"></script>
             <script>
-                const socket = io();
-                socket.on('reload', () => {
-                    window.location.reload();
-                });
+              ${js_script}
             </script>
         </body>
         </html>
