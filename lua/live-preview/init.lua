@@ -95,7 +95,7 @@ M.touch_file = function()
 end
 
 -- Automatically touch the file after writing the buffer
-vim.cmd('autocmd BufWritePost * lua require("your_plugin").touch_file()')
+vim.cmd('autocmd BufWritePost * lua require("live-preview").touch_file()')
 
 function M.disable_atomic_writes()
     vim.opt.backupcopy = 'yes'
