@@ -87,7 +87,17 @@ function M.preview_file()
     os.execute(open_browser_command .. " http://localhost:3000")
 end
 
-M.disable_atomic_writes = function()
+M.touch_file = function()
+    local filepath = vim.fn.expand('%:p')  
+    if vim.fn.filereadable(filepath) == 1 then  
+        vim.fn.system('touch ' .. filepath)  
+    end
+end
+
+-- Automatically touch the file after writing the buffer
+vim.cmd('autocmd BufWritePost * lua require("your_plugin").touch_file()')
+
+function M.disable_atomic_writes()
     vim.opt.backupcopy = 'yes'
 end
 M.disable_atomic_writes()
