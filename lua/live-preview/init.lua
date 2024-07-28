@@ -104,6 +104,8 @@ end
 -- Call the function to disable atomic writes
 M.disable_atomic_writes()
 
+require('live-preview')
+
 vim.api.nvim_create_user_command('LivePreview', function()
     require('live-preview').preview_file()
     print("Live preview started")
@@ -114,13 +116,5 @@ vim.api.nvim_create_user_command('StopPreview', function()
     require('live-preview').stop_preview()
     print("Live preview stopped")
 end, {})
-
-vim.cmd([[
-    augroup LivePreviewGroup
-        autocmd!
-        autocmd VimEnter * command! LivePreview lua require('live-preview').open_browser()
-        autocmd VimEnter * command! StopPreview lua print("Live preview stopped")
-    augroup END
-]])
 
 return M
