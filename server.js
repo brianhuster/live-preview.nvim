@@ -236,6 +236,6 @@ app.get("/", (req, res) => {
 const directory = path.dirname(process.argv[2]);
 app.use(express.static(directory));
 
-server.listen(port, () => {
+app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
