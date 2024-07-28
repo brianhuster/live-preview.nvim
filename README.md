@@ -14,17 +14,9 @@ require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
         run = 'npm init && npm install && npm install -g nodemon',
-        config = function()
-            require('live-preview')
-            vim.api.nvim_create_user_command('LivePreview', function()
-                require('live-preview').preview_file()
-            end, {})
-            vim.api.nvim_create_user_command('StopPreview', function()
-                require('live-preview').stop_preview()
-            end, {})
-        end,
     }
 })
+require("live-preview").setup()
 ```
 
 ### Using packer.nvim
@@ -36,17 +28,9 @@ require('packer').startup(function()
   use {
     'brianhuster/live-preview.nvim',
     run = 'npm install && npm install -g nodemon',
-    config = function()
-      require('live-preview')
-      vim.api.nvim_create_user_command('LivePreview', function()
-        require('live-preview').preview_file()
-      end, {})
-      vim.api.nvim_create_user_command('StopPreview', function()
-        require('live-preview').stop_preview()
-      end, {})
-    end
   }
 end)
+require("live-preview").setup()
 ```
 
 ### Using vim-plug
@@ -60,10 +44,7 @@ Plug 'brianhuster/live-preview.nvim', { 'do': 'npm install && npm install -g nod
 
 call plug#end()
 
-" Configuration for live-preview.nvim
-lua require('live-preview')
-command! LivePreview call v:lua.require('live-preview').preview_file()
-command! StopPreview call v:lua.require('live-preview').stop_preview()
+lua require("live-preview").setup()
 ```
 
 ## Usage
@@ -82,7 +63,7 @@ To stop the live preview server, use the command:
 
 ### Configuration
 
-You can customize your commands for starting and stopping the live server by editing the configuration function in your plugin setting. Here is how to config so you can use "Lp" and "Sp" instead of LivePreview and StopPreview
+You can customize your commands for starting and stopping the live server by editing the configuration function in your plugin setting inside your plugin manager. Here is how to config so you can use "Lp" and "Sp" instead of LivePreview and StopPreview
 
 Example using Lua : 
 
@@ -102,8 +83,8 @@ Example using VimScript :
 
 ```vim
 lua require('live-preview')
-command! LivePreview call v:lua.require('live-preview').preview_file() " update this line
-command! StopPreview call v:lua.require('live-preview').stop_preview() " update this line
+command! Lp call v:lua.require('live-preview').preview_file() " update this line
+command! Sp call v:lua.require('live-preview').stop_preview() " update this line
 ```
 
 
