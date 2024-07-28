@@ -246,6 +246,6 @@ app.use(express.static(directory));
 server.listen(port, () => {
     setTimeout(() => {
         io.emit('reload');
-    }, 1000);
+    }, 100);
 });
 
