@@ -101,8 +101,9 @@ To stop the live preview server, use the command:
 
 `:StopPreview`
 
-These commands can be changed based on your customization in the `setup` function in your Neovim configuration file.
+These commands can be changed based on your customization in the `setup` function in your Neovim configuration file. 
 
+Use the command `:help live-preview` to see the help documentation.
 
 ## License 
 
