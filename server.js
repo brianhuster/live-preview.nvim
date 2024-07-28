@@ -161,6 +161,7 @@ const md_css_style= `
 `
 
 const js_script = `
+  let status = 'connected';
   const socket = io({
     reconnection: true
   });
@@ -171,10 +172,12 @@ const js_script = `
   
   socket.on('connect', () => {
     console.log('Connected to server');
+    window.location.reload();
   });
   
   socket.on('disconnect', () => {
     console.log('Disconnected from server');
+    status = 'disconnected';
   });
   
   socket.on('reload', () => {
@@ -244,8 +247,6 @@ const directory = path.dirname(process.argv[2]);
 app.use(express.static(directory));
 
 server.listen(port, () => {
-    setTimeout(() => {
-        io.emit('reload');
-    }, 100);
+    console.log(`Server running at http://localhost:${port}`);
 });
 
