@@ -65,8 +65,11 @@ function M.preview_file(port)
     local supported_exts = { "md", "html" }
 
     if not vim.tbl_contains(supported_exts, extname) then
-        print("Unsupported file type")
-        return
+        filename = M.find_buf()
+        if not filename then
+            print("Unsupported file type")
+            return
+        end
     end
 
     M.stop_preview(port)
