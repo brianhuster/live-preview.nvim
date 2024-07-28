@@ -4,14 +4,11 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const marked = require("marked");
-const { exec } = require("child_process");
-const socketIO = require("socket.io");
 
 const app = express();
 app.use(
     express.static(path.join(__dirname, "node_modules/socket.io/client-dist"))
 );
-
 const port = 3000;
 
 const md_css_style = `
