@@ -1,5 +1,15 @@
 local M = {}
 
+function M.open_browser()
+    local open_browser_command = "xdg-open"
+    if vim.fn.has("mac") == 1 then
+        open_browser_command = "open"
+    elseif vim.fn.has("win32") == 1 then
+        open_browser_command = "start"
+    end
+    os.execute(open_browser_command .. " http://localhost:3000")
+end
+
 -- Function to stop any process using port 3000
 function M.stop_preview()
     local port = 3000
@@ -77,14 +87,7 @@ function M.preview_file()
 
     })
 
-    -- Choose the appropriate command to open the browser
-    local open_browser_command = "xdg-open"
-    if vim.fn.has("mac") == 1 then
-        open_browser_command = "open"
-    elseif vim.fn.has("win32") == 1 then
-        open_browser_command = "start"
-    end
-    os.execute(open_browser_command .. " http://localhost:3000")
+    M.open_browser()
 end
 
 function M.touch_file()
@@ -94,27 +97,24 @@ function M.touch_file()
   end
 end
 
-vim.cmd('autocmd BufWritePost * lua require("live-preview").touch_file()')
-
 -- Function to disable atomic writes
 function M.disable_atomic_writes()
   vim.opt.backupcopy = 'yes'
 end
 
--- Call the function to disable atomic writes
-M.disable_atomic_writes()
+function M.setup()
+    vim.api.nvim_create_user_command('LivePreview', function()
+        M.preview_file()
+        print("Live preview started")
+    end, {})
 
-require('live-preview')
+    vim.api.nvim_create_user_command('StopPreview', function()
+        M.stop_preview()
+        print("Live preview stopped")
+    end, {})
 
-vim.api.nvim_create_user_command('LivePreview', function()
-    require('live-preview').preview_file()
-    print("Live preview started")
-end, {})
-  
-  -- Define a command to stop live preview of Markdown files
-vim.api.nvim_create_user_command('StopPreview', function()
-    require('live-preview').stop_preview()
-    print("Live preview stopped")
-end, {})
+    vim.cmd('autocmd BufWritePost * lua require("live-preview").touch_file()')
+    M.disable_atomic_writes()
+end
 
 return M
