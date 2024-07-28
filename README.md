@@ -104,3 +104,8 @@ To stop the live preview server, use the command:
 These commands can be changed based on your customization in the `setup` function in your Neovim configuration file.
 
 
+## License 
+
+This project is licensed under the [MIT License](LICENSE).
+
+
