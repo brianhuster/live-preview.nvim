@@ -1,17 +1,109 @@
-Add the Plugin to Your init.lua:
+# live-preview.nvim
 
+A Live Preview Plugin for Neovim that allows you to view Markdown or HTML (along with CSS, JavaScript) files in a web browser with live updates.
+
+## Requirements
+
+- [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) must be installed.
+
+## Installation
+
+### Using lazy.nvim
 ```lua
-
--- ~/.config/nvim/init.lua
-
--- Add plugin configuration
-require('markdown_viewer')
-
--- Define a command to preview Markdown files
-vim.api.nvim_create_user_command('LivePreview', function()
-  require('markdown_viewer').preview_markdown()
-end, {})
+require("lazy").setup({
+    {
+        'brianhuster/live-preview.nvim',
+        run = 'npm init && npm install && npm install -g nodemon',
+        config = function()
+            require('live-preview')
+            vim.api.nvim_create_user_command('LivePreview', function()
+                require('live-preview').preview_file()
+            end, {})
+            vim.api.nvim_create_user_command('StopPreview', function()
+                require('live-preview').stop_preview()
+            end, {})
+        end,
+    }
+})
 ```
 
+### Using packer.nvim
+
+Add the following to your init.lua:
+
+```lua
+require('packer').startup(function()
+  use {
+    'brianhuster/live-preview.nvim',
+    run = 'npm install && npm install -g nodemon',
+    config = function()
+      require('live-preview')
+      vim.api.nvim_create_user_command('LivePreview', function()
+        require('live-preview').preview_file()
+      end, {})
+      vim.api.nvim_create_user_command('StopPreview', function()
+        require('live-preview').stop_preview()
+      end, {})
+    end
+  }
+end)
+```
+
+### Using vim-plug
+
+Add the following to your `init.vim` or `init.lua`:
+
+```vim
+call plug#begin('~/.config/nvim/plugged')
+
+Plug 'brianhuster/live-preview.nvim', { 'do': 'npm install && npm install -g nodemon' }
+
+call plug#end()
+
+" Configuration for live-preview.nvim
+lua require('live-preview')
+command! LivePreview call v:lua.require('live-preview').preview_file()
+command! StopPreview call v:lua.require('live-preview').stop_preview()
+```
+
+## Usage
+
+### For default configuration 
+
+To start the live preview, use the command:
+
+`:LivePreview`
+
+This command will open the current Markdown or HTML file in your default web browser and update it live as you write changes to your file.
+
+To stop the live preview server, use the command:
+
+`:StopPreview`
+
+### Configuration
+
+You can customize your commands for starting and stopping the live server by editing the configuration function in your plugin setting. Here is how to config so you can use "Lp" and "Sp" instead of LivePreview and StopPreview
+
+Example using Lua : 
+
+```lua
+config = function()
+    require('live-preview')
+    vim.api.nvim_create_user_command('Lp', function() --- Update this line
+        require('live-preview').preview_file()
+    end, {})
+    vim.api.nvim_create_user_command('Sp', function()  --- Update this line
+        require('live-preview').stop_preview()
+    end, {})
+end,
+```
+
+Example using VimScript :
+
+```vim
+lua require('live-preview')
+command! LivePreview call v:lua.require('live-preview').preview_file() " update this line
+command! StopPreview call v:lua.require('live-preview').stop_preview() " update this line
+```
 
 

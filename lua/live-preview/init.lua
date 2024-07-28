@@ -38,7 +38,7 @@ function M.preview_file()
     -- Start nodemon server
     M.stop_preview()
 
-    local log_file = vim.fn.stdpath('data') .. '/lazy/live-preview.nvim/log.txt'
+    local log_file = vim.fn.stdpath('data') .. '/lazy/live-preview.nvim/logs/log.txt'
     local command = string.format("cd ~/.local/share/nvim/lazy/live-preview.nvim && nodemon --watch %s %s", target_dir, filename)
 
     vim.fn.jobstart(command, {
