@@ -39,7 +39,7 @@ function M.preview_file()
     M.stop_preview()
 
     local log_file = vim.fn.stdpath('data') .. '/lazy/live-preview.nvim/log.txt'
-    local command = string.format("nodemon --watch %s --exec 'node ~/.local/share/nvim/lazy/live-preview.nvim/server.js %s'", target_dir, filename)
+    local command = string.format("cd ~/.local/share/nvim/lazy/live-preview.nvim && nodemon --watch %s %s", target_dir, filename)
 
     vim.fn.jobstart(command, {
         stdout_buffered = true,
@@ -86,6 +86,23 @@ function M.preview_file()
     end
     os.execute(open_browser_command .. " http://localhost:3000")
 end
+
+function M.touch_file()
+  local filepath = vim.fn.expand('%:p')
+  if vim.fn.filereadable(filepath) == 1 then
+    vim.fn.system('touch ' .. filepath)
+  end
+end
+
+vim.cmd('autocmd BufWritePost * lua require("your_plugin").touch_file()')
+
+-- Function to disable atomic writes
+function M.disable_atomic_writes()
+  vim.opt.backupcopy = 'yes'
+end
+
+-- Call the function to disable atomic writes
+M.disable_atomic_writes()
 
 return M
 

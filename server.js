@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
 const { exec } = require('child_process');
-
 const http = require('http');
 const socketIO = require('socket.io');
 
@@ -163,8 +162,12 @@ const md_css_style= `
 
 const js_script = `
   const socket = io({
-    reconnection: true,
+    reconnection: true
   });
+
+  socket.onAny((event, ...args) => {
+      console.log("Received event: + " + event + " " + args);
+    });
   
   socket.on('connect', () => {
     console.log('Connected to server');
@@ -233,7 +236,7 @@ app.get('/', (req, res) => {
       res.send(data);
     });
   } else {
-    res.status(400).send('Unsupported file type');
+    res.status(400).send('Unsupported file type ' + extname);
   }
 });
 
@@ -241,7 +244,8 @@ const directory = path.dirname(process.argv[2]);
 app.use(express.static(directory));
 
 server.listen(port, () => {
-    io.emit('reload');
     console.log(`Server is running at http://localhost:${port}`);
+    console.log('Emitting reload event to clients');
+    io.emit('reload');
 });
 
