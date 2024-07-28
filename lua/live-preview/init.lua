@@ -94,7 +94,7 @@ function M.preview_file(port)
 
     })
 
-    M.open_browser()
+    M.open_browser(port)
 end
 
 function M.touch_file()
