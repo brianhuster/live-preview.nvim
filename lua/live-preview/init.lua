@@ -8,10 +8,11 @@ local default_options = {
     port = 3000,
 }
 
-local function find_buf() -- find html/md buffer
+function M.find_buf() -- find html/md buffer
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_loaded(buf) then
             local buf_name = vim.api.nvim_buf_get_name(buf)
+            print(buf_name)
             if buf_name:match("%.md$") or buf_name:match("%.html$") then
                 return buf_name
             end
@@ -53,7 +54,7 @@ function M.preview_file(port)
     local filename = vim.fn.expand('%:p')
     local target_dir = vim.fn.expand('%:p:h')
     if not filename or filename == "" then
-        filename = find_buf()
+        filename = M.find_buf()
         if not filename then
             print("Cannot find a file")
             return
