@@ -246,6 +246,8 @@ app.use(express.static(directory));
 server.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
     console.log('Emitting reload event to clients');
-    io.emit('reload');
+    setTimeout(() => {
+        io.emit('reload');
+    }, 100);
 });
 
