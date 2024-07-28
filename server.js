@@ -4,11 +4,16 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const marked = require("marked");
+const { exec } = require("child_process");
+const http = require("http");
+const socketIO = require("socket.io");
 
 const app = express();
 app.use(
     express.static(path.join(__dirname, "node_modules/socket.io/client-dist"))
 );
+const server = http.createServer(app);
+const io = socketIO(server);
 const port = 3000;
 
 const md_css_style = `
@@ -159,9 +164,9 @@ const md_css_style = `
 
 const js_script = `
     let status = 'connected';
-    const socket = io({
-        reconnection: true
-    });
+  const socket = io({
+    reconnection: true
+  });
   
   socket.on('connect', () => {
     console.log('Connected to server');
@@ -236,6 +241,6 @@ app.get("/", (req, res) => {
 const directory = path.dirname(process.argv[2]);
 app.use(express.static(directory));
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
