@@ -8,6 +8,18 @@ local default_options = {
     port = 3000,
 }
 
+local function find_buf() -- find html/md buffer
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf) then
+            local buf_name = vim.api.nvim_buf_get_name(buf)
+            if buf_name:match("%.md$") or buf_name:match("%.html$") then
+                return buf_name
+            end
+        end
+    end
+    return nil
+end
+
 function M.open_browser(port)
     local open_browser_command = "xdg-open"
     if vim.fn.has("mac") == 1 then
@@ -41,8 +53,11 @@ function M.preview_file(port)
     local filename = vim.fn.expand('%:p')
     local target_dir = vim.fn.expand('%:p:h')
     if not filename or filename == "" then
-        print("No file is open")
-        return
+        filename = find_buf()
+        if not filename then
+            print("Cannot find a file")
+            return
+        end
     end
 
     local extname = vim.fn.fnamemodify(filename, ":e")
