@@ -1,20 +1,20 @@
 // ~/.config/nvim/plugged/markdown-viewer/server.js
 
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const marked = require('marked');
-const { exec } = require('child_process');
-const http = require('http');
-const socketIO = require('socket.io');
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const marked = require("marked");
+const { exec } = require("child_process");
+const socketIO = require("socket.io");
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'node_modules/socket.io/client-dist')));
-const server = http.createServer(app);
-const io = socketIO(server);
+app.use(
+    express.static(path.join(__dirname, "node_modules/socket.io/client-dist"))
+);
+
 const port = 3000;
 
-const md_css_style= `
+const md_css_style = `
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         margin: 0;
@@ -158,55 +158,48 @@ const md_css_style= `
         box-sizing: border-box;
         background-color: #ffffff;
     }
-`
+`;
 
 const js_script = `
-  let status = 'connected';
-  const socket = io({
-    reconnection: true
-  });
-
-  socket.onAny((event, ...args) => {
-      console.log("Received event: + " + event + " " + args);
+    let status = 'connected';
+    const socket = io({
+        reconnection: true
     });
   
   socket.on('connect', () => {
     console.log('Connected to server');
-    window.location.reload();
+    if (status === 'disconnected'){
+      window.location.reload();
+    }
   });
   
   socket.on('disconnect', () => {
     console.log('Disconnected from server');
     status = 'disconnected';
   });
-  
-  socket.on('reload', () => {
-    console.log('Reload event received');
-    window.location.reload();
-  });
-`
+`;
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-app.get('/', (req, res) => {
-  const filePath = process.argv[2];
-  
-  if (!filePath) {
-    res.status(400).send('No file path provided');
-    return;
-  }
+app.get("/", (req, res) => {
+    const filePath = process.argv[2];
 
-  const extname = path.extname(filePath);
-
-  if (extname === '.md') {
-    fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-        res.status(500).send('Error reading the Markdown file');
+    if (!filePath) {
+        res.status(400).send("No file path provided");
         return;
-      }
+    }
 
-      const html = marked.parse(data);
-      res.send(`
+    const extname = path.extname(filePath);
+
+    if (extname === ".md") {
+        fs.readFile(filePath, "utf8", (err, data) => {
+            if (err) {
+                res.status(500).send("Error reading the Markdown file");
+                return;
+            }
+
+            const html = marked.parse(data);
+            res.send(`
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -228,19 +221,19 @@ app.get('/', (req, res) => {
         </body>
         </html>
       `);
-    });
-  } else if (extname === '.html') {
-    fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-        res.status(500).send('Error reading the HTML file');
-        return;
-      }
+        });
+    } else if (extname === ".html") {
+        fs.readFile(filePath, "utf8", (err, data) => {
+            if (err) {
+                res.status(500).send("Error reading the HTML file");
+                return;
+            }
 
-      res.send(data);
-    });
-  } else {
-    res.status(400).send('Unsupported file type ' + extname);
-  }
+            res.send(data);
+        });
+    } else {
+        res.status(400).send("Unsupported file type " + extname);
+    }
 });
 
 const directory = path.dirname(process.argv[2]);
@@ -249,4 +242,3 @@ app.use(express.static(directory));
 server.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
-
