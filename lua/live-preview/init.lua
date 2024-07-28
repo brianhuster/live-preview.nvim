@@ -94,7 +94,7 @@ function M.touch_file()
   end
 end
 
-vim.cmd('autocmd BufWritePost * lua require("your_plugin").touch_file()')
+vim.cmd('autocmd BufWritePost * lua require("live-preview").touch_file()')
 
 -- Function to disable atomic writes
 function M.disable_atomic_writes()
