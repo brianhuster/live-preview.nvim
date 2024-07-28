@@ -104,5 +104,13 @@ end
 -- Call the function to disable atomic writes
 M.disable_atomic_writes()
 
-return M
+vim.api.nvim_create_user_command('LivePreview', function()
+    require('live-preview').preview_file()
+end, {})
+  
+  -- Define a command to stop live preview of Markdown files
+vim.api.nvim_create_user_command('StopPreview', function()
+    require('live-preview').stop_preview()
+end, {})
 
+return M
