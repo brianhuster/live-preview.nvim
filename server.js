@@ -4,7 +4,6 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const marked = require("marked");
-const { exec } = require("child_process");
 const http = require("http");
 const socketIO = require("socket.io");
 
@@ -54,13 +53,17 @@ app.get("/", (req, res) => {
     const extname = path.extname(filePath);
 
     if (extname === ".md") {
-        fs.readFile(path.join(__dirname, "assets/md.css"), "utf8", (err, data) => {
-            if (err) {
-                console.log("Error reading the default CSS file");
-                return;
+        fs.readFile(
+            path.join(__dirname, "assets/md.css"),
+            "utf8",
+            (err, data) => {
+                if (err) {
+                    console.log("Error reading the default CSS file");
+                    return;
+                }
+                md_css_style = data;
             }
-            md_css_style = data;
-        });
+        );
 
         fs.readFile(filePath, "utf8", (err, data) => {
             if (err) {
@@ -96,18 +99,10 @@ app.get("/", (req, res) => {
                 return;
             }
             if (data.includes("</body>")) {
-                data = data.replace(
-                    "</body>",
-                    `${js_script}</body>`
-                );
-            }
-            else if (data.includes("</html>")) {
-                data = data.replace(
-                    "</html>",
-                    `${js_script}</html>`
-                );
-            }
-            else {
+                data = data.replace("</body>", `${js_script}</body>`);
+            } else if (data.includes("</html>")) {
+                data = data.replace("</html>", `${js_script}</html>`);
+            } else {
                 data += `${js_script}`;
             }
             res.send(data);
@@ -120,4 +115,3 @@ app.get("/", (req, res) => {
 server.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
-
