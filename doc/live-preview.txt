@@ -1,133 +1,119 @@
-# My Neovim Plugin
+*live-preview.txt*	For Neovim		
 
-## Version
-1.0.0
+==============================================================================
+CONTENTS						*live-preview-contents*
 
-## Description
-A brief description of what your plugin does.
+    1. Introduction				|live-preview-intro|
+    2. Requirements				|live-preview-requirements|
+    3. Installation				|live-preview-installation|
+    4. Setup					|live-preview-setup|
+    5. Usage					|live-preview-usage|
+    6. License					|live-preview-license|
 
-## Table of Contents
-1. [Requirements](#requirements)
-2. [Installation](#installation)
-3. [Setup](#setup)
-4. [Usage](#usage)
-5. [Credits](#credits)
-6. [License](#license)
+==============================================================================
+1. Introduction					*live-preview-intro*
 
-## Requirements
+live-preview.nvim is a Live Preview Plugin for Neovim that allows you to view
+Markdown or HTML (along with CSS, JavaScript) files in a web browser with live
+updates.
 
-- [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) must be installed.
+==============================================================================
+2. Requirements					*live-preview-requirements*
 
-## Installation
+- Node.js and npm or yarn must be installed.
+
+==============================================================================
+3. Installation					*live-preview-installation*
 
 You can install the `live-preview.nvim` using your favorite plugin manager.
 
-### Using lazy.nvim
-```lua
-require("lazy").setup({
-    {
-        'brianhuster/live-preview.nvim',
-        run = 'npm init && npm install && npm install -g nodemon', --- if you use npm
-        -- run = 'yarn init && yarn install && yarn global add nodemon', --- if you use yarn
-    }
-})
-```
+Using lazy.nvim:
+>lua
+	require("lazy").setup({
+	    {
+	        'brianhuster/live-preview.nvim',
+	        run = 'npm init && npm install && npm install -g nodemon', --- if you use npm
+	        -- run = 'yarn init && yarn install && yarn global add nodemon', --- if you use yarn
+	    }
+	})
+<
 
-### Using packer.nvim
+Using packer.nvim:
+>lua
+	require('packer').startup(function()
+	    use {
+	        'brianhuster/live-preview.nvim',
+	        run = 'npm install && npm install -g nodemon', --- if you use npm
+	        -- run = 'yarn install && yarn global add nodemon', --- if you use yarn
+	    }
+	end)
+<
 
-Add the following to your init.lua:
+Using vim-plug:
+>vim
+	call plug#begin('~/.config/nvim/plugged')
 
-```lua
-require('packer').startup(function()
-    use {
-        'brianhuster/live-preview.nvim',
-        run = 'npm install && npm install -g nodemon', --- if you use npm
-        -- run = 'yarn install && yarn global add nodemon', --- if you use yarn
-    }
-end)
-```
+	Plug 'brianhuster/live-preview.nvim', { 'do': 'npm install && npm install -g nodemon' } " if you use yarn, replace npm with yarn
 
-### Using vim-plug
+	call plug#end()
+<
 
-Add the following to your Neovim configuration file (`init.vim` or `init.lua`):
-
-```vim
-call plug#begin('~/.config/nvim/plugged')
-
-Plug 'brianhuster/live-preview.nvim', { 'do': 'npm install && npm install -g nodemon' } " if you use yarn, replace npm with yarn
-
-call plug#end()
-```
-
-## Setup
+==============================================================================
+4. Setup						*live-preview-setup*
 
 Add the following to your `init.lua`:
-
-```lua
-require('live-preview').setup()
-```
+>lua
+	require('live-preview').setup()
+<
 
 For `init.vim`:
+>vim
+	lua require('live-preview').setup()
+<
 
-```vim
-lua require('live-preview').setup()
-```
+You can also customize the plugin by passing a table to the `setup` function.
 
-You can also customize the plugin by passing a table to the `setup` function. Here is an example of how to customize the plugin:
+Using Lua:
+>lua
+	require('live-preview').setup({
+	    commands = {
+	        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
+	        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
+	    },
+	    port = 3000, -- Port to run the live preview server on. Default is 3000
+	})
+<
 
-- Using Lua:
+Using VimScript:
+>vim
+	lua require('live-preview').setup({
+	    commands = {
+	        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
+	        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
+	    },
+	    port = 3000, -- Port to run the live preview server on. Default is 3000
+	})
+<
 
-```lua
-require('live-preview').setup({
-    commands = {
-        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
-        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
-    },
-    port = 3000, -- Port to run the live preview server on. Default is 3000
-})
-```
+==============================================================================
+5. Usage						*live-preview-usage*
 
-- Using VimScript:
+COMMANDS
 
-```vim
-lua require('live-preview').setup({
-    commands = {
-        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
-        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
-    },
-    port = 3000, -- Port to run the live preview server on. Default is 3000
-})
-```
+                                                *:LivePreview*
+:LivePreview        Start live-preview server and open browser.
 
-## Usage
-
-### For default configuration 
-
-To start the live preview, use the command:
-
-`:LivePreview`
-
-This command will open the current Markdown or HTML file in your default web browser and update it live as you write changes to your file.
-
-To stop the live preview server, use the command:
-
-`:StopPreview`
-
-These commands can be changed based on your customization in the `setup` function in your Neovim configuration file.
-
-## Credits
-This plugin was developed by [Phạm Bình An](https://github.com/brianhuster).
-
-I also acknowledge the following open-source projects and libraries that made this plugin possible:
-
-- [NodeJS](https://github.com/nodejs) and [Nodemon](https://github.com/remy/nodemon) to run the live preview server.
-- [Socket.io](https://github.com/socketio/socket.io) to manage real-time communication between the server and the browser.
-- [marked](https://github.com/markedjs/marked) to render Markdown files to HTML.
-
-Thank you Neovim community for your support and feedback.
-
-## License 
-
-This project is licensed under the [MIT License](LICENSE).
+                                                *:StopPreview*
+:StopPreview        Stop the live-preview server.
 
 
+These commands can be changed based on your customization in the `setup`
+function in your Neovim configuration file.
+
+==============================================================================
+6. License						*live-preview-license*
+
+This project is licensed under the MIT License. For more details, see the
+LICENSE file in the project repository.
+
+==============================================================================
