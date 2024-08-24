@@ -8,7 +8,35 @@ local default_options = {
     port = 3000,
 }
 
-function M.find_buf() -- find html/md buffer
+local function get_path()
+    local info = debug.getinfo(2, "S")
+    if not info then
+        print("Cannot get info")
+        return nil
+    end
+    local source = info.source
+    if source:sub(1, 1) == "@" then
+        return source:sub(2)
+    end
+end
+
+local function get_parent_path(full_path, subpath)
+    local escaped_subpath = subpath:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
+    local pattern = "(.*)" .. escaped_subpath
+    local parent_path = full_path:match(pattern)
+    return parent_path
+end
+
+function get_plugin_path()
+    local full_path = get_path()
+    if not full_path then
+        return nil
+    end
+    local subpath = "/lua/live-preview/init.lua"
+    return get_parent_path(full_path, subpath)
+end
+
+function find_buf() -- find html/md buffer
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_loaded(buf) then
             local buf_name = vim.api.nvim_buf_get_name(buf)
@@ -20,7 +48,7 @@ function M.find_buf() -- find html/md buffer
     return nil
 end
 
-function M.open_browser(port)
+function open_browser(port)
     local open_browser_command = "xdg-open"
     if vim.fn.has("mac") == 1 then
         open_browser_command = "open"
@@ -53,7 +81,7 @@ function M.preview_file(port)
     local filename = vim.fn.expand('%:p')
     local target_dir = vim.fn.expand('%:p:h')
     if not filename or filename == "" then
-        filename = M.find_buf()
+        filename = find_buf()
         if not filename then
             print("Cannot find a file")
             return
@@ -64,7 +92,7 @@ function M.preview_file(port)
     local supported_exts = { "md", "html" }
 
     if not vim.tbl_contains(supported_exts, extname) then
-        filename = M.find_buf()
+        filename = find_buf()
         if not filename then
             print("Unsupported file type")
             return
@@ -72,9 +100,9 @@ function M.preview_file(port)
     end
 
     M.stop_preview(port)
-
-    local log_file = vim.fn.stdpath('data') .. '/lazy/live-preview.nvim/logs/log.txt'
-    local command = string.format("cd ~/.local/share/nvim/lazy/live-preview.nvim && nodemon --watch %s %s %d", target_dir, filename, port)
+    local plugin_path = get_plugin_path()
+    local log_file = plugin_path .. '/logs/log.txt'
+    local command = string.format("cd %s && nodemon --watch %s %s %d", plugin_path, target_dir, filename, port)
 
     vim.fn.jobstart(command, {
         stdout_buffered = true,
@@ -112,10 +140,10 @@ function M.preview_file(port)
 
     })
 
-    M.open_browser(port)
+    open_browser(port)
 end
 
-function M.touch_file()
+function touch_file()
   local filepath = vim.fn.expand('%:p')
   if vim.fn.filereadable(filepath) == 1 then
     vim.fn.system('touch ' .. filepath)
@@ -123,12 +151,12 @@ function M.touch_file()
 end
 
 -- Function to disable atomic writes
-function M.disable_atomic_writes()
+function disable_atomic_writes()
   vim.opt.backupcopy = 'yes'
 end
 
 function M.setup()
-    opts = vim.tbl_deep_extend("force", default_options, opts or {})
+    local opts = vim.tbl_deep_extend("force", default_options, opts or {})
 
     vim.api.nvim_create_user_command(opts.commands.start, function()
         M.preview_file(opts.port)
@@ -141,7 +169,7 @@ function M.setup()
     end, {})
 
     vim.cmd('autocmd BufWritePost * lua require("live-preview").touch_file()')
-    M.disable_atomic_writes()
+    disable_atomic_writes()
 end
 
 return M
