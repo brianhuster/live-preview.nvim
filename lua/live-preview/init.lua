@@ -115,6 +115,8 @@ function M.preview_file(port)
                     if file then
                         file:write("stdout: " .. line .. "\n")
                         file:close()
+                    else 
+                        print("Cannot find log file")
                     end
                 end
             end
@@ -143,7 +145,7 @@ function M.preview_file(port)
     open_browser(port)
 end
 
-function touch_file()
+function M.touch_file()
   local filepath = vim.fn.expand('%:p')
   if vim.fn.filereadable(filepath) == 1 then
     vim.fn.system('touch ' .. filepath)
