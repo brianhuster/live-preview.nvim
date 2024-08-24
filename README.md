@@ -8,7 +8,7 @@ A Live Preview Plugin for Neovim that allows you to view Markdown or HTML (along
 
 ## Installation
 
-You can install the `live-preview.nvim` using your favorite plugin manager.
+You can install the plugin using your favorite plugin manager. Here are some examples:
 
 ### Using lazy.nvim
 ```lua

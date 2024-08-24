@@ -1,0 +1,10 @@
+:LivePreview	live-preview.txt	/*:LivePreview*
+:StopPreview	live-preview.txt	/*:StopPreview*
+live-preview-contents	live-preview.txt	/*live-preview-contents*
+live-preview-installation	live-preview.txt	/*live-preview-installation*
+live-preview-intro	live-preview.txt	/*live-preview-intro*
+live-preview-license	live-preview.txt	/*live-preview-license*
+live-preview-requirements	live-preview.txt	/*live-preview-requirements*
+live-preview-setup	live-preview.txt	/*live-preview-setup*
+live-preview-usage	live-preview.txt	/*live-preview-usage*
+live-preview.txt	live-preview.txt	/*live-preview.txt*
