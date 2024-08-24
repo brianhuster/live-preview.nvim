@@ -25,7 +25,7 @@ function connectWebSocket() {
         if (connected) {
             window.location.reload();
         }
-    }, 100);
+    }, 50);
 };
 
   socket.onerror = (error) => {
