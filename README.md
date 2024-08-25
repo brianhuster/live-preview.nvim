@@ -15,8 +15,8 @@ You can install the plugin using your favorite plugin manager. Here are some exa
 require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
-        run = 'npm init && npm install && npm install -g nodemon', --- if you use npm
-        -- run = 'yarn init && yarn install && yarn global add nodemon', --- if you use yarn
+        build = 'npm init && npm install && npm install -g nodemon', --- if you use npm
+        -- build = 'yarn init && yarn install && yarn global add nodemon', --- if you use yarn
     }
 })
 ```
@@ -29,8 +29,8 @@ Add the following to your init.lua:
 require('packer').startup(function()
     use {
         'brianhuster/live-preview.nvim',
-        run = 'npm install && npm install -g nodemon', --- if you use npm
-        -- run = 'yarn install && yarn global add nodemon', --- if you use yarn
+        build = 'npm install && npm install -g nodemon', --- if you use npm
+        -- build = 'yarn install && yarn global add nodemon', --- if you use yarn
     }
 end)
 ```
