@@ -5,7 +5,7 @@ local default_options = {
         start = "LivePreview",
         stop = "StopPreview",
     },
-    port = 3000,
+    port = 5500,
 }
 
 local function get_path()
