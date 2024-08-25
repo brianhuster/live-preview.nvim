@@ -1,0 +1,12 @@
+{
+  "name": "live-preview.nvim",
+  "version": "1.0.1",
+  "dependencies": {
+  },
+  "config": {
+    "lua": {
+      "setup": "require('live-preview.nvim').setup()"
+    }
+  }
+}
+
