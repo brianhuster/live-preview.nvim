@@ -34,19 +34,10 @@ Using lazy.nvim:
 	        'brianhuster/live-preview.nvim',
 	        build = 'npm init && npm install && npm install -g nodemon', --- if you use npm
 	        -- build = 'yarn init && yarn install && yarn global add nodemon', --- if you use yarn
+			ft = {'html', 'md', 'markdown'},
+        	opts = {},
 	    }
 	})
-<
-
-Using packer.nvim:
->lua
-	require('packer').startup(function()
-	    use {
-	        'brianhuster/live-preview.nvim',
-	        build = 'npm install && npm install -g nodemon', --- if you use npm
-	        -- build = 'yarn install && yarn global add nodemon', --- if you use yarn
-	    }
-	end)
 <
 
 Using vim-plug:
@@ -61,27 +52,17 @@ Using vim-plug:
 ==============================================================================
 4. Setup						*live-preview-setup*
 
-Add the following to your `init.lua`:
->lua
-	require('live-preview').setup()
-<
-
-For `init.vim`:
->vim
-	lua require('live-preview').setup()
-<
-
-You can also customize the plugin by passing a table to the `setup` function.
+You can also customize the plugin by passing a table to the `setup` function or `opts` in lazy.nvim.
 
 Using Lua:
 >lua
-	require('live-preview').setup({
-	    commands = {
+	opts = {
+		commands = {
 	        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
 	        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
 	    },
-	    port = 3000, -- Port to run the live preview server on. Default is 3000
-	})
+	    port = 5500, -- Port to run the live preview server on. Default is 3000
+	}
 <
 
 Using VimScript:
@@ -91,7 +72,7 @@ Using VimScript:
 	        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
 	        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
 	    },
-	    port = 3000, -- Port to run the live preview server on. Default is 3000
+	    port = 5500, -- Port to run the live preview server on. Default is 3000
 	})
 <
 
