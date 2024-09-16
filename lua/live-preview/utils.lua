@@ -27,13 +27,15 @@ M.run_shell_command = function(cmd)
 
     local result = {}
 
-    local handle = uv.spawn(cmd, {
+    local handle = uv.spawn('sh', {
+        args = { '-c', cmd },
         stdio = { stdin, stdout, stderr },
     }, function(code, signal)
         print("Exit code:", code)
         print("Signal:", signal)
         result.code = code
         result.signal = signal
+        handle:close()
     end)
 
     uv.read_start(stdout, function(err, data)
