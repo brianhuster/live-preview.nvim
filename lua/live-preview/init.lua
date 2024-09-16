@@ -49,10 +49,12 @@ local function find_buf() -- find html/md buffer
 end
 
 local function open_browser(port)
-    vim.ui.open(string.format(
-        "http://localhost:%d",
-        port
-    ))
+    vim.ui.open(
+        string.format(
+            "http://localhost:%d",
+            port
+        )
+    )
 end
 
 -- Kill any process using the port
@@ -132,9 +134,7 @@ function M.preview_file(port)
             end
         end,
 
-
     })
-
     open_browser(port)
 end
 
