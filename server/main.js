@@ -7,7 +7,7 @@ const WebSocket = require("ws");
 
 const app = express();
 const server = http.createServer(app);
-//const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ server });
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -23,18 +23,18 @@ const js_script = `
     <script src="script.js"></script>
 `;
 
-//wss.on("connection", (ws) => {
-//    console.log("New WebSocket connection");
-//
-//    ws.on("close", () => {
-//        console.log("WebSocket connection closed");
-//    });
-//
-//    ws.on("error", (error) => {
-//        console.error("WebSocket error:", error);
-//    });
-//});
-//
+wss.on("connection", (ws) => {
+    console.log("New WebSocket connection");
+
+    ws.on("close", () => {
+        console.log("WebSocket connection closed");
+    });
+
+    ws.on("error", (error) => {
+        console.error("WebSocket error:", error);
+    });
+});
+
 app.get("/", (req, res) => {
     if (!filePath) {
         res.status(400).send("No file path provided");
