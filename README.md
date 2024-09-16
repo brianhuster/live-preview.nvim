@@ -108,5 +108,3 @@ Use the command `:help live-preview` to see the help documentation.
 ## License 
 
 This project is licensed under the [MIT License](LICENSE).
-
-
