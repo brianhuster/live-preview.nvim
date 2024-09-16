@@ -8,7 +8,7 @@ local default_options = {
     port = 5500,
 }
 
-local function get_path()
+local function get_path_lua_file()
     local info = debug.getinfo(2, "S")
     if not info then
         print("Cannot get info")
@@ -27,8 +27,8 @@ local function get_parent_path(full_path, subpath)
     return parent_path
 end
 
-function get_plugin_path()
-    local full_path = get_path()
+local function get_plugin_path()
+    local full_path = get_path_lua_file()
     if not full_path then
         return nil
     end
@@ -36,7 +36,7 @@ function get_plugin_path()
     return get_parent_path(full_path, subpath)
 end
 
-function find_buf() -- find html/md buffer
+local function find_buf() -- find html/md buffer
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_loaded(buf) then
             local buf_name = vim.api.nvim_buf_get_name(buf)
@@ -48,16 +48,9 @@ function find_buf() -- find html/md buffer
     return nil
 end
 
-function open_browser(port)
-    local open_browser_command = "xdg-open"
-    if vim.fn.has("mac") == 1 then
-        open_browser_command = "open"
-    elseif vim.fn.has("win32") == 1 then
-        open_browser_command = "start"
-    end
-    os.execute(string.format(
-        "%s http://localhost:%d", 
-        open_browser_command, 
+local function open_browser(port)
+    vim.ui.open(string.format(
+        "http://localhost:%d",
         port
     ))
 end
@@ -115,7 +108,7 @@ function M.preview_file(port)
                     if file then
                         file:write("stdout: " .. line .. "\n")
                         file:close()
-                    else 
+                    else
                         print("Cannot find log file")
                     end
                 end
@@ -146,15 +139,15 @@ function M.preview_file(port)
 end
 
 function M.touch_file()
-  local filepath = vim.fn.expand('%:p')
-  if vim.fn.filereadable(filepath) == 1 then
-    vim.fn.system('touch ' .. filepath)
-  end
+    local filepath = vim.fn.expand('%:p')
+    if vim.fn.filereadable(filepath) == 1 then
+        vim.fn.system('touch ' .. filepath)
+    end
 end
 
 -- Function to disable atomic writes
-function disable_atomic_writes()
-  vim.opt.backupcopy = 'yes'
+local function disable_atomic_writes()
+    vim.opt.backupcopy = 'yes'
 end
 
 function M.setup()
@@ -170,7 +163,13 @@ function M.setup()
         print("Live preview stopped")
     end, {})
 
-    vim.cmd('autocmd BufWritePost * lua require("live-preview").touch_file()')
+    vim.api.nvim_create_autocmd("BufWritePost", {
+        pattern = "*",
+        callback = function()
+            require("live-preview").touch_file()
+        end,
+    })
+
     disable_atomic_writes()
 end
 
