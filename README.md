@@ -15,24 +15,10 @@ You can install the plugin using your favorite plugin manager. Here are some exa
 require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
-        build = 'npm init && npm install && npm install -g nodemon', --- if you use npm
-        -- build = 'yarn init && yarn install && yarn global add nodemon', --- if you use yarn
+        build = 'npm install --frozen-lockfile --production && npm install -g nodemon', --- if you use npm
+        -- build = 'yarn install --frozen-lockfile --production && yarn global add nodemon', --- if you use yarn
     }
 })
-```
-
-### Using packer.nvim
-
-Add the following to your init.lua:
-
-```lua
-require('packer').startup(function()
-    use {
-        'brianhuster/live-preview.nvim',
-        build = 'npm install && npm install -g nodemon', --- if you use npm
-        -- build = 'yarn install && yarn global add nodemon', --- if you use yarn
-    }
-end)
 ```
 
 ### Using vim-plug

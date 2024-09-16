@@ -2,7 +2,7 @@ local M = {}
 
 local utils = require("live-preview.utils")
 
-local function check_command_exists(cmd)
+function M.check_command_exists(cmd)
     local handle = io.popen("command -v " .. cmd .. " 2>/dev/null")
     if not handle then
         return false
@@ -49,14 +49,14 @@ M.check = function()
     vim.health.start("Live Preview Health Check")
 
     -- Check for Node.js
-    if not check_command_exists("node") then
+    if not M.check_command_exists("node") then
         vim.health.error("Node.js is not installed")
     else
         vim.health.ok("Node.js is installed")
     end
 
     -- Check for npm
-    if not check_command_exists("npm") then
+    if not M.check_command_exists("npm") then
         vim.health.error("npm is not installed")
     else
         vim.health.ok("npm is installed")
@@ -64,7 +64,7 @@ M.check = function()
 
     -- Check for nodemon
     if not check_nodemon() then
-        vim.health.error("Nodemon is not installed")
+        vim.health.error("Nodemon is not installed globally")
     else
         vim.health.ok("Nodemon is installed")
     end
@@ -72,7 +72,7 @@ M.check = function()
     -- Check for required node modules
     local missing_modules = check_node_modules()
     if #missing_modules > 0 then
-        vim.health.error("Missing Node.js modules: " .. table.concat(missing_modules, ", "))
+        vim.health.error("Missing Node.js modules in plugin environment: " .. table.concat(missing_modules, ", "))
     else
         vim.health.ok("All required Node.js modules are installed")
     end
