@@ -1,8 +1,0 @@
-stdout: 
-stderr: /bin/bash: -c: line 1: syntax error near unexpected token `('
-stderr: /bin/bash: -c: line 1: `cd /home/brianhuster/.local/share/nvim/lazy/live-preview.nvim && nodemon --watch /home/brianhuster/.local/share/Trash/files/live-preview.nvim (1) /home/brianhuster/.local/share/Trash/files/live-preview.nvim (1)/README.md 3000'
-stderr: 
-stdout: 
-stderr: /bin/bash: -c: line 1: syntax error near unexpected token `('
-stderr: /bin/bash: -c: line 1: `cd /home/brianhuster/.local/share/nvim/lazy/live-preview.nvim && nodemon --watch term://~/.local/share/Trash/files/live-preview.nvim (1)//138476:/bin /home/brianhuster/.local/share/Trash/files/live-preview.nvim (1)/README.md 3000'
-stderr: 
