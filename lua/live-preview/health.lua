@@ -55,24 +55,32 @@ M.check = function()
         vim.health.ok("Node.js is installed")
     end
 
-    -- Check for npm
     if not M.check_command_exists("npm") then
-        vim.health.error("npm is not installed")
+        vim.health.error("npm is not installed (not required if you use yarn)")
     else
         vim.health.ok("npm is installed")
+    end
+
+    -- Check for yarn
+    if not M.check_command_exists("yarn") then
+        vim.health.warn("yarn is not installed (not required if you use npm)")
+    else
+        vim.health.ok("yarn is installed")
     end
 
     -- Check for nodemon
     if not check_nodemon() then
         vim.health.error("Nodemon is not installed globally")
     else
-        vim.health.ok("Nodemon is installed")
+        vim.health.ok("Nodemon is installed. Run `npm install -g nodemon` to install it globally")
     end
 
     -- Check for required node modules
     local missing_modules = check_node_modules()
     if #missing_modules > 0 then
         vim.health.error("Missing Node.js modules in plugin environment: " .. table.concat(missing_modules, ", "))
+        vim.health.info(
+        "Rebuild the plugin to install the missing modules. If you use lazy.nvim, you can run `Lazy build live-preview.nvim`")
     else
         vim.health.ok("All required Node.js modules are installed")
     end

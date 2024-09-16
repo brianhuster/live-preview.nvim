@@ -82,43 +82,58 @@ function M.preview_file(port)
     local log_file = plugin_path .. '/logs/log.txt'
     local command = string.format('cd %s && nodemon --watch "%s" "%s" "%d"', plugin_path, target_dir, filename, port)
 
-    vim.fn.jobstart(command, {
-        stdout_buffered = true,
-        stderr_buffered = true,
-        on_stdout = function(_, data)
-            if data then
-                for _, line in ipairs(data) do
-                    print("stdout: " .. line)
-                    local file = io.open(log_file, "a")
-                    if file then
-                        file:write("stdout: " .. line .. "\n")
-                        file:close()
-                    else
-                        print("Cannot find log file")
-                    end
-                end
-            end
-        end,
-        on_stderr = function(_, data)
-            if data then
-                for _, line in ipairs(data) do
-                    print("stderr: " .. line)
-                    local file = io.open(log_file, "a")
-                    if file then
-                        file:write("stderr: " .. line .. "\n")
-                        file:close()
-                    end
-                end
-            end
-        end,
-        on_exit = function(_, code)
-            if code ~= 0 then
-                print("Error starting the server")
-            end
-        end,
+    -- vim.fn.jobstart(command, {
+    --     stdout_buffered = true,
+    --     stderr_buffered = true,
+    --     on_stdout = function(_, data)
+    --         if data then
+    --             for _, line in ipairs(data) do
+    --                 print("stdout: " .. line)
+    --                 local file = io.open(log_file, "a")
+    --                 if file then
+    --                     file:write("stdout: " .. line .. "\n")
+    --                     file:close()
+    --                 else
+    --                     print("Cannot find log file")
+    --                 end
+    --             end
+    --         end
+    --     end,
+    --     on_stderr = function(_, data)
+    --         if data then
+    --             for _, line in ipairs(data) do
+    --                 print("stderr: " .. line)
+    --                 local file = io.open(log_file, "a")
+    --                 if file then
+    --                     file:write("stderr: " .. line .. "\n")
+    --                     file:close()
+    --                 end
+    --             end
+    --         end
+    --     end,
+    --     on_exit = function(_, code)
+    --         if code ~= 0 then
+    --             print("Error starting the server")
+    --         end
+    --     end,
+    -- })
 
-    })
-    open_browser(port)
+    local result = utils.run_shell_command(command)
+    if result.code == 0 then
+        open_browser(port)
+    end
+
+    local file = io.open(log_file, "w")
+    if not file then
+        return
+    end
+    if result.stderr then
+        file:write("STDERR: " .. result.stderr .. "\n")
+    end
+    if result.stdout then
+        file:write("STDOUT: " .. result.stdout .. "\n")
+    end
+    file:close()
 end
 
 function M.touch_file()
