@@ -97,7 +97,7 @@ function M.preview_file(port)
     M.stop_preview(port)
     local plugin_path = get_plugin_path()
     local log_file = plugin_path .. '/logs/log.txt'
-    local command = string.format("cd %s && nodemon --watch %s %s %d", plugin_path, target_dir, filename, port)
+    local command = string.format('cd %s && nodemon --watch "%s" "%s" "%d"', plugin_path, target_dir, filename, port)
 
     vim.fn.jobstart(command, {
         stdout_buffered = true,
