@@ -1,3 +1,11 @@
+local function register_health_check()
+    if vim.fn.exists(':checkhealth') == 2 then
+        vim.fn['health#check']('live-preview.nvim')
+    end
+end
+
+register_health_check()
+
 local M = {}
 
 local default_options = {
