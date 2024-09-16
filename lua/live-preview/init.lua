@@ -122,18 +122,6 @@ function M.preview_file(port)
     if result.code == 0 then
         open_browser(port)
     end
-
-    local file = io.open(log_file, "w")
-    if not file then
-        return
-    end
-    if result.stderr then
-        file:write("STDERR: " .. result.stderr .. "\n")
-    end
-    if result.stdout then
-        file:write("STDOUT: " .. result.stdout .. "\n")
-    end
-    file:close()
 end
 
 function M.touch_file()
