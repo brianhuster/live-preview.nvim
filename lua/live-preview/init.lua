@@ -46,6 +46,7 @@ function M.stop_preview(port)
         "lsof -t -i:%d | xargs -r kill -9",
         port
     )
+
     if vim.fn.has("win32") == 1 then
         kill_command = string.format(
             "netstat -ano | findstr :%d | findstr LISTENING | for /F \"tokens=5\" %%i in ('more') do taskkill /F /PID %%i",
@@ -118,7 +119,7 @@ function M.preview_file(port)
     --     end,
     -- })
 
-    local result = utils.run_shell_command(command)
+    utils.run_shell_command(command)
     open_browser(port)
 end
 

@@ -24,10 +24,14 @@ M.run_shell_command = function(cmd)
     local stdin = uv.new_pipe()
     local stdout = uv.new_pipe()
     local stderr = uv.new_pipe()
+    local shell = "sh"
+    if win.fn.has("win32") == 1 then
+        shell = "pwsh"
+    end
 
     local result = {}
 
-    local handle = uv.spawn('sh', {
+    local handle = uv.spawn(shell, {
         args = { '-c', cmd },
         stdio = { stdin, stdout, stderr },
     }, function(code, signal)
