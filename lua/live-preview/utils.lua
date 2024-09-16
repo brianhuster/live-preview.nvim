@@ -25,7 +25,7 @@ M.run_shell_command = function(cmd)
     local stdout = uv.new_pipe()
     local stderr = uv.new_pipe()
     local shell = "sh"
-    if win.fn.has("win32") == 1 then
+    if vim.fn.has("win32") == 1 then
         shell = "pwsh"
     end
 
@@ -33,7 +33,7 @@ M.run_shell_command = function(cmd)
 
     local handle = uv.spawn(shell, {
         args = { '-c', cmd },
-        stdio = { stdin or nil, stdout, stderr },
+        stdio = { stdin, stdout, stderr },
     }, function(code, signal)
         print("Exit code:", code)
         print("Signal:", signal)
