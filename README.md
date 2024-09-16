@@ -57,7 +57,7 @@ require('live-preview').setup({
         start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
         stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
     },
-    port = 3000, -- Port to run the live preview server on. Default is 3000
+    port = 5500, -- Port to run the live preview server on. Default is 5500
 })
 ```
 

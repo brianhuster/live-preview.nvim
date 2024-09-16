@@ -119,7 +119,9 @@ function M.preview_file(port)
     -- })
 
     local result = utils.run_shell_command(command)
-    print(result)
+    print(result.code)
+    print(result.stdout)
+    print(result.stderr)
     if result.code == 0 then
         open_browser(port)
     end
