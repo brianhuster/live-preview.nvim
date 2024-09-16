@@ -21,22 +21,15 @@ end
 
 M.run_shell_command = function(cmd)
     local uv = vim.uv
-
-    local handle
     local stdout = uv.new_pipe(false)
     local stderr = uv.new_pipe(false)
 
+    local handle
     local result = {}
 
-    handle = uv.spawn("sh", {
-        args = { "-c", cmd },
+    handle = uv.spawn(cmd, {
         stdio = { nil, stdout, stderr },
     }, function(code, signal)
-        stdout:read_stop()
-        stderr:read_stop()
-        stdout:close()
-        stderr:close()
-        handle:close()
         print("Exit code:", code)
         print("Signal:", signal)
         result.code = code
