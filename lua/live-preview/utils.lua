@@ -33,7 +33,7 @@ M.run_shell_command = function(cmd)
 
     local handle = uv.spawn(shell, {
         args = { '-c', cmd },
-        stdio = { stdin, stdout, stderr },
+        stdio = { stdin or nil, stdout, stderr },
     }, function(code, signal)
         print("Exit code:", code)
         print("Signal:", signal)
