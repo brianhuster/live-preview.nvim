@@ -1,3 +1,5 @@
+local utils = require("live-preview.utils")
+
 local M = {}
 
 local default_options = {
@@ -8,32 +10,13 @@ local default_options = {
     port = 5500,
 }
 
-local function get_path_lua_file()
-    local info = debug.getinfo(2, "S")
-    if not info then
-        print("Cannot get info")
-        return nil
-    end
-    local source = info.source
-    if source:sub(1, 1) == "@" then
-        return source:sub(2)
-    end
-end
-
-local function get_parent_path(full_path, subpath)
-    local escaped_subpath = subpath:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
-    local pattern = "(.*)" .. escaped_subpath
-    local parent_path = full_path:match(pattern)
-    return parent_path
-end
-
 local function get_plugin_path()
-    local full_path = get_path_lua_file()
+    local full_path = utils.get_path_lua_file()
     if not full_path then
         return nil
     end
     local subpath = "/lua/live-preview/init.lua"
-    return get_parent_path(full_path, subpath)
+    return utils.get_parent_path(full_path, subpath)
 end
 
 local function find_buf() -- find html/md buffer

@@ -1,13 +1,20 @@
+local utils = require("live-preview.utils")
+
 local M = {}
 
 local function check_command_exists(cmd)
     local handle = io.popen("command -v " .. cmd .. " 2>/dev/null")
+    if not handle then
+        return false
+    end
     local result = handle:read("*a")
     handle:close()
     return result ~= ""
 end
 
 local function check_node_modules()
+    local directory = utils.get_parent_path(utils.get_path_lua_file(), "lua/live-preview/health.lua")
+
     local node_modules = {
         "ejs",
         "express",
@@ -20,11 +27,10 @@ local function check_node_modules()
     local missing_modules = {}
 
     for _, module in ipairs(node_modules) do
-        local handle = io.popen("npm list -g " .. module .. " 2>/dev/null")
-        local result = handle:read("*a")
-        handle:close()
+        local module_path = directory .. "/node_modules/" .. module
+        local stat = vim.uv.fs_stat(module_path)
 
-        if result:find(module) == nil then
+        if not stat then
             table.insert(missing_modules, module)
         end
     end
