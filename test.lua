@@ -1,44 +1,43 @@
 local uv = vim.uv
-local stdin = uv.new_pipe()
-local stdout = uv.new_pipe()
-local stderr = uv.new_pipe()
 
-print("stdin", stdin)
-print("stdout", stdout)
-print("stderr", stderr)
+local function handle_client(client)
+    print("New client connected")
 
-local handle, pid = uv.spawn("ls -a", {
-    stdio = { stdin, stdout, stderr }
-}, function(code, signal) -- on exit
-    print("exit code", code)
-    print("exit signal", signal)
-end)
+    client:read_start(function(err, chunk)
+        if err then
+            print("Read error: " .. err)
+            client:close()
+            return
+        end
 
-print("process opened", handle, pid)
-
-uv.read_start(stdout, function(err, data)
-    assert(not err, err)
-    if data then
-        print("stdout chunk", stdout, data)
-    else
-        print("stdout end", stdout)
-    end
-end)
-
-uv.read_start(stderr, function(err, data)
-    assert(not err, err)
-    if data then
-        print("stderr chunk", stderr, data)
-    else
-        print("stderr end", stderr)
-    end
-end)
-
-uv.write(stdin, "Hello World")
-
-uv.shutdown(stdin, function()
-    print("stdin shutdown", stdin)
-    uv.close(handle, function()
-        print("process closed", handle, pid)
+        if chunk then
+            -- For simplicity, we're not parsing WebSocket frames here
+            -- Just echoing back whatever we receive
+            print("Received data from client")
+            client:write(chunk)
+        else
+            -- chunk is nil when the client has disconnected
+            print("Client disconnected")
+            client:close()
+        end
     end)
+end
+
+local server = uv.new_tcp()
+local port = 8080
+
+server:bind("0.0.0.0", port)
+server:listen(128, function(err)
+    if err then
+        print("Listen error: " .. err)
+        return
+    end
+
+    local client = uv.new_tcp()
+    server:accept(client)
+    handle_client(client)
 end)
+
+print("Server listening on port " .. port)
+
+uv.run()
