@@ -24,10 +24,9 @@ M.run_shell_command = function(cmd)
     local stdout = uv.new_pipe(false)
     local stderr = uv.new_pipe(false)
 
-    local handle
     local result = {}
 
-    handle = uv.spawn(cmd, {
+    local handle = uv.spawn(cmd, {
         stdio = { nil, stdout, stderr },
     }, function(code, signal)
         print("Exit code:", code)
