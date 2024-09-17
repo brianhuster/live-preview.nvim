@@ -1,6 +1,6 @@
-local uv = vim.uv
+local M = {}
 
-local webroot = 'webroot'
+local uv = vim.uv
 
 local function get_content_type(file_path)
     if file_path:match("%.html$") then
@@ -20,7 +20,7 @@ local function get_content_type(file_path)
     end
 end
 
-local function handle_request(client, request)
+local function handle_request(client, request, webroot)
     -- Extract the path from the HTTP request
     local _, _, path = request:match("GET (.+) HTTP/1.1")
     path = path or '/' -- Default to root if no path specified
@@ -85,21 +85,21 @@ local function handle_client(client)
     end)
 end
 
-local server = uv.new_tcp()
-local port = 5500
+function M(webroot, ip, port)
+    local server = uv.new_tcp()
 
-server:bind("0.0.0.0", port)
-server:listen(128, function(err)
-    if err then
-        print("Listen error: " .. err)
-        return
-    end
+    server:bind("0.0.0.0", port)
+    server:listen(128, function(err)
+        if err then
+            print("Listen error: " .. err)
+            return
+        end
 
-    local client = uv.new_tcp()
-    server:accept(client)
-    handle_client(client)
-end)
+        local client = uv.new_tcp()
+        server:accept(client)
+        handle_client(client)
+    end)
 
-print("Server listening on port " .. port)
-
-uv.run()
+    print("Server listening on port " .. port)
+    uv.run()
+end

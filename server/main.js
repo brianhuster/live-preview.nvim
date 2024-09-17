@@ -9,9 +9,6 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-
 const port = process.argv[3] || 3000;
 const filePath = process.argv[2];
 const directory = path.dirname(filePath);
@@ -50,7 +47,7 @@ app.get("/", (req, res) => {
                 return;
             }
             const html = marked.parse(data);
-            res.render("md", { html, js_script });
+            res.send(`${html}${js_script}`);
         });
     } else if (extname === ".html") {
         fs.readFile(filePath, "utf8", (err, data) => {
