@@ -27,18 +27,18 @@ end
 
 -- Kill any process using the port
 function M.stop_preview(port)
-    local kill_command = string.format(
-        "lsof -t -i:%d | xargs -r kill -9",
-        port
-    )
-
-    if vim.uv.os_uname().version:match("Windows") then
-        kill_command = string.format(
-            "netstat -ano | findstr :%d | findstr LISTENING | for /F \"tokens=5\" %%i in ('more') do taskkill /F /PID %%i",
-            port
-        )
-    end
-    os.execute(kill_command)
+    -- local kill_command = string.format(
+    --     "lsof -t -i:%d | xargs -r kill -9",
+    --     port
+    -- )
+    --
+    -- if vim.uv.os_uname().version:match("Windows") then
+    --     kill_command = string.format(
+    --         "netstat -ano | findstr :%d | findstr LISTENING | for /F \"tokens=5\" %%i in ('more') do taskkill /F /PID %%i",
+    --         port
+    --     )
+    -- end
+    -- os.execute(kill_command)
 end
 
 function M.preview_file(port)

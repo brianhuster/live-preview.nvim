@@ -9,7 +9,8 @@ print("ws_client", ws_client)
 local ws_script = "<script>" .. ws_client() .. "</script>"
 print("ws_script", ws_script)
 local webroot = "."
-local html_content = nil
+local html_content = nill
+local server = uv.new_tcp()
 
 
 local handle_body = function(data)
@@ -150,7 +151,6 @@ end
 
 
 function M.start(ip, port, options)
-    local server = uv.new_tcp()
     webroot = options.webroot or '.'
     html_content = options.html_content or nil
     if html_content then
@@ -172,6 +172,10 @@ function M.start(ip, port, options)
 
     print("Server listening on port " .. port)
     uv.run()
+end
+
+M.stop = function()
+    server:close()
 end
 
 return M
