@@ -61,18 +61,6 @@ require('live-preview').setup({
 })
 ```
 
-- Using VimScript:
-
-```vim
-lua require('live-preview').setup({
-    commands = {
-        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
-        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
-    },
-    port = 3000, -- Port to run the live preview server on. Default is 3000
-})
-```
-
 ## Usage
 
 ### For default configuration 
