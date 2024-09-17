@@ -2,6 +2,10 @@ local M = {}
 
 local uv = vim.uv
 
+if not bit then
+    bit = require("bit")
+end
+
 function M.get_plugin_path()
     local full_path = utils.get_path_lua_file()
     if not full_path then
@@ -54,25 +58,6 @@ M.get_parent_path = function(full_path, subpath)
 end
 
 
-M.sha1 = function(data)
-    local command = "echo -n '" .. data .. "' | shasum | awk '{print $1}'"
-    local result
-    if uv.os_uname().version:match("Windows") then
-        command = string.format([[
-            $data = "%s"
-            $sha1 = [System.Security.Cryptography.SHA1]::Create()
-            $bytes = [System.Text.Encoding]::UTF8.GetBytes($data)
-            $hash = $sha1.ComputeHash($bytes)
-            $hashString = [BitConverter]::ToString($hash) -replace '-'
-            $hashString
-        ]], data)
-    end
-
-    result = M.await_term_cmd(command)
-
-    return result.stdout:gsub("%s+", "")
-end
-
 M.term_cmd = function(cmd)
     local shell = "sh"
     if uv.os_uname().version:match("Windows") then
@@ -86,14 +71,81 @@ M.term_cmd = function(cmd)
     vim.system({ shell, '-c', cmd }, { text = true }, { on_exit })
 end
 
-M.await_term_cmd = function(cmd)
-    local shell = "sh"
-    if uv.os_uname().version:match("Windows") then
-        shell = "pwsh"
+
+M.sha1 = function(data)
+    local h0 = 0x67452301
+    local h1 = 0xEFCDAB89
+    local h2 = 0x98BADCFE
+    local h3 = 0x10325476
+    local h4 = 0xC3D2E1F0
+
+    local function leftrotate(x, n)
+        return bit.bor(bit.lshift(x, n), bit.rshift(x, 32 - n))
     end
 
-    local result = vim.system({ shell, '-c', cmd }, { text = true }):wait()
-    return result
+
+    local function preprocess(data)
+        local bitlen = #data * 8
+        data = data .. "\128"
+        while (#data % 64) ~= 56 do
+            data = data .. "\0"
+        end
+        for i = 1, 8 do
+            data = data .. string.char(bit.band(bit.rshift(bitlen, (8 - i) * 8), 0xFF))
+        end
+        return data
+    end
+
+    local function processblock(block)
+        local w = {}
+        for i = 1, 16 do
+            w[i] = 0
+            for j = 0, 3 do
+                w[i] = bit.bor(bit.lshift(w[i], 8), block:byte((i - 1) * 4 + j + 1))
+            end
+        end
+        for i = 17, 80 do
+            w[i] = leftrotate(bit.bxor(w[i - 3], w[i - 8], w[i - 14], w[i - 16]), 1)
+        end
+
+        local a, b, c, d, e = h0, h1, h2, h3, h4
+
+        for i = 1, 80 do
+            local f, k
+            if i <= 20 then
+                f = bit.bor(bit.band(b, c), bit.band(bit.bnot(b), d))
+                k = 0x5A827999
+            elseif i <= 40 then
+                f = bit.bxor(b, c, d)
+                k = 0x6ED9EBA1
+            elseif i <= 60 then
+                f = bit.bor(bit.band(b, c), bit.band(b, d), bit.band(c, d))
+                k = 0x8F1BBCDC
+            else
+                f = bit.bxor(b, c, d)
+                k = 0xCA62C1D6
+            end
+            local temp = leftrotate(a, 5) + f + e + k + w[i]
+            e = d
+            d = c
+            c = leftrotate(b, 30)
+            b = a
+            a = temp
+        end
+
+        h0 = bit.band(h0 + a, 0xFFFFFFFF)
+        h1 = bit.band(h1 + b, 0xFFFFFFFF)
+        h2 = bit.band(h2 + c, 0xFFFFFFFF)
+        h3 = bit.band(h3 + d, 0xFFFFFFFF)
+        h4 = bit.band(h4 + e, 0xFFFFFFFF)
+    end
+
+    data = preprocess(data)
+    for i = 1, #data, 64 do
+        processblock(data:sub(i, i + 63))
+    end
+
+    return string.format("%08x%08x%08x%08x%08x", h0, h1, h2, h3, h4)
 end
 
 M.hex2bin = function(hex)
