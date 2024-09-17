@@ -163,7 +163,7 @@ function M.start(ip, port, options)
         end
 
         local client = uv.new_tcp()
-        server:accept(client)
+        M.server:accept(client)
         handle_client(client)
         watch_dir(webroot)
     end)
