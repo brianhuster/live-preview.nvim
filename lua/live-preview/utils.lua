@@ -102,7 +102,7 @@ M.sha1 = function(data)
         ]], data)
     end
 
-    local result = M.run_shell_command(command)
+    local result = M.run_shell_command(command):wait()
 
     return result.stdout:gsub("%s+", "")
 end
