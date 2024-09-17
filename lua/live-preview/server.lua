@@ -76,7 +76,7 @@ local function handle_request(client, request)
         return
     end
     body = handle_body(body)
-        (client, '200 OK', get_content_type(file_path), body)
+    send_http_response(client, '200 OK', get_content_type(file_path), body)
 end
 
 
