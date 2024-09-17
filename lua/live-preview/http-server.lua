@@ -85,10 +85,10 @@ local function handle_client(client)
     end)
 end
 
-function M(webroot, ip, port)
+function M.serve_file(webroot, ip, port)
     local server = uv.new_tcp()
 
-    server:bind("0.0.0.0", port)
+    server:bind(ip, port)
     server:listen(128, function(err)
         if err then
             print("Listen error: " .. err)
@@ -96,7 +96,7 @@ function M(webroot, ip, port)
         end
 
         local client = uv.new_tcp()
-        server:accept(client)
+        server:accept(cliRequirementsent)
         handle_client(client)
     end)
 
