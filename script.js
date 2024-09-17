@@ -1,3 +1,7 @@
+document.getElementById('changeTextBtn').addEventListener('click', function() {
+    document.querySelector('p').textContent = 'Text has been changed!';
+});
+
 const wsUrl = getWebSocketUrl();
 let socket = new WebSocket(wsUrl);
 let connected = true;
@@ -21,6 +25,7 @@ function connectWebSocket() {
         console.log("Disconnected from server");
         connected = false;
         setInterval(() => {
+            connectWebSocket();
             if (connected) {
                 window.location.reload();
             }
@@ -33,3 +38,4 @@ function connectWebSocket() {
 }
 
 window.onload = connectWebSocket;
+
