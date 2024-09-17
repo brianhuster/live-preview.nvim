@@ -5,9 +5,7 @@ local read_file = require('live-preview.utils').uv_read_file
 local sha1 = require('live-preview.utils').sha1
 local hex2bin = require('live-preview.utils').hex2bin
 local ws_client = require('live-preview.web').ws_client
-print("ws_client", ws_client)
 local ws_script = "<script>" .. ws_client() .. "</script>"
-print("ws_script", ws_script)
 local webroot = "."
 local html_content = nill
 local server = uv.new_tcp()
