@@ -7,7 +7,7 @@ local hex2bin = require('live-preview.utils').hex2bin
 local ws_client = require('live-preview.web').ws_client
 local ws_script = "<script>" .. ws_client() .. "</script>"
 local webroot = "."
-local html_content = nill
+local html_content = nil
 M.server = uv.new_tcp()
 
 
@@ -130,7 +130,7 @@ local function websocket_handshake(client, request)
         "Sec-WebSocket-Accept: " .. accept .. "\r\n\r\n"
     client:write(response)
 end
-
+lsof -i TCP:$PORT | grep -v 'neovim' | grep LISTEN | awk '{print $2}' | xargs kill -9
 
 local function websocket_send(client, message)
     local frame = string.char(0x81) .. string.char(#message) .. message
@@ -152,7 +152,8 @@ end
 
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
-    html_content = options.html_content or nil
+    html_content = options.html_content
+    print(options.html_content)
     if html_content then
         html_content = handle_body(html_content)
     end
