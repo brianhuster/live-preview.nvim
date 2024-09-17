@@ -1,4 +1,5 @@
 const express = require("express");
+const chokidar = require('chokidar');
 const fs = require("fs");
 const path = require("path");
 const marked = require("marked");
@@ -20,6 +21,17 @@ const js_script = `
     <script src="ws_script.js"></script>
 `;
 
+const watcher = chokidar.watch(directoryToWatch, {
+    persistent: true,
+    ignoreInitial: true // Skip the initial add events
+});
+
+watcher.on('all', (event, path) => {
+    console.log(`${event} event detected on ${path}`);
+    // Notify clients about the change
+    broadcastReload();
+});
+
 wss.on("connection", (ws) => {
     console.log("New WebSocket connection");
 
@@ -31,6 +43,14 @@ wss.on("connection", (ws) => {
         console.error("WebSocket error:", error);
     });
 });
+
+function broadcastReload() {
+    wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type: 'reload' }));
+        }
+    });
+}
 
 app.get("/", (req, res) => {
     if (!filePath) {

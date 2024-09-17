@@ -20,6 +20,15 @@ async function connectWebSocket() {
         console.log("connected: ", connected);
     };
 
+    socket.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+
+        if (message.type === 'reload') {
+            console.log('Reload message received');
+            window.location.reload(); // Reload the page
+        }
+    };
+
     socket.onclose = () => {
         connected = false;
         console.log("Disconnected from server");
