@@ -17,7 +17,7 @@ M.md_html = function(md)
 
         <body>
             <div class="markdown-body" id='markdown-body'>
-    ]] .. md .. [[
+]] .. md .. [[
             </div>
             <script>
                 const markdownText = document.getElementById('markdown-body').innerHTML;
