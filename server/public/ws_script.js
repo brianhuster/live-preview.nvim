@@ -24,6 +24,7 @@ async function connectWebSocket() {
 
     socket.onerror = (error) => {
         console.error("WebSocket error:", error);
+        connected = false;
     };
 }
 
