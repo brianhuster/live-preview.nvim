@@ -152,7 +152,7 @@ end
 
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
-    print("html content trước khi xử lý " .. html_content)
+    html_content = options.html_content
     if html_content then
         html_content = handle_body(html_content)
     end
