@@ -61,7 +61,7 @@ function M.preview_file(port)
         })
         print(filepath)
         utils.open_browser(string.format("http://localhost:%d", port))
-    else
+    elseif extname == "html" then
         server.start("127.0.0.1", port, {
             webroot = vim.fs.dirname(filepath),
         })
