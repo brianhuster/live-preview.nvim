@@ -49,6 +49,7 @@ local function send_http_response(client, status, content_type, body)
         "Content-Length: " .. #body .. "\r\n" ..
         "Connection: close\r\n\r\n" ..
         body
+    print(response)
 
     client:write(response)
 end
