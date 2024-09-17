@@ -64,7 +64,7 @@ local function handle_request(client, request)
     path = path or '/'
     if path == '/' then
         if html_content then
-            send_http_response(client, '200 OK', 'text/html')
+            send_http_response(client, '200 OK', 'text/html', html_content)
             return
         end
         path = '/index.html'

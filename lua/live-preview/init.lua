@@ -63,7 +63,7 @@ function M.preview_file(port)
     end
 
 
-    M.stop_preview(port)
+    -- M.stop_preview(port)
     if extname == "md" then
         local md_content = utils.uv_read_file(filepath)
         server.start("127.0.0.1", port, {
