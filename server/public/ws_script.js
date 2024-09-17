@@ -39,7 +39,7 @@ function main() {
         if (!connected) {
             connectWebSocket();
         }
-    }, 1);
+    }, 100);
 }
 
 window.onload = main;
