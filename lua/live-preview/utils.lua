@@ -87,22 +87,12 @@ M.run_shell_command = function(cmd)
         end
     end)
 
-    function result:wait()
-        if self.exit_code then
-            return self
-        end
-        local thread = coroutine.running()
-        self.callback = function()
-            coroutine.resume(thread, self)
-        end
-        return coroutine.yield()
-    end
-
     return result
 end
 
 M.sha1 = function(data)
     local command = "echo -n '" .. data .. "' | shasum | awk '{print $1}'"
+    local result
     if uv.os_uname().version:match("Windows") then
         command = string.format([[
             $data = "%s"
@@ -114,7 +104,9 @@ M.sha1 = function(data)
         ]], data)
     end
 
-    local result = M.run_shell_command(command):wait()
+    while not result.stdout do
+        result = M.run_shell_command(command)
+    end
 
     return result.stdout:gsub("%s+", "")
 end
