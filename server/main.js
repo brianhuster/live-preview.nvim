@@ -66,7 +66,7 @@ app.get("/", (req, res) => {
                 return;
             }
             const html = marked.parse(data);
-            res.send(`${html}${js_script}`);
+            res.send(`<link rel="stylesheet" href="md.css">${html}${js_script}`);
         });
     } else if (extname === ".html") {
         fs.readFile(filePath, "utf8", (err, data) => {
