@@ -65,8 +65,10 @@ local function handle_request(client, request)
         if html_content then
             send_http_response(client, '200 OK', 'text/html', html_content)
             return
+        else
+            print(html_content)
+            path = '/index.html'
         end
-        path = '/index.html'
     end
 
     local file_path = webroot .. path
@@ -152,7 +154,6 @@ end
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
     html_content = options.html_content
-    print(options.html_content)
     if html_content then
         html_content = handle_body(html_content)
     end
