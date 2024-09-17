@@ -31,7 +31,7 @@ window.onload = () => {
     connectWebSocket();
     setInterval(() => {
         if (!connected) {
-            //connectWebSocket();
+            connectWebSocket();
             if (connected) {
                 window.location.reload();
             }
