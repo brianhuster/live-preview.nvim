@@ -20,11 +20,7 @@ function connectWebSocket() {
     socket.onclose = () => {
         console.log("Disconnected from server");
         connected = false;
-        setInterval(() => {
-            if (connected) {
-                window.location.reload();
-            }
-        }, 100);
+        return;
     };
 
     socket.onerror = (error) => {
@@ -33,3 +29,10 @@ function connectWebSocket() {
 }
 
 window.onload = connectWebSocket;
+
+while (true) {
+    if (!connected) {
+        connectWebSocket();
+    }
+    sleep(100);
+}
