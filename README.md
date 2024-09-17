@@ -47,7 +47,7 @@ For `init.vim`:
 lua require('live-preview').setup()
 ```
 
-You can also customize the plugin by passing a table to the `setup` function. Here is an example of how to customize the plugin:
+You can also customize the plugin by passing a table to the `setup` function. Here is an example of how to customize the plugin:bubbles
 
 - Using Lua:
 

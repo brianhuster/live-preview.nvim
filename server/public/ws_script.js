@@ -31,11 +31,16 @@ async function connectWebSocket() {
     };
 }
 
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 window.onload = () => {
     connectWebSocket();
     setInterval(() => {
         if (!connected) {
             connectWebSocket();
+            wait(10);
             if (connected) {
                 window.location.reload();
             }
