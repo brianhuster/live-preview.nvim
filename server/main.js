@@ -20,7 +20,7 @@ app.use(express.static(directory));
 app.use(express.static("./server/public"));
 
 const js_script = `
-    <script src="script.js"></script>
+    <script src="ws_script.js"></script>
 `;
 
 wss.on("connection", (ws) => {

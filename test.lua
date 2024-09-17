@@ -1,7 +1,70 @@
 local uv = vim.uv
 
+local webroot = 'webroot'
+
+local function get_content_type(file_path)
+    if file_path:match("%.html$") then
+        return 'text/html'
+    elseif file_path:match("%.css$") then
+        return 'text/css'
+    elseif file_path:match("%.js$") then
+        return 'application/javascript'
+    elseif file_path:match("%.png$") then
+        return 'image/png'
+    elseif file_path:match("%.jpg$") or file_path:match("%.jpeg$") then
+        return 'image/jpeg'
+    elseif file_path:match("%.gif$") then
+        return 'image/gif'
+    else
+        return 'application/octet-stream'
+    end
+end
+
+local function handle_request(client, request)
+    -- Extract the path from the HTTP request
+    local _, _, path = request:match("GET (.+) HTTP/1.1")
+    path = path or '/' -- Default to root if no path specified
+
+    -- Serve index.html for root requests
+    if path == '/' then
+        path = '/index.html'
+    end
+
+    local file_path = webroot .. path
+
+    -- Attempt to read the file
+    local file, err = io.open(file_path, 'rb')
+    if not file then
+        -- File not found
+        local response = "HTTP/1.1 404 Not Found\r\n" ..
+            "Content-Type: text/plain\r\n" ..
+            "Content-Length: 0\r\n" ..
+            "Connection: close\r\n\r\n"
+        client:write(response)
+        client:shutdown(function()
+            client:close()
+        end)
+        return
+    end
+
+    local body = file:read('*a')
+    file:close()
+
+    -- Create the correct HTTP/1.1 response
+    local response = "HTTP/1.1 200 OK\r\n" ..
+        "Content-Type: " .. get_content_type(file_path) .. "\r\n" ..
+        "Content-Length: " .. #body .. "\r\n" ..
+        "Connection: close\r\n\r\n" ..
+        body
+
+    client:write(response)
+    client:shutdown(function()
+        client:close()
+    end)
+end
+
 local function handle_client(client)
-    print("New client connected")
+    local buffer = ""
 
     client:read_start(function(err, chunk)
         if err then
@@ -11,20 +74,19 @@ local function handle_client(client)
         end
 
         if chunk then
-            -- For simplicity, we're not parsing WebSocket frames here
-            -- Just echoing back whatever we receive
-            print("Received data from client")
-            client:write(chunk)
+            buffer = buffer .. chunk
+            -- Check if the request is complete
+            if buffer:match("\r\n\r\n$") then
+                handle_request(client, buffer)
+            end
         else
-            -- chunk is nil when the client has disconnected
-            print("Client disconnected")
             client:close()
         end
     end)
 end
 
 local server = uv.new_tcp()
-local port = 8080
+local port = 5500
 
 server:bind("0.0.0.0", port)
 server:listen(128, function(err)

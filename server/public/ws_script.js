@@ -9,28 +9,39 @@ function getWebSocketUrl() {
     return `${protocol}//${hostname}${port}`;
 }
 
-function connectWebSocket() {
+async function connectWebSocket() {
     socket = new WebSocket(wsUrl);
 
     socket.onopen = () => {
+        if (!connected) {
+            window.location.reload();
+        }
         console.log("Connected to server");
-        connected = true;
+        console.log("connected: ", connected);
     };
 
     socket.onclose = () => {
-        console.log("Disconnected from server");
         connected = false;
-        setInterval(() => {
-            connectWebSocket();
-            if (connected) {
-                window.location.reload();
-            }
-        }, 100);
+        console.log("Disconnected from server");
+        console.log("connected: ", connected);
     };
 
     socket.onerror = (error) => {
+        connected = false;
         console.error("WebSocket error:", error);
+        console.log("connected: ", connected);
     };
 }
 
-window.onload = connectWebSocket;
+function main() {
+    connectWebSocket();
+    setInterval(() => {
+        if (!connected) {
+            connectWebSocket();
+        }
+    }, 10);
+}
+
+window.onload = main;
+
+

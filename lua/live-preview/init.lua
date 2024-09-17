@@ -72,7 +72,7 @@ function M.preview_file(port)
 
     if not vim.tbl_contains(supported_exts, extname) then
         filename = find_buf()
-        if not filename then
+        if not filename or filename == "" then
             print("Unsupported file type")
             return
         end
@@ -80,44 +80,7 @@ function M.preview_file(port)
 
     M.stop_preview(port)
     local plugin_path = get_plugin_path()
-    local log_file = plugin_path .. '/logs/log.txt'
     local command = string.format('cd %s && nodemon --watch "%s" "%s" "%d"', plugin_path, target_dir, filename, port)
-
-    -- vim.fn.jobstart(command, {
-    --     stdout_buffered = true,
-    --     stderr_buffered = true,
-    --     on_stdout = function(_, data)
-    --         if data then
-    --             for _, line in ipairs(data) do
-    --                 print("stdout: " .. line)
-    --                 local file = io.open(log_file, "a")
-    --                 if file then
-    --                     file:write("stdout: " .. line .. "\n")
-    --                     file:close()
-    --                 else
-    --                     print("Cannot find log file")
-    --                 end
-    --             end
-    --         end
-    --     end,
-    --     on_stderr = function(_, data)
-    --         if data then
-    --             for _, line in ipairs(data) do
-    --                 print("stderr: " .. line)
-    --                 local file = io.open(log_file, "a")
-    --                 if file then
-    --                     file:write("stderr: " .. line .. "\n")
-    --                     file:close()
-    --                 end
-    --             end
-    --         end
-    --     end,
-    --     on_exit = function(_, code)
-    --         if code ~= 0 then
-    --             print("Error starting the server")
-    --         end
-    --     end,
-    -- })
 
     utils.run_shell_command(command)
     open_browser(port)
