@@ -28,11 +28,16 @@ function connectWebSocket() {
     };
 }
 
-window.onload = connectWebSocket;
-
-while (true) {
-    if (!connected) {
-        connectWebSocket();
-    }
-    sleep(100);
+window.onload = () => {
+    connectWebSocket;
+    setInterval(() => {
+        if (!connected) {
+            connectWebSocket();
+            if (connected) {
+                window.location.reload();
+            }
+        }
+    }, 100);
 }
+
+
