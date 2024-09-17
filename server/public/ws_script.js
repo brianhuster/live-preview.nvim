@@ -40,8 +40,9 @@ window.onload = () => {
     setInterval(() => {
         if (!connected) {
             connectWebSocket();
-            wait(10);
+            wait(100);
             if (connected) {
+                console.log("Reloading page");
                 window.location.reload();
             }
         }
