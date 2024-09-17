@@ -13,18 +13,18 @@ async function connectWebSocket() {
     socket = new WebSocket(wsUrl);
 
     socket.onopen = () => {
-        console.log("Connected to server");
         connected = true;
+        console.log("Connected to server");
     };
 
     socket.onclose = () => {
-        console.log("Disconnected from server");
         connected = false;
+        console.log("Disconnected from server");
     };
 
     socket.onerror = (error) => {
-        console.error("WebSocket error:", error);
         connected = false;
+        console.error("WebSocket error:", error);
     };
 }
 
