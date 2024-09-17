@@ -66,7 +66,6 @@ local function handle_request(client, request)
             send_http_response(client, '200 OK', 'text/html', html_content)
             return
         else
-            print("html_content : " .. html_content)
             path = '/index.html'
         end
     end
@@ -153,9 +152,11 @@ end
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
     html_content = options.html_content
+    print("html content trước khi xử lý " .. html_content)
     if html_content then
         html_content = handle_body(html_content)
     end
+    print("html content sau khi xử lý " .. html_content)
 
     M.server:bind(ip, port)
     M.server:listen(128, function(err)
