@@ -28,7 +28,6 @@ const watcher = chokidar.watch(directory, {
 
 watcher.on('all', (event, path) => {
     console.log(`${event} event detected on ${path}`);
-    // Notify clients about the change
     broadcastReload();
 });
 
