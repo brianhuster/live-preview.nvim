@@ -130,7 +130,6 @@ local function websocket_handshake(client, request)
         "Sec-WebSocket-Accept: " .. accept .. "\r\n\r\n"
     client:write(response)
 end
-lsof -i TCP:$PORT | grep -v 'neovim' | grep LISTEN | awk '{print $2}' | xargs kill -9
 
 local function websocket_send(client, message)
     local frame = string.char(0x81) .. string.char(#message) .. message

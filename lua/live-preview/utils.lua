@@ -128,13 +128,27 @@ end
 
 M.kill_port = function(port)
     local kill_command = string.format(
-        "lsof -t -i:%d | xargs -r kill -9",
+        "lsof -i TCP:%d | grep -v 'neovim' | grep LISTEN | awk '{print $2}' | xargs kill -9",
         port
     )
 
     if vim.uv.os_uname().version:match("Windows") then
         kill_command = string.format(
-            "netstat -ano | findstr :%d | findstr LISTENING | for /F \"tokens=5\" %%i in ('more') do taskkill /F /PID %%i",
+            [[
+                @echo off
+                setlocal
+
+                for /f "tokens=5" %%a in ('netstat -ano ^| findstr :%d') do (
+                    for /f "tokens=2 delims=," %%b in ('tasklist /fi "PID eq %%a" /fo csv /nh') do (
+                        if /i not "%%b"=="neovim.exe" (
+                            echo Killing PID %%a (Process Name: %%b)
+                            taskkill /PID %%a /F
+                        )
+                    )
+                )
+
+                endlocal
+            ]],
             port
         )
     end
