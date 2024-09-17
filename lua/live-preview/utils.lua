@@ -104,7 +104,7 @@ M.sha1 = function(data)
         ]], data)
     end
 
-    while not result.stdout do
+    while not result do
         result = M.run_shell_command(command)
     end
 
