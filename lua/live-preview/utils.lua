@@ -71,7 +71,6 @@ M.run_shell_command = function(cmd)
     }, function(code, signal)
         result.code = code
         result.signal = signal
-        handle:close()
     end)
 
     uv.read_start(stdout, function(err, data)
