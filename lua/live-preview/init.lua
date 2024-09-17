@@ -1,4 +1,5 @@
 local utils = require("live-preview.utils")
+local server = require("live-preview.server")
 
 local M = {}
 
@@ -10,14 +11,6 @@ local default_options = {
     port = 5500,
 }
 
-local function get_plugin_path()
-    local full_path = utils.get_path_lua_file()
-    if not full_path then
-        return nil
-    end
-    local subpath = "/lua/live-preview/init.lua"
-    return utils.get_parent_path(full_path, subpath)
-end
 
 local function find_buf() -- find html/md buffer
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -31,14 +24,6 @@ local function find_buf() -- find html/md buffer
     return nil
 end
 
-local function open_browser(port)
-    vim.ui.open(
-        string.format(
-            "http://localhost:%d",
-            port
-        )
-    )
-end
 
 -- Kill any process using the port
 function M.stop_preview(port)
@@ -47,7 +32,7 @@ function M.stop_preview(port)
         port
     )
 
-    if vim.fn.has("win32") == 1 then
+    if vim.uv.os_uname().version:match("Windows") then
         kill_command = string.format(
             "netstat -ano | findstr :%d | findstr LISTENING | for /F \"tokens=5\" %%i in ('more') do taskkill /F /PID %%i",
             port
@@ -77,12 +62,14 @@ function M.preview_file(port)
         end
     end
 
+
     M.stop_preview(port)
-    local plugin_path = get_plugin_path()
+    local plugin_path = utils.get_plugin_path()
     local command = string.format('cd %s && node server/main.js "%s" "%d"', plugin_path, filename, port)
 
     utils.run_shell_command(command)
-    open_browser(port)
+
+    utils.open_browser(string.format("http://localhost:%d", port))
 end
 
 -- Function to disable atomic writes
