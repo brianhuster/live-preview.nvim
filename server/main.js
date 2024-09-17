@@ -21,7 +21,7 @@ const js_script = `
     <script src="ws_script.js"></script>
 `;
 
-const watcher = chokidar.watch(directoryToWatch, {
+const watcher = chokidar.watch(directory, {
     persistent: true,
     ignoreInitial: true // Skip the initial add events
 });
