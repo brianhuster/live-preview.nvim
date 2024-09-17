@@ -1,2 +1,2 @@
-body = require("live-preview.utils").uv_read_file("/home/brianhuster/Downloads/index.html")
+body = require("live-preview.utils").sha1("test")
 print(body)

@@ -105,9 +105,6 @@ M.sha1 = function(data)
 
     local result = M.run_shell_command(command)
 
-    while result.stdout == nil do
-        vim.wait(10)
-    end
     return result.stdout:gsub("%s+", "")
 end
 
