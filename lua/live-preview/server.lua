@@ -73,7 +73,6 @@ local function handle_request(client, request)
 
     local file_path = webroot .. path
     local body = read_file(file_path)
-    vim.wait(100)
     print(body)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', '404 Not Found')
