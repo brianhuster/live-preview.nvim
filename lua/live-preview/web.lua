@@ -23,7 +23,6 @@ M.md_html = function(md)
                 const markdownText = document.getElementById('markdown-body').innerHTML;
                 const html = marked.parse(markdownText);
                 document.getElementById('markdown-body').innerHTML = html;
-    ]] .. M.ws_client() .. [[
             </script>
 
         </body>

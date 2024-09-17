@@ -55,6 +55,27 @@ local function send_http_response(client, status, content_type, body)
 end
 
 
+local function websocket_handshake(client, request)
+    local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
+    if not key then
+        print("Invalid WebSocket request from client")
+        client:close()
+        return
+    end
+
+    local accept = sha1(key .. "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
+    accept = vim.trim(accept)
+    accept = vim.base64.encode(hex2bin(accept))
+    accept = vim.trim(accept)
+
+    local response = "HTTP/1.1 101 Switching Protocols\r\n" ..
+        "Upgrade: websocket\r\n" ..
+        "Connection: Upgrade\r\n" ..
+        "Sec-WebSocket-Accept: " .. accept .. "\r\n\r\n"
+    client:write(response)
+end
+
+
 local function handle_request(client, request)
     if request:match("Upgrade: websocket") then
         websocket_handshake(client, request)
@@ -112,26 +133,6 @@ local function handle_client(client)
     end)
 end
 
-
-local function websocket_handshake(client, request)
-    local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
-    if not key then
-        print("Invalid WebSocket request from client")
-        client:close()
-        return
-    end
-
-    local accept = sha1(key .. "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
-    accept = vim.trim(accept)
-    accept = vim.base64.encode(hex2bin(accept))
-    accept = vim.trim(accept)
-
-    local response = "HTTP/1.1 101 Switching Protocols\r\n" ..
-        "Upgrade: websocket\r\n" ..
-        "Connection: Upgrade\r\n" ..
-        "Sec-WebSocket-Accept: " .. accept .. "\r\n\r\n"
-    client:write(response)
-end
 
 local function websocket_send(client, message)
     local frame = string.char(0x81) .. string.char(#message) .. message

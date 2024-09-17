@@ -1,5 +1,6 @@
 local utils = require("live-preview.utils")
 local server = require("live-preview.server")
+local web = require("live-preview.web")
 
 local M = {}
 
@@ -25,8 +26,7 @@ local function find_buf() -- find html/md buffer
 end
 
 
--- Kill any process using the port
-function M.stop_preview(port)
+function M.stop_preview()
     server.stop()
 end
 
@@ -55,9 +55,10 @@ function M.preview_file(port)
     -- M.stop_preview(port)
     if extname == "md" then
         local md_content = utils.uv_read_file(filepath)
+        local html = web.md_html(md_content)
         server.start("127.0.0.1", port, {
             webroot = vim.fs.dirname(filepath),
-            html_content = md_content
+            html_content = html,
         })
         print(filepath)
         utils.open_browser(string.format("http://localhost:%d", port))
