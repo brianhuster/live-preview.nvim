@@ -53,42 +53,6 @@ M.get_parent_path = function(full_path, subpath)
     return parent_path
 end
 
-M.run_shell_command = function(cmd)
-    local uv = vim.uv
-    local stdin = uv.new_pipe()
-    local stdout = uv.new_pipe()
-    local stderr = uv.new_pipe()
-    local shell = "sh"
-    if uv.os_uname().version:match("Windows") then
-        shell = "pwsh"
-    end
-
-    local result = {}
-
-    local handle = uv.spawn(shell, {
-        args = { '-c', cmd },
-        stdio = { stdin, stdout, stderr },
-    }, function(code, signal)
-        result.code = code
-        result.signal = signal
-    end)
-
-    uv.read_start(stdout, function(err, data)
-        assert(not err, err)
-        if data then
-            result.stdout = data
-        end
-    end)
-
-    uv.read_start(stderr, function(err, data)
-        assert(not err, err)
-        if data then
-            result.stderr = data
-        end
-    end)
-
-    return result
-end
 
 M.sha1 = function(data)
     local command = "echo -n '" .. data .. "' | shasum | awk '{print $1}'"
@@ -104,11 +68,32 @@ M.sha1 = function(data)
         ]], data)
     end
 
-    while not result do
-        result = M.run_shell_command(command)
-    end
+    result = M.await_term_cmd(command)
 
     return result.stdout:gsub("%s+", "")
+end
+
+M.term_cmd = function(cmd)
+    local shell = "sh"
+    if uv.os_uname().version:match("Windows") then
+        shell = "pwsh"
+    end
+
+    local on_exit = function(result)
+        return result
+    end
+
+    vim.system({ shell, '-c', cmd }, { text = true }, { on_exit })
+end
+
+M.await_term_cmd = function(cmd)
+    local shell = "sh"
+    if uv.os_uname().version:match("Windows") then
+        shell = "pwsh"
+    end
+
+    local result = vim.system({ shell, '-c', cmd }, { text = true }):wait()
+    return result
 end
 
 M.hex2bin = function(hex)
