@@ -66,7 +66,7 @@ local function handle_request(client, request)
             send_http_response(client, '200 OK', 'text/html', html_content)
             return
         else
-            print(html_content)
+            print("html_content : " .. html_content)
             path = '/index.html'
         end
     end
