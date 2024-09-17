@@ -9,7 +9,7 @@ function getWebSocketUrl() {
     return `${protocol}//${hostname}${port}`;
 }
 
-function connectWebSocket() {
+async function connectWebSocket() {
     socket = new WebSocket(wsUrl);
 
     socket.onopen = () => {
