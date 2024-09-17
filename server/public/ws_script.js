@@ -36,7 +36,7 @@ window.onload = () => {
                 window.location.reload();
             }
         }
-    }, 100);
+    }, 1);
 }
 
 
