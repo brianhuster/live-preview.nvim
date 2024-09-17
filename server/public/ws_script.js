@@ -20,7 +20,6 @@ async function connectWebSocket() {
     socket.onclose = () => {
         console.log("Disconnected from server");
         connected = false;
-        return;
     };
 
     socket.onerror = (error) => {
