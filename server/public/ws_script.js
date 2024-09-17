@@ -13,7 +13,9 @@ async function connectWebSocket() {
     socket = new WebSocket(wsUrl);
 
     socket.onopen = () => {
-        connected = true;
+        if (!connected) {
+            window.location.reload();
+        }
         console.log("Connected to server");
         console.log("connected: ", connected);
     };
@@ -31,22 +33,15 @@ async function connectWebSocket() {
     };
 }
 
-function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-window.onload = () => {
+function main() {
     connectWebSocket();
     setInterval(() => {
         if (!connected) {
             connectWebSocket();
-            wait(100);
-            if (connected) {
-                console.log("Reloading page");
-                window.location.reload();
-            }
         }
     }, 1);
 }
+
+window.onload = main;
 
 
