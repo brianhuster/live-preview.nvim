@@ -29,7 +29,7 @@ function connectWebSocket() {
 }
 
 window.onload = () => {
-    connectWebSocket;
+    connectWebSocket();
     setInterval(() => {
         if (!connected) {
             connectWebSocket();
