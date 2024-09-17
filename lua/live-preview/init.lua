@@ -42,21 +42,21 @@ function M.stop_preview(port)
 end
 
 function M.preview_file(port)
-    local filename = vim.fn.expand('%:p')
-    if not filename or filename == "" then
-        filename = find_buf()
-        if not filename then
+    local filepath = vim.fn.expand('%:p')
+    if not filepath or filepath == "" then
+        filepath = find_buf()
+        if not filepath then
             print("Cannot find a file")
             return
         end
     end
 
-    local extname = vim.fn.fnamemodify(filename, ":e")
+    local extname = vim.fn.fnamemodify(filepath, ":e")
     local supported_exts = { "md", "html" }
 
     if not vim.tbl_contains(supported_exts, extname) then
-        filename = find_buf()
-        if not filename or filename == "" then
+        filepath = find_buf()
+        if not filepath or filepath == "" then
             print("Unsupported file type")
             return
         end
@@ -64,12 +64,19 @@ function M.preview_file(port)
 
 
     M.stop_preview(port)
-    local plugin_path = utils.get_plugin_path()
-    local command = string.format('cd %s && node server/main.js "%s" "%d"', plugin_path, filename, port)
-
-    utils.run_shell_command(command)
-
-    utils.open_browser(string.format("http://localhost:%d", port))
+    if extname == "md" then
+        local md_content = utils.uv_read_file(filepath)
+        server.start("127.0.0.1", port, {
+            webroot = vim.fs.dirname(filepath),
+            html_content = md_content
+        })
+        utils.open_browser(string.format("http://localhost:%d", port))
+    else
+        server.start("127.0.0.1", port, {
+            webroot = vim.fs.dirname(filepath),
+        })
+        utils.open_browser(string.format("http://localhost:%d/%s", port, vim.fs.basename(filepath)))
+    end
 end
 
 -- Function to disable atomic writes
