@@ -58,7 +58,6 @@ end
 
 function M.preview_file(port)
     local filename = vim.fn.expand('%:p')
-    local target_dir = vim.fn.expand('%:p:h')
     if not filename or filename == "" then
         filename = find_buf()
         if not filename then
@@ -80,17 +79,10 @@ function M.preview_file(port)
 
     M.stop_preview(port)
     local plugin_path = get_plugin_path()
-    local command = string.format('cd %s && nodemon --watch "%s" "%s" "%d"', plugin_path, target_dir, filename, port)
+    local command = string.format('cd %s && node server/main.js "%s" "%d"', plugin_path, filename, port)
 
     utils.run_shell_command(command)
     open_browser(port)
-end
-
-function M.touch_file()
-    local filepath = vim.fn.expand('%:p')
-    if vim.fn.filereadable(filepath) == 1 then
-        vim.fn.system('touch ' .. filepath)
-    end
 end
 
 -- Function to disable atomic writes
@@ -110,13 +102,6 @@ function M.setup()
         M.stop_preview(opts.port)
         print("Live preview stopped")
     end, {})
-
-    vim.api.nvim_create_autocmd("BufWritePost", {
-        pattern = "*",
-        callback = function()
-            require("live-preview").touch_file()
-        end,
-    })
 
     disable_atomic_writes()
 end

@@ -1,4 +1,5 @@
 const express = require("express");
+const chokidar = require('chokidar');
 const fs = require("fs");
 const path = require("path");
 const marked = require("marked");
@@ -8,9 +9,6 @@ const WebSocket = require("ws");
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
 
 const port = process.argv[3] || 3000;
 const filePath = process.argv[2];
@@ -23,6 +21,16 @@ const js_script = `
     <script src="ws_script.js"></script>
 `;
 
+const watcher = chokidar.watch(directory, {
+    persistent: true,
+    ignoreInitial: true // Skip the initial add events
+});
+
+watcher.on('all', (event, path) => {
+    console.log(`${event} event detected on ${path}`);
+    broadcastReload();
+});
+
 wss.on("connection", (ws) => {
     console.log("New WebSocket connection");
 
@@ -34,6 +42,14 @@ wss.on("connection", (ws) => {
         console.error("WebSocket error:", error);
     });
 });
+
+function broadcastReload() {
+    wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type: 'reload' }));
+        }
+    });
+}
 
 app.get("/", (req, res) => {
     if (!filePath) {
@@ -50,7 +66,7 @@ app.get("/", (req, res) => {
                 return;
             }
             const html = marked.parse(data);
-            res.render("md", { html, js_script });
+            res.send(`<link rel="stylesheet" href="md.css">${html}${js_script}`);
         });
     } else if (extname === ".html") {
         fs.readFile(filePath, "utf8", (err, data) => {

@@ -1,5 +1,0 @@
-{
-    "delay": "250",
-    "ext": "md,html,css,js",
-    "exec": "node server/main.js"
-}
