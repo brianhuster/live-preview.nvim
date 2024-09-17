@@ -19,6 +19,7 @@ local handle_body = function(data)
     else
         data = data .. ws_script
     end
+    return data
 end
 
 
@@ -151,12 +152,10 @@ end
 
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
-    html_content = options.html_content
     print("html content trước khi xử lý " .. html_content)
     if html_content then
         html_content = handle_body(html_content)
     end
-    print("html content sau khi xử lý " .. html_content)
 
     M.server:bind(ip, port)
     M.server:listen(128, function(err)
