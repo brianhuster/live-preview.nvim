@@ -39,6 +39,7 @@ function M.stop_preview(port)
     --     )
     -- end
     -- os.execute(kill_command)
+    server.stop()
 end
 
 function M.preview_file(port)
@@ -70,11 +71,13 @@ function M.preview_file(port)
             webroot = vim.fs.dirname(filepath),
             html_content = md_content
         })
+        print(filepath)
         utils.open_browser(string.format("http://localhost:%d", port))
     else
         server.start("127.0.0.1", port, {
             webroot = vim.fs.dirname(filepath),
         })
+        print(filepath)
         utils.open_browser(string.format("http://localhost:%d/%s", port, vim.fs.basename(filepath)))
     end
 end

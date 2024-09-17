@@ -8,7 +8,7 @@ local ws_client = require('live-preview.web').ws_client
 local ws_script = "<script>" .. ws_client() .. "</script>"
 local webroot = "."
 local html_content = nill
-local server = uv.new_tcp()
+M.server = uv.new_tcp()
 
 
 local handle_body = function(data)
@@ -76,8 +76,9 @@ local function handle_request(client, request)
         return
     end
     body = handle_body(body)
-    send_http_response(client, '200 OK', get_content_type(file_path), body)
-end
+    (client, '200 OK', get_content_type(file_path), body)
+e
+dwnchuishyiuyui:::nd
 
 
 local function handle_client(client)
@@ -155,8 +156,8 @@ function M.start(ip, port, options)
         html_content = handle_body(html_content)
     end
 
-    server:bind(ip, port)
-    server:listen(128, function(err)
+    M.server:bind(ip, port)
+    M.server:listen(128, function(err)
         if err then
             print("Listen error: " .. err)
             return
@@ -173,7 +174,7 @@ function M.start(ip, port, options)
 end
 
 M.stop = function()
-    server:close()
+    M.server:close()
 end
 
 return M
