@@ -204,10 +204,8 @@ M.ws_client = function()
                 console.log("connected: ", connected);
             };
 
-            socket.onmessage = (event) => {
-                const message = JSON.parse(event.data);
-
-                if (message.type === 'reload' || event.data === 'reload') {
+            socket.onmessage = (event) => { 
+                if (event.data === 'reload') {
                     console.log('Reload message received');
                     window.location.reload(); // Reload the page
                 }
