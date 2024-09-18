@@ -56,6 +56,7 @@ end
 
 
 local function websocket_handshake(client, request)
+    print("client " .. client)
     local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
     if not key then
         print("Invalid WebSocket request from client")
