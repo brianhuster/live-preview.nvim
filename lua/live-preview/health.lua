@@ -2,7 +2,7 @@ local M = {}
 
 local utils = require("live-preview.utils")
 
-local min_nvim_version = "0.9.0"
+local min_nvim_version = "0.10.0"
 
 local function check_command_exists(cmd)
     return vim.fn.executable(cmd) == 1
@@ -10,7 +10,8 @@ end
 
 
 function M.is_compatible(min_ver)
-    local nvim_ver = vim.version()
+    local nvim_ver_table = vim.version()
+    local nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
     local nvim_ver_obj = vim.version.parse(nvim_ver)
     local min_ver_obj = vim.version.parse(min_ver)
     return vim.version.compare(nvim_ver_obj, min_ver_obj) >= 0
@@ -25,7 +26,7 @@ M.check = function()
     end
 
     vim.health.info(
-    "For Live Preview to open default browser, at least one of these commands must be executable. If you have specified a custom browser in your configuration, you can ignore this message.")
+        "For Live Preview to open default browser, at least one of these commands must be executable. If you have specified a custom browser in your configuration, you can ignore this message.")
     local open_cmds = { "xdg-open", "open", "start", "rundll32", "wslview" }
     for _, cmd in ipairs(open_cmds) do
         if check_command_exists(cmd) then

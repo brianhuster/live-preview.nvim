@@ -4,7 +4,7 @@ A Live Preview Plugin for Neovim that allows you to view Markdown or HTML (along
 
 ## Requirements
 
-- Neovim 0.9 or higher 
+- Neovim 0.10 or higher 
 
 ## Installation
 
