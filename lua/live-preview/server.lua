@@ -3,7 +3,6 @@ local M = {}
 local uv = vim.uv
 local read_file = require('live-preview.utils').uv_read_file
 local sha1 = require('live-preview.utils').sha1
-local hex2bin = require('live-preview.utils').hex2bin
 local ws_client = require('live-preview.web').ws_client
 local ws_script = "<script>" .. ws_client() .. "</script>"
 local webroot = "."
@@ -116,6 +115,7 @@ local function handle_client(client)
             buffer = buffer .. chunk
             -- Check if the request is complete
             if buffer:match("\r\n\r\n$") then
+                print("buffer " .. buffer)
                 handle_request(client, buffer)
             else
                 print("Incomplete request")
