@@ -3,6 +3,7 @@ local M = {}
 local uv = vim.uv
 local read_file = require('live-preview.utils').uv_read_file
 local sha1 = require('live-preview.utils').sha1
+local base64 = vim.base64.decode or require('live-preview.utils').base64
 local ws_client = require('live-preview.web').ws_client
 local md2html = require('live-preview.web').md2html
 local ws_script = "<script>" .. ws_client() .. "</script>"
@@ -48,7 +49,6 @@ local function send_http_response(client, status, content_type, body)
         "Content-Length: " .. #body .. "\r\n" ..
         "Connection: close\r\n\r\n" ..
         body
-    print(response)
 
     client:write(response)
 end
@@ -63,7 +63,7 @@ local function websocket_handshake(client, request)
     end
 
     local accept = sha1(key .. "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
-    accept = vim.base64.encode(accept)
+    accept = base64(accept)
     accept = vim.trim(accept)
 
     local response = "HTTP/1.1 101 Switching Protocols\r\n" ..
@@ -75,7 +75,6 @@ end
 
 
 local function handle_request(client, request)
-    print(request)
     if request:match("Upgrade: websocket") then
         websocket_handshake(client, request)
         return
