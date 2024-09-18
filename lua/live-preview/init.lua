@@ -64,7 +64,6 @@ function M.setup()
                 return
             end
         end
-        M.preview_file(filepath, opts.port)
         utils.open_browser(
             string.format(
                 "http://localhost:%d/%s",
@@ -73,6 +72,8 @@ function M.setup()
             ),
             opts.browser
         )
+
+        M.preview_file(filepath, opts.port)
     end, {})
 
     vim.api.nvim_create_user_command(opts.commands.stop, function()
