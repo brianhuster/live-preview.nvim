@@ -1,6 +1,6 @@
 # live-preview.nvim
 
-A Live Preview Plugin for Neovim that allows you to view Markdown or HTML (along with CSS, JavaScript) files in a web browser with live updates.
+A pure-Lua Plugin for Neovim that allows you to view Markdown or HTML (along with CSS, JavaScript) files in a web browser with live updates. No dependencies are required, since everything is written in Lua and Neovim's built-in functions
 
 ## Requirements
 
