@@ -13,7 +13,7 @@ function M.is_compatible(min_ver)
     local nvim_ver_table = vim.version()
     local nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
     local requirement = vim.version.range("^" .. min_ver)
-    return requirement.has(nvim_ver)
+    return requirement:has(nvim_ver)
 end
 
 M.check = function()
