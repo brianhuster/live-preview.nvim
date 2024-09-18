@@ -68,7 +68,7 @@ M.term_cmd = function(cmd)
         return result
     end
 
-    vim.system({ shell, '-c', cmd }, { text = true }, { on_exit })
+    vim.system({ shell, '-c', cmd }, { text = true }, on_exit)
 end
 
 

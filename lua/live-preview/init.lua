@@ -42,7 +42,6 @@ function M.preview_file(filepath, port)
         end
     end
 
-    utils.kill_port(port)
     server.start("127.0.0.1", port, {
         webroot = vim.fs.dirname(filepath),
     })
