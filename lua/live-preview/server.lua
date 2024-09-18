@@ -7,7 +7,6 @@ local hex2bin = require('live-preview.utils').hex2bin
 local ws_client = require('live-preview.web').ws_client
 local ws_script = "<script>" .. ws_client() .. "</script>"
 local webroot = "."
-local html_content = nil
 M.server = uv.new_tcp()
 
 
@@ -24,7 +23,7 @@ end
 
 
 local function get_content_type(file_path)
-    if file_path:match("%.html$") then
+    if file_path:match("%.html$") or file_path:match("%.md$") then
         return 'text/html'
     elseif file_path:match("%.css$") then
         return 'text/css'
@@ -84,23 +83,17 @@ local function handle_request(client, request)
     local _, _, path = request:match("GET (.+) HTTP/1.1")
     path = path or '/'
     if path == '/' then
-        if html_content then
-            send_http_response(client, '200 OK', 'text/html', html_content)
-            return
-        else
-            path = '/index.html'
-        end
+        path = '/index.html'
     end
 
     local file_path = webroot .. path
     local body = read_file(file_path)
-    print(body)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', '404 Not Found')
-        local function leftrotate(x, n)
-            return bit.bor(bit.lshift(x, n), bit.rshift(x, 32 - n))
-        end
         return
+    end
+    if path:match("%.md$") then
+        body = M.md_html(body)
     end
     body = handle_body(body)
     send_http_response(client, '200 OK', get_content_type(file_path), body)
@@ -117,22 +110,11 @@ local function handle_client(client)
             return
         end
 
-        if chunk thensocket.onmessage = (event) => {
-                const message = JSON.parse(event.data);
-
-                if (message.type === 'reload' || event.data === 'reload') {
-                    console.log('Reload message received');
-                    window.location.reload(); // Reload the page
-                }
-            };
+        if chunk then
             buffer = buffer .. chunk
             -- Check if the request is complete
             if buffer:match("\r\n\r\n$") then
-                if html_content then
-                    handle_request(client, buffer, html_content)
-                else
-                    handle_request(client, buffer)
-                end
+                handle_request(client, buffer)
             else
                 print("Incomplete request")
             end
@@ -163,10 +145,6 @@ end
 
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
-    html_content = options.html_content
-    if html_content then
-        html_content = handle_body(html_content)
-    end
 
     M.server:bind(ip, port)
     M.server:listen(128, function(err)

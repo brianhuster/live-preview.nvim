@@ -185,8 +185,41 @@ function M.sha1(val)
         to_32_bits_str(H4)
 end
 
-M.open_browser = function(link)
-    vim.ui.open(link)
+M.open_browser = function(path, browser)
+    vim.validate({
+        path = { path, 'string' },
+    })
+    local is_uri = path:match('%w+:')
+    if not is_uri then
+        path = vim.fn.expand(path)
+    end
+
+    local cmd
+    if browser ~= 'default' then
+        cmd = { browser, path }
+    elseif vim.fn.has('mac') == 1 then
+        cmd = { 'open', path }
+    elseif vim.fn.has('win32') == 1 then
+        if vim.fn.executable('rundll32') == 1 then
+            cmd = { 'rundll32', 'url.dll,FileProtocolHandler', path }
+        else
+            return nil, 'vim.ui.open: rundll32 not found'
+        end
+    elseif vim.fn.executable('wslview') == 1 then
+        cmd = { 'wslview', path }
+    elseif vim.fn.executable('xdg-open') == 1 then
+        cmd = { 'xdg-open', path }
+    else
+        return nil, 'vim.ui.open: no handler found (tried: wslview, xdg-open)'
+    end
+
+    local rv = vim.system(cmd, { text = true, detach = true })
+    if rv.code ~= 0 then
+        local msg = ('open_browser: command failed (%d): %s'):format(rv.code, vim.inspect(cmd))
+        return rv, msg
+    end
+
+    return rv, nil
 end
 
 

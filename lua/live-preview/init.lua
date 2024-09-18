@@ -10,6 +10,7 @@ local default_options = {
         stop = "StopPreview",
     },
     port = 5500,
+    browser = "default",
 }
 
 
@@ -30,16 +31,7 @@ function M.stop_preview()
     server.stop()
 end
 
-function M.preview_file(port)
-    local filepath = vim.fn.expand('%:p')
-    if not filepath or filepath == "" then
-        filepath = find_buf()
-        if not filepath then
-            print("Cannot find a file")
-            return
-        end
-    end
-
+function M.preview_file(filepath, port)
     local extname = vim.fn.fnamemodify(filepath, ":e")
     local supported_exts = { "md", "html" }
 
@@ -51,27 +43,13 @@ function M.preview_file(port)
         end
     end
 
-
-    -- M.stop_preview(port)
-    if extname == "md" then
-        local md_content = utils.uv_read_file(filepath)
-        local html = web.md_html(md_content)
-        server.start("127.0.0.1", port, {
-            webroot = vim.fs.dirname(filepath),
-            html_content = html,
-        })
-        print(filepath)
-        utils.open_browser(string.format("http://localhost:%d", port))
-    elseif extname == "html" then
-        server.start("127.0.0.1", port, {
-            webroot = vim.fs.dirname(filepath),
-        })
-        print(filepath)
-        utils.open_browser(string.format("http://localhost:%d/%s", port, vim.fs.basename(filepath)))
-    end
+    utils.kill_port(port)
+    server.start("127.0.0.1", port, {
+        webroot = vim.fs.dirname(filepath),
+    })
+    print(filepath)
 end
 
--- Function to disable atomic writes
 local function disable_atomic_writes()
     vim.opt.backupcopy = 'yes'
 end
@@ -80,12 +58,27 @@ function M.setup()
     local opts = vim.tbl_deep_extend("force", default_options, opts or {})
 
     vim.api.nvim_create_user_command(opts.commands.start, function()
-        M.preview_file(opts.port)
-        print("Live preview started")
+        local filepath = vim.fn.expand('%:p')
+        if not filepath or filepath == "" then
+            filepath = find_buf()
+            if not filepath then
+                print("Cannot find a file")
+                return
+            end
+        end
+        M.preview_file(filepath, opts.port)
+        utils.open_browser(
+            string.format(
+                "http://localhost:%d/%s",
+                opts.port,
+                vim.fs.basename(filepath)
+            ),
+            opts.browser
+        )
     end, {})
 
     vim.api.nvim_create_user_command(opts.commands.stop, function()
-        M.stop_preview(opts.port)
+        M.stop_preview()
         print("Live preview stopped")
     end, {})
 
