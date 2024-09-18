@@ -80,7 +80,7 @@ local function handle_request(client, request)
         return
     end
     -- Extract the path from the HTTP request
-    local _, _, path = request:match("GET (.+) HTTP/1.1")
+    local path = request:match("GET (.+) HTTP/1.1")
     path = path or '/'
     if path == '/' then
         path = '/index.html'
