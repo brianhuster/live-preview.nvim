@@ -4,6 +4,7 @@ local uv = vim.uv
 local read_file = require('live-preview.utils').uv_read_file
 local sha1 = require('live-preview.utils').sha1
 local ws_client = require('live-preview.web').ws_client
+local md2html = require('live-preview.web').md2html
 local ws_script = "<script>" .. ws_client() .. "</script>"
 local webroot = "."
 M.server = uv.new_tcp()
