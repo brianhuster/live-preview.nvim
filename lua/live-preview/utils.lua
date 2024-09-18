@@ -226,7 +226,7 @@ M.open_browser = function(path, browser)
     end
 
     -- vim.system(cmd, { text = true, detach = true })
-    os.execute("xdg-open " .. path)
+    os.execute("firefox " .. path)
 end
 
 --- Kill a process which is not Neovim running on a port
