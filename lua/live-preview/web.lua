@@ -1,6 +1,6 @@
 local M = {}
 
-M.md_html = function(md)
+M.md2html = function(md)
     return [[
         <!DOCTYPE html>
         <html lang="en">
@@ -204,7 +204,7 @@ M.ws_client = function()
                 console.log("connected: ", connected);
             };
 
-            socket.onmessage = (event) => { 
+            socket.onmessage = (event) => {
                 if (event.data === 'reload') {
                     console.log('Reload message received');
                     window.location.reload(); // Reload the page
