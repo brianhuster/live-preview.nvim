@@ -1,10 +1,10 @@
 local M = {}
 
 local uv = vim.uv
-local read_file = require('live-preview.utils').uv_read_file
-local sha1 = require('live-preview.utils').sha1
-local ws_client = require('live-preview.web').ws_client
-local md2html = require('live-preview.web').md2html
+local read_file = require('utils').uv_read_file
+local sha1 = require('utils').sha1
+local ws_client = require('web').ws_client
+local md2html = require('web').md2html
 local ws_script = "<script>" .. ws_client() .. "</script>"
 local webroot = "."
 M.server = uv.new_tcp()
@@ -95,7 +95,7 @@ local function handle_request(client, request)
         return
     end
     if path:match("%.md$") then
-        body = M.md_html(body)
+        body = md2html(body)
     end
     body = handle_body(body)
     send_http_response(client, '200 OK', get_content_type(file_path), body)
