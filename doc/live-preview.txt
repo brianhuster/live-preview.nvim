@@ -1,4 +1,4 @@
-*live-preview.txt*	For Neovim		
+*live-preview*	For Neovim		
 
 ==============================================================================
 CONTENTS						*live-preview-contents*
@@ -112,9 +112,112 @@ These commands can be changed based on your customization in the `setup`
 function in your Neovim configuration file.
 
 ==============================================================================
-6. License						*live-preview-license*
+6. API						*live-preview-api*
 
-This project is licensed under the MIT License. For more details, see the
-LICENSE file in the project repository.
+                              *require('live-preview.server').start()*
+>lua
+require('live-preview.server').start(ip, port, options)
+<
+Start the live preview server.
+    Parameters: ~
+        • {ip}       (`string`) IP address to run the server on. 
+        • {port}     (`number`) Port to run the server on.
+        • {options}  (`table`) Options to pass to the server.
+                      * {webroot} (`string`) Root directory to serve files from. Default is the current working directory.
+
+                              *require('live-preview.server').stop()*
+>lua
+require('live-preview.server').stop()
+<
+Stop the live preview server.
+
+                                *require('live-preview.utils').get_plugin_path()*
+>lua
+require('live-preview.utils').get_plugin_path()
+<
+Get the path to Live Preview plugin directory.
+
+                                *require('live-preview.utils').uv_read_file()*
+>lua
+require('live-preview.utils').uv_read_file(file_path)
+<
+Read the contents of a file using libuv.
+    Parameters: ~
+        • {file_path} (`string`) Path to the file to read.
+    Returns: ~
+        • (`string`) Contents of the file. Or `nil` if there is an error.
+
+                                *require('live-preview.utils').get_path_lua_file*
+>lua
+require('live-preview.utils').get_path_lua_file()
+<
+Get the path to the currently running Lua file.
+    Returns: ~
+        • (`string`) Path to the Lua file.
+
+                                *require('live-preview.utils').get_parent_path*
+>lua
+require('live-preview.utils').get_parent_path(fullpath, subpath)
+<
+Get the parent path of a subpath.
+    Parameters: ~
+        • {fullpath} (`string`) Full path.
+        • {subpath} (`string`) Subpath.
+    Returns: ~
+        • (`string`) Parent path of the subpath.
+    Example: ~
+        >lua
+        require('live-preview.utils').get_parent_path('/home/user/Downloads/file.txt', 'Downloads/file.txt')
+        <
+        Output: ~
+        >lua
+        '/home/user'
+        <
+
+                                *require('live-preview.utils').term_cmd()*
+>lua
+require('live-preview.utils').term_cmd(cmd)
+<
+Run a terminal command asynchronously.
+    Parameters: ~
+        • {cmd} (`string`) Command to run.
+    Returns: ~
+        • (`result`) (`table`).
+            * {stdout} (`string`) Standard output.
+            * {stderr} (`string`) Standard error.
+            * {code} (`number`) Exit code.
+            * {signal} (`string`) Signal.            
+
+                                *require('live-preview.utils').sha1()*
+>lua
+require('live-preview.utils').sha1(str)
+<
+Generate a SHA1 hash of a string.
+    Parameters: ~
+        • {str} (`string`) String to hash.
+    Returns: ~
+        • (`string`) SHA1 hash of the string.
+
+                                *require('live-preview.utils').kill_port()*
+>lua
+require('live-preview.utils').kill_port(port)
+<
+Kill a process (except Neovim) running on a port.
+    Parameters: ~
+        • {port} (`number`) Port number.
+
+                                *require('live-preview.utils').open_browser()*
+>lua
+require('live-preview.utils').open_browser(url, browser)
+<
+Open a URL in the default browser.
+    Parameters: ~
+        • {url} (`string`) URL to open.
+        • {browser} (`string`) Browser to use. Default is the system default browser.
+
+==============================================================================
+7. License						*live-preview-license*
+
+This project is licensed under the GNU GENERAL PUBLIC LICENSE. For more details, see the LICENSE file in the project repository.
 
 ==============================================================================

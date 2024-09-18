@@ -1,5 +1,7 @@
 :LivePreview	live-preview.txt	/*:LivePreview*
 :StopPreview	live-preview.txt	/*:StopPreview*
+live-preview	live-preview.txt	/*live-preview*
+live-preview-api	live-preview.txt	/*live-preview-api*
 live-preview-contents	live-preview.txt	/*live-preview-contents*
 live-preview-installation	live-preview.txt	/*live-preview-installation*
 live-preview-intro	live-preview.txt	/*live-preview-intro*
@@ -7,4 +9,13 @@ live-preview-license	live-preview.txt	/*live-preview-license*
 live-preview-requirements	live-preview.txt	/*live-preview-requirements*
 live-preview-setup	live-preview.txt	/*live-preview-setup*
 live-preview-usage	live-preview.txt	/*live-preview-usage*
-live-preview.txt	live-preview.txt	/*live-preview.txt*
+require('live-preview.server').start()	live-preview.txt	/*require('live-preview.server').start()*
+require('live-preview.server').stop()	live-preview.txt	/*require('live-preview.server').stop()*
+require('live-preview.utils').get_parent_path	live-preview.txt	/*require('live-preview.utils').get_parent_path*
+require('live-preview.utils').get_path_lua_file	live-preview.txt	/*require('live-preview.utils').get_path_lua_file*
+require('live-preview.utils').get_plugin_path()	live-preview.txt	/*require('live-preview.utils').get_plugin_path()*
+require('live-preview.utils').kill_port()	live-preview.txt	/*require('live-preview.utils').kill_port()*
+require('live-preview.utils').open_browser()	live-preview.txt	/*require('live-preview.utils').open_browser()*
+require('live-preview.utils').sha1()	live-preview.txt	/*require('live-preview.utils').sha1()*
+require('live-preview.utils').term_cmd()	live-preview.txt	/*require('live-preview.utils').term_cmd()*
+require('live-preview.utils').uv_read_file()	live-preview.txt	/*require('live-preview.utils').uv_read_file()*
