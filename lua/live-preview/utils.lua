@@ -225,7 +225,8 @@ M.open_browser = function(path, browser)
         return nil, 'vim.ui.open: no handler found (tried: wslview, xdg-open)'
     end
 
-    vim.system(cmd, { text = true, detach = true })
+    -- vim.system(cmd, { text = true, detach = true })
+    vim.fn.jobstart(cmd, { detach = true })
 end
 
 --- Kill a process which is not Neovim running on a port
