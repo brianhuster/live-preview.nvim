@@ -15,6 +15,7 @@ You can install the plugin using your favorite plugin manager. Here are some exa
 require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
+        dependencies = {'brianhuster/autosave.nvim'}, -- Not required, but recomended for autosaving
     }
 })
 ```
@@ -22,6 +23,7 @@ require("lazy").setup({
 ### Using vim-plug
 ```vim
 Plug 'brianhuster/live-preview.nvim'
+Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 ```
 
 ## Setup
