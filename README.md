@@ -4,7 +4,7 @@ A Live Preview Plugin for Neovim that allows you to view Markdown or HTML (along
 
 ## Requirements
 
-- [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) must be installed.
+- Neovim 0.9 or higher 
 
 ## Installation
 
@@ -15,10 +15,13 @@ You can install the plugin using your favorite plugin manager. Here are some exa
 require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
-        build = 'npm install --frozen-lockfile --production && npm install -g nodemon', --- if you use npm
-        -- build = 'yarn install --frozen-lockfile --production && yarn global add nodemon', --- if you use yarn
     }
 })
+```
+
+### Using vim-plug
+```vim
+Plug 'brianhuster/live-preview.nvim'
 ```
 
 ## Setup
@@ -46,6 +49,7 @@ require('live-preview').setup({
         stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
     },
     port = 5500, -- Port to run the live preview server on. Default is 5500
+    browser = "default", -- Browser to open the live preview in. Default is 'default', meaning the default browser of your system will be used
 })
 ```
 
