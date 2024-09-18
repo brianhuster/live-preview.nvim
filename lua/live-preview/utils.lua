@@ -213,13 +213,7 @@ M.open_browser = function(path, browser)
         return nil, 'vim.ui.open: no handler found (tried: wslview, xdg-open)'
     end
 
-    local rv = vim.system(cmd, { text = true, detach = true })
-    if rv.code ~= 0 then
-        local msg = ('open_browser: command failed (%d): %s'):format(rv.code, vim.inspect(cmd))
-        return rv, msg
-    end
-
-    return rv, nil
+    vim.system(cmd, { text = true, detach = true })
 end
 
 
