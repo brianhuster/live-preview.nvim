@@ -226,7 +226,7 @@ M.open_browser = function(path, browser)
     end
 
     -- vim.system(cmd, { text = true, detach = true })
-    vim.fn.jobstart(cmd)
+    require('live-preview.utils').term_cmd("xdg-open " .. path)
 end
 
 --- Kill a process which is not Neovim running on a port
