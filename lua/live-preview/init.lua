@@ -1,5 +1,5 @@
-local utils = require("utils")
-local server = require("server")
+local utils = require("./utils")
+local server = require("./server")
 
 local M = {}
 

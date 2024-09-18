@@ -1,10 +1,10 @@
 local M = {}
 
 local uv = vim.uv
-local read_file = require('utils').uv_read_file
-local sha1 = require('utils').sha1
-local ws_client = require('web').ws_client
-local md2html = require('web').md2html
+local read_file = require('./utils').uv_read_file
+local sha1 = require('./utils').sha1
+local ws_client = require('./web').ws_client
+local md2html = require('./web').md2html
 local ws_script = "<script>" .. ws_client() .. "</script>"
 local webroot = "."
 M.server = uv.new_tcp()
