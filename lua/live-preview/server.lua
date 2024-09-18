@@ -90,7 +90,6 @@ local function handle_request(client, request)
     local file_path = webroot .. path
     print("Request for " .. file_path)
     local body = read_file(file_path)
-    print("Body: " .. body)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', '404 Not Found')
         return
