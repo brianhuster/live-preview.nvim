@@ -64,8 +64,7 @@ local function websocket_handshake(client, request)
     end
 
     local accept = sha1(key .. "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
-    accept = vim.trim(accept)
-    accept = vim.base64.encode(hex2bin(accept))
+    accept = vim.base64.encode(accept)
     accept = vim.trim(accept)
 
     local response = "HTTP/1.1 101 Switching Protocols\r\n" ..

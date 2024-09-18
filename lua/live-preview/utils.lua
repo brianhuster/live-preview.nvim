@@ -2,7 +2,7 @@ local M = {}
 
 local uv = vim.uv
 
-if not bit then
+if bit == nil then
     bit = require("bit")
 end
 
@@ -72,91 +72,118 @@ M.term_cmd = function(cmd)
 end
 
 
-M.sha1 = function(data)
-    local h0 = 0x67452301
-    local h1 = 0xEFCDAB89
-    local h2 = 0x98BADCFE
-    local h3 = 0x10325476
-    local h4 = 0xC3D2E1F0
-
-    local function leftrotate(x, n)
-        return bit.bor(bit.lshift(x, n), bit.rshift(x, 32 - n))
+function M.sha1(val)
+    local function to_32_bits_str(number)
+        return string.char(bit.band(bit.rshift(number, 24), 255)) ..
+            string.char(bit.band(bit.rshift(number, 16), 255)) ..
+            string.char(bit.band(bit.rshift(number, 8), 255)) ..
+            string.char(bit.band(number, 255))
     end
 
-
-    local function preprocess(data)
-        local bitlen = #data * 8
-        data = data .. "\128"
-        while (#data % 64) ~= 56 do
-            data = data .. "\0"
-        end
-        for i = 1, 8 do
-            data = data .. string.char(bit.band(bit.rshift(bitlen, (8 - i) * 8), 0xFF))
-        end
-        return data
+    local function to_32_bits_number(str)
+        return bit.lshift(string.byte(str, 1), 24) +
+            bit.lshift(string.byte(str, 2), 16) +
+            bit.lshift(string.byte(str, 3), 8) +
+            string.byte(str, 4)
     end
+    -- Mark message end with bit 1 and pad with bit 0, then add message length
+    -- Append original message length in bits as a 64bit number
+    -- Note: We don't need to bother with 64 bit lengths so we just add 4 to
+    -- number of zeros used for padding and append a 32 bit length instead
+    local padded_message = val ..
+        string.char(128) ..
+        string.rep(string.char(0), 64 - ((string.len(val) + 1 + 8) % 64) + 4) ..
+        to_32_bits_str(string.len(val) * 8)
 
-    local function processblock(block)
-        local w = {}
-        for i = 1, 16 do
-            w[i] = 0
-            for j = 0, 3 do
-                w[i] = bit.bor(bit.lshift(w[i], 8), block:byte((i - 1) * 4 + j + 1))
+    -- Blindly implement method 1 (section 6.1) of the spec without
+    -- understanding a single thing
+    local H0 = 0x67452301
+    local H1 = 0xEFCDAB89
+    local H2 = 0x98BADCFE
+    local H3 = 0x10325476
+    local H4 = 0xC3D2E1F0
+
+    -- For each block
+    for M = 0, string.len(padded_message) - 1, 64 do
+        local block = string.sub(padded_message, M + 1)
+        local words = {}
+        -- Initialize 16 first words
+        local i = 0
+        for W = 1, 64, 4 do
+            words[i] = to_32_bits_number(string.sub(
+                block,
+                W
+            ))
+            i = i + 1
+        end
+
+        -- Initialize the rest
+        for t = 16, 79, 1 do
+            words[t] = bit.rol(
+                bit.bxor(
+                    words[t - 3],
+                    words[t - 8],
+                    words[t - 14],
+                    words[t - 16]
+                ),
+                1
+            )
+        end
+
+        local A = H0
+        local B = H1
+        local C = H2
+        local D = H3
+        local E = H4
+
+        -- Compute the hash
+        for t = 0, 79, 1 do
+            local TEMP
+            if t <= 19 then
+                TEMP = bit.bor(
+                        bit.band(B, C),
+                        bit.band(
+                            bit.bnot(B),
+                            D
+                        )
+                    ) +
+                    0x5A827999
+            elseif t <= 39 then
+                TEMP = bit.bxor(B, C, D) + 0x6ED9EBA1
+            elseif t <= 59 then
+                TEMP = bit.bor(
+                        bit.bor(
+                            bit.band(B, C),
+                            bit.band(B, D)
+                        ),
+                        bit.band(C, D)
+                    ) +
+                    0x8F1BBCDC
+            elseif t <= 79 then
+                TEMP = bit.bxor(B, C, D) + 0xCA62C1D6
             end
-        end
-        for i = 17, 80 do
-            w[i] = leftrotate(bit.bxor(w[i - 3], w[i - 8], w[i - 14], w[i - 16]), 1)
-        end
-
-        local a, b, c, d, e = h0, h1, h2, h3, h4
-
-        for i = 1, 80 do
-            local f, k
-            if i <= 20 then
-                f = bit.bor(bit.band(b, c), bit.band(bit.bnot(b), d))
-                k = 0x5A827999
-            elseif i <= 40 then
-                f = bit.bxor(b, c, d)
-                k = 0x6ED9EBA1
-            elseif i <= 60 then
-                f = bit.bor(bit.band(b, c), bit.band(b, d), bit.band(c, d))
-                k = 0x8F1BBCDC
-            else
-                f = bit.bxor(b, c, d)
-                k = 0xCA62C1D6
-            end
-            local temp = leftrotate(a, 5) + f + e + k + w[i]
-            e = d
-            d = c
-            c = leftrotate(b, 30)
-            b = a
-            a = temp
+            TEMP = (bit.rol(A, 5) + TEMP + E + words[t])
+            E = D
+            D = C
+            C = bit.rol(B, 30)
+            B = A
+            A = TEMP
         end
 
-        h0 = bit.band(h0 + a, 0xFFFFFFFF)
-        h1 = bit.band(h1 + b, 0xFFFFFFFF)
-        h2 = bit.band(h2 + c, 0xFFFFFFFF)
-        h3 = bit.band(h3 + d, 0xFFFFFFFF)
-        h4 = bit.band(h4 + e, 0xFFFFFFFF)
+        -- Force values to be on 32 bits
+        H0 = (H0 + A) % 0x100000000
+        H1 = (H1 + B) % 0x100000000
+        H2 = (H2 + C) % 0x100000000
+        H3 = (H3 + D) % 0x100000000
+        H4 = (H4 + E) % 0x100000000
     end
 
-    data = preprocess(data)
-    for i = 1, #data, 64 do
-        processblock(data:sub(i, i + 63))
-    end
-
-    return string.format("%08x%08x%08x%08x%08x", h0, h1, h2, h3, h4)
+    return to_32_bits_str(H0) ..
+        to_32_bits_str(H1) ..
+        to_32_bits_str(H2) ..
+        to_32_bits_str(H3) ..
+        to_32_bits_str(H4)
 end
-
-M.hex2bin = function(hex)
-    local binary = ""
-    for i = 1, #hex, 2 do
-        local byte = hex:sub(i, i + 1)
-        binary = binary .. string.char(tonumber(byte, 16))
-    end
-    return binary
-end
-
 
 M.open_browser = function(link)
     vim.ui.open(link)

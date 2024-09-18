@@ -1,4 +1,6 @@
-sha1 = require('live-preview.utils').sha1
-result = sha1('hello world')
+local utils = require('live-preview.utils')
+local a = utils.sha1('dGhlIHNhbXBsZSBub25jZQ==258EAFA5-E914-47DA-95CA-C5AB0DC85B11')
+local c = vim.base64.encode(a)
 
-print(result)
+print(a)
+t(c)
