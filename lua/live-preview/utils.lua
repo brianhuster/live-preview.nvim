@@ -225,7 +225,7 @@ end
 
 M.kill_port = function(port)
     local kill_command = string.format(
-        "lsof -i TCP:%d | grep -v 'neovim' | grep LISTEN | awk '{print $2}' | xargs kill -9",
+        "lsof -i:%d | grep -v 'neovim' | awk '{print $2}' | xargs kill -9",
         port
     )
 

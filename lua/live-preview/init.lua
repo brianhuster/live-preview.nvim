@@ -1,6 +1,5 @@
 local utils = require("live-preview.utils")
 local server = require("live-preview.server")
-local web = require("live-preview.web")
 
 local M = {}
 
