@@ -56,7 +56,6 @@ end
 
 
 local function websocket_handshake(client, request)
-    print("client " .. client)
     local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
     if not key then
         print("Invalid WebSocket request from client")
@@ -99,6 +98,9 @@ local function handle_request(client, request)
     print(body)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', '404 Not Found')
+        local function leftrotate(x, n)
+            return bit.bor(bit.lshift(x, n), bit.rshift(x, 32 - n))
+        end
         return
     end
     body = handle_body(body)
@@ -141,7 +143,7 @@ local function websocket_send(client, message)
 end
 
 
-local function watch_dir(dir)
+local function watch_dir(dir, client)
     local watcher = uv.new_fs_event()
     watcher:start(dir, {}, function(err, filename, event)
         if err then
@@ -170,7 +172,7 @@ function M.start(ip, port, options)
         local client = uv.new_tcp()
         M.server:accept(client)
         handle_client(client)
-        watch_dir(webroot)
+        watch_dir(webroot, client)
     end)
 
     print("Server listening on port " .. port)
