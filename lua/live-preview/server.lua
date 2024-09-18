@@ -117,7 +117,14 @@ local function handle_client(client)
             return
         end
 
-        if chunk then
+        if chunk thensocket.onmessage = (event) => {
+                const message = JSON.parse(event.data);
+
+                if (message.type === 'reload' || event.data === 'reload') {
+                    console.log('Reload message received');
+                    window.location.reload(); // Reload the page
+                }
+            };
             buffer = buffer .. chunk
             -- Check if the request is complete
             if buffer:match("\r\n\r\n$") then
