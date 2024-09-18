@@ -7,7 +7,7 @@ if bit == nil then
 end
 
 function M.get_plugin_path()
-    local full_path = utils.get_path_lua_file()
+    local full_path = M.get_path_lua_file()
     if not full_path then
         return nil
     end
