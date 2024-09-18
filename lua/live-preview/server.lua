@@ -167,6 +167,7 @@ end
 
 M.stop = function()
     M.server:close()
+    M.server = uv.new_tcp()
 end
 
 return M
