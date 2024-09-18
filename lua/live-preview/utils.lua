@@ -226,7 +226,7 @@ M.open_browser = function(path, browser)
     end
 
     -- vim.system(cmd, { text = true, detach = true })
-    vim.fn.jobstart(cmd, { detach = true })
+    vim.fn.jobstart(cmd)
 end
 
 --- Kill a process which is not Neovim running on a port
