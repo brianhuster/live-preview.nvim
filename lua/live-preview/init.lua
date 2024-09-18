@@ -37,7 +37,7 @@ function M.preview_file(filepath, port)
     if not vim.tbl_contains(supported_exts, extname) then
         filepath = find_buf()
         if not filepath or filepath == "" then
-            print("Unsupported file type")
+            print("Live preview only supports markdown and html files")
             return
         end
     end
@@ -60,7 +60,7 @@ function M.setup()
         if not filepath or filepath == "" then
             filepath = find_buf()
             if not filepath then
-                print("Cannot find a file")
+                print("Cannot find a markdown/html file to preview")
                 return
             end
         end
