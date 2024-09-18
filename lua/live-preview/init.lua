@@ -49,7 +49,7 @@ function M.preview_file(filepath, port)
 end
 
 local function disable_atomic_writes()
-    vim.opt.backupcopy = 'yes'
+    vim.o.backupcopy = 'yes'
 end
 
 function M.setup()
