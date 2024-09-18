@@ -36,11 +36,13 @@ end
 
 
 M.md_css = function()
-    return read_file(vim.fs.joinpath(plugin_path, "static/md.css"))
+    local data = read_file(vim.fs.joinpath(plugin_path, "static/md.css"))
+    return data
 end
 
 M.ws_client = function()
-    return read_file(vim.fs.joinpath(plugin_path, "static/ws-client.js"))
+    local data = read_file(vim.fs.joinpath(plugin_path, "static/ws-client.js"))
+    return data
 end
 
 return M
