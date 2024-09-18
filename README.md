@@ -21,18 +21,6 @@ require("lazy").setup({
 })
 ```
 
-### Using vim-plug
-
-Add the following to your Neovim configuration file (`init.vim` or `init.lua`):
-
-```vim
-call plug#begin('~/.config/nvim/plugged')
-
-Plug 'brianhuster/live-preview.nvim', { 'do': 'npm install && npm install -g nodemon' } " if you use yarn, replace npm with yarn
-
-call plug#end()
-```
-
 ## Setup
 
 Add the following to your `init.lua`:
