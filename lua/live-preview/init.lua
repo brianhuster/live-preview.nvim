@@ -1,4 +1,5 @@
 local utils = require("live-preview.utils")
+local server = require("live-preview.server")
 
 local M = {}
 
@@ -8,16 +9,9 @@ local default_options = {
         stop = "StopPreview",
     },
     port = 5500,
+    browser = "default",
 }
 
-local function get_plugin_path()
-    local full_path = utils.get_path_lua_file()
-    if not full_path then
-        return nil
-    end
-    local subpath = "/lua/live-preview/init.lua"
-    return utils.get_parent_path(full_path, subpath)
-end
 
 local function find_buf() -- find html/md buffer
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -31,61 +25,29 @@ local function find_buf() -- find html/md buffer
     return nil
 end
 
-local function open_browser(port)
-    vim.ui.open(
-        string.format(
-            "http://localhost:%d",
-            port
-        )
-    )
+
+function M.stop_preview()
+    server.stop()
 end
 
--- Kill any process using the port
-function M.stop_preview(port)
-    local kill_command = string.format(
-        "lsof -t -i:%d | xargs -r kill -9",
-        port
-    )
-
-    if vim.fn.has("win32") == 1 then
-        kill_command = string.format(
-            "netstat -ano | findstr :%d | findstr LISTENING | for /F \"tokens=5\" %%i in ('more') do taskkill /F /PID %%i",
-            port
-        )
-    end
-    os.execute(kill_command)
-end
-
-function M.preview_file(port)
-    local filename = vim.fn.expand('%:p')
-    if not filename or filename == "" then
-        filename = find_buf()
-        if not filename then
-            print("Cannot find a file")
-            return
-        end
-    end
-
-    local extname = vim.fn.fnamemodify(filename, ":e")
+function M.preview_file(filepath, port)
+    local extname = vim.fn.fnamemodify(filepath, ":e")
     local supported_exts = { "md", "html" }
 
     if not vim.tbl_contains(supported_exts, extname) then
-        filename = find_buf()
-        if not filename or filename == "" then
-            print("Unsupported file type")
+        filepath = find_buf()
+        if not filepath or filepath == "" then
+            print("Live preview only supports markdown and html files")
             return
         end
     end
 
-    M.stop_preview(port)
-    local plugin_path = get_plugin_path()
-    local command = string.format('cd %s && node server/main.js "%s" "%d"', plugin_path, filename, port)
-
-    utils.run_shell_command(command)
-    open_browser(port)
+    server.start("127.0.0.1", port, {
+        webroot = vim.fs.dirname(filepath),
+    })
+    print(filepath)
 end
 
--- Function to disable atomic writes
 local function disable_atomic_writes()
     vim.opt.backupcopy = 'yes'
 end
@@ -94,12 +56,27 @@ function M.setup()
     local opts = vim.tbl_deep_extend("force", default_options, opts or {})
 
     vim.api.nvim_create_user_command(opts.commands.start, function()
-        M.preview_file(opts.port)
-        print("Live preview started")
+        local filepath = vim.fn.expand('%:p')
+        if not filepath or filepath == "" then
+            filepath = find_buf()
+            if not filepath then
+                print("Cannot find a markdown/html file to preview")
+                return
+            end
+        end
+        M.preview_file(filepath, opts.port)
+        utils.open_browser(
+            string.format(
+                "http://localhost:%d/%s",
+                opts.port,
+                vim.fs.basename(filepath)
+            ),
+            opts.browser
+        )
     end, {})
 
     vim.api.nvim_create_user_command(opts.commands.stop, function()
-        M.stop_preview(opts.port)
+        M.stop_preview()
         print("Live preview stopped")
     end, {})
 

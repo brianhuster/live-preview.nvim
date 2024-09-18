@@ -21,18 +21,6 @@ require("lazy").setup({
 })
 ```
 
-### Using vim-plug
-
-Add the following to your Neovim configuration file (`init.vim` or `init.lua`):
-
-```vim
-call plug#begin('~/.config/nvim/plugged')
-
-Plug 'brianhuster/live-preview.nvim', { 'do': 'npm install && npm install -g nodemon' } " if you use yarn, replace npm with yarn
-
-call plug#end()
-```
-
 ## Setup
 
 Add the following to your `init.lua`:
@@ -61,18 +49,6 @@ require('live-preview').setup({
 })
 ```
 
-- Using VimScript:
-
-```vim
-lua require('live-preview').setup({
-    commands = {
-        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
-        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
-    },
-    port = 3000, -- Port to run the live preview server on. Default is 3000
-})
-```
-
 ## Usage
 
 ### For default configuration 
@@ -90,9 +66,5 @@ To stop the live preview server, use the command:
 These commands can be changed based on your customization in the `setup` function in your Neovim configuration file. 
 
 Use the command `:help live-preview` to see the help documentation.
-
-## License 
-
-This project is licensed under the [MIT License](LICENSE).
 
 

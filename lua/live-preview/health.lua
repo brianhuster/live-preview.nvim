@@ -80,7 +80,7 @@ M.check = function()
     if #missing_modules > 0 then
         vim.health.error("Missing Node.js modules in plugin environment: " .. table.concat(missing_modules, ", "))
         vim.health.info(
-        "Rebuild the plugin to install the missing modules. If you use lazy.nvim, you can run `Lazy build live-preview.nvim`")
+            "Rebuild the plugin to install the missing modules. If you use lazy.nvim, you can run `Lazy build live-preview.nvim`")
     else
         vim.health.ok("All required Node.js modules are installed")
     end
