@@ -1,6 +1,6 @@
 local M = {}
 
-local utils = require("./utils")
+local utils = require("live-preview.utils")
 
 function M.check_command_exists(cmd)
     local handle = io.popen("command -v " .. cmd .. " 2>/dev/null")
