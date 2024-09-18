@@ -37,6 +37,7 @@ end
 
 M.md_css = function()
     local data = read_file(vim.fs.joinpath(plugin_path, "static/md.css"))
+    print("css", data)
     return data
 end
 
