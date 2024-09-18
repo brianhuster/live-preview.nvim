@@ -20,7 +20,8 @@ updates.
 ==============================================================================
 2. Requirements					*live-preview-requirements*
 
-- Node.js and npm or yarn must be installed.
+- Neovim 0.10 or higher. To check if your system meets the requirements, run
+  `:checkhealth live-preview` in Neovim.
 
 ==============================================================================
 3. Installation					*live-preview-installation*

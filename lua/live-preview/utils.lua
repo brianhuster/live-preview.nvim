@@ -6,8 +6,10 @@ if bit == nil then
     bit = require("bit")
 end
 
+--- Get the path where live-preview is installed
+---
 function M.get_plugin_path()
-    local full_path = utils.get_path_lua_file()
+    local full_path = M.get_path_lua_file()
     if not full_path then
         return nil
     end
@@ -15,6 +17,8 @@ function M.get_plugin_path()
     return M.get_parent_path(full_path, subpath)
 end
 
+--- Read a file using libuv
+--- @param file_path string
 function M.uv_read_file(file_path)
     local fd = uv.fs_open(file_path, 'r', 438) -- 438 is decimal for 0666
     if not fd then
@@ -38,6 +42,8 @@ function M.uv_read_file(file_path)
     return data
 end
 
+--- Get the path of the current lua file
+---
 M.get_path_lua_file = function()
     local info = debug.getinfo(2, "S")
     if not info then
@@ -57,7 +63,8 @@ M.get_parent_path = function(full_path, subpath)
     return parent_path
 end
 
-
+--- Execute a shell commands
+--- @param cmd string
 M.term_cmd = function(cmd)
     local shell = "sh"
     if uv.os_uname().version:match("Windows") then
@@ -71,7 +78,8 @@ M.term_cmd = function(cmd)
     vim.system({ shell, '-c', cmd }, { text = true }, on_exit)
 end
 
-
+--- Compute the SHA1 hash of a string
+--- @param val string
 function M.sha1(val)
     local function to_32_bits_str(number)
         return string.char(bit.band(bit.rshift(number, 24), 255)) ..
@@ -185,6 +193,8 @@ function M.sha1(val)
         to_32_bits_str(H4)
 end
 
+---  Open URL in the browser
+---  @param path string
 M.open_browser = function(path, browser)
     vim.validate({
         path = { path, 'string' },
@@ -202,8 +212,10 @@ M.open_browser = function(path, browser)
     elseif vim.fn.has('win32') == 1 then
         if vim.fn.executable('rundll32') == 1 then
             cmd = { 'rundll32', 'url.dll,FileProtocolHandler', path }
+        elseif vim.fn.executable("start") == 1 then
+            cmd = { 'start', path }
         else
-            return nil, 'vim.ui.open: rundll32 not found'
+            return nil, 'vim.ui.open: rundll32 and start not found'
         end
     elseif vim.fn.executable('wslview') == 1 then
         cmd = { 'wslview', path }
@@ -216,7 +228,8 @@ M.open_browser = function(path, browser)
     vim.system(cmd, { text = true, detach = true })
 end
 
-
+--- Kill a process which is not Neovim running on a port
+--- @param port number
 M.kill_port = function(port)
     local kill_command = string.format(
         "lsof -i:%d | grep -v 'neovim' | awk '{print $2}' | xargs kill -9",

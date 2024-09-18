@@ -57,14 +57,13 @@ function M.setup()
 
     vim.api.nvim_create_user_command(opts.commands.start, function()
         local filepath = vim.fn.expand('%:p')
-        if not filepath or filepath == "" then
+        if not filepath:match("%.md$") and not filepath:match("%.html$") then
             filepath = find_buf()
             if not filepath then
                 print("Cannot find a markdown/html file to preview")
                 return
             end
         end
-        M.preview_file(filepath, opts.port)
         utils.open_browser(
             string.format(
                 "http://localhost:%d/%s",
@@ -73,6 +72,8 @@ function M.setup()
             ),
             opts.browser
         )
+
+        M.preview_file(filepath, opts.port)
     end, {})
 
     vim.api.nvim_create_user_command(opts.commands.stop, function()

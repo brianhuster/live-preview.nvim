@@ -48,7 +48,6 @@ local function send_http_response(client, status, content_type, body)
         "Content-Length: " .. #body .. "\r\n" ..
         "Connection: close\r\n\r\n" ..
         body
-    print(response)
 
     client:write(response)
 end
@@ -75,7 +74,6 @@ end
 
 
 local function handle_request(client, request)
-    print(request)
     if request:match("Upgrade: websocket") then
         websocket_handshake(client, request)
         return
@@ -145,7 +143,14 @@ local function watch_dir(dir, client)
     end)
 end
 
-
+--- Start the server
+--- @param ip string
+--- @param port number
+--- @param options table
+--- @param options.webroot string
+---
+--- For example:
+--- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
 
@@ -166,6 +171,7 @@ function M.start(ip, port, options)
     uv.run()
 end
 
+--- Stop the server
 M.stop = function()
     M.server:close()
     M.server = uv.new_tcp()
