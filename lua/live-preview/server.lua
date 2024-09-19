@@ -11,14 +11,7 @@ M.server = uv.new_tcp()
 
 
 local handle_body = function(data)
-    if data:find("</body>") then
-        data = data:gsub("</body>", ws_script .. "</body>")
-    elseif data:find("</html>") then
-        data = data:gsub("</html>", ws_script .. "</html>")
-    else
-        data = data .. ws_script
-    end
-    return data
+    return ws_script .. data
 end
 
 
@@ -95,7 +88,9 @@ local function handle_request(client, request)
     if path:match("%.md$") then
         body = md2html(body)
     end
-    body = handle_body(body)
+    if path:match("%.html$") or path:match("%.md$") then
+        body = handle_body(body)
+    end
     send_http_response(client, '200 OK', get_content_type(file_path), body)
 end
 
