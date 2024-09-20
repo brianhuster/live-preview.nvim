@@ -2,9 +2,13 @@
 
 A pure-Lua Plugin for Neovim that allows you to view Markdown or HTML (along with CSS, JavaScript) files in a web browser with live updates. No dependencies or runtime are required, since everything is written in Lua and Neovim's built-in functions
 
+## Demo video
+
+https://github.com/user-attachments/assets/e9a64709-8758-44d8-9e3c-9c15e0bf2a0e
+
 ## Requirements
 
-- Neovim 0.10 or higher 
+- Neovim 0.10 or newer
 
 ## Installation
 
