@@ -72,7 +72,7 @@ Lệnh này sẽ mở file Markdown hoặc HTML hiện tại trong trình duyệ
 
 `:StopPreview`
 
-Gõ lệnh `:help live-preview` để xem tài liệu hướng dẫn đầy đủ (bằng tiếng Anh).
+Gõ lệnh `:help live-preview@vi` để xem tài liệu hướng dẫn đầy đủ bằng tiếng Việt hoặc `:help live-preview` để xem bằng tiếng Anh.
 
 ## Đóng góp
 

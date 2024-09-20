@@ -30,14 +30,14 @@ Installation					*live-preview-installation*
 
 You can install the `live-preview.nvim` using your favorite plugin manager.
 
-Using lazy.nvim:
+Using `lazy.nvim`:
 >lua
 	require("lazy").setup({
 	    'brianhuster/live-preview.nvim',
 	})
 <
 
-Using packer.nvim:
+Using `packer.nvim`:
 >lua
 	require('packer').startup(function()
 	    use {
@@ -46,7 +46,7 @@ Using packer.nvim:
 	end)
 <
 
-Using vim-plug:
+Using `vim-plug`:
 >vim
 	call plug#begin('~/.config/nvim/plugged')
 
@@ -86,11 +86,14 @@ Using VimScript: ~
 >vim
 	lua require('live-preview').setup({
 	    commands = {
-	        start = 'LivePreview', " Command to start the live preview server and open the default browser. Default is 'LivePreview'
-	        stop = 'StopPreview', " Command to stop the live preview. Default is 'StopPreview'
+	        start = 'LivePreview', " Command to start the live preview server 
+            " and open the default browser. Default is 'LivePreview'
+	        stop = 'StopPreview', " Command to stop the live preview. Default 
+            " is 'StopPreview'
 	    },
-	    port = 5500, " Port to run the live preview server on. Default is 3000
-        browser = 'default', " Browser to use. Default is the system default browser. 
+	    port = 5500, " Port to run the live preview server on. Default is 5500
+        browser = 'default', " Browser to use. Default is the system default 
+        " browser. 
 	})
 <
 
@@ -123,7 +126,8 @@ Start the live preview server.
         • {ip}       (`string`) IP address to run the server on. 
         • {port}     (`number`) Port to run the server on.
         • {options}  (`table`) Options to pass to the server.
-                      * {webroot} (`string`) Root directory to serve files from. Default is the current working directory.
+                      * {webroot} (`string`) Root directory to serve files from. 
+                      Default is the current working directory.
 
                               *require('live-preview.server').stop()*
 >lua
@@ -131,7 +135,7 @@ Start the live preview server.
 <
 Stop the live preview server.
 
-                                *require('live-preview.utils').get_plugin_path()*
+                            *require('live-preview.utils').get_plugin_path()*
 >lua
     require('live-preview.utils').get_plugin_path()
 <
@@ -169,7 +173,8 @@ Get the parent path of a subpath.
 
     Example: ~
 >lua
-    require('live-preview.utils').get_parent_path('/home/user/Downloads/file.txt', 'Downloads/file.txt')
+    require('live-preview.utils').get_parent_path(
+        '/home/user/Downloads/file.txt', 'Downloads/file.txt')
 <
 
     Output: ~
@@ -216,11 +221,13 @@ Kill a process (except Neovim) running on a port.
 Open a URL in the default browser.
     Parameters: ~
         • {url} (`string`) URL to open.
-        • {browser} (`string`) Browser to use. Default is the system default browser.
+        • {browser} (`string`) Browser to use. Default is the system default 
+          browser.
 
 ==============================================================================
 License						*live-preview-license*
 
-This project is licensed under the `GNU GENERAL PUBLIC LICENSE`. For more details, see the `LICENSE` file in the project repository.
+This project is licensed under the `GNU GENERAL PUBLIC LICENSE`. For more 
+details, see the `LICENSE` file in the project repository.
 
 ==============================================================================
