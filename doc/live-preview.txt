@@ -1,66 +1,62 @@
-*live-preview*	For Neovim		
+*live-preview*	    live-preview.txt	
 
 ==============================================================================
 CONTENTS						*live-preview-contents*
 
-    1. Introduction				|live-preview-intro|
-    2. Requirements				|live-preview-requirements|
-    3. Installation				|live-preview-installation|
-    4. Setup					|live-preview-setup|
-    5. Usage					|live-preview-usage|
-    6. License					|live-preview-license|
+    Introduction				|live-preview-intro|
+    Requirements				|live-preview-requirements|
+    Installation				|live-preview-installation|
+    Setup					    |live-preview-setup|
+    Usage					    |live-preview-usage|
+    API                         |live-preview-api|
+    License					    |live-preview-license|
 
 ==============================================================================
-1. Introduction					*live-preview-intro*
+Introduction					*live-preview-intro*
 
 live-preview.nvim is a Live Preview Plugin for Neovim that allows you to view
 Markdown or HTML (along with CSS, JavaScript) files in a web browser with live
 updates.
 
 ==============================================================================
-2. Requirements					*live-preview-requirements*
+Requirements					*live-preview-requirements*
 
 - Neovim 0.10 or higher. To check if your system meets the requirements, run
   `:checkhealth live-preview` in Neovim.
+- A web browser
 
 ==============================================================================
-3. Installation					*live-preview-installation*
+Installation					*live-preview-installation*
 
 You can install the `live-preview.nvim` using your favorite plugin manager.
 
-Using lazy.nvim:
+Using `lazy.nvim`:
 >lua
 	require("lazy").setup({
-	    {
-	        'brianhuster/live-preview.nvim',
-	        build = 'npm init && npm install && npm install -g nodemon', --- if you use npm
-	        -- build = 'yarn init && yarn install && yarn global add nodemon', --- if you use yarn
-	    }
+	    'brianhuster/live-preview.nvim',
 	})
 <
 
-Using packer.nvim:
+Using `packer.nvim`:
 >lua
 	require('packer').startup(function()
 	    use {
 	        'brianhuster/live-preview.nvim',
-	        build = 'npm install && npm install -g nodemon', --- if you use npm
-	        -- build = 'yarn install && yarn global add nodemon', --- if you use yarn
 	    }
 	end)
 <
 
-Using vim-plug:
+Using `vim-plug`:
 >vim
 	call plug#begin('~/.config/nvim/plugged')
 
-	Plug 'brianhuster/live-preview.nvim', { 'do': 'npm install && npm install -g nodemon' } " if you use yarn, replace npm with yarn
+	Plug 'brianhuster/live-preview.nvim'
 
 	call plug#end()
 <
 
 ==============================================================================
-4. Setup						*live-preview-setup*
+Setup						*live-preview-setup*
 
 Add the following to your `init.lua`:
 >lua
@@ -74,72 +70,80 @@ For `init.vim`:
 
 You can also customize the plugin by passing a table to the `setup` function.
 
-Using Lua:
+Using Lua: ~
 >lua
 	require('live-preview').setup({
 	    commands = {
 	        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
 	        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
 	    },
-	    port = 3000, -- Port to run the live preview server on. Default is 3000
+	    port = 5500, -- Port to run the live preview server on. Default is 3000
+        browser = 'default', -- Browser to use. Default is the system default browser.
 	})
 <
 
-Using VimScript:
+Using VimScript: ~
 >vim
 	lua require('live-preview').setup({
 	    commands = {
-	        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
-	        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
+	        start = 'LivePreview', " Command to start the live preview server 
+            " and open the default browser. Default is 'LivePreview'
+	        stop = 'StopPreview', " Command to stop the live preview. Default 
+            " is 'StopPreview'
 	    },
-	    port = 3000, -- Port to run the live preview server on. Default is 3000
+	    port = 5500, " Port to run the live preview server on. Default is 5500
+        browser = 'default', " Browser to use. Default is the system default 
+        " browser. 
 	})
 <
 
 ==============================================================================
-5. Usage						*live-preview-usage*
+Usage						*live-preview-usage*
 
-COMMANDS
+This usage is based on default configuration. 
+
+COMMANDS                    *live-preview-commands*
 
                                                 *:LivePreview*
-:LivePreview        Start live-preview server and open browser.
+`:LivePreview`        Start live-preview server and open browser.
 
                                                 *:StopPreview*
-:StopPreview        Stop the live-preview server.
+`:StopPreview`        Stop the live-preview server.
 
 
 These commands can be changed based on your customization in the `setup`
 function in your Neovim configuration file.
 
 ==============================================================================
-6. API						*live-preview-api*
+API						    *live-preview-api*
 
                               *require('live-preview.server').start()*
 >lua
-require('live-preview.server').start(ip, port, options)
+    require('live-preview.server').start(ip, port, options)
 <
 Start the live preview server.
     Parameters: ~
         • {ip}       (`string`) IP address to run the server on. 
         • {port}     (`number`) Port to run the server on.
         • {options}  (`table`) Options to pass to the server.
-                      * {webroot} (`string`) Root directory to serve files from. Default is the current working directory.
+                      * {webroot} (`string`) Root directory to serve files from. 
+                      Default is the current working directory.
 
                               *require('live-preview.server').stop()*
 >lua
-require('live-preview.server').stop()
+    require('live-preview.server').stop()
 <
 Stop the live preview server.
 
-                                *require('live-preview.utils').get_plugin_path()*
+                            *require('live-preview.utils').get_plugin_path()*
 >lua
-require('live-preview.utils').get_plugin_path()
+    require('live-preview.utils').get_plugin_path()
 <
 Get the path to Live Preview plugin directory.
 
                                 *require('live-preview.utils').uv_read_file()*
 >lua
-require('live-preview.utils').uv_read_file(file_path)
+    require('live-preview.utils').uv_read_file(file_path)
 <
 Read the contents of a file using libuv.
     Parameters: ~
@@ -149,7 +153,7 @@ Read the contents of a file using libuv.
 
                                 *require('live-preview.utils').get_path_lua_file*
 >lua
-require('live-preview.utils').get_path_lua_file()
+    require('live-preview.utils').get_path_lua_file()
 <
 Get the path to the currently running Lua file.
     Returns: ~
@@ -157,26 +161,30 @@ Get the path to the currently running Lua file.
 
                                 *require('live-preview.utils').get_parent_path*
 >lua
-require('live-preview.utils').get_parent_path(fullpath, subpath)
+    require('live-preview.utils').get_parent_path(fullpath, subpath)
 <
 Get the parent path of a subpath.
     Parameters: ~
         • {fullpath} (`string`) Full path.
         • {subpath} (`string`) Subpath.
+
     Returns: ~
         • (`string`) Parent path of the subpath.
+
     Example: ~
-        >lua
-        require('live-preview.utils').get_parent_path('/home/user/Downloads/file.txt', 'Downloads/file.txt')
-        <
-        Output: ~
-        >lua
-        '/home/user'
-        <
+>lua
+    require('live-preview.utils').get_parent_path(
+        '/home/user/Downloads/file.txt', 'Downloads/file.txt')
+<
+
+    Output: ~
+>lua
+    '/home/user'
+<
 
                                 *require('live-preview.utils').term_cmd()*
 >lua
-require('live-preview.utils').term_cmd(cmd)
+    require('live-preview.utils').term_cmd(cmd)
 <
 Run a terminal command asynchronously.
     Parameters: ~
@@ -190,7 +198,7 @@ Run a terminal command asynchronously.
 
                                 *require('live-preview.utils').sha1()*
 >lua
-require('live-preview.utils').sha1(str)
+    require('live-preview.utils').sha1(str)
 <
 Generate a SHA1 hash of a string.
     Parameters: ~
@@ -200,7 +208,7 @@ Generate a SHA1 hash of a string.
 
                                 *require('live-preview.utils').kill_port()*
 >lua
-require('live-preview.utils').kill_port(port)
+    require('live-preview.utils').kill_port(port)
 <
 Kill a process (except Neovim) running on a port.
     Parameters: ~
@@ -208,16 +216,18 @@ Kill a process (except Neovim) running on a port.
 
                                 *require('live-preview.utils').open_browser()*
 >lua
-require('live-preview.utils').open_browser(url, browser)
+    require('live-preview.utils').open_browser(url, browser)
 <
 Open a URL in the default browser.
     Parameters: ~
         • {url} (`string`) URL to open.
-        • {browser} (`string`) Browser to use. Default is the system default browser.
+        • {browser} (`string`) Browser to use. Default is the system default 
+          browser.
 
 ==============================================================================
-7. License						*live-preview-license*
+License						*live-preview-license*
 
-This project is licensed under the GNU GENERAL PUBLIC LICENSE. For more details, see the LICENSE file in the project repository.
+This project is licensed under the `GNU GENERAL PUBLIC LICENSE`. For more 
+details, see the `LICENSE` file in the project repository.
 
 ==============================================================================

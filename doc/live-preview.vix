@@ -1,0 +1,236 @@
+*live-preview*	    live-preview.txt	
+
+==============================================================================
+MỤC LỤC 						*live-preview-contents*
+
+    Giới thiệu				    |live-preview-intro|
+    Yêu cầu				        |live-preview-requirements|
+    Cài đặt				        |live-preview-installation|
+    Thiết lập					|live-preview-setup|
+    Cách dùng					|live-preview-usage|
+    API                         |live-preview-api|
+    Giấy phép					|live-preview-license|
+
+==============================================================================
+Giới thiệu					    *live-preview-intro*
+
+live-preview.nvim là một plugin cho Neovim được viết hoàn toàn bằng Lua cho 
+phép bạn xem kết quả Markdown hoặc HTML (nhúng kèm CSS, JS) trong trình duyệt 
+web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi 
+có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài 
+như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại 
+trừ chính LuaJIT được tích hợp sẵn trong Neovim. 
+
+
+==============================================================================
+Yêu cầu     					*live-preview-requirements*
+
+- Neovim 0.10 trở lên. Bạn có thể dùng lệnh ":checkhealth live-preview" để kiểm
+tra phiên bản Neovim của bạn có hỗ trợ không
+- A web browser
+
+==============================================================================
+Cài đặt     					*live-preview-installation*
+
+live-preview.nvim có thể đươc cài bằng phần lớn các trình quản lý gói cho Nvim
+
+lazy.nvim: ~
+>lua
+	require("lazy").setup({
+	    'brianhuster/live-preview.nvim',
+	})
+<
+
+packer.nvim: ~
+>lua
+	require('packer').startup(function()
+	    use {
+	        'brianhuster/live-preview.nvim',
+	    }
+	end)
+<
+
+vim-plug: ~
+>vim
+	call plug#begin('~/.config/nvim/plugged')
+
+	Plug 'brianhuster/live-preview.nvim'
+
+	call plug#end()
+<
+
+==============================================================================
+Setup						*live-preview-setup*
+
+Thêm dòng sau vào file `init.lua`:
+>lua
+	require('live-preview').setup()
+<
+
+Hoặc `init.vim`:
+>vim
+	lua require('live-preview').setup()
+<
+Bạn có thể tùy chỉnh cấu hình plugin bằng cách truyền một bảng vào hàm `setup`.
+Dưới đây là cấu hình mặc định
+
+Ví dụ với Lua: ~
+>lua
+	require('live-preview').setup({
+	    commands = {
+	        start = 'LivePreview', -- Lệnh khởi động server live-preview. 
+	        stop = 'StopPreview', -- Lệnh tắt server live-preview. 
+	    },
+	    port = 5500, -- Cổng để chạy server
+        browser = 'default', -- Trình duyệt để xem trước file. 
+        -- Mặc định `default` là trình duyệt mặc định của hệ thống ]]
+	})
+<
+
+Ví dụ với VimScript: ~
+>vim
+	lua require('live-preview').setup({
+	    commands = {
+	        start = 'LivePreview', " Lệnh khởi động server live-preview. 
+            stop = 'StopPreview', " Lệnh tắt server live-preview. 
+        },
+	    port = 5500, " Cổng để chạy server
+        browser = 'default', " Trình duyệt để xem trước file.
+        " Mặc định `default` là trình duyệt mặc định của hệ thống
+	})
+<
+
+==============================================================================
+Cách dùng						*live-preview-usage*
+
+Hướng dẫn dưới đây sử dụng cấu hình mặc định
+
+Lệnh                           *live-preview-commands*
+
+                                                *:LivePreview*
+`:LivePreview`        Khởi động server live-preview và mở trình duyệ.
+
+                                                *:StopPreview*
+`:StopPreview`        Tắt server live-preview và đóng trình duyệt.
+
+
+Những lệnh này có thể được thay đổi dựa trên cấu hình của bạn trong hàm
+`setup` trong file cấu hình Neovim của bạn.
+
+==============================================================================
+API						    *live-preview-api*
+
+                              *require('live-preview.server').start()*
+>lua
+    require('live-preview.server').start(ip, port, options)
+<
+Khởi động server live-preview.
+    Tham số: ~
+        • {ip}       (`string`) Địa chỉ IP để chạy server. 
+        • {port}     (`number`) Cổng chạy server.
+        • {options}  (`table`) Một số tùy chọn khác.
+                      * {webroot} (`string`) Thư mục gốc của trang web. 
+                      * Mặc định là thư mục chứa file cần xem trước.
+
+                              *require('live-preview.server').stop()*
+>lua
+    require('live-preview.server').stop()
+<
+Tắt server live-preview.
+
+                                *require('live-preview.utils').get_plugin_path()*
+>lua
+    require('live-preview.utils').get_plugin_path()
+<
+Lấy đường dẫn đến thư mục plugin live-preview.
+
+                                *require('live-preview.utils').uv_read_file()*
+>lua
+    require('live-preview.utils').uv_read_file(file_path)
+<
+Đọc nội dung file bằng thư viện libuv.
+    Tham số: ~
+        • {file_path} (`string`) Đường dẫn đến file.
+    Trả về: ~
+        • (`string`) Nội dung file. Hoặc `nil` nếu có lỗi.
+
+                                *require('live-preview.utils').get_path_lua_file*
+>lua
+    require('live-preview.utils').get_path_lua_file()
+<
+Lấy đường dẫn đến file Lua đang chạy.
+    Trả về: ~
+        • (`string`) Path to the Lua file.
+
+                                *require('live-preview.utils').get_parent_path*
+>lua
+    require('live-preview.utils').get_parent_path(fullpath, subpath)
+<
+Lấy đường dẫn cha của một đường dẫn con (xem ví dụ)
+    Tham số: ~
+        • {fullpath} (`string`) Đường dẫn đầy đủ.
+        • {subpath} (`string`) Đường dẫn con.
+
+    Trả về: ~
+        • (`string`) Đường dẫn cha của đường dẫn con.
+
+    Ví dụ: ~
+>lua
+    require('live-preview.utils').get_parent_path('/home/user/Downloads/file.txt', 'Downloads/file.txt')
+<
+
+    Kết quả: ~
+>lua
+    '/home/user'
+<
+
+                                *require('live-preview.utils').term_cmd()*
+>lua
+    require('live-preview.utils').term_cmd(cmd)
+<
+Chạy lệnh terminal theo cách bất đồng bộ.
+    Tham số: ~
+        • {cmd} (`string`) Lệnh cần chạy.
+    Trả về: ~
+        • (`result`) (`table`).
+            * {stdout} (`string`) Đầu ra.
+            * {stderr} (`string`) Lỗi.
+            * {code} (`number`) Mã thoát.
+            * {signal} (`string`) Tín hiệu.            
+
+                                *require('live-preview.utils').sha1()*
+>lua
+    require('live-preview.utils').sha1(str)
+<
+Tạo giá trị băm SHA1 của một chuỗi.
+    Tham số: ~
+        • {str} (`string`) Chuỗi cần băm.
+    Trả về:
+        • (`string`) Giá trị băm của chuỗi.
+
+                                *require('live-preview.utils').kill_port()*
+>lua
+    require('live-preview.utils').kill_port(port)
+<
+Buộc dừng các tiến trình (trừ Neovim) chạy trên một cổng.
+    Tham số: ~
+        • {port} (`number`) Số cổng.
+
+                                *require('live-preview.utils').open_browser()*
+>lua
+    require('live-preview.utils').open_browser(url, browser)
+<
+Mở URL bằng trình duyệt.
+    Parameters: ~
+        • {url} (`string`) URL cần mở.
+        • {browser} (`string`) Trình duyệt. Mặc định là trình duyệt mặc định 
+          của hệ thống.
+
+==============================================================================
+Giấy phép						*live-preview-license*
+
+Dự án được cấp phép `GNU GENERAL PUBLIC LICENSE`. Chi tiết xin xem file 
+`LICENSE` trong kho lưu trữ dự án.
+
+==============================================================================
+

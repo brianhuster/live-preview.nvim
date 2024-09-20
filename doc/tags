@@ -2,6 +2,7 @@
 :StopPreview	live-preview.txt	/*:StopPreview*
 live-preview	live-preview.txt	/*live-preview*
 live-preview-api	live-preview.txt	/*live-preview-api*
+live-preview-commands	live-preview.txt	/*live-preview-commands*
 live-preview-contents	live-preview.txt	/*live-preview-contents*
 live-preview-installation	live-preview.txt	/*live-preview-installation*
 live-preview-intro	live-preview.txt	/*live-preview-intro*
