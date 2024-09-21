@@ -84,7 +84,7 @@ local function handle_request(client, request)
     if path == '/live-preview.nvim/static/marked.min.js' then
         file_path = vim.fs.joinpath(get_plugin_path(), 'static', 'marked.min.js')
     elseif path == '/live-preview.nvim/static/asciidoctor.js' then
-        file_path = vim.fs.joinpath(get_plugin_path(), 'static', 'asciidoctor.min.js')
+        file_path = vim.fs.joinpath(get_plugin_path(), 'static', 'asciidoctor.js')
     else
         file_path = webroot .. path
     end
