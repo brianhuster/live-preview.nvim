@@ -3,7 +3,7 @@ local M = {}
 local uv = vim.uv
 local read_file = require('live-preview.utils').uv_read_file
 local sha1 = require('live-preview.utils').sha1
-local supported_filetype = require('live-preview.utils').is_supported_file
+local supported_filetype = require('live-preview.utils').supported_filetype
 local ws_client = require('live-preview.web').ws_client
 local md2html = require('live-preview.web').md2html
 local adoc2html = require('live-preview.web').adoc2html
@@ -93,7 +93,7 @@ local function handle_request(client, request)
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
         return
     end
-    if supported_filetype(path) ~= nil then
+    if supported_filetype(path) then
         if supported_filetype(path) == "markdown" then
             body = md2html(body)
         elseif supported_filetype(path) == "asciidoc" then
