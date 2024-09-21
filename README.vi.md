@@ -1,6 +1,6 @@
 # live-preview.nvim
 
-Một plugin cho Neovim được viết hoàn toàn bằng Lua cho phép bạn xem kết quả Markdown hoặc HTML (nhúng kèm CSS, JS) trong trình duyệt web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại trừ chính LuaJIT được tích hợp sẵn trong Neovim. 
+Một plugin Neovim cho phép bạn xem kết quả file [Markdown](https://en.wikipedia.org/wiki/Markdown), [HTML](https://en.wikipedia.org/wiki/HTML) (nhúng kèm CSS, JS) và AsciiDocs trong trình duyệt web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại trừ chính LuaJIT được tích hợp sẵn trong Neovim.
 
 ## Video demo
 
@@ -77,4 +77,5 @@ Gõ lệnh `:help live-preview@vi` để xem tài liệu hướng dẫn đầy �
 ## Đóng góp
 
 Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần cải thiện. Nếu bạn muốn đóng góp cho dự án này, hãy mở một issue hoặc pull request. 
+
 

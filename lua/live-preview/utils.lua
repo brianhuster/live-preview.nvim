@@ -6,6 +6,20 @@ if bit == nil then
     bit = require("bit")
 end
 
+
+--- Check if file name has a supported filetype (html, markdown, asciidoc). Warning: this function will call a Vimscript function
+--- @param file_name string
+--- @return filetype string, or nil if not supported
+function M.supported_filetype(file_name)
+    if file_name:match("%.html$") then
+        return "html"
+    elseif file_name:match("%.md$") or file_name:match("%.markdown$") then
+        return "markdown"
+    elseif file_name:match("%.adoc$") or file_name:match("%.asciidoc$") then
+        return "asciidoc"
+    end
+end
+
 --- Get the path where live-preview is installed
 ---
 function M.get_plugin_path()

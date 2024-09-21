@@ -15,8 +15,8 @@ CONTENTS						*live-preview-contents*
 Introduction					*live-preview-intro*
 
 live-preview.nvim is a Live Preview Plugin for Neovim that allows you to view
-Markdown or HTML (along with CSS, JavaScript) files in a web browser with live
-updates.
+Markdown, HTML (along with CSS, JavaScript) or AsciiDoc files in a web browser 
+with live updates.
 
 ==============================================================================
 Requirements					*live-preview-requirements*

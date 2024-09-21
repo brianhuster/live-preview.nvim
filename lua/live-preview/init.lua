@@ -17,7 +17,7 @@ local function find_buf() -- find html/md buffer
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_loaded(buf) then
             local buf_name = vim.api.nvim_buf_get_name(buf)
-            if buf_name:match("%.md$") or buf_name:match("%.html$") then
+            if utils.supported_filetype(buf_name) then
                 return buf_name
             end
         end
@@ -31,17 +31,6 @@ function M.stop_preview()
 end
 
 function M.preview_file(filepath, port)
-    local extname = vim.fn.fnamemodify(filepath, ":e")
-    local supported_exts = { "md", "html" }
-
-    if not vim.tbl_contains(supported_exts, extname) then
-        filepath = find_buf()
-        if not filepath or filepath == "" then
-            print("Live preview only supports markdown and html files")
-            return
-        end
-    end
-
     server.start("127.0.0.1", port, {
         webroot = vim.fs.dirname(filepath),
     })
@@ -56,10 +45,10 @@ function M.setup()
 
     vim.api.nvim_create_user_command(opts.commands.start, function()
         local filepath = vim.fn.expand('%:p')
-        if not filepath:match("%.md$") and not filepath:match("%.html$") then
+        if not utils.supported_filetype(filepath) then
             filepath = find_buf()
             if not filepath then
-                print("Cannot find a markdown/html file to preview")
+                print("live-preview.nvim only supports html, markdown, and asciidoc files")
                 return
             end
         end
@@ -84,5 +73,3 @@ function M.setup()
 end
 
 return M
-
-

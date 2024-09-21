@@ -14,7 +14,7 @@ M.md2html = function(md)
             <style>
                 ]] .. M.md_css() .. [[
             </style>
-            <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+            <script src="live-preview.nvim/static/marked.min.js"></script>
         </head>
 
         <body>
@@ -24,6 +24,42 @@ M.md2html = function(md)
             <script>
                 const markdownText = document.getElementById('markdown-body').innerHTML;
                 const html = marked.parse(markdownText);
+                document.getElementById('markdown-body').innerHTML = html;
+            </script>
+
+        </body>
+
+        </html>
+
+    ]]
+end
+
+
+M.adoc2html = function(adoc)
+    return [[
+        <!DOCTYPE html>
+        <html lang="en">
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Asciidoctor Viewer</title>
+            <style>
+                ]] .. M.md_css() .. [[
+            </style>
+            <script src="live-preview.nvim/static/asciidoctor.js"></script>
+        </head>
+
+        <body>
+            <div class="markdown-body" id='markdown-body'>
+
+]] .. adoc .. [[
+            </div>
+            <script type="module">
+                import Asciidoctor from '/live-preview.nvim/static/asciidoctor.js'
+                const asciidoctor = Asciidoctor();
+                const adoc = document.getElementById('markdown-body').innerHTML;
+                const html = asciidoctor.convert(adoc);
                 document.getElementById('markdown-body').innerHTML = html;
             </script>
 
