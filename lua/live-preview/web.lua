@@ -14,7 +14,7 @@ M.md2html = function(md)
             <style>
                 ]] .. M.md_css() .. [[
             </style>
-            <script src="live-preview.nvim/static/marked.min.js"></script>
+            <script src="live-preview.nvim/parsers/marked.min.js"></script>
         </head>
 
         <body>
@@ -47,7 +47,7 @@ M.adoc2html = function(adoc)
             <style>
                 ]] .. M.md_css() .. [[
             </style>
-            <script src="live-preview.nvim/static/asciidoctor.js"></script>
+            <script src="live-preview.nvim/parsers/asciidoctor.js"></script>
         </head>
 
         <body>
