@@ -93,7 +93,7 @@ local function handle_request(client, request)
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
         return
     end
-    if supported_filetype(path) then
+    if supported_filetype(path) ~= nil then
         if supported_filetype(path) == "markdown" then
             body = md2html(body)
         elseif supported_filetype(path) == "asciidoc" then
