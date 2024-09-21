@@ -12,8 +12,8 @@ end
 --- @return filetype string if the file is supported, nil otherwise
 function M.is_supported_file(file_name)
     local supported_filetypes = { 'html', "markdown", 'asciidoc' }
-    local filetype = vim.filetype.match(file_name)
-    if vim.tbl_contains(supported_filetype, filetype) then
+    local filetype = vim.filetype.match({ filename = file_name })
+    if vim.tbl_contains(supported_filetypes, filetype) then
         return filetype
     else
         return nil
