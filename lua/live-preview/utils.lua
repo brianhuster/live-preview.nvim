@@ -6,6 +6,20 @@ if bit == nil then
     bit = require("bit")
 end
 
+
+--- Check if file name is supported
+--- @param file_name string
+--- @return filetype string if the file is supported, nil otherwise
+function M.is_supported_file(file_name)
+    local supported_filetypes = { 'html', "markdown", 'asciidoc' }
+    local filetype = vim.filetype.match(file_name)
+    if vim.tbl_contains(supported_filetype, filetype) then
+        return filetype
+    else
+        return nil
+    end
+end
+
 --- Get the path where live-preview is installed
 ---
 function M.get_plugin_path()
