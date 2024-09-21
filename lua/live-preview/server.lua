@@ -3,7 +3,7 @@ local M = {}
 local uv = vim.uv
 local read_file = require('live-preview.utils').uv_read_file
 local sha1 = require('live-preview.utils').sha1
-local is_supported_file = require('live-preview.utils').is_supported_file
+local supported_filetype = require('live-preview.utils').is_supported_file
 local ws_client = require('live-preview.web').ws_client
 local md2html = require('live-preview.web').md2html
 local adoc2html = require('live-preview.web').adoc2html
@@ -19,7 +19,7 @@ end
 
 
 local function get_content_type(file_path)
-    if utils.is_supported_file(file_path) then
+    if utils.supported_filetype(file_path) then
         return 'text/html'
     elseif file_path:match("%.css$") then
         return 'text/css'
@@ -93,10 +93,10 @@ local function handle_request(client, request)
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
         return
     end
-    if is_supported_file(path) then
-        if path:match("%.md$") or path:match("%.markdown$") then
+    if supported_filetype(path) then
+        if supported_filetype(path) == "markdown" then
             body = md2html(body)
-        elseif path:match("%.adoc$") or path:match("%.asciidoc$") then
+        elseif supported_filetype(path) == "asciidoc" then
             body = adoc2html(body)
         end
         body = handle_body(body)

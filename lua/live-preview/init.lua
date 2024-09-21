@@ -17,7 +17,7 @@ local function find_buf() -- find html/md buffer
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_loaded(buf) then
             local buf_name = vim.api.nvim_buf_get_name(buf)
-            if utils.is_supported_file(buf_name) then
+            if utils.supported_filetype(buf_name) then
                 return buf_name
             end
         end
@@ -45,7 +45,7 @@ function M.setup()
 
     vim.api.nvim_create_user_command(opts.commands.start, function()
         local filepath = vim.fn.expand('%:p')
-        if not utils.is_supported_file(filepath) then
+        if not utils.supported_filetype(filepath) then
             filepath = find_buf()
             if not filepath then
                 print("live-preview.nvim only supports html, markdown, and asciidoc files")

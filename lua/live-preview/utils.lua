@@ -7,16 +7,16 @@ if bit == nil then
 end
 
 
---- Check if file name is supported. Warning: this function will call a Vimscript function
+--- Check if file name has a supported filetype (html, markdown, asciidoc). Warning: this function will call a Vimscript function
 --- @param file_name string
---- @return boolean
-function M.is_supported_file(file_name)
-    local supported_filetypes = { 'html', "markdown", 'asciidoc' }
-    local filetype = vim.filetype.match({ filename = file_name })
-    if vim.tbl_contains(supported_filetypes, filetype) then
-        return true
-    else
-        return false
+--- @return filetype string, or nil if not supported
+function M.supported_filetype(file_name)
+    if file_name:match("%.html$") then
+        return "html"
+    elseif file_name:match("%.md$") or file_name:match("%.markdown$") then
+        return "markdown"
+    elseif file_name:match("%.adoc$") or file_name:match("%.asciidoc$") then
+        return "asciidoc"
     end
 end
 
