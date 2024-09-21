@@ -52,6 +52,7 @@ M.adoc2html = function(adoc)
 
         <body>
             <div class="markdown-body" id='markdown-body'>
+
 ]] .. adoc .. [[
             </div>
             <script type="module">
