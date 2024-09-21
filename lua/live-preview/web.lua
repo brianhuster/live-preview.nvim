@@ -55,9 +55,9 @@ M.adoc2html = function(adoc)
 ]] .. adoc .. [[
             </div>
             <script>
-                const asciidoctor = asciidoctor();
+                const Asciidoctor = asciidoctor();
                 const adoc = document.getElementById('markdown-body').innerHTML;
-                const html = asciidoctor.convert(adoc);
+                const html = Asciidoctor.convert(adoc);
                 document.getElementById('markdown-body').innerHTML = html;
             </script>
 
