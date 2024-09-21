@@ -32,7 +32,7 @@ end
 
 function M.preview_file(filepath, port)
     local extname = vim.fn.fnamemodify(filepath, ":e")
-    local supported_exts = { "md", "html", "markdown" }
+    local supported_exts = { "md", "html", "markdown",  }
 
     if not vim.tbl_contains(supported_exts, extname) then
         filepath = find_buf()

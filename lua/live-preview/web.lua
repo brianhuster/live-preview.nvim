@@ -35,6 +35,39 @@ M.md2html = function(md)
 end
 
 
+M.adoc2html = function(adoc)
+    return [[
+        <!DOCTYPE html>
+        <html lang="en">
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Asciidoctor Viewer</title>
+            <style>
+                ]] .. M.md_css() .. [[
+            </style>
+            <script src="live-preview.nvim/static/asciidoctor.js"></script>
+        </head>
+
+        <body>
+            <div class="markdown-body" id='markdown-body'>
+]] .. adoc .. [[
+            </div>
+            <script>
+                const asciidoctor = asciidoctor();
+                const html = asciidoctor.convert(`]] .. adoc .. [[`);
+                document.getElementById('markdown-body').innerHTML = html;
+            </script>
+
+        </body>
+
+        </html>
+
+    ]]
+end
+
+
 M.ws_client = function()
     return [[
         const wsUrl = getWebSocketUrl();
