@@ -1,4 +1,4 @@
-= AsciiDoc Example Document
+=match AsciiDoc Example Document
 Author Name
 2024-09-21
 

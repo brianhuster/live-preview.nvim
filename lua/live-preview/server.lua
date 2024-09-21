@@ -94,9 +94,9 @@ local function handle_request(client, request)
         return
     end
     if is_supported_file(path) then
-        if is_supported_file(path) == "markdown" then
+        if path:match("%.md$") or path:match("%.markdown$") then
             body = md2html(body)
-        elseif is_supported_file(path) == "asciidoc" then
+        elseif path:match("%.adoc$") or path:match("%.asciidoc$") then
             body = adoc2html(body)
         end
         body = handle_body(body)
