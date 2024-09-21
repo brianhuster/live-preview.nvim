@@ -5,6 +5,7 @@ local read_file = require('live-preview.utils').uv_read_file
 local sha1 = require('live-preview.utils').sha1
 local ws_client = require('live-preview.web').ws_client
 local md2html = require('live-preview.web').md2html
+local get_plugin_path = require('live-preview.utils').get_plugin_path
 local ws_script = "<script>" .. ws_client() .. "</script>"
 local webroot = "."
 M.server = uv.new_tcp()
@@ -67,6 +68,7 @@ end
 
 
 local function handle_request(client, request)
+    local file_path
     if request:match("Upgrade: websocket") then
         websocket_handshake(client, request)
         return
@@ -77,18 +79,22 @@ local function handle_request(client, request)
     if path == '/' then
         path = '/index.html'
     end
-
-    local file_path = webroot .. path
-    print("Request for " .. file_path)
+    if path == '/live-preview.nvim/static/marked.min.js' then
+        file_path = vim.fs.joinpath(get_plugin_path(), 'static', 'marked.min.js')
+    elseif path == '/live-preview.nvim/static/asciidoctor.js' then
+        file_path = vim.fs.joinpath(get_plugin_path(), 'static', 'asciidoctor.min.js')
+    else
+        file_path = webroot .. path
+    end
     local body = read_file(file_path)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
         return
     end
-    if path:match("%.md$") then
-        body = md2html(body)
-    end
-    if path:match("%.html$") or path:match("%.md$") then
+    if path:match("%.html$") or path:match("%.md$") or path:match("%.markdown") then
+        if path:match("%.md$") or path:match("%.markdown") then
+            body = md2html(body)
+        end
         body = handle_body(body)
     end
     send_http_response(client, '200 OK', get_content_type(file_path), body)

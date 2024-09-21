@@ -32,7 +32,7 @@ end
 
 function M.preview_file(filepath, port)
     local extname = vim.fn.fnamemodify(filepath, ":e")
-    local supported_exts = { "md", "html" }
+    local supported_exts = { "md", "html", "markdown" }
 
     if not vim.tbl_contains(supported_exts, extname) then
         filepath = find_buf()
@@ -56,7 +56,7 @@ function M.setup()
 
     vim.api.nvim_create_user_command(opts.commands.start, function()
         local filepath = vim.fn.expand('%:p')
-        if not filepath:match("%.md$") and not filepath:match("%.html$") then
+        if not filepath:match("%.md$") and not filepath:match("%.html$") and not filepath:match("%.markdown") then
             filepath = find_buf()
             if not filepath then
                 print("Cannot find a markdown/html file to preview")
@@ -84,5 +84,3 @@ function M.setup()
 end
 
 return M
-
-

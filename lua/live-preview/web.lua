@@ -14,7 +14,7 @@ M.md2html = function(md)
             <style>
                 ]] .. M.md_css() .. [[
             </style>
-            <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+            <script src="live-preview.nvim/static/marked.min.js"></script>
         </head>
 
         <body>
