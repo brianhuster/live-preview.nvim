@@ -19,7 +19,7 @@ end
 
 
 local function get_content_type(file_path)
-    if utils.supported_filetype(file_path) then
+    if supported_filetype(file_path) then
         return 'text/html'
     elseif file_path:match("%.css$") then
         return 'text/css'
