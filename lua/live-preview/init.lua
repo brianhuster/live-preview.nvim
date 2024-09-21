@@ -45,7 +45,6 @@ function M.preview_file(filepath, port)
     server.start("127.0.0.1", port, {
         webroot = vim.fs.dirname(filepath),
     })
-    print(filepath)
 end
 
 local function disable_atomic_writes()
