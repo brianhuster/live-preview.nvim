@@ -4,16 +4,14 @@ local uv = vim.uv
 local read_file = require('live-preview.utils').uv_read_file
 local sha1 = require('live-preview.utils').sha1
 local supported_filetype = require('live-preview.utils').supported_filetype
-local ws_client = require('live-preview.web').ws_client
-local md2html = require('live-preview.web').md2html
-local adoc2html = require('live-preview.web').adoc2html
 local get_plugin_path = require('live-preview.utils').get_plugin_path
-local ws_script = "<script>" .. ws_client() .. "</script>"
+local toHTML = require('live-preview.web').toHTML
 local webroot = "."
 M.server = uv.new_tcp()
 
 
 local handle_body = function(data)
+    local ws_script = "<script src='/live-preview.nvim/static/ws-client.js'></script>"
     return ws_script .. data
 end
 
@@ -81,10 +79,8 @@ local function handle_request(client, request)
     if path == '/' then
         path = '/index.html'
     end
-    if path == '/live-preview.nvim/parsers/marked.min.js' then
-        file_path = vim.fs.joinpath(get_plugin_path(), 'parsers', 'marked.min.js')
-    elseif path == '/live-preview.nvim/parsers/asciidoctor.js' then
-        file_path = vim.fs.joinpath(get_plugin_path(), 'parsers', 'asciidoctor.js')
+    if path:match("^/live%-preview%.nvim/") then
+        file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
     else
         file_path = webroot .. path
     end
@@ -93,11 +89,11 @@ local function handle_request(client, request)
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
         return
     end
-    if supported_filetype(path) then
-        if supported_filetype(path) == "markdown" then
-            body = md2html(body)
-        elseif supported_filetype(path) == "asciidoc" then
-            body = adoc2html(body)
+
+    local filetype = supported_filetype(file_path)
+    if filetype then
+        if filetype ~= "html" then
+            body = toHTML(body, filetype)
         end
         body = handle_body(body)
     end
