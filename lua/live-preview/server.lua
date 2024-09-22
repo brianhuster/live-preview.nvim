@@ -6,14 +6,9 @@ local sha1 = require('live-preview.utils').sha1
 local supported_filetype = require('live-preview.utils').supported_filetype
 local get_plugin_path = require('live-preview.utils').get_plugin_path
 local toHTML = require('live-preview.web').toHTML
+local handle_body = require('live-preview.web').handle_body
 local webroot = "."
 M.server = uv.new_tcp()
-
-
-local handle_body = function(data)
-    local ws_script = "<script src='/live-preview.nvim/static/ws-client.js'></script>"
-    return ws_script .. data
-end
 
 
 local function get_content_type(file_path)
@@ -79,9 +74,7 @@ local function handle_request(client, request)
     if path == '/' then
         path = '/index.html'
     end
-
-    local plugin
-    if path:match("^/live%-preview%.nvim/parsers") or path:match("^/live%-preview%.nvim/static") then
+    if path:match("^/live%-preview%.nvim/") then
         file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
     else
         file_path = vim.fs.joinpath(webroot, path)
