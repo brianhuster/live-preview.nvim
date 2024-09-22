@@ -26,7 +26,7 @@ end
 
 M.md2html = function(md)
     local script = [[
-        <script src="live-preview.nvim/static/marked.min.js"></script>
+        <script src="live-preview.nvim/parsers/marked.min.js"></script>
         <script>
             const markdownText = document.querySelector('.markdown-body').innerHTML;
             const html = marked.parse(markdownText);
@@ -40,7 +40,7 @@ end
 M.adoc2html = function(adoc)
     local script = [[
         <script type="module">
-            import Asciidoctor from '/live-preview.nvim/static/asciidoctor.js'
+            import Asciidoctor from '/live-preview.nvim/parsers/asciidoctor.js'
             const asciidoctor = Asciidoctor();
             const adoc = document.getElementById('markdown-body').innerHTML;
             const html = asciidoctor.convert(adoc);
