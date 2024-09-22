@@ -31,6 +31,7 @@ function M.stop_preview()
 end
 
 function M.preview_file(filepath, port)
+    print("Webroot: " .. vim.fs.dirname(filepath))
     server.start("127.0.0.1", port, {
         webroot = vim.fs.dirname(filepath),
     })
