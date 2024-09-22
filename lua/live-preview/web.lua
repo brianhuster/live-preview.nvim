@@ -44,7 +44,7 @@ M.adoc2html = function(adoc)
             const asciidoctor = Asciidoctor();
             const adoc = document.getElementById('markdown-body').innerHTML;
             const html = asciidoctor.convert(adoc);
-            document.getElementById('markdown-body').innerHTML = html;
+            document.querySelector('.markdown-body').innerHTML = html;
         </script>
     ]]
     return html_template(adoc, script)
