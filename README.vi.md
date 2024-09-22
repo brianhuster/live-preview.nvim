@@ -2,8 +2,6 @@
 
 Một plugin Neovim cho phép bạn xem kết quả file [Markdown](https://vi.wikipedia.org/wiki/Markdown), [HTML](https://vi.wikipedia.org/wiki/HTML) (nhúng kèm CSS, JS) và [AsciiDoc](https://asciidoc.org/) trong trình duyệt web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại trừ chính LuaJIT được tích hợp sẵn trong Neovim.
 
-!!! Note : Một số tính năng nâng cao của AsciiDoc chưa được hỗ trợ, như custom blocks, macros, internal links, etc.
-
 ## Video demo
 
 https://github.com/user-attachments/assets/e9a64709-8758-44d8-9e3c-9c15e0bf2a0e
