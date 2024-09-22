@@ -81,8 +81,10 @@ local function handle_request(client, request)
     end
     if path:match("^/live%-preview%.nvim/") then
         file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
+        print(file_path)
     else
         file_path = webroot .. path
+        print(file_path)
     end
     local body = read_file(file_path)
     if not body then
@@ -153,6 +155,7 @@ end
 --- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
+
 
     M.server:bind(ip, port)
     M.server:listen(128, function(err)
