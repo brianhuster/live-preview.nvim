@@ -42,7 +42,7 @@ M.adoc2html = function(adoc)
         <script type="module">
             import Asciidoctor from '/live-preview.nvim/parsers/asciidoctor.js'
             const asciidoctor = Asciidoctor();
-            const adoc = document.getElementById('markdown-body').innerHTML;
+            const adoc = document.querySelector('.markdown-body').innerHTML;
             const html = asciidoctor.convert(adoc);
             document.querySelector('.markdown-body').innerHTML = html;
         </script>
