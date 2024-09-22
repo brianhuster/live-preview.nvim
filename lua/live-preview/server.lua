@@ -50,7 +50,7 @@ end
 local function websocket_handshake(client, request)
     local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
     if not key then
-        print("Invalid WebSocket request from client")
+        vim.print("Invalid WebSocket request from client")
         client:close()
         return
     end
@@ -81,11 +81,10 @@ local function handle_request(client, request)
     end
     if path:match("^/live%-preview%.nvim/") then
         file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
-        print(file_path)
     else
         file_path = webroot .. path
-        print(file_path)
     end
+    vim.print(file_path)
     local body = read_file(file_path)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
@@ -138,7 +137,7 @@ local function watch_dir(dir, client)
     local watcher = uv.new_fs_event()
     watcher:start(dir, {}, function(err, filename, event)
         if err then
-            print("Watch error: " .. err)
+            vim.print("Watch error: " .. err)
             return
         end
         websocket_send(client, "reload")
@@ -170,7 +169,7 @@ function M.start(ip, port, options)
         watch_dir(webroot, client)
     end)
 
-    print("Server listening on port " .. port)
+    vim.print("Server listening on port " .. port)
     uv.run()
 end
 
