@@ -1,8 +1,7 @@
 local M = {}
 
-local utils = require("live-preview.utils")
-
-local min_nvim_version = "0.10.0"
+local spec = require("live-preview.spec")
+local nvim_ver_range = spec().engines.nvim
 local nvim_ver_table = vim.version()
 local nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
 
@@ -11,16 +10,16 @@ local function check_command_exists(cmd)
 end
 
 
-function M.is_compatible(ver, min_ver)
-    local requirement = vim.version.range(">=" .. min_ver)
+function M.is_compatible(ver, range)
+    local requirement = vim.version.range(range)
     return requirement:has(ver)
 end
 
 M.check = function()
     vim.health.start("Live Preview Health Check")
-    if not M.is_compatible(nvim_ver, min_nvim_version) then
+    if not M.is_compatible(nvim_ver, nvim_ver_range) then
         vim.health.warn(
-            "Live Preview requires Neovim version " .. min_nvim_version .. " or higher, but you are using " .. nvim_ver
+            "Live Preview requires Neovim " .. nvim_ver_range .. ", but you are using " .. nvim_ver
         )
     else
         vim.health.ok("Neovim version is compatible with Live Preview")

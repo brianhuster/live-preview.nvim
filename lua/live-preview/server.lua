@@ -4,16 +4,14 @@ local uv = vim.uv
 local read_file = require('live-preview.utils').uv_read_file
 local sha1 = require('live-preview.utils').sha1
 local supported_filetype = require('live-preview.utils').supported_filetype
-local ws_client = require('live-preview.web').ws_client
-local md2html = require('live-preview.web').md2html
-local adoc2html = require('live-preview.web').adoc2html
 local get_plugin_path = require('live-preview.utils').get_plugin_path
-local ws_script = "<script>" .. ws_client() .. "</script>"
+local toHTML = require('live-preview.web').toHTML
 local webroot = "."
 M.server = uv.new_tcp()
 
 
 local handle_body = function(data)
+    local ws_script = "<script src='/live-preview.nvim/static/ws-client.js'></script>"
     return ws_script .. data
 end
 
@@ -52,7 +50,7 @@ end
 local function websocket_handshake(client, request)
     local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
     if not key then
-        print("Invalid WebSocket request from client")
+        vim.print("Invalid WebSocket request from client")
         client:close()
         return
     end
@@ -81,23 +79,24 @@ local function handle_request(client, request)
     if path == '/' then
         path = '/index.html'
     end
-    if path == '/live-preview.nvim/parsers/marked.min.js' then
-        file_path = vim.fs.joinpath(get_plugin_path(), 'parsers', 'marked.min.js')
-    elseif path == '/live-preview.nvim/parsers/asciidoctor.js' then
-        file_path = vim.fs.joinpath(get_plugin_path(), 'parsers', 'asciidoctor.js')
+
+    local plugin
+    if path:match("^/live%-preview%.nvim/parsers") or path:match("^/live%-preview%.nvim/static") then
+        file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
     else
-        file_path = webroot .. path
+        file_path = vim.fs.joinpath(webroot, path)
     end
+    vim.print(file_path)
     local body = read_file(file_path)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
         return
     end
-    if supported_filetype(path) then
-        if supported_filetype(path) == "markdown" then
-            body = md2html(body)
-        elseif supported_filetype(path) == "asciidoc" then
-            body = adoc2html(body)
+
+    local filetype = supported_filetype(file_path)
+    if filetype then
+        if filetype ~= "html" then
+            body = toHTML(body, filetype)
         end
         body = handle_body(body)
     end
@@ -140,7 +139,7 @@ local function watch_dir(dir, client)
     local watcher = uv.new_fs_event()
     watcher:start(dir, {}, function(err, filename, event)
         if err then
-            print("Watch error: " .. err)
+            vim.print("Watch error: " .. err)
             return
         end
         websocket_send(client, "reload")
@@ -158,6 +157,7 @@ end
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
 
+
     M.server:bind(ip, port)
     M.server:listen(128, function(err)
         if err then
@@ -171,7 +171,7 @@ function M.start(ip, port, options)
         watch_dir(webroot, client)
     end)
 
-    print("Server listening on port " .. port)
+    vim.print("Server listening on port " .. port)
     uv.run()
 end
 
