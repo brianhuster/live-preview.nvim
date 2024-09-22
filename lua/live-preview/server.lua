@@ -74,7 +74,7 @@ local function handle_request(client, request)
     if path == '/' then
         path = '/index.html'
     end
-
+    if path:match("^/live%-preview%.nvim/") then
         file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
     else
         file_path = vim.fs.joinpath(webroot, path)
