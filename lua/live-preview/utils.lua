@@ -93,6 +93,7 @@ M.term_cmd = function(cmd)
 end
 
 --- Compute the SHA1 hash of a string
+--- Source : https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
 --- @param val string
 function M.sha1(val)
     local function to_32_bits_str(number)

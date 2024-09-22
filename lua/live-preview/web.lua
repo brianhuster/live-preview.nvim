@@ -1,6 +1,6 @@
 local M = {}
 
-local html_template = function(body, script_tag)
+local html_template = function(body, stylesheet, script_tag)
     return [[
         <!DOCTYPE html>
         <html lang="en">
@@ -9,7 +9,7 @@ local html_template = function(body, script_tag)
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Live preview</title>
-            <link rel="stylesheet" href="/live-preview.nvim/static/github-markdown.css">
+]] .. stylesheet .. [[
         </head>
 
         <body>
@@ -33,21 +33,27 @@ M.md2html = function(md)
             document.querySelector('.markdown-body').innerHTML = html;
         </script>
     ]]
-    return html_template(md, script)
+    local stylesheet = [[
+        <link rel="stylesheet" href="/live-preview.nvim/static/github-markdown.min.css">
+    ]]
+    return html_template(md, stylesheet, script)
 end
 
 
 M.adoc2html = function(adoc)
     local script = [[
         <script type="module">
-            import Asciidoctor from '/live-preview.nvim/parsers/asciidoctor.js'
+            import Asciidoctor from '/live-preview.nvim/parsers/asciidoctor.min.js'
             const asciidoctor = Asciidoctor();
             const adoc = document.querySelector('.markdown-body').innerHTML;
             const html = asciidoctor.convert(adoc);
             document.querySelector('.markdown-body').innerHTML = html;
         </script>
     ]]
-    return html_template(adoc, script)
+    local stylesheet = [[
+        <link rel="stylesheet" href="/live-preview.nvim/static/asciidoctor.min.css">
+    ]]
+    return html_template(adoc, stylesheet, script)
 end
 
 
@@ -57,6 +63,12 @@ M.toHTML = function(text, filetype)
     elseif filetype == 'asciidoc' then
         return M.adoc2html(text)
     end
+end
+
+
+M.handle_body = function(data)
+    local ws_script = "<script src='/live-preview.nvim/static/ws-client.min.js'></script>"
+    return ws_script .. data
 end
 
 
