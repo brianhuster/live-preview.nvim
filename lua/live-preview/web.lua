@@ -40,10 +40,27 @@ M.md2html = function(md)
 end
 
 
+-- M.adoc2html = function(adoc)
+--     local script = [[
+--         <script type="module">
+--             import Asciidoctor from '/live-preview.nvim/parsers/asciidoctor.min.js'
+--             const asciidoctor = Asciidoctor();
+--             const adoc = document.querySelector('.markdown-body').innerHTML;
+--             const html = asciidoctor.convert(adoc);
+--             document.querySelector('.markdown-body').innerHTML = html;
+--         </script>
+--     ]]
+--     local stylesheet = [[
+--         <link rel="stylesheet" href="/live-preview.nvim/static/asciidoctor.min.css">
+--     ]]
+--     return html_template(adoc, stylesheet, script)
+-- end
+
+
 M.adoc2html = function(adoc)
     local script = [[
-        <script type="module">
-            import Asciidoctor from '/live-preview.nvim/parsers/asciidoctor.min.js'
+        <script src="/live-preview.nvim/parsers/asciidoctor.min.js"></script>
+        <script>
             const asciidoctor = Asciidoctor();
             const adoc = document.querySelector('.markdown-body').innerHTML;
             const html = asciidoctor.convert(adoc);
@@ -55,6 +72,7 @@ M.adoc2html = function(adoc)
     ]]
     return html_template(adoc, stylesheet, script)
 end
+
 
 
 M.toHTML = function(text, filetype)
