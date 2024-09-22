@@ -79,8 +79,9 @@ local function handle_request(client, request)
     if path == '/' then
         path = '/index.html'
     end
+
+    local plugin
     if path:match("^/live%-preview%.nvim/parsers") or path:match("^/live%-preview%.nvim/static") then
-        print("Path: " .. path)
         file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
     else
         file_path = vim.fs.joinpath(webroot, path)
@@ -88,8 +89,6 @@ local function handle_request(client, request)
     vim.print(file_path)
     local body = read_file(file_path)
     if not body then
-        vim.print("404 Not Found: " .. file_path)
-        print("404 Not Found: " .. file_path)
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
         return
     end
