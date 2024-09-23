@@ -111,6 +111,7 @@ local function handle_request(client, request)
     -- Generate ETag and Last-Modified headers
     local etag = generate_etag(file_path)
     local last_modified = get_last_modified(file_path)
+    print(etag, last_modified)
 
     -- Check if the client sent If-None-Match or If-Modified-Since
     local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
