@@ -16,14 +16,14 @@ local function generate_etag(file_path)
         return nil
     end
     local file_size = attr.size
-    local modification_time = attr.mtime.sec
+    local modification_time = attr.mtime.nsec
     return '"' .. sha1(file_size .. modification_time) .. '"'
 end
 
 local function get_last_modified(file_path)
     local attr = uv.fs_stat(file_path)
     if not attr then return nil end
-    return os.date("!%a, %d %b %Y %H:%M:%S GMT", attr.mtime.sec)
+    return os.date("!%a, %d %b %Y %H:%M:%S GMT", attr.mtime.nsec)
 end
 
 local function get_content_type(file_path)
@@ -47,12 +47,6 @@ end
 
 local function send_http_response(client, status, content_type, body, headers)
     -- status can be something like "200 OK", "404 Not Found", etc.
-    local response = "HTTP/1.1 " .. status .. "\r\n" ..
-        "Content-Type: " .. content_type .. "\r\n" ..
-        "Content-Length: " .. #body .. "\r\n" ..
-        "Connection: close\r\n\r\n" ..
-        body
-
     local response = "HTTP/1.1 " .. status .. "\r\n" ..
         "Content-Type: " .. content_type .. "\r\n" ..
         "Content-Length: " .. #body .. "\r\n" ..
