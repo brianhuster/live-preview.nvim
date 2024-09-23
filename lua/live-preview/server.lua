@@ -10,6 +10,21 @@ local handle_body = require('live-preview.web').handle_body
 local webroot = "."
 M.server = uv.new_tcp()
 
+local function generate_etag(file_path)
+    local attr = uv.fs_stat(file_path)
+    if not attr then
+        return nil
+    end
+    local file_size = attr.size
+    local modification_time = attr.mtime.sec
+    return '"' .. sha1(file_size .. modification_time) .. '"'
+end
+
+local function get_last_modified(file_path)
+    local attr = uv.fs_stat(file_path)
+    if not attr then return nil end
+    return os.date("!%a, %d %b %Y %H:%M:%S GMT", attr.mtime.sec)
+end
 
 local function get_content_type(file_path)
     if supported_filetype(file_path) then
@@ -30,13 +45,26 @@ local function get_content_type(file_path)
 end
 
 
-local function send_http_response(client, status, content_type, body)
+local function send_http_response(client, status, content_type, body, headers)
     -- status can be something like "200 OK", "404 Not Found", etc.
     local response = "HTTP/1.1 " .. status .. "\r\n" ..
         "Content-Type: " .. content_type .. "\r\n" ..
         "Content-Length: " .. #body .. "\r\n" ..
         "Connection: close\r\n\r\n" ..
         body
+
+    local response = "HTTP/1.1 " .. status .. "\r\n" ..
+        "Content-Type: " .. content_type .. "\r\n" ..
+        "Content-Length: " .. #body .. "\r\n" ..
+        "Connection: close\r\n"
+
+    if headers then
+        for k, v in pairs(headers) do
+            response = response .. k .. ": " .. v .. "\r\n"
+        end
+    end
+
+    response = response .. "\r\n" .. body
 
     client:write(response)
 end
@@ -86,6 +114,23 @@ local function handle_request(client, request)
         return
     end
 
+    -- Generate ETag and Last-Modified headers
+    local etag = generate_etag(file_path)
+    local last_modified = get_last_modified(file_path)
+
+    -- Check if the client sent If-None-Match or If-Modified-Since
+    local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
+    local if_modified_since = request:match("If%-Modified%-Since: ([^\r\n]+)")
+
+    -- If the ETag or Last-Modified matches, return 304 Not Modified
+    if (if_none_match and if_none_match == etag) or (if_modified_since and if_modified_since == last_modified) then
+        send_http_response(client, '304 Not Modified', get_content_type(file_path), "", {
+            ["ETag"] = etag,
+            ["Last-Modified"] = last_modified
+        })
+        return
+    end
+
     local filetype = supported_filetype(file_path)
     if filetype then
         if filetype ~= "html" then
@@ -93,9 +138,13 @@ local function handle_request(client, request)
         end
         body = handle_body(body)
     end
-    send_http_response(client, '200 OK', get_content_type(file_path), body)
-end
 
+    -- Send the response with ETag and Last-Modified headers
+    send_http_response(client, '200 OK', get_content_type(file_path), body, {
+        ["ETag"] = etag,
+        ["Last-Modified"] = last_modified
+    })
+end
 
 local function handle_client(client)
     local buffer = ""
