@@ -129,8 +129,9 @@ local function handle_request(client, request)
     if filetype then
         if filetype ~= "html" then
             body = toHTML(body, filetype)
+        else
+            body = handle_body(body)
         end
-        body = handle_body(body)
     end
 
     -- Send the response with ETag and Last-Modified headers
