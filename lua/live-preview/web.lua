@@ -10,10 +10,9 @@ local html_template = function(body, stylesheet, script_tag)
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Live preview</title>
 ]] .. stylesheet .. [[
-            <link rel="stylesheet" href="live-preview.nvim/static/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-            <script defer src="live-preview.nvim/static/parsers/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
-            <script defer src="live-preview.nvim/static/parsers/katex-auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
+            <link rel="stylesheet" href="live-preview.nvim/static/katex.min.css">
+            <script defer src="live-preview.nvim/static/parsers/katex.min.js"></script>
+            <script defer src="live-preview.nvim/static/parsers/katex-auto-render.min.js" onload="renderMathInElement(document.body);"></script>
         </head>
 
         <body>
