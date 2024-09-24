@@ -10,6 +10,10 @@ local html_template = function(body, stylesheet, script_tag)
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Live preview</title>
 ]] .. stylesheet .. [[
+            <script src='/live-preview.nvim/static/ws-client.min.js'></script>"
+            <link rel="stylesheet" href="live-preview.nvim/static/katex.min.css">
+            <script defer src="live-preview.nvim/static/parsers/katex.min.js"></script>
+            <script defer src="live-preview.nvim/static/parsers/katex-auto-render.min.js" onload="renderMathInElement(document.body);"></script>
         </head>
 
         <body>

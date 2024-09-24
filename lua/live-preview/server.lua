@@ -10,6 +10,15 @@ local handle_body = require('live-preview.web').handle_body
 local webroot = "."
 M.server = uv.new_tcp()
 
+local function generate_etag(file_path)
+    local attr = uv.fs_stat(file_path)
+    if not attr then
+        return nil
+    end
+    local modification_time = attr.mtime
+    return modification_time.sec .. "." .. modification_time.nsec
+end
+
 
 local function get_content_type(file_path)
     if supported_filetype(file_path) then
@@ -30,13 +39,20 @@ local function get_content_type(file_path)
 end
 
 
-local function send_http_response(client, status, content_type, body)
+local function send_http_response(client, status, content_type, body, headers)
     -- status can be something like "200 OK", "404 Not Found", etc.
     local response = "HTTP/1.1 " .. status .. "\r\n" ..
         "Content-Type: " .. content_type .. "\r\n" ..
         "Content-Length: " .. #body .. "\r\n" ..
-        "Connection: close\r\n\r\n" ..
-        body
+        "Connection: close\r\n"
+
+    if headers then
+        for k, v in pairs(headers) do
+            response = response .. k .. ": " .. v .. "\r\n"
+        end
+    end
+
+    response = response .. "\r\n" .. body
 
     client:write(response)
 end
@@ -79,10 +95,20 @@ local function handle_request(client, request)
     else
         file_path = vim.fs.joinpath(webroot, path)
     end
-    vim.print(file_path)
     local body = read_file(file_path)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
+        return
+    end
+
+    local etag = generate_etag(file_path)
+
+    local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
+
+    if (if_none_match and if_none_match == etag) then
+        send_http_response(client, '304 Not Modified', get_content_type(file_path), "", {
+            ["ETag"] = etag,
+        })
         return
     end
 
@@ -90,12 +116,16 @@ local function handle_request(client, request)
     if filetype then
         if filetype ~= "html" then
             body = toHTML(body, filetype)
+        else
+            body = handle_body(body)
         end
-        body = handle_body(body)
     end
-    send_http_response(client, '200 OK', get_content_type(file_path), body)
-end
 
+    -- Send the response with ETag and Last-Modified headers
+    send_http_response(client, '200 OK', get_content_type(file_path), body, {
+        ["ETag"] = etag
+    })
+end
 
 local function handle_client(client)
     local buffer = ""
