@@ -178,7 +178,6 @@ end
 --- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
-    M.server = uv.new_tcp()
     M.server:bind(ip, port)
     M.server:listen(128, function(err)
         if err then
@@ -199,6 +198,7 @@ end
 --- Stop the server
 M.stop = function()
     M.server:close()
+    M.server = uv.new_tcp()
 end
 
 return M
