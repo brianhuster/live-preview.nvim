@@ -23,7 +23,7 @@ end
 local function get_last_modified(file_path)
     local attr = uv.fs_stat(file_path)
     if not attr then return nil end
-    return os.date("!%a, %d %b %Y %H:%M:%S GMT", attr.mtime.nsec)
+    return os.date("!%a, %d %b %Y %H:%M:%S GMT", attr.mtime.sec)
 end
 
 local function get_content_type(file_path)
