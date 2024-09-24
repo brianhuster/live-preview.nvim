@@ -108,20 +108,19 @@ local function handle_request(client, request)
     end
 
     -- Generate ETag and Last-Modified headers
-    local etag = generate_etag(file_path)
-    -- local last_modified = get_last_modified(file_path)
-    print(etag)
+    -- local etag = generate_etag(file_path)
+    local last_modified = get_last_modified(file_path)
 
     -- Check if the client sent If-None-Match or If-Modified-Since
     local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
     local if_modified_since = request:match("If%-Modified%-Since: ([^\r\n]+)")
 
     -- If the ETag or Last-Modified matches, return 304 Not Modified
-    if (if_none_match and if_none_match == etag)
-    -- or (if_modified_since and if_modified_since == last_modified)
+    if (if_modified_since and if_modified_since == last_modified)
+    -- or  (if_none_match and if_none_match == etag)
     then
         send_http_response(client, '304 Not Modified', get_content_type(file_path), "", {
-            ["ETag"] = etag,
+            -- ["ETag"] = etag,
             ["Last-Modified"] = last_modified
         })
         return
