@@ -20,11 +20,11 @@ local function generate_etag(file_path)
     return '"' .. sha1(file_size .. modification_time) .. '"'
 end
 
-local function get_last_modified(file_path)
-    local attr = uv.fs_stat(file_path)
-    if not attr then return nil end
-    return os.date("!%a, %d %b %Y %H:%M:%S GMT", attr.mtime.nsec)
-end
+-- local function get_last_modified(file_path)
+--     local attr = uv.fs_stat(file_path)
+--     if not attr then return nil end
+--     return os.date("!%a, %d %b %Y %H:%M:%S GMT", attr.mtime.nsec)
+-- end
 
 local function get_content_type(file_path)
     if supported_filetype(file_path) then
@@ -101,7 +101,6 @@ local function handle_request(client, request)
     else
         file_path = vim.fs.joinpath(webroot, path)
     end
-    vim.print(file_path)
     local body = read_file(file_path)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
@@ -118,7 +117,9 @@ local function handle_request(client, request)
     local if_modified_since = request:match("If%-Modified%-Since: ([^\r\n]+)")
 
     -- If the ETag or Last-Modified matches, return 304 Not Modified
-    if (if_none_match and if_none_match == etag) or (if_modified_since and if_modified_since == last_modified) then
+    if (if_none_match and if_none_match == etag) 
+        -- or (if_modified_since and if_modified_since == last_modified) 
+        then
         send_http_response(client, '304 Not Modified', get_content_type(file_path), "", {
             ["ETag"] = etag,
             ["Last-Modified"] = last_modified
