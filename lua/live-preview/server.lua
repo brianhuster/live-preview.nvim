@@ -20,11 +20,11 @@ local function generate_etag(file_path)
     return '"' .. sha1(file_size .. modification_time) .. '"'
 end
 
--- local function get_last_modified(file_path)
---     local attr = uv.fs_stat(file_path)
---     if not attr then return nil end
---     return os.date("!%a, %d %b %Y %H:%M:%S GMT", attr.mtime.nsec)
--- end
+local function get_last_modified(file_path)
+    local attr = uv.fs_stat(file_path)
+    if not attr then return nil end
+    return os.date("!%a, %d %b %Y %H:%M:%S GMT", attr.mtime.nsec)
+end
 
 local function get_content_type(file_path)
     if supported_filetype(file_path) then
@@ -109,17 +109,17 @@ local function handle_request(client, request)
 
     -- Generate ETag and Last-Modified headers
     local etag = generate_etag(file_path)
-    local last_modified = get_last_modified(file_path)
-    print(etag, last_modified)
+    -- local last_modified = get_last_modified(file_path)
+    print(etag)
 
     -- Check if the client sent If-None-Match or If-Modified-Since
     local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
     local if_modified_since = request:match("If%-Modified%-Since: ([^\r\n]+)")
 
     -- If the ETag or Last-Modified matches, return 304 Not Modified
-    if (if_none_match and if_none_match == etag) 
-        -- or (if_modified_since and if_modified_since == last_modified) 
-        then
+    if (if_none_match and if_none_match == etag)
+    -- or (if_modified_since and if_modified_since == last_modified)
+    then
         send_http_response(client, '304 Not Modified', get_content_type(file_path), "", {
             ["ETag"] = etag,
             ["Last-Modified"] = last_modified
