@@ -121,7 +121,6 @@ local function handle_request(client, request)
         end
     end
 
-    -- Send the response with ETag and Last-Modified headers
     send_http_response(client, '200 OK', get_content_type(file_path), body, {
         ["ETag"] = etag
     })
@@ -179,8 +178,7 @@ end
 --- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
-
-
+    M.server = uv.new_tcp()
     M.server:bind(ip, port)
     M.server:listen(128, function(err)
         if err then
@@ -201,7 +199,6 @@ end
 --- Stop the server
 M.stop = function()
     M.server:close()
-    M.server = uv.new_tcp()
 end
 
 return M
