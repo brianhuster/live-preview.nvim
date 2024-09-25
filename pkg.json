@@ -7,5 +7,8 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/brianhuster/live-preview.nvim"
+    },
+    "dependencies": {
+        "https://github.com/brianhuster/nvim-luvit": "master"
     }
 }
