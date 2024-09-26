@@ -101,12 +101,8 @@ M.await_term_cmd = function(cmd)
     if uv.os_uname().version:match("Windows") then
         shell = "pwsh"
     end
-
-    local on_exit = function(result)
-        return result
-    end
-
-    return vim.system({ shell, '-c', cmd }, { text = true, capture_output = true, on_exit = on_exit })
+    results = vim.system({ shell, '-c', cmd }, { text = true }):wait()
+    return results
 end
 
 
