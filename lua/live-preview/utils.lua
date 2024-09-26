@@ -287,16 +287,15 @@ M.kill_port = function(port)
         return
     end
     local cmd_stdout = cmd_result.stdout
-    if cmd_stdout == "" then
+    if not cmd_stdout or cmd_stdout == "" then
         return
     end
     local pids = vim.split(cmd_stdout, "\n")
     for _, pid in ipairs(pids) do
         local pid_number = tonumber(pid)
         if pid_number then
-            vim.print("Killing process " .. pid_number)
             vim.uv.kill(pid_number, 9) -- 9 is the signal number for SIGKILL
-            vim.print(vim.uv.kill(pid_number, "SIGKILL"))
+
         end
     end
 end
