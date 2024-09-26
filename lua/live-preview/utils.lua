@@ -288,7 +288,6 @@ M.kill_port = function(port)
     end
     local cmd_stdout = cmd_result.stdout
     if cmd_stdout == "" then
-        print("No process found on port " .. port)
         return
     end
     local pids = vim.split(cmd_stdout, "\n")
