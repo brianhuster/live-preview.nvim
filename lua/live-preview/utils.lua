@@ -293,8 +293,10 @@ M.kill_port = function(port)
     end
     local pids = vim.split(cmd_stdout, "\n")
     for _, pid in ipairs(pids) do
-        vim.print("Killing process " .. pid)
-        vim.uv.kill(tonumber(pid), "SIGKILL")
+        local pid_number = tonumber(pid)
+        if pid_number then
+            vim.uv.kill(tonumber(pid), "SIGKILL")
+        end
     end
 end
 
