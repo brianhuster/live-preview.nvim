@@ -295,7 +295,8 @@ M.kill_port = function(port)
     for _, pid in ipairs(pids) do
         local pid_number = tonumber(pid)
         if pid_number then
-            vim.uv.kill(tonumber(pid), "SIGKILL")
+            vim.uv.kill(pid_number, "SIGKILL")
+            vim.print(vim.uv.kill(pid_number, "SIGKILL"))
         end
     end
 end
