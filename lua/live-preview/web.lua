@@ -52,6 +52,15 @@ M.adoc2html = function(adoc)
             const adoc = document.querySelector('.markdown-body').innerHTML;
             const html = asciidoctor.convert(adoc);
             document.querySelector('.markdown-body').innerHTML = html;
+
+            document.addEventListener("DOMContentLoaded", function () {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false }
+                    ]
+                });
+            });
         </script>
     ]]
     local stylesheet = [[
