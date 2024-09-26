@@ -280,7 +280,7 @@ M.kill_port = function(port)
             port
         )
     end
-    local cmd_result = M.term_cmd(cmd)
+    local cmd_result = M.await_term_cmd(cmd)
     if not cmd_result then
         print("Error killing port " .. port)
         return
