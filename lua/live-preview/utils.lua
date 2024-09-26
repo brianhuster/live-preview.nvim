@@ -92,6 +92,24 @@ M.term_cmd = function(cmd)
     vim.system({ shell, '-c', cmd }, { text = true }, on_exit)
 end
 
+
+--- Execute a shell command and wait for the exit
+--- @param cmd string
+--- @return table
+M.await_term_cmd = function(cmd)
+    local shell = "sh"
+    if uv.os_uname().version:match("Windows") then
+        shell = "pwsh"
+    end
+
+    local on_exit = function(result)
+        return result
+    end
+
+    return vim.fn.system({ shell, '-c', cmd }, { text = true, capture_output = true, on_exit = on_exit })
+end
+
+
 --- Compute the SHA1 hash of a string
 --- Source : https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
 --- @param val string
