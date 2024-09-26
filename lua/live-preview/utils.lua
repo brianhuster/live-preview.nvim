@@ -79,6 +79,7 @@ end
 
 --- Execute a shell commands
 --- @param cmd string
+--- @return table
 M.term_cmd = function(cmd)
     local shell = "sh"
     if uv.os_uname().version:match("Windows") then
@@ -277,8 +278,6 @@ M.kill_port = function(port)
         )
     end
     local cmd_result = M.await_term_cmd(cmd)
-    vim.print(cmd_result.code)
-    vim.print(cmd_result.stdout)
     if not cmd_result then
         print("Error killing port " .. port)
         return
@@ -294,6 +293,7 @@ M.kill_port = function(port)
     end
     local pids = vim.split(cmd_stdout, "\n")
     for _, pid in ipairs(pids) do
+        vim.print("Killing process " .. pid)
         vim.uv.kill(tonumber(pid), "SIGKILL")
     end
 end
