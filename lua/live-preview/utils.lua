@@ -79,6 +79,7 @@ end
 
 --- Execute a shell commands
 --- @param cmd string
+--- @return table
 M.term_cmd = function(cmd)
     local shell = "sh"
     if uv.os_uname().version:match("Windows") then
@@ -91,6 +92,20 @@ M.term_cmd = function(cmd)
 
     vim.system({ shell, '-c', cmd }, { text = true }, on_exit)
 end
+
+
+--- Execute a shell command and wait for the exit
+--- @param cmd string
+--- @return table
+M.await_term_cmd = function(cmd)
+    local shell = "sh"
+    if uv.os_uname().version:match("Windows") then
+        shell = "pwsh"
+    end
+    results = vim.system({ shell, '-c', cmd }, { text = true }):wait()
+    return results
+end
+
 
 --- Compute the SHA1 hash of a string
 --- Source : https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
@@ -246,32 +261,43 @@ end
 --- Kill a process which is not Neovim running on a port
 --- @param port number
 M.kill_port = function(port)
-    local kill_command = string.format(
-        "lsof -i:%d | grep -v 'neovim' | awk '{print $2}' | xargs kill -9",
-        port
-    )
-
+    local cmd
     if vim.uv.os_uname().version:match("Windows") then
-        kill_command = string.format(
-            [[
-                @echo off
-                setlocal
-
-                for /f "tokens=5" %%a in ('netstat -ano ^| findstr :%d') do (
-                    for /f "tokens=2 delims=," %%b in ('tasklist /fi "PID eq %%a" /fo csv /nh') do (
-                        if /i not "%%b"=="neovim.exe" (
-                            echo Killing PID %%a (Process Name: %%b)
-                            taskkill /PID %%a /F
-                        )
-                    )
-                )
-
-                endlocal
-            ]],
+        cmd = string.format([[
+            Get-NetTCPConnection -LocalPort %d | Where-Object { $_.State -eq 'Listen' } | ForEach-Object {
+                $pid = $_.OwningProcess
+                $process = Get-Process -Id $pid -ErrorAction SilentlyContinue
+                if ($process -and ($process.Name -notmatch 'neovim|nvim')) {
+                    $process.Id
+                }
+            }
+        ]], port)
+    else
+        cmd = string.format("lsof -i:%d | grep LISTEN | grep -v -e 'neovim' -e 'nvim' | awk '{print $2}'",
             port
         )
     end
-    os.execute(kill_command)
+    local cmd_result = M.await_term_cmd(cmd)
+    if not cmd_result then
+        print("Error killing port " .. port)
+        return
+    end
+    if cmd_result.code ~= 0 then
+        print("Error killing port " .. port .. ": " .. cmd_result.stderr)
+        return
+    end
+    local cmd_stdout = cmd_result.stdout
+    if not cmd_stdout or cmd_stdout == "" then
+        return
+    end
+    local pids = vim.split(cmd_stdout, "\n")
+    for _, pid in ipairs(pids) do
+        local pid_number = tonumber(pid)
+        if pid_number then
+            vim.uv.kill(pid_number, 9) -- 9 is the signal number for SIGKILL
+
+        end
+    end
 end
 
 

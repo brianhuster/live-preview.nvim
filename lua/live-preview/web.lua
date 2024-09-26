@@ -11,9 +11,9 @@ local html_template = function(body, stylesheet, script_tag)
             <title>Live preview</title>
 ]] .. stylesheet .. [[
             <script src='/live-preview.nvim/static/ws-client.min.js'></script>"
-            <link rel="stylesheet" href="live-preview.nvim/static/katex.min.css">
-            <script defer src="live-preview.nvim/static/parsers/katex.min.js"></script>
-            <script defer src="live-preview.nvim/static/parsers/katex-auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+            <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">
+            <script defer src="/live-preview.nvim/static/katex/katex.min.js"></script>
+            <script defer src="/live-preview.nvim/static/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
         </head>
 
         <body>
@@ -30,7 +30,7 @@ end
 
 M.md2html = function(md)
     local script = [[
-        <script src="live-preview.nvim/static/parsers/marked.min.js"></script>
+        <script src="live-preview.nvim/static/markdown/marked.min.js"></script>
         <script>
             const markdownText = document.querySelector('.markdown-body').innerHTML;
             const html = marked.parse(markdownText);
@@ -38,7 +38,7 @@ M.md2html = function(md)
         </script>
     ]]
     local stylesheet = [[
-        <link rel="stylesheet" href="/live-preview.nvim/static/github-markdown.min.css">
+        <link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">
     ]]
     return html_template(md, stylesheet, script)
 end
@@ -47,15 +47,24 @@ end
 M.adoc2html = function(adoc)
     local script = [[
         <script type="module">
-            import Asciidoctor from '/live-preview.nvim/static/parsers/asciidoctor.min.js'
+            import Asciidoctor from '/live-preview.nvim/static/asciidoc/asciidoctor.min.js'
             const asciidoctor = Asciidoctor();
             const adoc = document.querySelector('.markdown-body').innerHTML;
             const html = asciidoctor.convert(adoc);
             document.querySelector('.markdown-body').innerHTML = html;
+
+            document.addEventListener("DOMContentLoaded", function () {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false }
+                    ]
+                });
+            });
         </script>
     ]]
     local stylesheet = [[
-        <link rel="stylesheet" href="/live-preview.nvim/static/asciidoctor.min.css">
+        <link rel="stylesheet" href="/live-preview.nvim/static/asciidoc/asciidoctor.min.css">
     ]]
     return html_template(adoc, stylesheet, script)
 end
@@ -73,7 +82,11 @@ end
 
 M.handle_body = function(data)
     local ws_script = "<script src='/live-preview.nvim/static/ws-client.min.js'></script>"
-    return ws_script .. data
+    if data:match("<head>") then
+        local body = data:gsub("<head>", "<head>" .. ws_script)
+    else
+        local body = ws_script .. data
+    end
 end
 
 
