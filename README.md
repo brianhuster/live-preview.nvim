@@ -4,7 +4,7 @@ A plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/
 
 > You can read this README in [Tiếng Việt](README.vi.md)
 
-## Updates 
+### Updates 
 Add supports for [Katex](https://katex.org) math rendering in markdown and AsciiDoc files.
 > You must clear the cache of the browser after updating to ensure the plugin works correctly.
 
