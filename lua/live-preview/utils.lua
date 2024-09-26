@@ -281,7 +281,8 @@ M.kill_port = function(port)
         )
     end
     local cmd_result = M.await_term_cmd(cmd)
-    vim.print(cmd_result)
+    vim.print(cmd_result.code)
+    vim.print(cmd_result.stdout)
     if not cmd_result then
         print("Error killing port " .. port)
         return
