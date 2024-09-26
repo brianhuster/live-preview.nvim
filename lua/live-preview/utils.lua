@@ -106,7 +106,7 @@ M.await_term_cmd = function(cmd)
         return result
     end
 
-    return vim.fn.system({ shell, '-c', cmd }, { text = true, capture_output = true, on_exit = on_exit })
+    return vim.system({ shell, '-c', cmd }, { text = true, capture_output = true, on_exit = on_exit })
 end
 
 
