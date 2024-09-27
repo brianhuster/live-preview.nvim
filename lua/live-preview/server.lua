@@ -40,7 +40,6 @@ end
 
 
 local function send_http_response(client, status, content_type, body, headers)
-    print(body)
     -- status can be something like "200 OK", "404 Not Found", etc.
     local response = "HTTP/1.1 " .. status .. "\r\n" ..
         "Content-Type: " .. content_type .. "\r\n" ..
@@ -87,7 +86,6 @@ local function handle_request(client, request)
     end
     -- Extract the path from the HTTP request
     local path = request:match("GET (.+) HTTP/1.1")
-    print(path)
     path = path or '/'
     if path == '/' then
         path = '/index.html'
@@ -97,7 +95,6 @@ local function handle_request(client, request)
     else
         file_path = vim.fs.joinpath(webroot, path)
     end
-    print("Request: " .. file_path)
     local body = read_file(file_path)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
