@@ -30,7 +30,7 @@ end
 
 M.md2html = function(md)
     local script = [[
-        <script src="live-preview.nvim/static/markdown/marked.min.js"></script>
+        <script src="/live-preview.nvim/static/markdown/marked.min.js"></script>
         <script>
             const markdownText = document.querySelector('.markdown-body').innerHTML;
             const html = marked.parse(markdownText);
