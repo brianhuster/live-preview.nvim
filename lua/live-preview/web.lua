@@ -10,7 +10,7 @@ local html_template = function(body, stylesheet, script_tag)
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Live preview</title>
 ]] .. stylesheet .. [[
-            <script src='/live-preview.nvim/static/ws-client.min.js'></script>"
+            <script src='/live-preview.nvim/static/ws-client.js'></script>"
             <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">
             <script defer src="/live-preview.nvim/static/katex/katex.min.js"></script>
             <script defer src="/live-preview.nvim/static/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
@@ -57,21 +57,7 @@ end
 
 M.adoc2html = function(adoc)
     local script = [[
-        <script type="module">
-            import Asciidoctor from '/live-preview.nvim/static/asciidoc/asciidoctor.min.js'
-            const asciidoctor = Asciidoctor();
-            const adoc = document.querySelector('.markdown-body').innerHTML;
-            const html = asciidoctor.convert(adoc);
-            document.querySelector('.markdown-body').innerHTML = html;
-
-            document.addEventListener("DOMContentLoaded", function () {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        { left: "$$", right: "$$", display: true },
-                        { left: "$", right: "$", display: false }
-                    ]
-                });
-            });
+        <script type="module" src='/live-preview.nvim/static/asciidoc/main.js'>
         </script>
     ]]
     local stylesheet = [[
@@ -92,7 +78,7 @@ end
 
 
 M.handle_body = function(data)
-    local ws_script = "<script src='/live-preview.nvim/static/ws-client.min.js'></script>"
+    local ws_script = "<script src='/live-preview.nvim/static/ws-client.js'></script>"
     if data:match("<head>") then
         local body = data:gsub("<head>", "<head>" .. ws_script)
     else
