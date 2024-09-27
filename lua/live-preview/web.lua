@@ -38,13 +38,9 @@ M.md2html = function(md)
         </script>
         <script type="module">
             import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.2.1/+esm'
-            document.addEventListener('DOMContentLoaded', () => {
-                const elements = document.querySelectorAll('.language-mermaid');
-                elements.forEach(element => {
-                    mermaid.render(element.id, element.textContent, (svgCode) => {
-                        element.innerHTML = svgCode;
-                    });
-                });
+            mermaid.initialize({ startOnLoad: false });
+            await mermaid.run({
+                querySelector: '.language-mermaid',
             });
         </script>
     ]]
