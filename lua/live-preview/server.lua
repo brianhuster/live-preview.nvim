@@ -95,7 +95,7 @@ function M.handle_request(client, request)
     else
         file_path = vim.fs.joinpath(webroot, path)
     end
-    vim.print(file_path)
+    vim.print("Request: " .. file_path)
     local body = read_file(file_path)
     if not body then
         send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
