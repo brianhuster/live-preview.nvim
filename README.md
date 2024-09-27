@@ -86,3 +86,6 @@ Use the command `:help live-preview` to see the help documentation.
 ## Contributing
 
 Since this is a young project, there should be a lot of rooms for improvements. If you would like to contribute to this project, please feel free to open an issue or a pull request.
+
+### Buy me a coffee
+[https://www.paypal.com/paypalme/brianphambinhan](https://www.paypal.com/paypalme/brianphambinhan)
