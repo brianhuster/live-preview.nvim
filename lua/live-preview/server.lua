@@ -78,7 +78,7 @@ local function websocket_handshake(client, request)
 end
 
 
-local function handle_request(client, request)
+function M.handle_request(client, request)
     local file_path
     if request:match("Upgrade: websocket") then
         websocket_handshake(client, request)
@@ -140,7 +140,7 @@ local function handle_client(client)
             buffer = buffer .. chunk
             -- Check if the request is complete
             if buffer:match("\r\n\r\n$") then
-                handle_request(client, buffer)
+                M.handle_request(client, buffer)
             else
                 print("Incomplete request")
             end
