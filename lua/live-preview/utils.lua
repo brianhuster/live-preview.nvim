@@ -9,7 +9,7 @@ end
 
 --- Check if file name has a supported filetype (html, markdown, asciidoc). Warning: this function will call a Vimscript function
 --- @param file_name string
---- @return filetype string, or nil if not supported
+--- @return filetype string | nil
 function M.supported_filetype(file_name)
     if file_name:match("%.html$") then
         return "html"

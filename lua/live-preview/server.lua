@@ -195,7 +195,7 @@ function M.start(ip, port, options)
     uv.run()
 end
 
---- Stop the server
+-- Stop the server
 M.stop = function()
     M.server:close()
     M.server = uv.new_tcp()
