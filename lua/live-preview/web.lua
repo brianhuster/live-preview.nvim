@@ -37,7 +37,8 @@ M.md2html = function(md)
             document.querySelector('.markdown-body').innerHTML = html;
         </script>
         <script src="https://cdn.jsdelivr.net/npm/mermaid@11.2.1/dist/mermaid.min.js"></script>
-        <script>
+        <script type="module">
+            import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.4.0/dist/mermaid.min.js";
             mermaid.initialize({ startOnLoad: false });
             await mermaid.run({
                 querySelector: '.language-mermaid',
