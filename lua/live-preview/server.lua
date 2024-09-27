@@ -178,6 +178,7 @@ end
 --- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
+    print("Webroot: " .. webroot)
     M.server:bind(ip, port)
     M.server:listen(128, function(err)
         if err then
