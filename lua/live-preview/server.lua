@@ -78,7 +78,7 @@ local function websocket_handshake(client, request)
 end
 
 
-function M.handle_request(client, request)
+local function handle_request(client, request)
     local file_path
     if request:match("Upgrade: websocket") then
         websocket_handshake(client, request)
@@ -141,7 +141,7 @@ local function handle_client(client)
             buffer = buffer .. chunk
             -- Check if the request is complete
             if buffer:match("\r\n\r\n$") then
-                M.handle_request(client, buffer)
+                handle_request(client, buffer)
             else
                 print("Incomplete request")
             end
@@ -179,7 +179,6 @@ end
 --- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
-    print("Webroot: " .. webroot)
     M.server:bind(ip, port)
     M.server:listen(128, function(err)
         if err then
