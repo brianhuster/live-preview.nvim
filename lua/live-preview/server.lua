@@ -40,6 +40,7 @@ end
 
 
 local function send_http_response(client, status, content_type, body, headers)
+    print(body)
     -- status can be something like "200 OK", "404 Not Found", etc.
     local response = "HTTP/1.1 " .. status .. "\r\n" ..
         "Content-Type: " .. content_type .. "\r\n" ..
