@@ -14,7 +14,7 @@ const updateReadme = (file) => {
     // Update Neovim requirements
     const nvimVersionRegex = /^- Neovim.*/m;
     console.log(readme.match(nvimVersionRegex));
-    readme = readme.replace(nvimVersionRegex, `- Neovim${packspec.engines.nvim}`);
+    readme = readme.replace(nvimVersionRegex, `- Neovim ${packspec.engines.nvim}`);
 
     fs.writeFileSync(file, readme);
 
