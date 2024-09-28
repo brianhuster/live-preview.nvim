@@ -34,6 +34,7 @@ M.md2html = function(md)
         <script>
             const markdownText = document.querySelector('.markdown-body').innerHTML;
             const html = marked.parse(markdownText);
+            console.log(html);
             document.querySelector('.markdown-body').innerHTML = html;
         </script>
         <script type="module" src='/live-preview.nvim/static/mermaid/main.js'></script>
