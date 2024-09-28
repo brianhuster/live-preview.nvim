@@ -11,6 +11,11 @@ Add supports for [Katex](https://katex.org) math rendering in markdown and Ascii
 
 ## Demo video
 
+https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
+
+
+
+
 ## Requirements
 
 - Neovim : >=0.10.0
