@@ -29,4 +29,6 @@ jobs:
         with:
           commit-message: 'Update README.md based on pkg.json'
           files: 'README.md README.*.md'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
