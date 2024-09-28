@@ -41,7 +41,7 @@ jobs:
       - name: Update documentation
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        uses: actions/commit-and-push
+        uses: ./github/actions/commit-and-push
         with:
           commit-message: 'Update help doc'
           files: 'doc/*'

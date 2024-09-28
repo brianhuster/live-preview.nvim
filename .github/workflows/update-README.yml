@@ -25,7 +25,7 @@ jobs:
         run: node action.js
       
       - name: Commit and push changes
-        uses: actions/commit-and-push
+        uses: ./github/actions/commit-and-push
         with:
           commit-message: 'Update README.md based on pkg.json'
           files: 'README.md README.*.md'
