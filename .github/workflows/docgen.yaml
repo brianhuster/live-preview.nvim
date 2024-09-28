@@ -43,5 +43,4 @@ jobs:
         with:
           commit-message: 'Update help doc'
           files: 'doc/*'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
