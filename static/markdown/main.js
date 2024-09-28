@@ -1,4 +1,4 @@
-import marked from '/live-preview.nvim/static/markdown/marked.min.js';
+import { marked } from '/live-preview.nvim/static/markdown/marked.min.js';
 
 const renderer = {
     code({ text, lang, escaped }) {
