@@ -1,4 +1,4 @@
-import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.1/+esm";
+import mermaid from "/live-preview.nvim/mermaid/mermaid.min.js";
 mermaid.initialize({ startOnLoad: false });
 await mermaid.run({
     querySelector: '.language-mermaid',

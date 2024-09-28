@@ -43,8 +43,8 @@ end
 
 M.adoc2html = function(adoc)
     local script = [[
-        <script type="module" src='/live-preview.nvim/static/asciidoc/main.js'>
-        </script>
+        <script type="module" src='/live-preview.nvim/static/asciidoc/main.js'></script>
+        <script type="module" src='/live-preview.nvim/static/mermaid/main.js'></script>
     ]]
     local stylesheet = [[
         <link rel="stylesheet" href="/live-preview.nvim/static/asciidoc/asciidoctor.min.css">
