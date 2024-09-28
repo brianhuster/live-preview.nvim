@@ -36,6 +36,7 @@ M.md2html = function(md)
             const html = marked.parse(markdownText);
             document.querySelector('.markdown-body').innerHTML = html;
         </script>
+        <script type="module" src='/live-preview.nvim/static/mermaid/main.js'>
     ]]
     local stylesheet = [[
         <link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">
