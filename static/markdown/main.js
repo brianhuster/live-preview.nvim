@@ -1,6 +1,11 @@
-const renderer = new marked.Renderer();
-renderer.code = (code, language) => {
-    return `<pre class="language-${language}">${code}</pre>`;
+const renderer = {
+    code({ tokens, lang }) {
+        const text = this.parser.parseInline(tokens);
+
+        return `
+            <pre class="language-${lang}">${lang}</pre>
+        `;
+    }
 };
 
 marked.use({ renderer });
