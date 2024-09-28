@@ -82,3 +82,10 @@ Gõ lệnh `:help live-preview@vi` để xem tài liệu hướng dẫn đầy �
 ## Đóng góp
 
 Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần cải thiện. Nếu bạn muốn đóng góp cho dự án này, hãy mở một issue hoặc pull request. 
+
+### Buy me a coffee
+#### Paypal
+[https://www.paypal.com/paypalme/brianphambinhan](https://www.paypal.com/paypalme/brianphambinhan)
+
+#### Momo (Vietnam)
+[https://me.momo.vn/brianphambinhan](https://me.momo.vn/brianphambinhan)
