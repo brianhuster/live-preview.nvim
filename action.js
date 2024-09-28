@@ -2,7 +2,6 @@ const fs = require('fs');
 
 const packspec = JSON.parse(fs.readFileSync('pkg.json', 'utf8'));
 
-// Function to update a README file
 const updateReadme = (file) => {
     let readme = fs.readFileSync(file, 'utf8');
 
@@ -19,12 +18,10 @@ const updateReadme = (file) => {
     console.log(`${file} has been updated based on pkg.json`);
 };
 
-// List files in the root directory
-const files = fs.readdirSync('.');
+// List all files in the current directory
+const files = fs.readdirSync('.'); 
 
-// Filter for README.md and README.*.md files
 const readmeFiles = files.filter(file => file === 'README.md' || file.match(/^README\..*\.md$/));
 
-// Update each README file
 readmeFiles.forEach(updateReadme);
 
