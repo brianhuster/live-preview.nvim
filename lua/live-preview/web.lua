@@ -14,6 +14,7 @@ local html_template = function(body, stylesheet, script_tag)
             <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">
             <script defer src="/live-preview.nvim/static/katex/katex.min.js"></script>
             <script defer src="/live-preview.nvim/static/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+            <script src="/live-preview.nvim/static/mermaid/mermaid.min.js"></script>
         </head>
 
         <body>
@@ -21,6 +22,7 @@ local html_template = function(body, stylesheet, script_tag)
 ]] .. body .. [[
             </div>
 ]] .. script_tag .. [[
+            <script defer src="/live-preview.nvim/static/mermaid/main.js"></script>
         </body>
 
         </html>
@@ -30,9 +32,7 @@ end
 
 M.md2html = function(md)
     local script = [[
-        <script src='/live-preview.nvim/static/markdown/marked.min.js'></script>
-        <script src='/live-preview.nvim/static/markdown/main.js'></script>
-        <script type="module" src='/live-preview.nvim/static/mermaid/main.js'></script>
+        <script defer type="module" src='/live-preview.nvim/static/markdown/main.js'></script>
     ]]
     local stylesheet = [[
         <link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">
@@ -43,8 +43,7 @@ end
 
 M.adoc2html = function(adoc)
     local script = [[
-        <script type="module" src='/live-preview.nvim/static/asciidoc/main.js'>
-        </script>
+        <script defer type="module" src='/live-preview.nvim/static/asciidoc/main.js'></script>
     ]]
     local stylesheet = [[
         <link rel="stylesheet" href="/live-preview.nvim/static/asciidoc/asciidoctor.min.css">

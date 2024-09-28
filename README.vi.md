@@ -1,9 +1,10 @@
-# live-preview.nvim
+# live-preview.nvim 1.2.0 1.2.0
 
 Một plugin Neovim cho phép bạn xem kết quả file [Markdown](https://vi.wikipedia.org/wiki/Markdown), [HTML](https://vi.wikipedia.org/wiki/HTML) (nhúng kèm CSS, JS) và [AsciiDoc](https://asciidoc.org/) trong trình duyệt web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại trừ chính LuaJIT được tích hợp sẵn trong Neovim.
 
 ### Cập nhật
 Hỗ trợ công thức toán học [Katex](https://katex.org) trong file Markdown và AsciiDoc.
+Hỗ trợ vẽ sơ đồ với [mermaid](https://mermaid.js.org/) trong file Markdown.
 
 > **⚠️ Quan trọng:** Bạn cần xóa cache của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
 
@@ -13,7 +14,7 @@ https://github.com/user-attachments/assets/e9a64709-8758-44d8-9e3c-9c15e0bf2a0e
 
 ## Yêu cầu
 
-- Neovim 0.10 trở lên
+- Neovim>=0.10.0
 - Một trình duyệt web
 
 ## Cài đặt
@@ -82,3 +83,10 @@ Gõ lệnh `:help live-preview@vi` để xem tài liệu hướng dẫn đầy �
 ## Đóng góp
 
 Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần cải thiện. Nếu bạn muốn đóng góp cho dự án này, hãy mở một issue hoặc pull request. 
+
+### Buy me a coffee
+#### Paypal
+[https://www.paypal.com/paypalme/brianphambinhan](https://www.paypal.com/paypalme/brianphambinhan)
+
+#### Momo (Vietnam)
+[https://me.momo.vn/brianphambinhan](https://me.momo.vn/brianphambinhan)

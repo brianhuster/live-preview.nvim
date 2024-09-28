@@ -1,6 +1,7 @@
 {
     "name": "live-preview.nvim",
     "description": "A pure-Lua plugin for Neovim that allows you to view Markdown or HTML (along with CSS, JavaScript) files in a web browser with live updates.",
+    "version": "1.2.0",
     "engines": {
         "nvim": ">=0.10.0"
     },
