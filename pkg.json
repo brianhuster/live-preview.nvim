@@ -4,6 +4,7 @@
     "engines": {
         "nvim": ">=0.10.0"
     },
+    "version": "1.2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/brianhuster/live-preview.nvim"

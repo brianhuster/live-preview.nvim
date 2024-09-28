@@ -5,7 +5,7 @@ A plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/
 > You can read this README in [Tiếng Việt](README.vi.md)
 
 ### Updates 
-Add supports for [Katex](https://katex.org) math rendering in markdown and AsciiDoc files.
+Add supports for [Katex](https://katex.org) Math and [mermaid](https://mermaid.js.org/) graphs rendering in markdown and AsciiDoc files.
 
 > **⚠️ Important Notice:** You must clear the cache of the browser after updating to ensure the plugin works correctly.
 
@@ -18,7 +18,7 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
 ## Requirements
 
-- Neovim : >=0.10.0
+- Neovim >=0.10.0
 - A modern web browser
 
 ## Installation
