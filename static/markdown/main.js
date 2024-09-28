@@ -1,10 +1,11 @@
 const renderer = {
-    code({ tokens, lang }) {
-        const text = this.parser.parseInline(tokens);
-
-        return `
-            <pre class="language-${lang}">${lang}</pre>
-        `;
+    code({ text, lang, escaped }) {
+        const langString = (lang || '').match(/^\S*/)?.[0];
+        const code = text.replace(/\n$/, '') + '\n';
+        if (!langString) {
+            return '<pre><code>' + code + '</code></pre>';
+        }
+        return '<pre class="language-' + langString + '">' + code + '</pre>';
     }
 };
 
