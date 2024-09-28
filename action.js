@@ -1,19 +1,17 @@
 const fs = require('fs');
 
 const packspec = JSON.parse(fs.readFileSync('pkg.json', 'utf8'));
-console.log(packspec.name, packspec.version, packspec.engines.nvim);
 
 const updateReadme = (file) => {
     let readme = fs.readFileSync(file, 'utf8');
 
     // Update plugin name and version
-    const nameVersionRegex = /^# [\w.-]+/m;
-    console.log(readme.match(nameVersionRegex));
+    //const nameVersionRegex = /^# [\w.-]+/m;
+    const nameVersionRegex = /^#.*$/m;
     readme = readme.replace(nameVersionRegex, `# ${packspec.name} ${packspec.version}`);
 
     // Update Neovim requirements
     const nvimVersionRegex = /^- Neovim.*/m;
-    console.log(readme.match(nvimVersionRegex));
     readme = readme.replace(nvimVersionRegex, `- Neovim ${packspec.engines.nvim}`);
 
     fs.writeFileSync(file, readme);
