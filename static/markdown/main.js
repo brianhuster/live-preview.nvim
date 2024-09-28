@@ -20,6 +20,15 @@ renderer.code = function(code, language, escaped = false) {
     return '<pre><code class="language-' + language + '">' + code + '</code></pre>\n';
 };
 
+marked.setOptions({
+    renderer: renderer,
+    sanitize: false, // Disable sanitization to prevent escaping
+    highlight: function(code, language) {
+        // You can add your syntax highlighting logic here
+        return code;
+    }
+});
+
 
 const markdownText = document.querySelector('.markdown-body').innerHTML;
 const html = marked.parse(markdownText);
