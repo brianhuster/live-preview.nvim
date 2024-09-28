@@ -64,11 +64,13 @@ end
 
 M.handle_body = function(data)
     local ws_script = "<script src='/live-preview.nvim/static/ws-client.js'></script>"
+    local body
     if data:match("<head>") then
-        local body = data:gsub("<head>", "<head>" .. ws_script)
+        body = data:gsub("<head>", "<head>" .. ws_script)
     else
-        local body = ws_script .. data
+        body = ws_script .. data
     end
+    return body
 end
 
 
