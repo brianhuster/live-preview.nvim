@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 
 const packspec = JSON.parse(fs.readFileSync('pkg.json', 'utf8'));
 
