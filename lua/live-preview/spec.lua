@@ -1,3 +1,4 @@
+--- Returns the metadata of live-preview.nvim as a table.
 local function spec()
     local read_file = require("live-preview.utils").uv_read_file
     local get_plugin_path = require("live-preview.utils").get_plugin_path

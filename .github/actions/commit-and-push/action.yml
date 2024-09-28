@@ -1,0 +1,20 @@
+name: 'Commit and Push'
+description: 'Commit and push changes to the repository'
+inputs:
+  commit-message:
+    description: 'Commit message'
+    required: true
+  files:
+    description: 'Files to add'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Commit and Push
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add ${{ inputs.files }}
+        git diff --quiet && git diff --staged --quiet || (git commit -m "${{ inputs.commit-message }}"; git push)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,3 +1,5 @@
+---@tag live-preview
+
 local utils = require("live-preview.utils")
 local server = require("live-preview.server")
 
