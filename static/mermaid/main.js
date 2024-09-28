@@ -1,5 +1,5 @@
 mermaid.initialize({ startOnLoad: false });
-await mermaid.run({
+mermaid.run({
     querySelector: '.language-mermaid',
 });
 
