@@ -30,8 +30,7 @@ end
 
 M.md2html = function(md)
     local script = [[
-        <script src='/live-preview.nvim/static/markdown/marked.min.js'></script>
-        <script src='/live-preview.nvim/static/markdown/main.js'></script>
+        <script type="module" src='/live-preview.nvim/static/markdown/main.js'></script>
         <script type="module" src='/live-preview.nvim/static/mermaid/main.js'></script>
     ]]
     local stylesheet = [[

@@ -1,3 +1,5 @@
+import marked from '/live-preview.nvim/static/markdown/marked.js';
+
 const renderer = {
     code({ text, lang, escaped }) {
         const langString = (lang || '').match(/^\S*/)?.[0];
