@@ -6,8 +6,6 @@ renderer.code = function(code, language) {
 
 marked.setOptions({
     renderer: renderer,
-    gfm: true,
-    breaks: true
 });
 const markdownText = document.querySelector('.markdown-body').innerHTML;
 const html = marked.parse(markdownText);
