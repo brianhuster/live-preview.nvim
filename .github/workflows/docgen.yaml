@@ -19,7 +19,7 @@ jobs:
       - run: date +%F > todays-date
       - name: Install Neovim
         run: |
-          sudo apt install -y neovim
+          sudo snap install nvim --classic
           nvim --version
       - name: Prepare
         run: |
@@ -32,7 +32,6 @@ jobs:
         run: |
           # We have to build the parser every single time to keep up with parser changes
           cd ~/.local/share/nvim/site/pack/vendor/start/tree-sitter-lua
-          git checkout 86f74dfb69c570f0749b241f8f5489f8f50adbea
           make dist
           cd -
 
@@ -40,7 +39,6 @@ jobs:
         run: |
           make docgen
 
-      # inspired by nvim-lspconfigs
       - name: Update documentation
         uses: ./.github/actions/commit-and-push
         with:
