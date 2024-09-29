@@ -1,6 +1,8 @@
 ---@tag live-preview
+---@config { ["module"] = "live-preview" }
 ---@brief [[
---- Live preview for markdown, asciidoc, and html files
+--- Live preview for markdown, asciidoc, and html files.
+--- These are functions for setting up, starting, and stopping the live preview server.
 ---]]
 
 local utils = require("live-preview.utils")
@@ -36,8 +38,8 @@ function M.stop_preview()
 end
 
 --- Start live preview 
---- @param filepath string 
---- @param port number
+--- @param filepath string: path to the file 
+--- @param port number: port to run the server on
 function M.preview_file(filepath, port)
     utils.kill_port(port)
     vim.wait(50, function()

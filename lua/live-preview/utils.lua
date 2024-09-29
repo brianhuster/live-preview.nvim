@@ -1,3 +1,9 @@
+---@tag live-preview.utils
+---@config { ["module"] = "live-preview.utils" }
+---@brief [[
+--- Utility functions for live-preview.nvim.
+--- ]]
+
 local M = {}
 
 local uv = vim.uv
@@ -110,6 +116,7 @@ end
 --- Compute the SHA1 hash of a string
 --- Source : https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
 --- @param val string
+--- @return string: SHA1 hash
 function M.sha1(val)
     local function to_32_bits_str(number)
         return string.char(bit.band(bit.rshift(number, 24), 255)) ..

@@ -1,3 +1,10 @@
+---@tag live-preview.server
+---@config { ["module"] = "live-preview.server" }
+---@brief [[
+--- Functions for http and websocket server.
+--- ]]
+
+
 local M = {}
 
 local uv = vim.uv
@@ -10,8 +17,8 @@ local handle_body = require('live-preview.web').handle_body
 local webroot = "."
 M.server = uv.new_tcp()
 
---- Generate an ETag for a file 
---- @param file_path string: path to the file 
+--- Generate an ETag for a file
+--- @param file_path string: path to the file
 --- @return string: ETag for the file
 function M.generate_etag(file_path)
     local attr = uv.fs_stat(file_path)
@@ -22,8 +29,8 @@ function M.generate_etag(file_path)
     return modification_time.sec .. "." .. modification_time.nsec
 end
 
---- Get the content type of a file 
---- @param file_path string: path to the file 
+--- Get the content type of a file
+--- @param file_path string: path to the file
 --- @return string: content type of the file (MIME type)
 function M.get_content_type(file_path)
     if supported_filetype(file_path) then
@@ -43,12 +50,12 @@ function M.get_content_type(file_path)
     end
 end
 
---- Send an HTTP response to the client 
---- @param client uv.TCP: client connection 
---- @param status string: HTTP status code 
---- @param content_type string: MIME type of the response 
---- @param body string: response body 
---- @param headers table: additional headers to send 
+--- Send an HTTP response to the client
+--- @param client uv.TCP: client connection
+--- @param status string: HTTP status code
+--- @param content_type string: MIME type of the response
+--- @param body string: response body
+--- @param headers table: additional headers to send
 function M.send_http_response(client, status, content_type, body, headers)
     -- status can be something like "200 OK", "404 Not Found", etc.
     local response = "HTTP/1.1 " .. status .. "\r\n" ..
@@ -67,9 +74,9 @@ function M.send_http_response(client, status, content_type, body, headers)
     client:write(response)
 end
 
---- Handle a WebSocket handshake request 
---- @param client uv.TCP: client connection 
---- @param request string: HTTP request 
+--- Handle a WebSocket handshake request
+--- @param client uv.TCP: client connection
+--- @param request string: HTTP request
 function M.websocket_handshake(client, request)
     local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
     if not key then
@@ -89,9 +96,9 @@ function M.websocket_handshake(client, request)
     client:write(response)
 end
 
---- Handle an HTTP request 
---- @param client uv.TCP: client connection 
---- @param request string: HTTP request 
+--- Handle an HTTP request
+--- @param client uv.TCP: client connection
+--- @param request string: HTTP request
 function M.handle_request(client, request)
     local file_path
     if request:match("Upgrade: websocket") then
@@ -142,7 +149,7 @@ function M.handle_request(client, request)
 end
 
 --- Handle a client connection, read the request and send a response
---- @param client uv.TCP: client connection 
+--- @param client uv.TCP: client connection
 function M.handle_client(client)
     local buffer = ""
 
@@ -167,16 +174,16 @@ function M.handle_client(client)
     end)
 end
 
---- Send a message to a WebSocket client 
---- @param client uv.TCP: client connection 
+--- Send a message to a WebSocket client
+--- @param client uv.TCP: client connection
 --- @param message string: message to send
 function M.websocket_send(client, message)
     local frame = string.char(0x81) .. string.char(#message) .. message
     client:write(frame)
 end
 
---- Watch a directory for changes and send a message to a WebSocket client 
---- @param dir string: path to the directory 
+--- Watch a directory for changes and send a message to a WebSocket client
+--- @param dir string: path to the directory
 --- @param client uv.TCP: client connection
 function M.watch_dir(dir, client)
     local watcher = uv.new_fs_event()
@@ -193,7 +200,7 @@ end
 --- @param ip string
 --- @param port number
 --- @param options table
---- @param options.webroot string
+--- @param options.webroot string: path to the webroot
 ---
 --- For example:
 --- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
