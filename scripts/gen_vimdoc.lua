@@ -1,23 +1,21 @@
-#!/usr/bin/env -S nvim -l
---- Generates Nvim :help docs from Lua/C docstrings
----
---- The generated :help text for each function is formatted as follows:
---- - Max width of 78 columns (`TEXT_WIDTH`).
---- - Indent with spaces (not tabs).
---- - Indent of 4 columns for body text (`INDENTATION`).
---- - Function signature and helptag (right-aligned) on the same line.
----   - Signature and helptag must have a minimum of 8 spaces between them.
----   - If the signature is too long, it is placed on the line after the helptag.
----     Signature wraps with subsequent lines indented to the open parenthesis.
----   - Subsection bodies are indented an additional 4 spaces.
---- - Body consists of function description, parameters, return description, and
----   C declaration (`INCLUDE_C_DECL`).
---- - Parameters are omitted for the `void` and `Error *` types, or if the
----   parameter is marked as [out].
---- - Each function documentation is separated by a single line.
+-- Copyright Neovim contributors.
+--
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+--     http://www.apache.org/licenses/LICENSE-2.0
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
 
 local luacats_parser = require('scripts.luacats_parser')
 local text_utils = require('scripts.text_utils')
+local config = require('scripts.vimdoc_config')
 
 local fmt = string.format
 
@@ -27,34 +25,6 @@ local md_to_vimdoc = text_utils.md_to_vimdoc
 local TEXT_WIDTH = 78
 local INDENTATION = 4
 
---- @class (exact) nvim.gen_vimdoc.Config
----
---- Generated documentation target, e.g. api.txt
---- @field filename string
----
---- @field section_order string[]
----
---- List of files/directories for doxygen to read, relative to `base_dir`.
---- @field files string[]
----
---- @field exclude_types? true
----
---- Section name overrides. Key: filename (e.g., vim.c)
---- @field section_name? table<string,string>
----
---- @field fn_name_pat? string
----
---- @field fn_xform? fun(fun: nvim.luacats.parser.fun)
----
---- For generated section names.
---- @field section_fmt fun(name: string): string
----
---- @field helptag_fmt fun(name: string): string
----
---- Per-function helptag.
---- @field fn_helptag_fmt? fun(fun: nvim.luacats.parser.fun): string
----
---- @field append_only? string[]
 
 local function contains(t, xs)
     return vim.tbl_contains(xs, t)
@@ -101,40 +71,6 @@ local function fn_helptag_fmt_common(fun)
     return fun.name .. fn_sfx
 end
 
---- @type table<string,nvim.gen_vimdoc.Config>
-local config = {
-    lua = {
-        filename = 'live-preview.txt',
-        section_order = {
-            'init.lua',
-            'server.lua',
-            'utils.lua',
-            'health.lua',
-            'spec.lua',
-        },
-        files = {
-            'lua/live-preview/',
-        },
-        fn_xform = function(fun)
-            fun.name = fun.name:gsub('M.', '')
-        end,
-        section_fmt = function(name)
-            if name:lower() == 'init' then
-                return 'Lua module : require("live-preview")'
-            end
-            if name:lower() == 'spec' then
-                return 'spec = require("live-preview.spec")'
-            end
-            return string.format('Lua module: require("live-preview.%s")', name:lower())
-        end,
-        helptag_fmt = function(name)
-            if name:lower() == 'init' then
-                return 'live-preview'
-            end
-            return fmt('live-preview.%s', name:lower())
-        end,
-    }
-}
 
 --- @param ty string
 --- @param generics table<string,string>
