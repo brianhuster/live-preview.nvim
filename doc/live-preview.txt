@@ -188,12 +188,13 @@ M.sha1({val})                                      *live-preview.utils.sha1()*
         string: SHA1 hash
 
 
-M.open_browser({path})                     *live-preview.utils.open_browser()*
+M.open_browser({path}, {browser})          *live-preview.utils.open_browser()*
     Open URL in the browser
 
 
     Parameters: ~
-        {path} (string)
+        {path}    (string)
+        {browser} (string)
 
 
 M.kill_port()                                 *live-preview.utils.kill_port()*
@@ -204,5 +205,9 @@ M.kill_port()                                 *live-preview.utils.kill_port()*
 
 ================================================================================
 HEALTH                                                     *live-preview.health*
+
+To run health check for Live Preview, run ```lua :checkhealth live-preview ```.
+This will check if your Neovim version is compatible with Live Preview and if
+the commands to open browser are available.
 
 
