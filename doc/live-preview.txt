@@ -154,3 +154,6 @@ To run health check for Live Preview, run
 if the commands to open browser are available.
 
 
+================================================================================
+
+ vim:tw=78:ts=8:ft=help:norl:
