@@ -1,109 +1,137 @@
 ================================================================================
 LIVE-PREVIEW                                                      *live-preview*
 
+Live preview for markdown, asciidoc, and html files. These are functions for
+setting up, starting, and stopping the live preview server. ]]
+
+M.stop_preview()                                 *live-preview.stop_preview()*
+    Stop live preview
+
+
+
+M.preview_file()                                 *live-preview.preview_file()*
+    Start live preview
+
+
+
+M.setup()                                               *live-preview.setup()*
+    Setup live preview
+
+
+
 
 ================================================================================
-M.generate_etag()                                          *M.generate_etag()*
+SERVER                                                     *live-preview.server*
+
+Functions for http and websocket server. ]]
+
+M.generate_etag()                        *live-preview.server.generate_etag()*
     Generate an ETag for a file
 
 
 
-M.get_content_type()                                    *M.get_content_type()*
+M.get_content_type()                  *live-preview.server.get_content_type()*
     Get the content type of a file
 
 
 
-M.send_http_response()                                *M.send_http_response()*
+M.send_http_response()              *live-preview.server.send_http_response()*
     Send an HTTP response to the client
 
 
 
-M.websocket_handshake()                              *M.websocket_handshake()*
+M.websocket_handshake()            *live-preview.server.websocket_handshake()*
     Handle a WebSocket handshake request
 
 
 
-M.handle_request()                                        *M.handle_request()*
+M.handle_request()                      *live-preview.server.handle_request()*
     Handle an HTTP request
 
 
 
-M.handle_client()                                          *M.handle_client()*
+M.handle_client()                        *live-preview.server.handle_client()*
     Handle a client connection, read the request and send a response
 
 
 
-M.websocket_send()                                        *M.websocket_send()*
+M.websocket_send()                      *live-preview.server.websocket_send()*
     Send a message to a WebSocket client
 
 
 
-M.watch_dir()                                                  *M.watch_dir()*
+M.watch_dir()                                *live-preview.server.watch_dir()*
     Watch a directory for changes and send a message to a WebSocket client
 
 
 
-M.start()                                                          *M.start()*
+M.start()                                        *live-preview.server.start()*
     Start the server
 
 
 
-M.stop()                                                            *M.stop()*
+M.stop()                                          *live-preview.server.stop()*
     Stop the server
 
 
 
 
 ================================================================================
-M.supported_filetype()                                *M.supported_filetype()*
+UTILS                                                       *live-preview.utils*
+
+Utility functions for live-preview.nvim. ]]
+
+M.supported_filetype()               *live-preview.utils.supported_filetype()*
     Check if file name has a supported filetype (html, markdown, asciidoc).
     Warning: this function will call a Vimscript function
 
 
 
-M.get_plugin_path()                                      *M.get_plugin_path()*
+M.get_plugin_path()                     *live-preview.utils.get_plugin_path()*
     Get the path where live-preview is installed
 
 
 
 
-M.uv_read_file()                                            *M.uv_read_file()*
+M.uv_read_file()                           *live-preview.utils.uv_read_file()*
     Read a file using libuv
 
 
 
-M.get_path_lua_file()                                  *M.get_path_lua_file()*
+M.get_path_lua_file()                 *live-preview.utils.get_path_lua_file()*
     Get the path of the current lua file
 
 
 
 
-M.term_cmd()                                                    *M.term_cmd()*
+M.term_cmd()                                   *live-preview.utils.term_cmd()*
     Execute a shell commands
 
 
 
-M.await_term_cmd()                                        *M.await_term_cmd()*
+M.await_term_cmd()                       *live-preview.utils.await_term_cmd()*
     Execute a shell command and wait for the exit
 
 
 
-M.sha1()                                                            *M.sha1()*
+M.sha1()                                           *live-preview.utils.sha1()*
     Compute the SHA1 hash of a string Source :
     https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
 
 
 
-M.open_browser()                                            *M.open_browser()*
+M.open_browser()                           *live-preview.utils.open_browser()*
     Open URL in the browser
 
 
 
-M.kill_port()                                                  *M.kill_port()*
+M.kill_port()                                 *live-preview.utils.kill_port()*
     Kill a process which is not Neovim running on a port
 
 
 
 
 ================================================================================
+HEALTH                                                     *live-preview.health*
+
 
