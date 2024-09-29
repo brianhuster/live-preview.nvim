@@ -17,7 +17,6 @@
 --- - Each function documentation is separated by a single line.
 
 local luacats_parser = require('scripts.luacats_parser')
-local cdoc_parser = require('scripts.cdoc_parser')
 local text_utils = require('scripts.text_utils')
 
 local fmt = string.format
@@ -104,279 +103,37 @@ end
 
 --- @type table<string,nvim.gen_vimdoc.Config>
 local config = {
-    api = {
-        filename = 'api.txt',
-        section_order = {
-            'vim.c',
-            'vimscript.c',
-            'command.c',
-            'options.c',
-            'buffer.c',
-            'extmark.c',
-            'window.c',
-            'win_config.c',
-            'tabpage.c',
-            'autocmd.c',
-            'ui.c',
-        },
-        exclude_types = true,
-        fn_name_pat = 'nvim_.*',
-        files = { 'src/nvim/api' },
-        section_name = {
-            ['vim.c'] = 'Global',
-        },
-        section_fmt = function(name)
-            return name .. ' Functions'
-        end,
-        helptag_fmt = function(name)
-            return fmt('api-%s', name:lower())
-        end,
-    },
     lua = {
-        filename = 'lua.txt',
+        filename = 'live-preview.txt',
         section_order = {
-            'highlight.lua',
-            'diff.lua',
-            'mpack.lua',
-            'json.lua',
-            'base64.lua',
-            'spell.lua',
-            'builtin.lua',
-            '_options.lua',
-            '_editor.lua',
-            '_inspector.lua',
-            'shared.lua',
-            'loader.lua',
-            'uri.lua',
-            'ui.lua',
-            'filetype.lua',
-            'keymap.lua',
-            'fs.lua',
-            'glob.lua',
-            'lpeg.lua',
-            're.lua',
-            'regex.lua',
-            'secure.lua',
-            'version.lua',
-            'iter.lua',
-            'snippet.lua',
-            'text.lua',
-            'tohtml.lua',
-        },
-        files = {
-            'runtime/lua/vim/iter.lua',
-            'runtime/lua/vim/_editor.lua',
-            'runtime/lua/vim/_options.lua',
-            'runtime/lua/vim/shared.lua',
-            'runtime/lua/vim/loader.lua',
-            'runtime/lua/vim/uri.lua',
-            'runtime/lua/vim/ui.lua',
-            'runtime/lua/vim/filetype.lua',
-            'runtime/lua/vim/keymap.lua',
-            'runtime/lua/vim/fs.lua',
-            'runtime/lua/vim/highlight.lua',
-            'runtime/lua/vim/secure.lua',
-            'runtime/lua/vim/version.lua',
-            'runtime/lua/vim/_inspector.lua',
-            'runtime/lua/vim/snippet.lua',
-            'runtime/lua/vim/text.lua',
-            'runtime/lua/vim/glob.lua',
-            'runtime/lua/vim/_meta/builtin.lua',
-            'runtime/lua/vim/_meta/diff.lua',
-            'runtime/lua/vim/_meta/mpack.lua',
-            'runtime/lua/vim/_meta/json.lua',
-            'runtime/lua/vim/_meta/base64.lua',
-            'runtime/lua/vim/_meta/regex.lua',
-            'runtime/lua/vim/_meta/lpeg.lua',
-            'runtime/lua/vim/_meta/re.lua',
-            'runtime/lua/vim/_meta/spell.lua',
-            'runtime/lua/tohtml.lua',
-        },
-        fn_xform = function(fun)
-            if contains(fun.module, { 'vim.uri', 'vim.shared', 'vim._editor' }) then
-                fun.module = 'vim'
-            end
-
-            if fun.module == 'vim' and contains(fun.name, { 'cmd', 'inspect' }) then
-                fun.table = nil
-            end
-
-            if fun.classvar or vim.startswith(fun.name, 'vim.') or fun.module == 'vim.iter' then
-                return
-            end
-
-            fun.name = fmt('%s.%s', fun.module, fun.name)
-        end,
-        section_name = {
-            ['_inspector.lua'] = 'inspector',
-        },
-        section_fmt = function(name)
-            name = name:lower()
-            if name == '_editor' then
-                return 'Lua module: vim'
-            elseif name == '_options' then
-                return 'LUA-VIMSCRIPT BRIDGE'
-            elseif name == 'builtin' then
-                return 'VIM'
-            end
-            if
-                contains(name, {
-                    'highlight',
-                    'mpack',
-                    'json',
-                    'base64',
-                    'diff',
-                    'spell',
-                    'regex',
-                    'lpeg',
-                    're',
-                })
-            then
-                return 'VIM.' .. name:upper()
-            end
-            if name == 'tohtml' then
-                return 'Lua module: tohtml'
-            end
-            return 'Lua module: vim.' .. name
-        end,
-        helptag_fmt = function(name)
-            if name == '_editor' then
-                return 'lua-vim'
-            elseif name == '_options' then
-                return 'lua-vimscript'
-            elseif name == 'tohtml' then
-                return 'tohtml'
-            end
-            return 'vim.' .. name:lower()
-        end,
-        fn_helptag_fmt = function(fun)
-            local name = fun.name
-
-            if vim.startswith(name, 'vim.') then
-                local fn_sfx = fun.table and '' or '()'
-                return name .. fn_sfx
-            elseif fun.classvar == 'Option' then
-                return fmt('vim.opt:%s()', name)
-            end
-
-            return fn_helptag_fmt_common(fun)
-        end,
-        append_only = {
-            'shared.lua',
-        },
-    },
-    lsp = {
-        filename = 'lsp.txt',
-        section_order = {
-            'lsp.lua',
-            'client.lua',
-            'buf.lua',
-            'diagnostic.lua',
-            'codelens.lua',
-            'completion.lua',
-            'inlay_hint.lua',
-            'tagfunc.lua',
-            'semantic_tokens.lua',
-            'handlers.lua',
-            'util.lua',
-            'log.lua',
-            'rpc.lua',
-            'protocol.lua',
-        },
-        files = {
-            'runtime/lua/vim/lsp',
-            'runtime/lua/vim/lsp.lua',
-        },
-        fn_xform = function(fun)
-            fun.name = fun.name:gsub('result%.', '')
-        end,
-        section_fmt = function(name)
-            if name:lower() == 'lsp' then
-                return 'Lua module: vim.lsp'
-            end
-            return 'Lua module: vim.lsp.' .. name:lower()
-        end,
-        helptag_fmt = function(name)
-            if name:lower() == 'lsp' then
-                return 'lsp-core'
-            end
-            return fmt('lsp-%s', name:lower())
-        end,
-    },
-    diagnostic = {
-        filename = 'diagnostic.txt',
-        section_order = {
-            'diagnostic.lua',
-        },
-        files = { 'runtime/lua/vim/diagnostic.lua' },
-        section_fmt = function()
-            return 'Lua module: vim.diagnostic'
-        end,
-        helptag_fmt = function()
-            return 'diagnostic-api'
-        end,
-    },
-    treesitter = {
-        filename = 'treesitter.txt',
-        section_order = {
-            'treesitter.lua',
-            'language.lua',
-            'query.lua',
-            'highlighter.lua',
-            'languagetree.lua',
-            'dev.lua',
-        },
-        files = {
-            'runtime/lua/vim/treesitter.lua',
-            'runtime/lua/vim/treesitter/',
-        },
-        section_fmt = function(name)
-            if name:lower() == 'treesitter' then
-                return 'Lua module: vim.treesitter'
-            end
-            return 'Lua module: vim.treesitter.' .. name:lower()
-        end,
-        helptag_fmt = function(name)
-            if name:lower() == 'treesitter' then
-                return 'lua-treesitter-core'
-            end
-            return 'lua-treesitter-' .. name:lower()
-        end,
-    },
-    editorconfig = {
-        filename = 'editorconfig.txt',
-        files = {
-            'runtime/lua/editorconfig.lua',
-        },
-        section_order = {
-            'editorconfig.lua',
-        },
-        section_fmt = function(_name)
-            return 'EditorConfig integration'
-        end,
-        helptag_fmt = function(name)
-            return name:lower()
-        end,
-        fn_xform = function(fun)
-            fun.table = true
-            fun.name = vim.split(fun.name, '.', { plain = true })[2]
-        end,
-    },
-    health = {
-        filename = 'health.txt',
-        files = {
-            'runtime/lua/vim/health.lua',
-        },
-        section_order = {
+            'init.lua',
+            'server.lua',
+            'utils.lua',
             'health.lua',
+            'spec.lua',
         },
-        section_fmt = function(_name)
-            return 'Checkhealth'
+        files = {
+            'lua/live-preview/',
+        },
+        fn_xform = function(fun)
+            fun.name = fun.name:gsub('M.', '')
         end,
-        helptag_fmt = function()
-            return 'vim.health* *health' -- HACK
+        section_fmt = function(name)
+            if name:lower() == 'init' then
+                return 'Lua module : require("live-preview")'
+            end
+            if name:lower() == 'spec' then
+                return 'spec = require("live-preview.spec")'
+            end
+            return string.format('Lua module: require("live-preview.%s")', name:lower())
         end,
-    },
+        helptag_fmt = function(name)
+            if name:lower() == 'init' then
+                return 'live-preview'
+            end
+            return fmt('live-preview.%s', name:lower())
+        end,
+    }
 }
 
 --- @param ty string
@@ -620,7 +377,7 @@ end
 --- @param fun nvim.luacats.parser.fun
 --- @param cfg nvim.gen_vimdoc.Config
 local function render_fun_header(fun, cfg)
-    local ret = {} --- @type string[]
+    local ret = {}  --- @type string[]
 
     local args = {} --- @type string[]
     for _, p in ipairs(fun.params or {}) do
@@ -810,14 +567,7 @@ local function render_funs(funs, classes, cfg)
     return table.concat(ret)
 end
 
---- @return string
-local function get_script_path()
-    local str = debug.getinfo(2, 'S').source:sub(2)
-    return str:match('(.*[/\\])') or './'
-end
-
-local script_path = get_script_path()
-local base_dir = vim.fs.dirname(vim.fs.dirname(script_path))
+local base_dir = vim.uv.cwd()
 
 local function delete_lines_below(doc_file, tokenstr)
     local lines = {} --- @type string[]
@@ -913,8 +663,6 @@ end
 
 local parsers = {
     lua = luacats_parser.parse,
-    c = cdoc_parser.parse,
-    h = cdoc_parser.parse,
 }
 
 --- @param files string[]
@@ -989,7 +737,7 @@ local function gen_target(cfg)
         fmt(' vim:tw=78:ts=8:sw=%d:sts=%d:et:ft=help:norl:\n', INDENTATION, INDENTATION)
     )
 
-    local doc_file = vim.fs.joinpath(base_dir, 'runtime', 'doc', cfg.filename)
+    local doc_file = vim.fs.joinpath(base_dir, 'doc', cfg.filename)
 
     if vim.uv.fs_stat(doc_file) then
         delete_lines_below(doc_file, first_section_tag)

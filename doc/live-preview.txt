@@ -1,159 +1,212 @@
-================================================================================
-LIVE-PREVIEW                                                      *live-preview*
+
+==============================================================================
+Lua module : require("live-preview")                            *live-preview*
 
 Live preview for markdown, asciidoc, and html files. These are functions for
 setting up, starting, and stopping the live preview server.
 
-M = require("live-preview")
 
-M.stop_preview()                                 *live-preview.stop_preview()*
+                                    *lua.live-preview.init.lua.preview_file()*
+preview_file({filepath}, {port})
+    Start live preview
+
+    Parameters: ~
+      • {filepath}  (`string`) path to the file
+      • {port}      (`number`) port to run the server on
+
+                                           *lua.live-preview.init.lua.setup()*
+setup({opts}, {opts.commands}, {opts.commands.start}, {opts.commands.stop},
+      {opts.port}, {opts.browser})
+    Setup live preview
+
+    Parameters: ~
+      • {opts}                 (`table`)
+      • {opts.commands}        (`table`)
+      • {opts.commands.start}  (`string`)
+      • {opts.commands.stop}   (`string`)
+      • {opts.port}            (`number`)
+      • {opts.browser}         (`string`)
+
+stop_preview()                      *lua.live-preview.init.lua.stop_preview()*
     Stop live preview
 
 
+==============================================================================
+Lua module: require("live-preview.server")               *live-preview.server*
 
-M.preview_file({filepath}, {port})               *live-preview.preview_file()*
-    Start live preview
-
-
-    Parameters: ~
-        {filepath} (string)  path to the file 
-        {port}     (number)  port to run the server on
+Functions for http and websocket server. Some functions requires a 'webroot'
+variable to be set.
 
 
-M.setup({opts})                                         *live-preview.setup()*
-    Setup live preview
-
-
-    Parameters: ~
-        {opts} (table)
-
-
-
-================================================================================
-SERVER                                                     *live-preview.server*
-
-Functions for http and websocket server.
-
-M = require("live-preview.server")
-
-M.generate_etag({file_path})             *live-preview.server.generate_etag()*
+                                 *lua.live-preview.server.lua.generate_etag()*
+generate_etag({file_path})
     Generate an ETag for a file
 
-
     Parameters: ~
-        {file_path} (string)  path to the file
+      • {file_path}  (`string`) path to the file
 
     Return: ~
-        string: ETag for the file
+        (`string`) ETag for the file
 
-
-M.get_content_type({file_path})       *live-preview.server.get_content_type()*
+                              *lua.live-preview.server.lua.get_content_type()*
+get_content_type({file_path})
     Get the content type of a file
 
-
     Parameters: ~
-        {file_path} (string)  path to the file
+      • {file_path}  (`string`) path to the file
 
     Return: ~
-        string: content type of the file (MIME type)
+        (`string`) content type of the file (MIME type)
 
-
-M.send_http_response({client}, {status}, {content_type}, {body}, {headers}) *live-preview.server.send_http_response()*
-    Send an HTTP response to the client
-
-
-    Parameters: ~
-        {client}       (uv.TCP)  client connection
-        {status}       (string)  HTTP status code
-        {content_type} (string)  MIME type of the response
-        {body}         (string)  response body
-        {headers}      (table)   additional headers to send
-
-
-M.websocket_handshake({client}, {request}) *live-preview.server.websocket_handshake()*
-    Handle a WebSocket handshake request
-
-
-    Parameters: ~
-        {client}  (uv.TCP)  client connection
-        {request} (string)  HTTP request
-
-
-M.handle_request({client}, {request})   *live-preview.server.handle_request()*
-    Handle an HTTP request
-
-
-    Parameters: ~
-        {client}  (uv.TCP)  client connection
-        {request} (string)  HTTP request
-
-
-M.handle_client({client})                *live-preview.server.handle_client()*
+handle_client({client})          *lua.live-preview.server.lua.handle_client()*
     Handle a client connection, read the request and send a response
 
+    Parameters: ~
+      • {client}  (`uv.TCP`) client connection
+
+                                *lua.live-preview.server.lua.handle_request()*
+handle_request({client}, {request})
+    Handle an HTTP request
 
     Parameters: ~
-        {client} (uv.TCP)  client connection
+      • {client}   (`uv.TCP`) client connection
+      • {request}  (`string`) HTTP request
 
-
-M.websocket_send({client}, {message})   *live-preview.server.websocket_send()*
-    Send a message to a WebSocket client
-
-
-    Parameters: ~
-        {client}  (uv.TCP)  client connection
-        {message} (string)  message to send
-
-
-M.watch_dir({dir}, {client})                 *live-preview.server.watch_dir()*
-    Watch a directory for changes and send a message to a WebSocket client
-
+                            *lua.live-preview.server.lua.send_http_response()*
+send_http_response({client}, {status}, {content_type}, {body}, {headers})
+    Send an HTTP response to the client
 
     Parameters: ~
-        {dir}    (string)  path to the directory
-        {client} (uv.TCP)  client connection
+      • {client}        (`uv.TCP`) client connection
+      • {status}        (`string`) HTTP status code
+      • {content_type}  (`string`) MIME type of the response
+      • {body}          (`string`) response body
+      • {headers}       (`table`) additional headers to send
 
-
-M.start({ip}, {port}, {options})                 *live-preview.server.start()*
+                                         *lua.live-preview.server.lua.start()*
+start({ip}, {port}, {options}, {options.webroot})
     Start the server
 
     For example: require('live-preview.server').start('localhost', 8080,
     {webroot = '/path/to/webroot'})
 
-
     Parameters: ~
-        {ip}      (string)
-        {port}    (number)
-        {options} (table)
+      • {ip}               (`string`)
+      • {port}             (`number`)
+      • {options}          (`table`)
+      • {options.webroot}  (`string`) path to the webroot
 
-
-M.stop()                                          *live-preview.server.stop()*
+stop                                        *lua.live-preview.server.lua.stop*
     Stop the server
 
+watch_dir({dir}, {client})           *lua.live-preview.server.lua.watch_dir()*
+    Watch a directory for changes and send a message to a WebSocket client
+
+    Parameters: ~
+      • {dir}     (`string`) path to the directory
+      • {client}  (`uv.TCP`) client connection
+
+                           *lua.live-preview.server.lua.websocket_handshake()*
+websocket_handshake({client}, {request})
+    Handle a WebSocket handshake request
+
+    Parameters: ~
+      • {client}   (`uv.TCP`) client connection
+      • {request}  (`string`) HTTP request
+
+                                *lua.live-preview.server.lua.websocket_send()*
+websocket_send({client}, {message})
+    Send a message to a WebSocket client
+
+    Parameters: ~
+      • {client}   (`uv.TCP`) client connection
+      • {message}  (`string`) message to send
 
 
+==============================================================================
+Lua module: require("live-preview.utils")                 *live-preview.utils*
 
-================================================================================
-UTILS                                                       *live-preview.utils*
-
-Utility functions for live-preview.nvim.
-
-M = require("live-preview.utils") ]]
+Utility functions for live-preview.nvim
 
 
-================================================================================
-HEALTH                                                     *live-preview.health*
+await_term_cmd                     *lua.live-preview.utils.lua.await_term_cmd*
+    Execute a shell command and wait for the exit
 
-To run health check for Live Preview, run
+    Parameters: ~
+      • {cmd}  (`string`)
 
->lua
+    Return: ~
+        (`table`) a table with fields code, stdout, stderr, signal
 
-:checkhealth live-preview
+get_path_lua_file               *lua.live-preview.utils.lua.get_path_lua_file*
+    Get the path of the current lua file
 
-<. This will check if your Neovim version is compatible with Live Preview and
-if the commands to open browser are available.
+get_plugin_path()               *lua.live-preview.utils.lua.get_plugin_path()*
+    Get the path where live-preview is installed
+
+kill_port                               *lua.live-preview.utils.lua.kill_port*
+    Kill a process which is not Neovim running on a port
+
+    Parameters: ~
+      • {port}  (`number`)
+
+open_browser                         *lua.live-preview.utils.lua.open_browser*
+    Open URL in the browser
+
+    Parameters: ~
+      • {path}     (`string`)
+      • {browser}  (`string`)
+
+sha1({val})                                *lua.live-preview.utils.lua.sha1()*
+    Compute the SHA1 hash of a string. Source :
+    https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
+
+    Parameters: ~
+      • {val}  (`string`)
+
+    Return: ~
+        (`string`) SHA1 hash
+
+                             *lua.live-preview.utils.lua.supported_filetype()*
+supported_filetype({file_name})
+    Check if file name has a supported filetype (html, markdown, asciidoc).
+    Warning: this function will call a Vimscript function
+
+    Parameters: ~
+      • {file_name}  (`string`)
+
+    Return: ~
+        (`filetype`) string | nil
+
+term_cmd                                 *lua.live-preview.utils.lua.term_cmd*
+    Execute a shell commands
+
+    Parameters: ~
+      • {cmd}  (`string`)
+
+    Return: ~
+        (`table`) a table with fields code, stdout, stderr, signal
+
+uv_read_file({file_path})          *lua.live-preview.utils.lua.uv_read_file()*
+    Read a file using libuv
+
+    Parameters: ~
+      • {file_path}  (`string`)
 
 
-================================================================================
+==============================================================================
+Lua module: require("live-preview.health")               *live-preview.health*
 
- vim:tw=78:ts=8:ft=help:norl:
+To run health check for Live Preview, run >vim
+    :checkhealth live-preview
+<
+
+This will check if your Neovim version is compatible with Live Preview and if
+the commands to open browser are available.
+
+
+is_compatible()                                              *is_compatible()*
+
+
+ vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
+>>>>>>> 171f1cf (update workflow)
