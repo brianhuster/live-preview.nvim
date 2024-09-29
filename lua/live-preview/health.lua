@@ -2,7 +2,9 @@
 ---@config { ["module"] = "live-preview.health" }
 ---@brief [[
 --- To run health check for Live Preview, run ```lua
+---
 --- :checkhealth live-preview
+---
 --- ```. This will check if your Neovim version is compatible with Live Preview and if the commands to open browser are available.
 ---@brief ]] 
 
