@@ -22,7 +22,7 @@ jobs:
           node-version: '20'
 
       - name: Run update script
-        run: node action.js
+        run: node scripts/update-readme.js
       
       - name: Commit and push changes
         uses: ./.github/actions/commit-and-push
