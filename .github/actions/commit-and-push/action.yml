@@ -1,0 +1,24 @@
+name: 'Commit and Push'
+description: 'Commit and push changes to the repository'
+inputs:
+  commit-message:
+    description: 'Commit message'
+    required: true
+  files:
+    description: 'Files to add'
+    required: true
+  github_token:
+    description: 'GitHub token'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Commit and Push
+      shell: bash
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git remote set-url origin https://x-access-token:${{ inputs.github_token }}@github.com/${{ github.repository }}.git
+        git add ${{ inputs.files }}
+        git diff --quiet && git diff --staged --quiet || (git commit -m "${{ inputs.commit-message }}"; git push)
+

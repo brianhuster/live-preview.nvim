@@ -1,3 +1,9 @@
+---@tag live-preview.utils
+---@config { ["module"] = "live-preview.utils" }
+---@brief [[
+--- Utility functions for live-preview.nvim.
+--- ]]
+
 local M = {}
 
 local uv = vim.uv
@@ -8,8 +14,8 @@ end
 
 
 --- Check if file name has a supported filetype (html, markdown, asciidoc). Warning: this function will call a Vimscript function
---- @param file_name string
---- @return filetype string | nil
+---@param file_name string
+---@return filetype string | nil
 function M.supported_filetype(file_name)
     if file_name:match("%.html$") then
         return "html"
@@ -32,7 +38,7 @@ function M.get_plugin_path()
 end
 
 --- Read a file using libuv
---- @param file_path string
+---@param file_path string
 function M.uv_read_file(file_path)
     local fd = uv.fs_open(file_path, 'r', 438) -- 438 is decimal for 0666
     if not fd then
@@ -78,8 +84,8 @@ M.get_parent_path = function(full_path, subpath)
 end
 
 --- Execute a shell commands
---- @param cmd string
---- @return table
+---@param cmd string
+---@return table: a table with fields code, stdout, stderr, signal
 M.term_cmd = function(cmd)
     local shell = "sh"
     if uv.os_uname().version:match("Windows") then
@@ -95,8 +101,8 @@ end
 
 
 --- Execute a shell command and wait for the exit
---- @param cmd string
---- @return table
+---@param cmd string
+---@return table: a table with fields code, stdout, stderr, signal
 M.await_term_cmd = function(cmd)
     local shell = "sh"
     if uv.os_uname().version:match("Windows") then
@@ -107,9 +113,10 @@ M.await_term_cmd = function(cmd)
 end
 
 
---- Compute the SHA1 hash of a string
+--- Compute the SHA1 hash of a string.
 --- Source : https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
---- @param val string
+---@param val string
+---@return string: SHA1 hash
 function M.sha1(val)
     local function to_32_bits_str(number)
         return string.char(bit.band(bit.rshift(number, 24), 255)) ..
@@ -223,8 +230,9 @@ function M.sha1(val)
         to_32_bits_str(H4)
 end
 
----  Open URL in the browser
----  @param path string
+--- Open URL in the browser
+---@param path string
+---@param browser string
 M.open_browser = function(path, browser)
     vim.validate({
         path = { path, 'string' },
