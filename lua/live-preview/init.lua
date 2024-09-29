@@ -3,7 +3,7 @@
 ---@brief [[
 --- Live preview for markdown, asciidoc, and html files.
 --- These are functions for setting up, starting, and stopping the live preview server.
----]]
+---@brief ]]
 
 local utils = require("live-preview.utils")
 local server = require("live-preview.server")
@@ -38,8 +38,8 @@ function M.stop_preview()
 end
 
 --- Start live preview 
---- @param filepath string: path to the file 
---- @param port number: port to run the server on
+---@param filepath string: path to the file 
+---@param port number: port to run the server on
 function M.preview_file(filepath, port)
     utils.kill_port(port)
     vim.wait(50, function()
@@ -54,12 +54,12 @@ local function disable_atomic_writes()
 end
 
 --- Setup live preview
---- @param opts table
---- @param opts.commands table
---- @param opts.commands.start string
---- @param opts.commands.stop string
---- @param opts.port number
---- @param opts.browser string
+---@param opts table
+---@param opts.commands table
+---@param opts.commands.start string
+---@param opts.commands.stop string
+---@param opts.port number
+---@param opts.browser string
 function M.setup()
     local opts = vim.tbl_deep_extend("force", default_options, opts or {})
 

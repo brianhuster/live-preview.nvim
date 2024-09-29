@@ -2,7 +2,7 @@
 ---@config { ["module"] = "live-preview.server" }
 ---@brief [[
 --- Functions for http and websocket server.
---- ]]
+---@brief ]]
 
 
 local M = {}
@@ -18,8 +18,8 @@ local webroot = "."
 M.server = uv.new_tcp()
 
 --- Generate an ETag for a file
---- @param file_path string: path to the file
---- @return string: ETag for the file
+---@param file_path string: path to the file
+---@return string: ETag for the file
 function M.generate_etag(file_path)
     local attr = uv.fs_stat(file_path)
     if not attr then
@@ -30,8 +30,8 @@ function M.generate_etag(file_path)
 end
 
 --- Get the content type of a file
---- @param file_path string: path to the file
---- @return string: content type of the file (MIME type)
+---@param file_path string: path to the file
+---@return string: content type of the file (MIME type)
 function M.get_content_type(file_path)
     if supported_filetype(file_path) then
         return 'text/html'
@@ -51,11 +51,11 @@ function M.get_content_type(file_path)
 end
 
 --- Send an HTTP response to the client
---- @param client uv.TCP: client connection
---- @param status string: HTTP status code
---- @param content_type string: MIME type of the response
---- @param body string: response body
---- @param headers table: additional headers to send
+---@param client uv.TCP: client connection
+---@param status string: HTTP status code
+---@param content_type string: MIME type of the response
+---@param body string: response body
+---@param headers table: additional headers to send
 function M.send_http_response(client, status, content_type, body, headers)
     -- status can be something like "200 OK", "404 Not Found", etc.
     local response = "HTTP/1.1 " .. status .. "\r\n" ..
@@ -75,8 +75,8 @@ function M.send_http_response(client, status, content_type, body, headers)
 end
 
 --- Handle a WebSocket handshake request
---- @param client uv.TCP: client connection
---- @param request string: HTTP request
+---@param client uv.TCP: client connection
+---@param request string: HTTP request
 function M.websocket_handshake(client, request)
     local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
     if not key then
@@ -97,8 +97,8 @@ function M.websocket_handshake(client, request)
 end
 
 --- Handle an HTTP request
---- @param client uv.TCP: client connection
---- @param request string: HTTP request
+---@param client uv.TCP: client connection
+---@param request string: HTTP request
 function M.handle_request(client, request)
     local file_path
     if request:match("Upgrade: websocket") then
@@ -149,7 +149,7 @@ function M.handle_request(client, request)
 end
 
 --- Handle a client connection, read the request and send a response
---- @param client uv.TCP: client connection
+---@param client uv.TCP: client connection
 function M.handle_client(client)
     local buffer = ""
 
@@ -175,16 +175,16 @@ function M.handle_client(client)
 end
 
 --- Send a message to a WebSocket client
---- @param client uv.TCP: client connection
---- @param message string: message to send
+---@param client uv.TCP: client connection
+---@param message string: message to send
 function M.websocket_send(client, message)
     local frame = string.char(0x81) .. string.char(#message) .. message
     client:write(frame)
 end
 
 --- Watch a directory for changes and send a message to a WebSocket client
---- @param dir string: path to the directory
---- @param client uv.TCP: client connection
+---@param dir string: path to the directory
+---@param client uv.TCP: client connection
 function M.watch_dir(dir, client)
     local watcher = uv.new_fs_event()
     watcher:start(dir, {}, function(err, filename, event)
@@ -197,10 +197,10 @@ function M.watch_dir(dir, client)
 end
 
 --- Start the server
---- @param ip string
---- @param port number
---- @param options table
---- @param options.webroot string: path to the webroot
+---@param ip string
+---@param port number
+---@param options table
+---@param options.webroot string: path to the webroot
 ---
 --- For example:
 --- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
