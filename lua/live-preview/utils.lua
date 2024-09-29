@@ -2,6 +2,8 @@
 ---@config { ["module"] = "live-preview.utils" }
 ---@brief [[
 --- Utility functions for live-preview.nvim.
+---
+--- M = require("live-preview.utils")
 --- ]]
 
 local M = {}

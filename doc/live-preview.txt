@@ -4,6 +4,8 @@ LIVE-PREVIEW                                                      *live-preview*
 Live preview for markdown, asciidoc, and html files. These are functions for
 setting up, starting, and stopping the live preview server.
 
+M = require("live-preview")
+
 M.stop_preview()                                 *live-preview.stop_preview()*
     Stop live preview
 
@@ -31,6 +33,8 @@ M.setup({opts})                                         *live-preview.setup()*
 SERVER                                                     *live-preview.server*
 
 Functions for http and websocket server.
+
+M = require("live-preview.server")
 
 M.generate_etag({file_path})             *live-preview.server.generate_etag()*
     Generate an ETag for a file
@@ -132,7 +136,9 @@ M.stop()                                          *live-preview.server.stop()*
 ================================================================================
 UTILS                                                       *live-preview.utils*
 
-Utility functions for live-preview.nvim. ]]
+Utility functions for live-preview.nvim.
+
+M = require("live-preview.utils") ]]
 
 M.get_plugin_path()                     *live-preview.utils.get_plugin_path()*
     Get the path where live-preview is installed

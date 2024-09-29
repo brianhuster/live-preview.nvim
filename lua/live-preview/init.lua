@@ -3,6 +3,8 @@
 ---@brief [[
 --- Live preview for markdown, asciidoc, and html files.
 --- These are functions for setting up, starting, and stopping the live preview server.
+---
+--- M = require("live-preview")
 ---@brief ]]
 
 local utils = require("live-preview.utils")
