@@ -6,7 +6,7 @@ Một plugin Neovim cho phép bạn xem kết quả file [Markdown](https://vi.w
 Hỗ trợ công thức toán học [Katex](https://katex.org) trong file Markdown và AsciiDoc.
 Hỗ trợ vẽ sơ đồ với [mermaid](https://mermaid.js.org/) trong file Markdown.
 
-> **⚠️ Quan trọng:** Bạn cần xóa cache của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
+**⚠️ Quan trọng:** Bạn cần xóa cache của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
 
 ## Video demo
 

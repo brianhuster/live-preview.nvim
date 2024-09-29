@@ -1,10 +1,6 @@
----@tag live-preview.server
----@config { ["module"] = "live-preview.server" }
----@brief [[
+---@brief
 --- Functions for http and websocket server.
----
---- M = require("live-preview.server")
----@brief ]]
+--- Some functions requires a 'webroot' variable to be set.
 
 
 local M = {}

@@ -1,3 +1,4 @@
+---@brief
 --- Returns the metadata of live-preview.nvim as a table.
 local function spec()
     local read_file = require("live-preview.utils").uv_read_file

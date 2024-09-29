@@ -19,31 +19,27 @@ jobs:
       - run: date +%F > todays-date
       - name: Install Neovim
         run: |
-          sudo apt install -y neovim
+          sudo snap install nvim --classic
           nvim --version
-      - name: Prepare
-        run: |
-          mkdir -p ~/.local/share/nvim/site/pack/vendor/start
-          git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
-          git clone https://github.com/tjdevries/tree-sitter-lua ~/.local/share/nvim/site/pack/vendor/start/tree-sitter-lua
-          ln -s $(pwd) ~/.local/share/nvim/site/pack/vendor/start
-
-      - name: Build parser
-        run: |
-          # We have to build the parser every single time to keep up with parser changes
-          cd ~/.local/share/nvim/site/pack/vendor/start/tree-sitter-lua
-          git checkout 86f74dfb69c570f0749b241f8f5489f8f50adbea
-          make dist
-          cd -
 
       - name: Generating docs
         run: |
-          make docgen
+          nvim -l scripts/gen_vimdoc.lua
 
-      # inspired by nvim-lspconfigs
-      - name: Update documentation
+      - name: Commit and push documentation
         uses: ./.github/actions/commit-and-push
         with:
           commit-message: 'Update help doc'
           files: 'doc/*'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update README
+        run: |
+          nvim -l scripts/update_readme.lua
+
+      - name: Commit and push README
+        uses: ./.github/actions/commit-and-push
+        with:
+          commit-message: 'Update README based on pkg.json'
+          files: 'README.md README.*.md'
           github_token: ${{ secrets.GITHUB_TOKEN }}
