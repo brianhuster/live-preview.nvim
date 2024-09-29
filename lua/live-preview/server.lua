@@ -2,6 +2,8 @@
 ---@config { ["module"] = "live-preview.server" }
 ---@brief [[
 --- Functions for http and websocket server.
+---
+--- M = require("live-preview.server")
 ---@brief ]]
 
 
