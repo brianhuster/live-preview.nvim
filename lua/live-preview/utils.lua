@@ -232,6 +232,7 @@ end
 
 --- Open URL in the browser
 ---@param path string
+---@param browser string
 M.open_browser = function(path, browser)
     vim.validate({
         path = { path, 'string' },
