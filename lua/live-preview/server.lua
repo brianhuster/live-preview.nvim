@@ -197,13 +197,13 @@ function M.watch_dir(dir, client)
 end
 
 --- Start the server
+---
+--- For example:
+--- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
 ---@param ip string
 ---@param port number
 ---@param options table
 ---@param options.webroot string: path to the webroot
----
---- For example:
---- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
 function M.start(ip, port, options)
     webroot = options.webroot or '.'
     M.server:bind(ip, port)

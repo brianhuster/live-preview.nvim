@@ -113,7 +113,7 @@ M.await_term_cmd = function(cmd)
 end
 
 
---- Compute the SHA1 hash of a string
+--- Compute the SHA1 hash of a string.
 --- Source : https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
 ---@param val string
 ---@return string: SHA1 hash
@@ -230,8 +230,8 @@ function M.sha1(val)
         to_32_bits_str(H4)
 end
 
----  Open URL in the browser
----  @param path string
+--- Open URL in the browser
+---@param path string
 M.open_browser = function(path, browser)
     vim.validate({
         path = { path, 'string' },
