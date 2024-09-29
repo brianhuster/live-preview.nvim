@@ -6,7 +6,6 @@ const updateReadme = (file) => {
     let readme = fs.readFileSync(file, 'utf8');
 
     // Update plugin name and version
-    //const nameVersionRegex = /^# [\w.-]+/m;
     const nameVersionRegex = /^#.*$/m;
     readme = readme.replace(nameVersionRegex, `# ${packspec.name} ${packspec.version}`);
 
