@@ -7,7 +7,7 @@ const updateReadme = (file) => {
 
     // Update plugin name and version
     const nameVersionRegex = /^#.*$/m;
-    readme = readme.replace(nameVersionRegex, `# ${packspec.name} ${packspec.version}`);
+    readme = readme.replace(nameVersionRegex, `# ${packspec.name}`);
 
     // Update Neovim requirements
     const nvimVersionRegex = /^- Neovim.*/m;
