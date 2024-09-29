@@ -2,71 +2,117 @@
 LIVE-PREVIEW                                                      *live-preview*
 
 Live preview for markdown, asciidoc, and html files. These are functions for
-setting up, starting, and stopping the live preview server. ]]
+setting up, starting, and stopping the live preview server.
 
 M.stop_preview()                                 *live-preview.stop_preview()*
     Stop live preview
 
 
 
-M.preview_file()                                 *live-preview.preview_file()*
+M.preview_file({filepath}, {port})               *live-preview.preview_file()*
     Start live preview
 
 
+    Parameters: ~
+        {filepath} (string)  path to the file 
+        {port}     (number)  port to run the server on
 
-M.setup()                                               *live-preview.setup()*
+
+M.setup({opts})                                         *live-preview.setup()*
     Setup live preview
 
+
+    Parameters: ~
+        {opts} (table)
 
 
 
 ================================================================================
 SERVER                                                     *live-preview.server*
 
-Functions for http and websocket server. ]]
+Functions for http and websocket server.
 
-M.generate_etag()                        *live-preview.server.generate_etag()*
+M.generate_etag({file_path})             *live-preview.server.generate_etag()*
     Generate an ETag for a file
 
 
+    Parameters: ~
+        {file_path} (string)  path to the file
 
-M.get_content_type()                  *live-preview.server.get_content_type()*
+    Return: ~
+        string: ETag for the file
+
+
+M.get_content_type({file_path})       *live-preview.server.get_content_type()*
     Get the content type of a file
 
 
+    Parameters: ~
+        {file_path} (string)  path to the file
 
-M.send_http_response()              *live-preview.server.send_http_response()*
+    Return: ~
+        string: content type of the file (MIME type)
+
+
+M.send_http_response({client}, {status}, {content_type}, {body}, {headers}) *live-preview.server.send_http_response()*
     Send an HTTP response to the client
 
 
+    Parameters: ~
+        {client}       (uv.TCP)  client connection
+        {status}       (string)  HTTP status code
+        {content_type} (string)  MIME type of the response
+        {body}         (string)  response body
+        {headers}      (table)   additional headers to send
 
-M.websocket_handshake()            *live-preview.server.websocket_handshake()*
+
+M.websocket_handshake({client}, {request}) *live-preview.server.websocket_handshake()*
     Handle a WebSocket handshake request
 
 
+    Parameters: ~
+        {client}  (uv.TCP)  client connection
+        {request} (string)  HTTP request
 
-M.handle_request()                      *live-preview.server.handle_request()*
+
+M.handle_request({client}, {request})   *live-preview.server.handle_request()*
     Handle an HTTP request
 
 
+    Parameters: ~
+        {client}  (uv.TCP)  client connection
+        {request} (string)  HTTP request
 
-M.handle_client()                        *live-preview.server.handle_client()*
+
+M.handle_client({client})                *live-preview.server.handle_client()*
     Handle a client connection, read the request and send a response
 
 
+    Parameters: ~
+        {client} (uv.TCP)  client connection
 
-M.websocket_send()                      *live-preview.server.websocket_send()*
+
+M.websocket_send({client}, {message})   *live-preview.server.websocket_send()*
     Send a message to a WebSocket client
 
 
+    Parameters: ~
+        {client}  (uv.TCP)  client connection
+        {message} (string)  message to send
 
-M.watch_dir()                                *live-preview.server.watch_dir()*
+
+M.watch_dir({dir}, {client})                 *live-preview.server.watch_dir()*
     Watch a directory for changes and send a message to a WebSocket client
 
 
+    Parameters: ~
+        {dir}    (string)  path to the directory
+        {client} (uv.TCP)  client connection
+
 
 M.start()                                        *live-preview.server.start()*
-    Start the server
+    For example: require('live-preview.server').start('localhost', 8080,
+    {webroot = '/path/to/webroot'})
 
 
 
@@ -81,21 +127,18 @@ UTILS                                                       *live-preview.utils*
 
 Utility functions for live-preview.nvim. ]]
 
-M.supported_filetype()               *live-preview.utils.supported_filetype()*
-    Check if file name has a supported filetype (html, markdown, asciidoc).
-    Warning: this function will call a Vimscript function
-
-
-
 M.get_plugin_path()                     *live-preview.utils.get_plugin_path()*
     Get the path where live-preview is installed
 
 
 
 
-M.uv_read_file()                           *live-preview.utils.uv_read_file()*
+M.uv_read_file({file_path})                *live-preview.utils.uv_read_file()*
     Read a file using libuv
 
+
+    Parameters: ~
+        {file_path} (string)
 
 
 M.get_path_lua_file()                 *live-preview.utils.get_path_lua_file()*
@@ -104,20 +147,38 @@ M.get_path_lua_file()                 *live-preview.utils.get_path_lua_file()*
 
 
 
-M.term_cmd()                                   *live-preview.utils.term_cmd()*
+M.term_cmd({cmd})                              *live-preview.utils.term_cmd()*
     Execute a shell commands
 
 
+    Parameters: ~
+        {cmd} (string)
 
-M.await_term_cmd()                       *live-preview.utils.await_term_cmd()*
+    Return: ~
+        table: a table with fields code, stdout, stderr, signal
+
+
+M.await_term_cmd({cmd})                  *live-preview.utils.await_term_cmd()*
     Execute a shell command and wait for the exit
 
 
+    Parameters: ~
+        {cmd} (string)
 
-M.sha1()                                           *live-preview.utils.sha1()*
+    Return: ~
+        table: a table with fields code, stdout, stderr, signal
+
+
+M.sha1({val})                                      *live-preview.utils.sha1()*
     Compute the SHA1 hash of a string Source :
     https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
 
+
+    Parameters: ~
+        {val} (string)
+
+    Return: ~
+        string: SHA1 hash
 
 
 M.open_browser()                           *live-preview.utils.open_browser()*
