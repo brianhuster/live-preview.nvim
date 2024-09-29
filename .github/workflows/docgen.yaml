@@ -24,7 +24,7 @@ jobs:
 
       - name: Generating docs
         run: |
-          scripts/gen_vimdoc.lua
+          nvim -l scripts/gen_vimdoc.lua
 
       - name: Commit and push documentation
         uses: ./.github/actions/commit-and-push
@@ -35,7 +35,7 @@ jobs:
 
       - name: Update README
         run: |
-          scripts/update_readme.lua
+          nvim -l scripts/update_readme.lua
 
       - name: Commit and push README
         uses: ./.github/actions/commit-and-push
