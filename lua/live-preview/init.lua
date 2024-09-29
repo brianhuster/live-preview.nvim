@@ -1,4 +1,7 @@
 ---@tag live-preview
+---@brief [[
+--- Live preview for markdown, asciidoc, and html files
+---]]
 
 local utils = require("live-preview.utils")
 local server = require("live-preview.server")
@@ -27,11 +30,14 @@ local function find_buf() -- find html/md buffer
     return nil
 end
 
-
+--- Stop live preview
 function M.stop_preview()
     server.stop()
 end
 
+--- Start live preview 
+--- @param filepath string 
+--- @param port number
 function M.preview_file(filepath, port)
     utils.kill_port(port)
     vim.wait(50, function()
@@ -45,6 +51,13 @@ local function disable_atomic_writes()
     vim.o.backupcopy = 'yes'
 end
 
+--- Setup live preview
+--- @param opts table
+--- @param opts.commands table
+--- @param opts.commands.start string
+--- @param opts.commands.stop string
+--- @param opts.port number
+--- @param opts.browser string
 function M.setup()
     local opts = vim.tbl_deep_extend("force", default_options, opts or {})
 
