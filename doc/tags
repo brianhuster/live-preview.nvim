@@ -14,6 +14,5 @@ live-preview.server.websocket_send()	live-preview.txt	/*live-preview.server.webs
 live-preview.setup()	live-preview.txt	/*live-preview.setup()*
 live-preview.stop_preview()	live-preview.txt	/*live-preview.stop_preview()*
 live-preview.utils	live-preview.txt	/*live-preview.utils*
-live-preview.utils.get_path_lua_file()	live-preview.txt	/*live-preview.utils.get_path_lua_file()*
 live-preview.utils.get_plugin_path()	live-preview.txt	/*live-preview.utils.get_plugin_path()*
 live-preview.utils.uv_read_file()	live-preview.txt	/*live-preview.utils.uv_read_file()*
