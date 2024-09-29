@@ -9,7 +9,7 @@ docs.test = function()
         "./lua/live-preview/server.lua",
         "./lua/live-preview/utils.lua",
         "./lua/live-preview/health.lua",
-        "./lua/live-previewers/spec.lua",
+        "./lua/live-preview/spec.lua",
     }
 
 
