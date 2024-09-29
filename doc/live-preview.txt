@@ -110,10 +110,17 @@ M.watch_dir({dir}, {client})                 *live-preview.server.watch_dir()*
         {client} (uv.TCP)  client connection
 
 
-M.start()                                        *live-preview.server.start()*
+M.start({ip}, {port}, {options})                 *live-preview.server.start()*
+    Start the server
+
     For example: require('live-preview.server').start('localhost', 8080,
     {webroot = '/path/to/webroot'})
 
+
+    Parameters: ~
+        {ip}      (string)
+        {port}    (number)
+        {options} (table)
 
 
 M.stop()                                          *live-preview.server.stop()*
@@ -170,7 +177,7 @@ M.await_term_cmd({cmd})                  *live-preview.utils.await_term_cmd()*
 
 
 M.sha1({val})                                      *live-preview.utils.sha1()*
-    Compute the SHA1 hash of a string Source :
+    Compute the SHA1 hash of a string. Source :
     https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
 
 
@@ -181,9 +188,12 @@ M.sha1({val})                                      *live-preview.utils.sha1()*
         string: SHA1 hash
 
 
-M.open_browser()                           *live-preview.utils.open_browser()*
+M.open_browser({path})                     *live-preview.utils.open_browser()*
     Open URL in the browser
 
+
+    Parameters: ~
+        {path} (string)
 
 
 M.kill_port()                                 *live-preview.utils.kill_port()*
