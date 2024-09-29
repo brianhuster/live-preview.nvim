@@ -14,9 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: date +%F > todays-date
-      - name: Install Neovim using snap
+      - name: Install Neovim
         run: |
-          sudo snap install nvim --classic
+          sudo apt install -y neovim
           nvim --version
       - name: Prepare
         run: |
