@@ -14,7 +14,7 @@ https://github.com/user-attachments/assets/e9a64709-8758-44d8-9e3c-9c15e0bf2a0e
 
 ## Yêu cầu
 
-- Neovim >=0.10.1
+- Neovim >=0.10.0
 - Một trình duyệt web
 
 ## Cài đặt
