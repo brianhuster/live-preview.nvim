@@ -17,9 +17,9 @@ update_readme:
 
 .PHONY: test
 test:
-	@mkdir -p ~/.local/share/nvim/site/pack/opt
-	@ln -s $(PWD) ~/.local/share/nvim/site/pack/opt/$(PKG_NAME)
-	@for test in tests/*.{html,md,adoc}; do \
+	@mkdir -p ~/.local/share/nvim/site/plugins/pack/opt
+	@ln -s $(PWD) ~/.local/share/nvim/site/plugins/pack/opt/$(PKG_NAME)
+	@tfor test in tests/*.{html,md,adoc}; do \
 		echo "Testing $$test"; \
-		nvim --headless -c 'packadd $$PKG_NAME' -c ':e $$test' -c 'LivePreview' -c 'qa'; \
+		nvim --headless -c ':e $$test' -c 'LivePreview' -c 'qa'; \
 	done
