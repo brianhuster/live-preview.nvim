@@ -90,7 +90,9 @@ function Server:handle_request(request)
 		path = '/index.html'
 	end
 	if path:match("^/live%-preview%.nvim/") then
+		print("path", path)
 		file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20))
+		print("file_path", file_path)
 	else
 		file_path = vim.fs.joinpath(self.webroot, path)
 	end
