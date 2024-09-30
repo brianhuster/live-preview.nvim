@@ -211,7 +211,7 @@ function Server:start(ip, port)
 		self:watch_dir()
 	end)
 
-	vim.print("Server listening on port " .. port)
+	print("Server listening on port " .. port)
 	uv.run()
 end
 
