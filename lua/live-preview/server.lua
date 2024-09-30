@@ -143,6 +143,7 @@ function Server:handle_client()
 			if buffer:match("\r\n\r\n$") then
 				self:handle_request(buffer)
 			else
+				print(buffer)
 				print("Incomplete request")
 			end
 		end
