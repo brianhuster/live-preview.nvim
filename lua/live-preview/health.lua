@@ -17,14 +17,14 @@ local function check_command_exists(cmd)
 end
 
 
-function M.is_compatible(ver, range)
+local function is_compatible(ver, range)
     local requirement = vim.version.range(range)
     return requirement:has(ver)
 end
 
 M.check = function()
     vim.health.start("Live Preview Health Check")
-    if not M.is_compatible(nvim_ver, nvim_ver_range) then
+    if not is_compatible(nvim_ver, nvim_ver_range) then
         vim.health.warn(
             "Live Preview requires Neovim " .. nvim_ver_range .. ", but you are using " .. nvim_ver
         )
