@@ -13,18 +13,11 @@ preview_file({filepath}, {port})            *live-preview.init.preview_file()*
       • {filepath}  (`string`) path to the file
       • {port}      (`number`) port to run the server on
 
-                                                   *live-preview.init.setup()*
-setup({opts}, {opts.commands}, {opts.commands.start}, {opts.commands.stop},
-      {opts.port}, {opts.browser})
+setup({opts})                                      *live-preview.init.setup()*
     Setup live preview
 
     Parameters: ~
-      • {opts}                 (`table`)
-      • {opts.commands}        (`table`)
-      • {opts.commands.start}  (`string`)
-      • {opts.commands.stop}   (`string`)
-      • {opts.port}            (`number`)
-      • {opts.browser}         (`string`)
+      • {opts}  (`{commands: {start: string, stop: string}, port: number, browser: string}`)
 
 stop_preview()                              *live-preview.init.stop_preview()*
     Stop live preview
@@ -33,90 +26,105 @@ stop_preview()                              *live-preview.init.stop_preview()*
 ==============================================================================
 Lua module: require("live-preview.server")               *live-preview.server*
 
-Functions for http and websocket server. Some functions requires a 'webroot'
-variable to be set.
+Server module for live-preview.nvim
 
 
-generate_etag({file_path})               *live-preview.server.generate_etag()*
-    Generate an ETag for a file
+*Server*
+
+    Fields: ~
+      • {new}                  (`fun(webroot: string)`) Constructor
+      • {generate_etag}        (`fun(self: Server, file_path: string): string`)
+                               Generate an ETag for a file The Etag is
+                               generated based the modification time of the
+                               file
+      • {get_content_type}     (`fun(self: Server, file_path: string): string`)
+                               Get the content type of a file
+      • {send_http_response}   (`fun(self: Server, status: string, content_type: string, body: string, headers: table)`)
+                               Send an HTTP response to the client
+      • {handle_request}       (`fun(self: Server)`) Handle an HTTP request
+      • {handle_client}        (`fun(self: Server)`) Handle a client
+                               connection
+      • {websocket_handshake}  (`fun(self: Server, request: string)`) Handle a
+                               WebSocket handshake request
+      • {websocket_send}       (`fun(self: Server, message: string)`) Send a
+                               message to a WebSocket client
+      • {watch_dir}            (`fun(self: Server, dir: string, client: uv.TCP)`)
+                               Watch a directory for changes and send a
+                               message "reload" to a WebSocket client
+      • {start}                (`fun(self: Server, ip: string, port: number)`)
+                               Start the server
+      • {stop}                 (`fun(self: Server)`) Stop the server
+
+
+Server:generate_etag({file_path})                     *Server:generate_etag()*
+    Generate an ETag for a file The Etag is generated based the modification
+    time of the file
 
     Parameters: ~
       • {file_path}  (`string`) path to the file
 
     Return: ~
-        (`string`) ETag for the file
+        (`string`) ETag
 
-get_content_type({file_path})         *live-preview.server.get_content_type()*
+Server:get_content_type({file_path})               *Server:get_content_type()*
     Get the content type of a file
 
     Parameters: ~
       • {file_path}  (`string`) path to the file
 
     Return: ~
-        (`string`) content type of the file (MIME type)
+        (`string`) content type
 
-handle_client({client})                  *live-preview.server.handle_client()*
-    Handle a client connection, read the request and send a response
+Server:handle_client()                                *Server:handle_client()*
+    Handle a client connection
 
-    Parameters: ~
-      • {client}  (`uv.TCP`) client connection
-
-                                        *live-preview.server.handle_request()*
-handle_request({client}, {request})
+Server:handle_request()                              *Server:handle_request()*
     Handle an HTTP request
 
-    Parameters: ~
-      • {client}   (`uv.TCP`) client connection
-      • {request}  (`string`) HTTP request
+Server:new({webroot})                                           *Server:new()*
+    Constructor
 
-                                    *live-preview.server.send_http_response()*
-send_http_response({client}, {status}, {content_type}, {body}, {headers})
+    Parameters: ~
+      • {webroot}  (`string`) path to the webroot
+
+                                                 *Server:send_http_response()*
+Server:send_http_response({status}, {content_type}, {body}, {headers})
     Send an HTTP response to the client
 
     Parameters: ~
-      • {client}        (`uv.TCP`) client connection
       • {status}        (`string`) HTTP status code
-      • {content_type}  (`string`) MIME type of the response
+      • {content_type}  (`string`) HTTP content type
       • {body}          (`string`) response body
-      • {headers}       (`table`) additional headers to send
+      • {headers}       (`table`) response headers
 
-                                                 *live-preview.server.start()*
-start({ip}, {port}, {options}, {options.webroot})
+Server:start({ip}, {port})                                    *Server:start()*
     Start the server
 
-    For example: require('live-preview.server').start('localhost', 8080,
-    {webroot = '/path/to/webroot'})
-
     Parameters: ~
-      • {ip}               (`string`)
-      • {port}             (`number`)
-      • {options}          (`table`)
-      • {options.webroot}  (`string`) path to the webroot
+      • {ip}    (`string`) IP address to bind to
+      • {port}  (`number`) port to bind to
 
-stop                                                *live-preview.server.stop*
+Server:stop()                                                  *Server:stop()*
     Stop the server
 
-watch_dir({dir}, {client})                   *live-preview.server.watch_dir()*
-    Watch a directory for changes and send a message to a WebSocket client
+Server:watch_dir({dir}, {client})                         *Server:watch_dir()*
+    Watch a directory for changes and send a message "reload" to a WebSocket
+    client
 
     Parameters: ~
       • {dir}     (`string`) path to the directory
-      • {client}  (`uv.TCP`) client connection
+      • {client}  (`uv.TCP`) WebSocket client
 
-                                   *live-preview.server.websocket_handshake()*
-websocket_handshake({client}, {request})
+Server:websocket_handshake({request})           *Server:websocket_handshake()*
     Handle a WebSocket handshake request
 
     Parameters: ~
-      • {client}   (`uv.TCP`) client connection
-      • {request}  (`string`) HTTP request
+      • {request}  (`string`) client request
 
-                                        *live-preview.server.websocket_send()*
-websocket_send({client}, {message})
+Server:websocket_send({message})                     *Server:websocket_send()*
     Send a message to a WebSocket client
 
     Parameters: ~
-      • {client}   (`uv.TCP`) client connection
       • {message}  (`string`) message to send
 
 
