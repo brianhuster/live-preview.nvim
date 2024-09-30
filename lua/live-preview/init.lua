@@ -41,6 +41,7 @@ end
 function M.preview_file(filepath, port)
 	utils.kill_port(port)
 	server = Server:new(vim.fs.dirname(filepath))
+	vim.print(server)
 	vim.wait(50, function()
 		server.start("127.0.0.1", port)
 	end)
