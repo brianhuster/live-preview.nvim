@@ -3,7 +3,8 @@
 --- These are functions for setting up, starting, and stopping the live preview server.
 
 local utils = require("live-preview.utils")
-local server = require("live-preview.server")
+local Server = require("live-preview.server")
+local server
 
 local M = {}
 
@@ -39,10 +40,9 @@ end
 ---@param port number: port to run the server on
 function M.preview_file(filepath, port)
 	utils.kill_port(port)
+	server = Server:new(vim.fs.dirname(filepath))
 	vim.wait(50, function()
-		server.start("127.0.0.1", port, {
-			webroot = vim.fs.dirname(filepath),
-		})
+		server.start("127.0.0.1", port)
 	end)
 end
 
@@ -51,12 +51,7 @@ local function disable_atomic_writes()
 end
 
 --- Setup live preview
----@param opts table
----@param opts.commands table
----@param opts.commands.start string
----@param opts.commands.stop string
----@param opts.port number
----@param opts.browser string
+--- @param opts {commands: {start: string, stop: string}, port: number, browser: string}
 function M.setup()
 	local opts = vim.tbl_deep_extend("force", default_options, opts or {})
 

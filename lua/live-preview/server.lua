@@ -1,24 +1,31 @@
----@brief
---- Functions for http and websocket server.
---- Some functions requires a 'webroot' variable to be set.
+---@brief Server module for live-preview.nvim
 
-
-local M = {}
+---@class Server
+local Server = {}
+Server.__index = Server
 
 local uv = vim.uv
 local read_file = require('live-preview.utils').uv_read_file
 local sha1 = require('live-preview.utils').sha1
 local supported_filetype = require('live-preview.utils').supported_filetype
 local get_plugin_path = require('live-preview.utils').get_plugin_path
-local toHTML = require('live-preview.web').toHTML
-local handle_body = require('live-preview.web').handle_body
-local webroot = "."
-M.server = uv.new_tcp()
+local toHTML = require('live-preview.template').toHTML
+local handle_body = require('live-preview.template').handle_body
 
---- Generate an ETag for a file
----@param file_path string: path to the file
----@return string: ETag for the file
-function M.generate_etag(file_path)
+--- Constructor
+--- @param webroot string: path to the webroot
+function Server.new(webroot)
+    local self = setmetatable({}, Server)
+    self.webroot = webroot or "."
+    self.server = uv.new_tcp()
+    return self
+end
+
+--- Generate an ETag for a file 
+--- The Etag is generated based the modification time of the file
+--- @param file_path string: path to the file
+--- @return string: ETag
+function Server:generate_etag(file_path)
     local attr = uv.fs_stat(file_path)
     if not attr then
         return nil
@@ -28,9 +35,9 @@ function M.generate_etag(file_path)
 end
 
 --- Get the content type of a file
----@param file_path string: path to the file
----@return string: content type of the file (MIME type)
-function M.get_content_type(file_path)
+--- @param file_path string: path to the file
+--- @return string: content type
+function Server:get_content_type(file_path)
     if supported_filetype(file_path) then
         return 'text/html'
     elseif file_path:match("%.css$") then
@@ -49,13 +56,11 @@ function M.get_content_type(file_path)
 end
 
 --- Send an HTTP response to the client
----@param client uv.TCP: client connection
----@param status string: HTTP status code
----@param content_type string: MIME type of the response
----@param body string: response body
----@param headers table: additional headers to send
-function M.send_http_response(client, status, content_type, body, headers)
-    -- status can be something like "200 OK", "404 Not Found", etc.
+--- @param status string: HTTP status code
+--- @param content_type string: HTTP content type
+--- @param body string: response body
+--- @param headers table: response headers
+function Server:send_http_response(status, content_type, body, headers)
     local response = "HTTP/1.1 " .. status .. "\r\n" ..
         "Content-Type: " .. content_type .. "\r\n" ..
         "Content-Length: " .. #body .. "\r\n" ..
@@ -68,64 +73,39 @@ function M.send_http_response(client, status, content_type, body, headers)
     end
 
     response = response .. "\r\n" .. body
-
-    client:write(response)
+    self.client:write(response)
 end
 
---- Handle a WebSocket handshake request
----@param client uv.TCP: client connection
----@param request string: HTTP request
-function M.websocket_handshake(client, request)
-    local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
-    if not key then
-        vim.print("Invalid WebSocket request from client")
-        client:close()
-        return
-    end
-
-    local accept = sha1(key .. "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
-    accept = vim.base64.encode(accept)
-    accept = vim.trim(accept)
-
-    local response = "HTTP/1.1 101 Switching Protocols\r\n" ..
-        "Upgrade: websocket\r\n" ..
-        "Connection: Upgrade\r\n" ..
-        "Sec-WebSocket-Accept: " .. accept .. "\r\n\r\n"
-    client:write(response)
-end
 
 --- Handle an HTTP request
----@param client uv.TCP: client connection
----@param request string: HTTP request
-function M.handle_request(client, request)
+function Server:handle_request(client, request)
     local file_path
     if request:match("Upgrade: websocket") then
-        M.websocket_handshake(client, request)
+        self:websocket_handshake(client, request)
         return
     end
-    -- Extract the path from the HTTP request
+
     local path = request:match("GET (.+) HTTP/1.1")
     path = path or '/'
     if path == '/' then
         path = '/index.html'
     end
     if path:match("^/live%-preview%.nvim/") then
-        file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
+        file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20))
     else
-        file_path = vim.fs.joinpath(webroot, path)
+        file_path = vim.fs.joinpath(self.webroot, path)
     end
     local body = read_file(file_path)
     if not body then
-        M.send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
+        self:send_http_response('404 Not Found', 'text/plain', "404 Not Found")
         return
     end
 
-    local etag = M.generate_etag(file_path)
-
+    local etag = self:generate_etag(file_path)
     local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
 
     if (if_none_match and if_none_match == etag) then
-        M.send_http_response(client, '304 Not Modified', M.get_content_type(file_path), "", {
+        self:send_http_response('304 Not Modified', self:get_content_type(file_path), "", {
             ["ETag"] = etag,
         })
         return
@@ -140,17 +120,16 @@ function M.handle_request(client, request)
         end
     end
 
-    M.send_http_response(client, '200 OK', M.get_content_type(file_path), body, {
+    self:send_http_response('200 OK', self:get_content_type(file_path), body, {
         ["ETag"] = etag
     })
 end
 
---- Handle a client connection, read the request and send a response
----@param client uv.TCP: client connection
-function M.handle_client(client)
+--- Handle a client connection
+function Server:handle_client()
     local buffer = ""
 
-    client:read_start(function(err, chunk)
+    self.client:read_start(function(err, chunk)
         if err then
             print("Read error: " .. err)
             client:close()
@@ -159,61 +138,74 @@ function M.handle_client(client)
 
         if chunk then
             buffer = buffer .. chunk
-            -- Check if the request is complete
             if buffer:match("\r\n\r\n$") then
-                M.handle_request(client, buffer)
+                self:handle_request(client, buffer)
             else
                 print("Incomplete request")
             end
         else
-            client:close()
+            self.client:close()
         end
     end)
 end
 
---- Send a message to a WebSocket client
----@param client uv.TCP: client connection
----@param message string: message to send
-function M.websocket_send(client, message)
-    local frame = string.char(0x81) .. string.char(#message) .. message
-    client:write(frame)
+--- Handle a WebSocket handshake request
+--- @param request string: client request
+function Server:websocket_handshake(request)
+    local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
+    if not key then
+        vim.print("Invalid WebSocket request from client")
+        self.client:close()
+        return
+    end
+
+    local accept = sha1(key .. "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
+    accept = vim.base64.encode(accept)
+    accept = vim.trim(accept)
+
+    local response = "HTTP/1.1 101 Switching Protocols\r\n" ..
+        "Upgrade: websocket\r\n" ..
+        "Connection: Upgrade\r\n" ..
+        "Sec-WebSocket-Accept: " .. accept .. "\r\n\r\n"
+    self.client:write(response)
 end
 
---- Watch a directory for changes and send a message to a WebSocket client
----@param dir string: path to the directory
----@param client uv.TCP: client connection
-function M.watch_dir(dir, client)
+--- Send a message to a WebSocket client
+--- @param message string: message to send
+function Server:websocket_send(message)
+    local frame = string.char(0x81) .. string.char(#message) .. message
+    self.client:write(frame)
+end
+
+--- Watch a directory for changes and send a message "reload" to a WebSocket client
+--- @param dir string: path to the directory
+--- @param client uv.TCP: WebSocket client
+function Server:watch_dir(dir, client)
     local watcher = uv.new_fs_event()
     watcher:start(dir, {}, function(err, filename, event)
         if err then
             vim.print("Watch error: " .. err)
             return
         end
-        M.websocket_send(client, "reload")
+        self:websocket_send("reload")
     end)
 end
 
 --- Start the server
----
---- For example:
---- require('live-preview.server').start('localhost', 8080, {webroot = '/path/to/webroot'})
----@param ip string
----@param port number
----@param options table
----@param options.webroot string: path to the webroot
-function M.start(ip, port, options)
-    webroot = options.webroot or '.'
-    M.server:bind(ip, port)
-    M.server:listen(128, function(err)
+--- @param ip string: IP address to bind to
+--- @param port number: port to bind to
+function Server:start(ip, port)
+    self.server:bind(ip, port)
+    self.server:listen(128, function(err)
         if err then
             print("Listen error: " .. err)
             return
         end
 
-        local client = uv.new_tcp()
-        M.server:accept(client)
-        M.handle_client(client)
-        M.watch_dir(webroot, client)
+        self.client = uv.new_tcp()
+        self.server:accept(self.client)
+        self:handle_client()
+        self:watch_dir()
     end)
 
     vim.print("Server listening on port " .. port)
@@ -221,9 +213,10 @@ function M.start(ip, port, options)
 end
 
 --- Stop the server
-M.stop = function()
-    M.server:close()
-    M.server = uv.new_tcp()
+function Server:stop()
+    self.server:close()
+    self.server = uv.new_tcp()
 end
 
-return M
+return Server
+
