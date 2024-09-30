@@ -495,19 +495,20 @@ end
 local M = {}
 
 function M.parse_str(str, filename)
-    local funs = {}  --- @type nvim.luacats.parser.fun[]
+    local funs = {}    --- @type nvim.luacats.parser.fun[]
     local classes = {} --- @type table<string,nvim.luacats.parser.class>
-    local briefs = {} --- @type string[]
+    local briefs = {}  --- @type string[]
 
     local mod_return = determine_modvar(str)
-
     --- @type string
-    local module = filename:match('.*/lua/([a-z_][a-z0-9_/]+)%.lua') or filename
+    local module = filename:match('.*/lua/([a-z_][a-z0-9_/]+)%.lua')
+        or filename:match('^lua/([a-z_][a-z0-9_/-]+)%.lua')
+        or filename
     module = module:gsub('/', '.')
 
     local classvars = {} --- @type table<string,string>
 
-    local state = {}   --- @type nvim.luacats.parser.State
+    local state = {}     --- @type nvim.luacats.parser.State
 
     -- Keep track of any partial objects we don't commit
     local uncommitted = {} --- @type nvim.luacats.parser.obj[]

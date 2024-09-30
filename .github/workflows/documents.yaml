@@ -24,7 +24,7 @@ jobs:
 
       - name: Generating docs
         run: |
-          nvim -l scripts/gen_vimdoc.lua
+          make gendoc 
 
       - name: Commit and push documentation
         uses: ./.github/actions/commit-and-push
