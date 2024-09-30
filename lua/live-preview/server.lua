@@ -90,9 +90,7 @@ function Server:handle_request(request)
 		path = '/index.html'
 	end
 	if path:match("^/live%-preview%.nvim/") then
-		print("path", path)
 		file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20))
-		print("file_path", file_path)
 	else
 		file_path = vim.fs.joinpath(self.webroot, path)
 	end
@@ -133,7 +131,8 @@ function Server:handle_client()
 
 	self.client:read_start(function(err, chunk)
 		if err then
-			print("Read error: " .. err)
+			print("Read request error: " .. err)
+			print(chunk)
 			self.client:close()
 			return
 		end
