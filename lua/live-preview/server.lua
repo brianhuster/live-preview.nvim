@@ -21,7 +21,7 @@ function Server:new(webroot)
 end
 
 --- Generate an ETag for a file
---- The Etag is generated based the modification time of the file
+--- The Etag is generated based on the modification time of the file
 --- @param file_path string: path to the file
 --- @return string: ETag
 function Server:generate_etag(file_path)
@@ -76,6 +76,8 @@ function Server:send_http_response(status, content_type, body, headers)
 end
 
 --- Handle an HTTP request
+--- @param client uv.TCP: client connection
+--- @param request string: HTTP request
 function Server:handle_request(client, request)
 	local file_path
 	if request:match("Upgrade: websocket") then
@@ -178,9 +180,9 @@ end
 --- Watch a directory for changes and send a message "reload" to a WebSocket client
 --- @param dir string: path to the directory
 --- @param client uv.TCP: WebSocket client
-function Server:watch_dir(dir, client)
+function Server:watch_dir()
 	local watcher = uv.new_fs_event()
-	watcher:start(dir, {}, function(err, filename, event)
+	watcher:start(self.webroot, {}, function(err, filename, event)
 		if err then
 			vim.print("Watch error: " .. err)
 			return
