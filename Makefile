@@ -18,7 +18,8 @@ update_readme:
 .PHONY: test
 test:
 	@mkdir -p ~/.local/share/nvim/site/pack/vendor/start
-	@ln -s $(PWD) ~/.local/share/nvim/site/pack/vendor/start/$(PKG_NAME)
+	# @ln -s $(PWD) ~/.local/share/nvim/site/pack/vendor/start/$(PKG_NAME)
+	@cp -r $(PWD) ~/.local/share/nvim/site/pack/vendor/start/$(PKG_NAME)
 	@for test in tests/*.{html,md,adoc}; do \
 		echo "Testing $$test"; \
 		nvim --headless -c 'e $$test' -c 'LivePreview' -c 'qa'; \
