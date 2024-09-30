@@ -78,10 +78,10 @@ end
 --- Handle an HTTP request
 --- @param client uv.TCP: client connection
 --- @param request string: HTTP request
-function Server:handle_request(client, request)
+function Server:handle_request(request)
 	local file_path
 	if request:match("Upgrade: websocket") then
-		self:websocket_handshake(client, request)
+		self:websocket_handshake(request)
 		return
 	end
 
@@ -139,7 +139,7 @@ function Server:handle_client()
 		if chunk then
 			buffer = buffer .. chunk
 			if buffer:match("\r\n\r\n$") then
-				self:handle_request(client, buffer)
+				self:handle_request(buffer)
 			else
 				print("Incomplete request")
 			end
@@ -151,6 +151,7 @@ end
 
 --- Handle a WebSocket handshake request
 --- @param request string: client request
+--- @return string: WebSocket response
 function Server:websocket_handshake(request)
 	local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
 	if not key then
@@ -168,13 +169,16 @@ function Server:websocket_handshake(request)
 		"Connection: Upgrade\r\n" ..
 		"Sec-WebSocket-Accept: " .. accept .. "\r\n\r\n"
 	self.client:write(response)
+	return response
 end
 
 --- Send a message to a WebSocket client
 --- @param message string: message to send
+--- @return string: WebSocket frame
 function Server:websocket_send(message)
 	local frame = string.char(0x81) .. string.char(#message) .. message
 	self.client:write(frame)
+	return frame
 end
 
 --- Watch a directory for changes and send a message "reload" to a WebSocket client
