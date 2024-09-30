@@ -46,10 +46,10 @@ Server module for live-preview.nvim
                                Handle an HTTP request
       • {handle_client}        (`fun(self: Server)`) Handle a client
                                connection
-      • {websocket_handshake}  (`fun(self: Server, request: string)`) Handle a
-                               WebSocket handshake request
-      • {websocket_send}       (`fun(self: Server, message: string)`) Send a
-                               message to a WebSocket client
+      • {websocket_handshake}  (`fun(self: Server, request: string): string`)
+                               Handle a WebSocket handshake request
+      • {websocket_send}       (`fun(self: Server, message: string): string`)
+                               Send a message to a WebSocket client
       • {watch_dir}            (`fun(self: Server, dir: string, client: uv.TCP)`)
                                Watch a directory for changes and send a
                                message "reload" to a WebSocket client
@@ -127,11 +127,17 @@ Server:websocket_handshake({request})           *Server:websocket_handshake()*
     Parameters: ~
       • {request}  (`string`) client request
 
+    Return: ~
+        (`string`) WebSocket response
+
 Server:websocket_send({message})                     *Server:websocket_send()*
     Send a message to a WebSocket client
 
     Parameters: ~
       • {message}  (`string`) message to send
+
+    Return: ~
+        (`string`) WebSocket frame
 
 
 ==============================================================================
