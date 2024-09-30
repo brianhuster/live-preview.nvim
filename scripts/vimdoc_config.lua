@@ -4,7 +4,7 @@
 ---
 --- @field section_order string[]
 ---
---- List of files/directories for doxygen to read, relative to `base_dir`.
+--- List of files/directories for gen_vimdoc to read, relative to `base_dir`.
 --- @field files string[]
 ---
 --- @field exclude_types? true
@@ -55,7 +55,7 @@ return {
             if name:lower() == 'init' then
                 return 'live-preview'
             end
-            return fmt('live-preview.%s', name:lower())
+            return string.format('live-preview.%s', name:lower())
         end,
     }
 }
