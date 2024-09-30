@@ -1,4 +1,4 @@
-name: Generate docs
+name: Generate docs from Lua source
 
 on:
   push:
