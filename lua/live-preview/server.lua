@@ -14,7 +14,7 @@ local handle_body = require('live-preview.template').handle_body
 
 --- Constructor
 --- @param webroot string: path to the webroot
-function Server.new(webroot)
+function Server:new(webroot)
     local self = setmetatable({}, Server)
     self.webroot = webroot or "."
     self.server = uv.new_tcp()
