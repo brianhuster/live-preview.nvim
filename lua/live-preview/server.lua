@@ -142,8 +142,6 @@ function Server:handle_client()
 			else
 				print("Incomplete request")
 			end
-		else
-			self.client:close()
 		end
 	end)
 end
