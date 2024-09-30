@@ -4,7 +4,7 @@
 
 local utils = require("live-preview.utils")
 local Server = require("live-preview.server")
-local server
+local server = Server:new()
 
 local M = {}
 
