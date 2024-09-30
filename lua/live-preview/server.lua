@@ -76,7 +76,6 @@ function Server:send_http_response(status, content_type, body, headers)
 end
 
 --- Handle an HTTP request
---- @param client uv.TCP: client connection
 --- @param request string: HTTP request
 function Server:handle_request(request)
 	local file_path
@@ -132,7 +131,7 @@ function Server:handle_client()
 	self.client:read_start(function(err, chunk)
 		if err then
 			print("Read error: " .. err)
-			client:close()
+			self.client:close()
 			return
 		end
 
