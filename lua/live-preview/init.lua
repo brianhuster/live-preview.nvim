@@ -32,7 +32,7 @@ end
 
 --- Stop live preview
 function M.stop_preview()
-	server.stop()
+	server:stop()
 end
 
 --- Start live preview
