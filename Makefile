@@ -19,7 +19,7 @@ update_readme:
 test:
 	@mkdir -p ~/.local/share/nvim/site/plugins/pack/opt
 	@ln -s $(PWD) ~/.local/share/nvim/site/plugins/pack/opt/$(PKG_NAME)
-	@tfor test in tests/*.{html,md,adoc}; do \
+	@for test in tests/*.{html,md,adoc}; do \
 		echo "Testing $$test"; \
 		nvim --headless -c ':e $$test' -c 'LivePreview' -c 'qa'; \
 	done
