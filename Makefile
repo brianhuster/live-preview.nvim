@@ -17,7 +17,7 @@ update_readme:
 
 .PHONY: test
 test:
-	@mkdir -p ~/.local/share/nvim/site/pack/start
+	@mkdir -p ~/.local/share/nvim/site/pack/opt
 	@ln -s $(PWD) ~/.local/share/nvim/site/pack/opt/$(PKG_NAME)
 	@for test in tests/*.{html,md,adoc}; do \
 		echo "Testing $$test"; \
