@@ -35,7 +35,7 @@ jobs:
 
       - name: Update README
         run: |
-          nvim -l scripts/update_readme.lua
+          make update_readme
 
       - name: Commit and push README
         uses: ./.github/actions/commit-and-push
