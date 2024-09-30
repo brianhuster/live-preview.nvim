@@ -131,13 +131,13 @@ function Server:handle_client()
 
 	self.client:read_start(function(err, chunk)
 		if err then
-			print("Read request error: " .. err)
-			print(chunk)
+			print(chunk .. "\n")
 			self.client:close()
 			return
 		end
 
 		if chunk then
+			print(chunk .. "\n")
 			buffer = buffer .. chunk
 			if buffer:match("\r\n\r\n$") then
 				self:handle_request(buffer)
