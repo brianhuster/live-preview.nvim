@@ -1,1 +1,52 @@
-const wsUrl=getWebSocketUrl();let socket=new WebSocket(wsUrl),connected=!0;function getWebSocketUrl(){return`${"https:"===window.location.protocol?"wss:":"ws:"}//${window.location.hostname}${window.location.port?`:${window.location.port}`:""}`}async function connectWebSocket(){socket=new WebSocket(wsUrl),socket.onopen=()=>{connected||window.location.reload(),console.log("Connected to server"),console.log("connected: ",connected)},socket.onmessage=o=>{"reload"===o.data&&(console.log("Reload message received"),window.location.reload())},socket.onclose=()=>{connected=!1,console.log("Disconnected from server"),console.log("connected: ",connected)},socket.onerror=o=>{connected=!1,console.error("WebSocket error:",o),console.log("connected: ",connected)}}window.onload=()=>{connectWebSocket(),setInterval((()=>{connected||connectWebSocket()}),1e3)};
+const wsUrl = getWebSocketUrl();
+let socket = new WebSocket(wsUrl);
+let connected = true;
+
+function getWebSocketUrl() {
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const hostname = window.location.hostname;
+    const port = window.location.port ? `:${window.location.port}` : "";
+    return `${protocol}//${hostname}${port}`;
+}
+
+async function connectWebSocket() {
+    socket = new WebSocket(wsUrl);
+
+    socket.onopen = () => {
+        if (!connected) {
+            window.location.reload();
+        }
+        connected = true;
+        console.log("Connected to server");
+        console.log("connected: ", connected);
+    };
+
+    socket.onmessage = (event) => {
+        if (event.data === "reload") {
+            console.log("Reload message received");
+            window.location.reload();
+        }
+    };
+
+    socket.onclose = () => {
+        connected = false;
+        console.log("Disconnected from server");
+        console.log("connected: ", connected);
+    };
+
+    socket.onerror = (error) => {
+        connected = false;
+        console.error("WebSocket error:", error);
+        console.log("connected: ", connected);
+    };
+}
+
+window.onload = () => {
+    connectWebSocket();
+    setInterval(() => {
+        if (!connected) {
+            connectWebSocket();
+        }
+    }, 1000);
+};
+
