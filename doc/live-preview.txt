@@ -36,13 +36,14 @@ Server module for live-preview.nvim
                                Constructor
       • {generate_etag}        (`fun(self: Server, file_path: string): string`)
                                Generate an ETag for a file The Etag is
-                               generated based the modification time of the
+                               generated based on the modification time of the
                                file
       • {get_content_type}     (`fun(self: Server, file_path: string): string`)
                                Get the content type of a file
       • {send_http_response}   (`fun(self: Server, status: string, content_type: string, body: string, headers: table)`)
                                Send an HTTP response to the client
-      • {handle_request}       (`fun(self: Server)`) Handle an HTTP request
+      • {handle_request}       (`fun(self: Server, client: uv.TCP, request: string)`)
+                               Handle an HTTP request
       • {handle_client}        (`fun(self: Server)`) Handle a client
                                connection
       • {websocket_handshake}  (`fun(self: Server, request: string)`) Handle a
@@ -58,8 +59,8 @@ Server module for live-preview.nvim
 
 
 Server:generate_etag({file_path})                     *Server:generate_etag()*
-    Generate an ETag for a file The Etag is generated based the modification
-    time of the file
+    Generate an ETag for a file The Etag is generated based on the
+    modification time of the file
 
     Parameters: ~
       • {file_path}  (`string`) path to the file
@@ -79,8 +80,12 @@ Server:get_content_type({file_path})               *Server:get_content_type()*
 Server:handle_client()                                *Server:handle_client()*
     Handle a client connection
 
-Server:handle_request()                              *Server:handle_request()*
+Server:handle_request({client}, {request})           *Server:handle_request()*
     Handle an HTTP request
+
+    Parameters: ~
+      • {client}   (`uv.TCP`) client connection
+      • {request}  (`string`) HTTP request
 
 Server:new({webroot})                                           *Server:new()*
     Constructor
