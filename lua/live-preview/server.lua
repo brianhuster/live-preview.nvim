@@ -148,13 +148,13 @@ end
 
 --- Handle a WebSocket handshake request
 --- @param request string: client request
---- @return string: WebSocket response
+--- @return string | nil: WebSocket response
 function Server:websocket_handshake(request)
 	local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
 	if not key then
 		vim.print("Invalid WebSocket request from client")
 		self.client:close()
-		return
+		return nil
 	end
 
 	local accept = sha1(key .. "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
@@ -179,8 +179,6 @@ function Server:websocket_send(message)
 end
 
 --- Watch a directory for changes and send a message "reload" to a WebSocket client
---- @param dir string: path to the directory
---- @param client uv.TCP: WebSocket client
 function Server:watch_dir()
 	local watcher = uv.new_fs_event()
 	watcher:start(self.webroot, {}, function(err, filename, event)
