@@ -114,6 +114,7 @@ function Server:handle_request(request)
 	if filetype then
 		if filetype ~= "html" then
 			body = toHTML(body, filetype)
+			print("body", body)
 		else
 			body = handle_body(body)
 		end
