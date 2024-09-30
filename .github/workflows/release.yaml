@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install GitHub CLI
+      run: sudo apt install -y gh
+
+    - name: Authenticate GitHub CLI
+      run: gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+
+    - name: Read release notes
+      id: read_release_notes
+      run: |
+        RELEASE_NOTES=$(cat RELEASE.md)
+        echo "::set-output name=notes::$RELEASE_NOTES"
+
+    - name: Create GitHub Release
+      run: |
+        gh release create ${{ github.ref }} --title ${{ github.ref }} --notes "${{ steps.read_release_notes.outputs.notes }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
