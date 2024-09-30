@@ -46,13 +46,13 @@ Server module for live-preview.nvim
                                an HTTP request
       • {handle_client}        (`fun(self: Server)`) Handle a client
                                connection
-      • {websocket_handshake}  (`fun(self: Server, request: string): string`)
+      • {websocket_handshake}  (`fun(self: Server, request: string): string?`)
                                Handle a WebSocket handshake request
       • {websocket_send}       (`fun(self: Server, message: string): string`)
                                Send a message to a WebSocket client
-      • {watch_dir}            (`fun(self: Server, dir: string, client: uv.TCP)`)
-                               Watch a directory for changes and send a
-                               message "reload" to a WebSocket client
+      • {watch_dir}            (`fun(self: Server)`) Watch a directory for
+                               changes and send a message "reload" to a
+                               WebSocket client
       • {start}                (`fun(self: Server, ip: string, port: number)`)
                                Start the server
       • {stop}                 (`fun(self: Server)`) Stop the server
@@ -112,13 +112,9 @@ Server:start({ip}, {port})                                    *Server:start()*
 Server:stop()                                                  *Server:stop()*
     Stop the server
 
-Server:watch_dir({dir}, {client})                         *Server:watch_dir()*
+Server:watch_dir()                                        *Server:watch_dir()*
     Watch a directory for changes and send a message "reload" to a WebSocket
     client
-
-    Parameters: ~
-      • {dir}     (`string`) path to the directory
-      • {client}  (`uv.TCP`) WebSocket client
 
 Server:websocket_handshake({request})           *Server:websocket_handshake()*
     Handle a WebSocket handshake request
@@ -127,7 +123,7 @@ Server:websocket_handshake({request})           *Server:websocket_handshake()*
       • {request}  (`string`) client request
 
     Return: ~
-        (`string`) WebSocket response
+        (`string?`) WebSocket response
 
 Server:websocket_send({message})                     *Server:websocket_send()*
     Send a message to a WebSocket client
