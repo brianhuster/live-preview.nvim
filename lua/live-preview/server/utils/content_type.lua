@@ -23,12 +23,12 @@ function M.get(file_path)
 end
 
 --- Table of file extensions and their corresponding MIME types
---- 
---- Example: 
+---
+--- Example:
 --- ```lua
 --- mime["html"] -- Output : "text/html"
 --- ```
---- 
+---
 M.mime = {
 	["123"] = "application/vnd.lotus-1-2-3",
 	["3dml"] = "text/vnd.in3d.3dml",
@@ -1022,3 +1022,5 @@ M.mime = {
 	["zirz"] = "application/vnd.zul",
 	["zmm"] = "application/vnd.handheld-entertainment+xml",
 }
+
+return M
