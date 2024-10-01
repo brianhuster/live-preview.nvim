@@ -20,7 +20,13 @@ setup({opts})                                           *live-preview.setup()*
     Setup live preview
 
     Parameters: ~
-      • {opts}  (`{commands: {start: string, stop: string}, port: number, browser: string}`)
+      • {opts}  (`{commands: {start: string, stop: string}, port: number, browser: string}`, default: {start = "LivePreview", stop = "StopPreview"})
+                • commands: {start: string, stop: string} - commands to start
+                  and stop live preview
+                • port: number - port to run the server on (default: 5500)
+                • browser: string - browser to open the preview in (default:
+                  "default"). The "default" value will open the preview in
+                  system default browser.
 
 stop_preview()                                   *live-preview.stop_preview()*
     Stop live preview
