@@ -36,15 +36,15 @@ function Server:routes(path)
 end
 
 --- Watch a directory for changes and send a message "reload" to a WebSocket client
---- @param callback function: function to call when a change is detected
-function Server:watch_dir(callback)
+--- @param func function: function to call when a change is detected
+function Server:watch_dir(func)
 	local watcher = uv.new_fs_event()
 	watcher:start(self.webroot, {}, function(err, filename, event)
 		if err then
-			vim.print("Watch error: " .. err)
+			print("Watch error: " .. err)
 			return
 		end
-		callback()
+		func()
 	end)
 end
 
