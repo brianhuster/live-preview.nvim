@@ -128,8 +128,6 @@ function M.client(client)
 				client:close()
 			end
 		end)
-
-		uv.run()
 	end)()
 end
 
