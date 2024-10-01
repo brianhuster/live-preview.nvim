@@ -73,7 +73,7 @@ function Server:send_http_response(status, content_type, body, headers)
 	end
 
 	response = response .. "\r\n" .. body
-	print(response)
+	print(response .. "\n")
 	self.client:write(response)
 	return response
 end
