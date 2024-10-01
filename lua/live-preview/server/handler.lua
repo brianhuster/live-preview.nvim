@@ -3,7 +3,6 @@
 local websocket = require('live-preview.server.websocket')
 local read_file = require('live-preview.utils').uv_read_file
 local supported_filetype = require('live-preview.utils').supported_filetype
-local get_plugin_path = require('live-preview.utils').get_plugin_path
 local toHTML = require('live-preview.template').toHTML
 local handle_body = require('live-preview.template').handle_body
 local get_content_type = require('live-preview.server.utils.content_type').get
@@ -54,7 +53,6 @@ function M.request(client, request)
 	}
 end
 
-
 --- Serve a file to the client
 --- @param client uv_tcp_t: client connection
 --- @param file_path string: path to the file
@@ -68,7 +66,7 @@ function M.serve_file(client, file_path, if_none_match)
 	local etag = generate_etag(file_path)
 
 	if (if_none_match and if_none_match == etag) then
-		M.send_http_response(client, '304 Not Modified', M.get_content_type(file_path), "", {
+		send_http_response(client, '304 Not Modified', M.get_content_type(file_path), "", {
 			["ETag"] = etag,
 		})
 		return
