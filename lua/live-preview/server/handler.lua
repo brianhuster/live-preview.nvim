@@ -39,7 +39,7 @@ end
 --- Otherwise, if it is a GET request, return the path from it
 ---@param request string: HTTP request
 ---@return {path: string, if_none_match: string} | nil : path to the file and If-None-Match header
-function M.request(request)
+function M.request(client, request)
 	if request:match("Upgrade: websocket") then
 		websocket.handshake(client, request)
 		return nil
@@ -108,28 +108,29 @@ end
 ---@param client uv_tcp_t: client connection
 ---@return string: request from the client
 function M.client(client)
-	local buffer = ""
+	return coroutine.wrap(function()
+		local buffer = ""
 
-	client:read_start(function(err, chunk)
-		if err then
-			print("Read error: " .. err)
-			client:close()
-			return
-		end
-
-		if chunk then
-			buffer = buffer .. chunk
-			-- Check if the request is complete
-			if buffer:match("\r\n\r\n$") then
-				return buffer
-			else
-				print("Incomplete request")
-				return buffer
+		client:read_start(function(err, chunk)
+			if err then
+				print("Read error: " .. err)
+				client:close()
+				return
 			end
-		else
-			client:close()
-		end
-	end)
+
+			if chunk then
+				buffer = buffer .. chunk
+				if buffer:match("\r\n\r\n$") then
+					client:read_stop()
+					coroutine.yield(buffer)
+				end
+			else
+				client:close()
+			end
+		end)
+
+		uv.run()
+	end)()
 end
 
 return M

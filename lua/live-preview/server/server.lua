@@ -48,7 +48,7 @@ function Server:start(ip, port)
 			client:close()
 			return
 		end
-		local req_info = handler.request(request)
+		local req_info = handler.request(client, request)
 		if req_info then
 			local path = req_info.path
 			local if_none_match = req_info.if_none_match
