@@ -83,9 +83,15 @@ local config = {
 			'spec.lua',
 		},
 		files = {
-			'lua/live-preview/',
-			'lua/live-preview/server/',
-			'lua/live-preview/utils/',
+			'lua/live-preview/init.lua',
+			'lua/live-preview/server/init.lua',
+			'lua/live-preview/server/handler.lua',
+			'lua/live-preview/server/websocket.lua',
+			'lua/live-preview/server/utils/content_type.lua',
+			'lua/live-preview/server/utils/etag.lua',
+			'lua/live-preview/server/utils.lua',
+			'lua/live-preview/server/health.lua',
+			'lua/live-preview/spec.lua',
 		},
 		fn_xform = function(fun)
 			fun.name = fun.name:gsub('M.', '')
