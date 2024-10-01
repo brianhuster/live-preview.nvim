@@ -7,7 +7,6 @@ local M = {}
 --- Handle a WebSocket handshake request
 --- @param client uv_tcp_t: client
 --- @param request string: client request
---- @return string | nil: WebSocket response
 function M.handshake(client, request)
 	local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
 	if not key then
@@ -30,11 +29,9 @@ end
 --- Send a message to a WebSocket client
 --- @param client uv_tcp_t: client
 --- @param message string: message to send
---- @return string: WebSocket frame
 function M.send(client, message)
 	local frame = string.char(0x81) .. string.char(#message) .. message
 	client:write(frame)
-	return frame
 end
 
 return M
