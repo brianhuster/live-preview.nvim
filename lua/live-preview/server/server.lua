@@ -42,21 +42,22 @@ function Server:start(ip, port)
 
 		local client = uv.new_tcp()
 		self.server:accept(client)
-		local request = handler.client(client)
-		print("request", request)
-		if not request then
-			print("Failed to read request from client")
-			client:close()
-			return
-		end
-		local req_info = handler.request(client, request)
-		vim.print(req_info)
-		if req_info then
-			local path = req_info.path
-			local if_none_match = req_info.if_none_match
-			local file_path = handler.routes(path)
-			handler.serve_file(client, file_path, if_none_match)
-		end
+		local request = handler.client(client, function(err, request)
+			if err then
+				print("Read error: " .. err)
+				client:close()
+				return
+			end
+			if request then
+				local req_info = handler.request(client, request)
+				if req_info then
+					local path = req_info.path
+					local if_none_match = req_info.if_none_match
+					local file_path = handler.routes(path)
+					handler.serve_file(client, file_path, if_none_match)
+				end
+			end
+		end)
 		self:watch_dir()
 	end)
 

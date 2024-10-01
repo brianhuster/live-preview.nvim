@@ -105,31 +105,31 @@ end
 
 --- Handle a client connection, read the request and send a response
 ---@param client uv_tcp_t: client connection
+---@param callback fun(err: string|nil, data: string|nil): void A callback function to handle the result
+---    - `err`: Error message, if any (nil if no error)
+---    - `data`: Data received from the client (nil if there's an error)
 ---@return string: request from the client
-function M.client(client)
-	return coroutine.wrap(function()
-		local buffer = ""
+function M.client(client, callback)
+	local buffer = ""
 
-		client:read_start(function(err, chunk)
-			if err then
-				print("Read error: " .. err)
-				client:close()
-				coroutine.yield(nil, err) -- Yield nếu có lỗi
-			end
+	client:read_start(function(err, chunk)
+		if err then
+			print("Read error: " .. err)
+			client:close()
+			callback(err, nil)
+		end
 
-			if chunk then
-				print(chunk)
-				buffer = buffer .. chunk
-				if buffer:match("\r\n\r\n$") then
-					client:read_stop()
-					coroutine.yield(buffer) -- Yield buffer khi đã nhận đủ dữ liệu
-				end
-			else
-				client:close()
-				coroutine.yield(buffer) -- Yield buffer nếu không còn dữ liệu
+		if chunk then
+			print(chunk)
+			buffer = buffer .. chunk
+			if buffer:match("\r\n\r\n$") then
+				client:read_stop()
+				callback(nil, buffer)
 			end
-		end)
-	end)()
+		else
+			client:close()
+		end
+	end)
 end
 
 return M
