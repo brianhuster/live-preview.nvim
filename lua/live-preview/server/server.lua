@@ -42,7 +42,7 @@ function Server:start(ip, port)
 
 		local client = uv.new_tcp()
 		self.server:accept(client)
-		local request = handler.client(client, function(error, request)
+		handler.client(client, function(error, request)
 			if error then
 				print("Read error: " .. error)
 				client:close()
