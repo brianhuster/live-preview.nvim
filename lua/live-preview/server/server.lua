@@ -43,12 +43,14 @@ function Server:start(ip, port)
 		local client = uv.new_tcp()
 		self.server:accept(client)
 		local request = handler.client(client)
+		print(request)
 		if not request then
 			print("Failed to read request from client")
 			client:close()
 			return
 		end
 		local req_info = handler.request(client, request)
+		vim.print(req_info)
 		if req_info then
 			local path = req_info.path
 			local if_none_match = req_info.if_none_match
