@@ -131,6 +131,7 @@ function Server:handle_client()
 
 	self.client:read_start(function(err, chunk)
 		if err then
+			print("Read error: " .. err .. "\n")
 			print(chunk .. "\n")
 			self.client:close()
 			return
