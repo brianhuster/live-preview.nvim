@@ -2,25 +2,157 @@
 ==============================================================================
 Lua module : require("live-preview")                            *live-preview*
 
-Live preview for markdown, asciidoc, and html files. These are functions for
-setting up, starting, and stopping the live preview server.
+Server module for live-preview.nvim
 
 
-preview_file({filepath}, {port})                 *live-preview.preview_file()*
-    Start live preview
+*Server*
+
+    Fields: ~
+      • {new}        (`fun(self: Server, webroot: string)`) Constructor
+      • {watch_dir}  (`fun(self: Server)`) Watch a directory for changes and
+                     send a message "reload" to a WebSocket client
+      • {start}      (`fun(self: Server, ip: string, port: number)`) Start the
+                     server
+      • {stop}       (`fun(self: Server)`) Stop the server
+
+
+Server:new({webroot})                                           *Server:new()*
+    Constructor
 
     Parameters: ~
-      • {filepath}  (`string`) path to the file
-      • {port}      (`number`) port to run the server on
+      • {webroot}  (`string`) path to the webroot
 
-setup({opts})                                           *live-preview.setup()*
-    Setup live preview
+Server:start({ip}, {port})                                    *Server:start()*
+    Start the server
 
     Parameters: ~
-      • {opts}  (`{commands: {start: string, stop: string}, port: number, browser: string}`)
+      • {ip}    (`string`) IP address to bind to
+      • {port}  (`number`) port to bind to
 
-stop_preview()                                   *live-preview.stop_preview()*
-    Stop live preview
+Server:stop()                                                  *Server:stop()*
+    Stop the server
+
+Server:watch_dir()                                        *Server:watch_dir()*
+    Watch a directory for changes and send a message "reload" to a WebSocket
+    client
+
+
+==============================================================================
+Lua module: require("live-preview.handler")             *live-preview.handler*
+
+HTTP handler module for server in live-preview.nvim
+
+
+client({client})                        *live-preview.server.handler.client()*
+    Handle a client connection, read the request and send a response
+
+    Parameters: ~
+      • {client}  (`uv_tcp_t`) client connection
+
+    Return: ~
+        (`string`) request from the client
+
+request({request})                     *live-preview.server.handler.request()*
+    Handle an HTTP request If the request is a websocket upgrade request, it
+    will call websocket handshake Otherwise, if it is a GET request, return
+    the path from it
+
+    Parameters: ~
+      • {request}  (`string`) HTTP request
+
+    Return: ~
+        (`{path: string, if_none_match: string}?`) path to the file and
+        If-None-Match header
+
+routes({path})                          *live-preview.server.handler.routes()*
+    Handle routes
+
+    Parameters: ~
+      • {path}  (`string`) path from the http request
+
+    Return: ~
+        (`string`) path to the file
+
+                            *live-preview.server.handler.send_http_response()*
+send_http_response({client}, {status}, {content_type}, {body}, {headers})
+    Send an HTTP response
+
+    Parameters: ~
+      • {client}        (`uv_tcp_t`) client connection
+      • {status}        (`string`) for example "200 OK", "404 Not Found", etc.
+      • {content_type}  (`string`) MIME type of the response
+      • {body}          (`string`) body of the response
+      • {headers}       (`table`) (optional) additional headers to include in
+                        the response
+
+                                    *live-preview.server.handler.serve_file()*
+serve_file({client}, {file_path})
+    Serve a file to the client
+
+    Parameters: ~
+      • {client}     (`uv_tcp_t`) client connection
+      • {file_path}  (`string`) path to the file
+
+
+==============================================================================
+Lua module: require("live-preview.websocket")         *live-preview.websocket*
+
+WebSocket server implementation
+
+
+                                   *live-preview.server.websocket.handshake()*
+handshake({client}, {request})
+    Handle a WebSocket handshake request
+
+    Parameters: ~
+      • {client}   (`uv_tcp_t`) client
+      • {request}  (`string`) client request
+
+    Return: ~
+        (`string?`) WebSocket response
+
+send({client}, {message})               *live-preview.server.websocket.send()*
+    Send a message to a WebSocket client
+
+    Parameters: ~
+      • {client}   (`uv_tcp_t`) client
+      • {message}  (`string`) message to send
+
+    Return: ~
+        (`string`) WebSocket frame
+
+
+==============================================================================
+Lua module: require("live-preview.content_type")   *live-preview.content_type*
+
+Content type module for the server
+
+
+get({file_path})                *live-preview.server.utils.content_type.get()*
+    Get the content type of a file
+
+    Parameters: ~
+      • {file_path}  (`string`) path to the file
+
+    Return: ~
+        (`string?`) content type
+
+
+==============================================================================
+Lua module: require("live-preview.etag")                   *live-preview.etag*
+
+ETag module
+
+
+generate({file_path})              *live-preview.server.utils.etag.generate()*
+    Generate an ETag for a file The Etag is generated based on the
+    modification time of the file
+
+    Parameters: ~
+      • {file_path}  (`string`) path to the file
+
+    Return: ~
+        (`string?`) ETag
 
 
 ==============================================================================
@@ -29,7 +161,7 @@ Lua module: require("live-preview.utils")                 *live-preview.utils*
 Utility functions for live-preview.nvim
 
 
-await_term_cmd                             *live-preview.utils.await_term_cmd*
+await_term_cmd({cmd})                    *live-preview.utils.await_term_cmd()*
     Execute a shell command and wait for the exit
 
     Parameters: ~
@@ -38,19 +170,19 @@ await_term_cmd                             *live-preview.utils.await_term_cmd*
     Return: ~
         (`table`) a table with fields code, stdout, stderr, signal
 
-get_path_lua_file                       *live-preview.utils.get_path_lua_file*
+get_path_lua_file()                   *live-preview.utils.get_path_lua_file()*
     Get the path of the current lua file
 
 get_plugin_path()                       *live-preview.utils.get_plugin_path()*
     Get the path where live-preview is installed
 
-kill_port                                       *live-preview.utils.kill_port*
+kill_port({port})                             *live-preview.utils.kill_port()*
     Kill a process which is not Neovim running on a port
 
     Parameters: ~
       • {port}  (`number`)
 
-open_browser                                 *live-preview.utils.open_browser*
+open_browser({path}, {browser})            *live-preview.utils.open_browser()*
     Open URL in the browser
 
     Parameters: ~
@@ -78,7 +210,7 @@ supported_filetype({file_name})
     Return: ~
         (`filetype`) string | nil
 
-term_cmd                                         *live-preview.utils.term_cmd*
+term_cmd({cmd})                                *live-preview.utils.term_cmd()*
     Execute a shell commands
 
     Parameters: ~
