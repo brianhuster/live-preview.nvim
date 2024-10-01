@@ -43,14 +43,16 @@ function Server:start(ip, port)
 		local client = uv.new_tcp()
 		self.server:accept(client)
 		local request = handler.client(client)
-		local req_info = handler.request(request)
-		if req_info then
-			local path = req_info.path
-			local if_none_match = req_info.if_none_match
-			local file_path = handler.routes(path)
-			handler.serve_file(client, file_path, if_none_match)
+		if request then
+			local req_info = handler.request(request)
+			if req_info then
+				local path = req_info.path
+				local if_none_match = req_info.if_none_match
+				local file_path = handler.routes(path)
+				handler.serve_file(client, file_path, if_none_match)
+			end
+			self:watch_dir()
 		end
-		self:watch_dir()
 	end)
 
 	print("Server listening on port " .. port)
