@@ -1,8 +1,8 @@
 live-preview	live-preview.txt	/*live-preview*
 live-preview.health	live-preview.txt	/*live-preview.health*
-live-preview.init.preview_file()	live-preview.txt	/*live-preview.init.preview_file()*
-live-preview.init.setup()	live-preview.txt	/*live-preview.init.setup()*
-live-preview.init.stop_preview()	live-preview.txt	/*live-preview.init.stop_preview()*
+live-preview.preview_file()	live-preview.txt	/*live-preview.preview_file()*
+live-preview.setup()	live-preview.txt	/*live-preview.setup()*
+live-preview.stop_preview()	live-preview.txt	/*live-preview.stop_preview()*
 live-preview.utils	live-preview.txt	/*live-preview.utils*
 live-preview.utils.await_term_cmd	live-preview.txt	/*live-preview.utils.await_term_cmd*
 live-preview.utils.get_path_lua_file	live-preview.txt	/*live-preview.utils.get_path_lua_file*
