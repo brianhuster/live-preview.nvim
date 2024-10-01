@@ -150,18 +150,12 @@ handshake({client}, {request})
       • {client}   (`uv_tcp_t`) client
       • {request}  (`string`) client request
 
-    Return: ~
-        (`string?`) WebSocket response
-
 send({client}, {message})               *live-preview.server.websocket.send()*
     Send a message to a WebSocket client
 
     Parameters: ~
       • {client}   (`uv_tcp_t`) client
       • {message}  (`string`) message to send
-
-    Return: ~
-        (`string`) WebSocket frame
 
 
 ==============================================================================
