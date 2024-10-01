@@ -70,11 +70,16 @@ Lua module: require("live-preview.handler")             *live-preview.handler*
 HTTP handler module for server in live-preview.nvim
 
 
-client({client})                        *live-preview.server.handler.client()*
+client({client}, {callback})            *live-preview.server.handler.client()*
     Handle a client connection, read the request and send a response
 
     Parameters: ~
-      • {client}  (`uv_tcp_t`) client connection
+      • {client}    (`uv_tcp_t`) client connection
+      • {callback}  (`fun(err: string?, data: string?): void`) A callback
+                    function to handle the result
+                    • `err`: Error message, if any (nil if no error)
+                    • `data`: Data received from the client (nil if there's an
+                      error)
 
     Return: ~
         (`string`) request from the client
