@@ -43,10 +43,10 @@ async function connectWebSocket() {
 
 window.onload = () => {
 	connectWebSocket();
-	setInterval(() => {
-		if (!connected) {
-			connectWebSocket();
-		}
-	}, 1000);
+	//setInterval(() => {
+	//	if (!connected) {
+	//		connectWebSocket();
+	//	}
+	//}, 1000);
 };
 
