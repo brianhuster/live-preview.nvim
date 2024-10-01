@@ -124,6 +124,7 @@ function M.client(client)
 				return buffer
 			else
 				print("Incomplete request")
+				return buffer
 			end
 		else
 			client:close()
