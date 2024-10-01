@@ -40,7 +40,7 @@ Server module for live-preview.nvim
                                file
       • {get_content_type}     (`fun(self: Server, file_path: string): string`)
                                Get the content type of a file
-      • {send_http_response}   (`fun(self: Server, status: string, content_type: string, body: string, headers: table)`)
+      • {send_http_response}   (`fun(self: Server, status: string, content_type: string, body: string, headers: table): string`)
                                Send an HTTP response to the client
       • {handle_request}       (`fun(self: Server, request: string)`) Handle
                                an HTTP request
@@ -101,6 +101,9 @@ Server:send_http_response({status}, {content_type}, {body}, {headers})
       • {content_type}  (`string`) HTTP content type
       • {body}          (`string`) response body
       • {headers}       (`table`) response headers
+
+    Return: ~
+        (`string`) HTTP response
 
 Server:start({ip}, {port})                                    *Server:start()*
     Start the server
