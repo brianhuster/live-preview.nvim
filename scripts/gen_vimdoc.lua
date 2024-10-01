@@ -89,8 +89,8 @@ local config = {
 			'lua/live-preview/server/websocket.lua',
 			'lua/live-preview/server/utils/content_type.lua',
 			'lua/live-preview/server/utils/etag.lua',
-			'lua/live-preview/server/utils.lua',
-			'lua/live-preview/server/health.lua',
+			'lua/live-preview/utils.lua',
+			'lua/live-preview/health.lua',
 			'lua/live-preview/spec.lua',
 		},
 		fn_xform = function(fun)
