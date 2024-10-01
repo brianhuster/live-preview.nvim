@@ -38,6 +38,44 @@ Server:watch_dir()                                        *Server:watch_dir()*
 
 
 ==============================================================================
+Lua module : require("live-preview")                            *live-preview*
+
+Server module for live-preview.nvim
+
+
+*Server*
+
+    Fields: ~
+      • {new}        (`fun(self: Server, webroot: string)`) Constructor
+      • {watch_dir}  (`fun(self: Server)`) Watch a directory for changes and
+                     send a message "reload" to a WebSocket client
+      • {start}      (`fun(self: Server, ip: string, port: number)`) Start the
+                     server
+      • {stop}       (`fun(self: Server)`) Stop the server
+
+
+Server:new({webroot})                                           *Server:new()*
+    Constructor
+
+    Parameters: ~
+      • {webroot}  (`string`) path to the webroot
+
+Server:start({ip}, {port})                                    *Server:start()*
+    Start the server
+
+    Parameters: ~
+      • {ip}    (`string`) IP address to bind to
+      • {port}  (`number`) port to bind to
+
+Server:stop()                                                  *Server:stop()*
+    Stop the server
+
+Server:watch_dir()                                        *Server:watch_dir()*
+    Watch a directory for changes and send a message "reload" to a WebSocket
+    client
+
+
+==============================================================================
 Lua module: require("live-preview.handler")             *live-preview.handler*
 
 HTTP handler module for server in live-preview.nvim

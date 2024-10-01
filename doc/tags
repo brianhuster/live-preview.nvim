@@ -1,8 +1,14 @@
 Server	live-preview.txt	/*Server*
+Server	live-preview.txt	/*Server*
+Server:new()	live-preview.txt	/*Server:new()*
 Server:new()	live-preview.txt	/*Server:new()*
 Server:start()	live-preview.txt	/*Server:start()*
+Server:start()	live-preview.txt	/*Server:start()*
+Server:stop()	live-preview.txt	/*Server:stop()*
 Server:stop()	live-preview.txt	/*Server:stop()*
 Server:watch_dir()	live-preview.txt	/*Server:watch_dir()*
+Server:watch_dir()	live-preview.txt	/*Server:watch_dir()*
+live-preview	live-preview.txt	/*live-preview*
 live-preview	live-preview.txt	/*live-preview*
 live-preview.content_type	live-preview.txt	/*live-preview.content_type*
 live-preview.etag	live-preview.txt	/*live-preview.etag*
