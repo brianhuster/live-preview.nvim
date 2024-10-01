@@ -71,9 +71,8 @@ function Server:send_http_response(status, content_type, body, headers)
 			response = response .. k .. ": " .. v .. "\r\n"
 		end
 	end
-
-	response = response .. "\r\n" .. body
 	print(response .. "\n")
+	response = response .. "\r\n" .. body
 	self.client:write(response)
 	return response
 end
