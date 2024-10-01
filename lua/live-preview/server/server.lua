@@ -1,6 +1,8 @@
 ---@brief Server class for live-preview.nvim
 
 local handler = require("live-preview.server.handler")
+local get_plugin_path = require("live-preview.utils").get_plugin_path
+local websocket = require("live-preview.server.websocket")
 
 ---@class Server
 local Server = {}
@@ -17,15 +19,32 @@ function Server:new(webroot)
 	return self
 end
 
+--- Handle routes
+--- @param path string: path from the http request
+--- @return string: path to the file
+function Server:routes(path)
+	local file_path
+	if path == '/' then
+		path = '/index.html'
+	end
+	if path:match("^/live%-preview%.nvim/") then
+		file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
+	else
+		file_path = vim.fs.joinpath(self.webroot, path)
+	end
+	return file_path
+end
+
 --- Watch a directory for changes and send a message "reload" to a WebSocket client
-function Server:watch_dir()
+--- @param callback function: function to call when a change is detected
+function Server:watch_dir(callback)
 	local watcher = uv.new_fs_event()
 	watcher:start(self.webroot, {}, function(err, filename, event)
 		if err then
 			vim.print("Watch error: " .. err)
 			return
 		end
-		self:websocket_send("reload")
+		callback()
 	end)
 end
 
@@ -53,12 +72,14 @@ function Server:start(ip, port)
 				if req_info then
 					local path = req_info.path
 					local if_none_match = req_info.if_none_match
-					local file_path = handler.routes(path)
+					local file_path = self:routes(path)
 					handler.serve_file(client, file_path, if_none_match)
 				end
 			end
 		end)
-		self:watch_dir()
+		self:watch_dir(function()
+			websocket.send(client, "reload")
+		end)
 	end)
 
 	print("Server listening on port " .. port)

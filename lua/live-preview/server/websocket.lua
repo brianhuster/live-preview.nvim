@@ -1,7 +1,8 @@
 ---@brief WebSocket server implementation
 
-local M={}
+local sha1 = require('live-preview.utils').sha1
 
+local M={}
 
 --- Handle a WebSocket handshake request
 --- @param client uv_tcp_t: client
@@ -11,7 +12,7 @@ function M.handshake(client, request)
 	local key = request:match("Sec%-WebSocket%-Key: ([^\r\n]+)")
 	if not key then
 		vim.print("Invalid WebSocket request from client")
-		self.client:close()
+		client:close()
 		return nil
 	end
 
@@ -23,7 +24,7 @@ function M.handshake(client, request)
 		"Upgrade: websocket\r\n" ..
 		"Connection: Upgrade\r\n" ..
 		"Sec-WebSocket-Accept: " .. accept .. "\r\n\r\n"
-	self.client:write(response)
+	client:write(response)
 	return response
 end
 

@@ -54,21 +54,6 @@ function M.request(client, request)
 	}
 end
 
---- Handle routes
---- @param path string: path from the http request
---- @return string: path to the file
-function M.routes(path)
-	local file_path
-	if path == '/' then
-		path = '/index.html'
-	end
-	if path:match("^/live%-preview%.nvim/") then
-		file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
-	else
-		file_path = vim.fs.joinpath(webroot, path)
-	end
-	return file_path
-end
 
 --- Serve a file to the client
 --- @param client uv_tcp_t: client connection
