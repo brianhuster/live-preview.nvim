@@ -74,7 +74,8 @@ function Server:send_http_response(status, content_type, body, headers)
 	print(response .. "\n")
 	response = response .. "\r\n" .. body
 	self.client:write(response)
-	vim.print("client : " .. debug.getmetatable(self.client) .. "\n")
+	vim.print(debug.getmetatable(self.client))
+	print("\n")
 	return response
 end
 
