@@ -78,8 +78,7 @@ client({client}, {callback})            *live-preview.server.handler.client()*
       • {callback}  (`fun(err: string?, data: string?): void`) A callback
                     function to handle the result
                     • `err`: Error message, if any (nil if no error)
-                    • `data`: Data received from the client (nil if there's an
-                      error)
+                    • `data`: Request from the client
 
     Return: ~
         (`string`) request from the client
