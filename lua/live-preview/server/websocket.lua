@@ -4,7 +4,7 @@ local M={}
 
 
 --- Handle a WebSocket handshake request
---- @param client uv_tcp: client
+--- @param client uv_tcp_t: client
 --- @param request string: client request
 --- @return string | nil: WebSocket response
 function M.handshake(client, request)
@@ -28,7 +28,7 @@ function M.handshake(client, request)
 end
 
 --- Send a message to a WebSocket client
---- @param client uv_tcp: client
+--- @param client uv_tcp_t: client
 --- @param message string: message to send
 --- @return string: WebSocket frame
 function M.send(client, message)

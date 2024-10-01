@@ -85,6 +85,8 @@ local config = {
 		},
 		files = {
 			'lua/live-preview/',
+			'lua/live-preview/server/',
+			'lua/live-preview/utils/',
 		},
 		fn_xform = function(fun)
 			fun.name = fun.name:gsub('M.', '')
