@@ -377,8 +377,8 @@ local function render_fun_header(fun, cfg)
 	if not cfg.fn_helptag_fmt then
 		cfg.fn_helptag_fmt = fn_helptag_fmt_common
 	end
-	vim.print(cfg.fn_helptag_fmt)
 	vim.print(cfg.fn_helptag_fmt(fun))
+	print(cfg.fn_helptag_fmt(fun))
 	local tag = '*' .. cfg.fn_helptag_fmt(fun) .. '*'
 
 	if #proto + #tag > TEXT_WIDTH - 8 then
