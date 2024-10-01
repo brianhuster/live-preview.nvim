@@ -1,8 +1,8 @@
 ---@brief
 --- Live preview for markdown, asciidoc, and html files.
---- 
+---
 --- To work with API from this plugin, require it in your Lua code:
---- ```lua 
+--- ```lua
 --- local live_preview = require('live-preview')
 --- ```
 
@@ -13,7 +13,7 @@ M.spec = require("live-preview.spec")
 M.health = require("live-preview.health")
 M.template = require("live-preview.template")
 
-local server = M.Server:new()
+local server
 
 local default_options = {
 	commands = {
@@ -47,7 +47,7 @@ end
 ---@param port number: port to run the server on
 function M.preview_file(filepath, port)
 	M.utils.kill_port(port)
-	server = M.Server:new(vim.fs.dirname(filepath))
+	server = M.server.Server:new(vim.fs.dirname(filepath))
 	vim.wait(50, function()
 		server:start("127.0.0.1", port)
 	end)
