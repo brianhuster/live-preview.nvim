@@ -130,3 +130,5 @@ function M.client(client)
 		end
 	end)
 end
+
+return M
