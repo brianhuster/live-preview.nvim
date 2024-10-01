@@ -5,6 +5,9 @@ on:
     tags:
       - '*'
 
+permissions:
+  contents: write
+
 jobs:
   create_release:
     runs-on: ubuntu-latest
@@ -23,11 +26,14 @@ jobs:
       id: read_release_notes
       run: |
         RELEASE_NOTES=$(cat RELEASE.md)
-        echo "::set-output name=notes::$RELEASE_NOTES"
+        echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+        echo "$RELEASE_NOTES" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
 
     - name: Create GitHub Release
       run: |
-        gh release create ${{ github.ref }} --title ${{ github.ref }} --notes "${{ steps.read_release_notes.outputs.notes }}"
+        gh release create "${{github.ref_name}}" --title "${{github.ref_name}}" --notes "${RELEASE_NOTES}"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
