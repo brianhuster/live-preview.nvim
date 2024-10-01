@@ -41,6 +41,7 @@ end
 function M.request(client, request)
 	if request:match("Upgrade: websocket") then
 		websocket.handshake(client, request)
+		return
 	end
 	local path = request:match("GET (.+) HTTP/1.1")
 	path = path or '/'
@@ -88,7 +89,7 @@ end
 
 --- Handle a client connection, read the request and send a response
 ---@param client uv_tcp_t: client connection
----@param callback fun(err: string|nil, data: string|nil): void A callback function to handle the result
+---@param callback function: callback function to handle the result
 ---    - `err`: Error message, if any (nil if no error)
 ---    - `data`: Request from the client
 ---@return string: request from the client
