@@ -31,12 +31,10 @@ async function connectWebSocket() {
 	socket.onclose = () => {
 		connected = false;
 		console.log("Disconnected from server");
-		console.log("connected: ", connected);
 	};
 
 	socket.onerror = (error) => {
 		console.error("WebSocket error:", error);
-		console.log("connected: ", connected);
 	};
 }
 

@@ -2,7 +2,7 @@
 
 local sha1 = require('live-preview.utils').sha1
 
-local M={}
+local M = {}
 
 --- Handle a WebSocket handshake request
 --- @param client uv_tcp_t: client
@@ -25,7 +25,6 @@ function M.handshake(client, request)
 		"Connection: Upgrade\r\n" ..
 		"Sec-WebSocket-Accept: " .. accept .. "\r\n\r\n"
 	client:write(response)
-	return response
 end
 
 --- Send a message to a WebSocket client
