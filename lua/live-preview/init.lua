@@ -1,6 +1,10 @@
 ---@brief
 --- Live preview for markdown, asciidoc, and html files.
---- These are functions for setting up, starting, and stopping the live preview server.
+--- 
+--- To work with API from this plugin, require it in your Lua code:
+--- ```lua 
+--- local live_preview = require('live-preview')
+--- ```
 
 local M = {}
 M.server = require("live-preview.server")
