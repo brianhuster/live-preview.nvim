@@ -66,7 +66,7 @@ function M.serve_file(client, file_path, if_none_match)
 	local etag = generate_etag(file_path)
 
 	if (if_none_match and if_none_match == etag) then
-		send_http_response(client, '304 Not Modified', M.get_content_type(file_path), "", {
+		M.send_http_response(client, '304 Not Modified', get_content_type(file_path), "", {
 			["ETag"] = etag,
 		})
 		return
@@ -102,7 +102,6 @@ function M.client(client, callback)
 		end
 
 		if chunk then
-			print(chunk)
 			buffer = buffer .. chunk
 			if buffer:match("\r\n\r\n$") then
 				client:read_stop()
