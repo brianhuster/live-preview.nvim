@@ -1,2 +1,5 @@
 ### Restructure server API
-For detail, run ":help live-preview.server" in Neovim
+For detail, run this command in Neovim
+```vim
+:h live-preview.server
+```
