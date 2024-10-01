@@ -26,21 +26,11 @@ jobs:
       id: read_release_notes
       run: |
         RELEASE_NOTES=$(cat RELEASE.md)
-        echo "::set-output name=notes::$RELEASE_NOTES"
-
-    - name: Extract tag
-      id: extract_tag
-      run: |
-        if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-          TAG_NAME=${{ github.ref#refs/tags/ }}
-          echo "::set-output name=tag::$TAG_NAME"
-        else
-          echo "This is not a tag."
-        fi
+        echo "notes=$RELEASE_NOTES" >> $GITHUB_ENV
 
     - name: Create GitHub Release
       run: |
-        gh release create ${{ steps.extract_tag.outputs.tag }} --title ${{ steps.extract_tag.outputs.tag }} --notes "${{ steps.read_release_notes.outputs.notes }}"
+        gh release create "${GITHUB_REF##*/}" --title "${GITHUB_REF##*/}" --notes "${notes}"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
