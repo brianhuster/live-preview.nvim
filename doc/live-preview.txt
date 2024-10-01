@@ -36,8 +36,10 @@ Server class for live-preview.nvim
 
     Fields: ~
       • {new}        (`fun(self: Server, webroot: string)`) Constructor
-      • {watch_dir}  (`fun(self: Server)`) Watch a directory for changes and
-                     send a message "reload" to a WebSocket client
+      • {routes}     (`fun(self: Server, path: string): string`) Handle routes
+      • {watch_dir}  (`fun(self: Server, callback: function)`) Watch a
+                     directory for changes and send a message "reload" to a
+                     WebSocket client
       • {start}      (`fun(self: Server, ip: string, port: number)`) Start the
                      server
       • {stop}       (`fun(self: Server)`) Stop the server
@@ -49,6 +51,15 @@ Server:new({webroot})                                           *Server:new()*
     Parameters: ~
       • {webroot}  (`string`) path to the webroot
 
+Server:routes({path})                                        *Server:routes()*
+    Handle routes
+
+    Parameters: ~
+      • {path}  (`string`) path from the http request
+
+    Return: ~
+        (`string`) path to the file
+
 Server:start({ip}, {port})                                    *Server:start()*
     Start the server
 
@@ -59,9 +70,12 @@ Server:start({ip}, {port})                                    *Server:start()*
 Server:stop()                                                  *Server:stop()*
     Stop the server
 
-Server:watch_dir()                                        *Server:watch_dir()*
+Server:watch_dir({callback})                              *Server:watch_dir()*
     Watch a directory for changes and send a message "reload" to a WebSocket
     client
+
+    Parameters: ~
+      • {callback}  (`function`) function to call when a change is detected
 
 
 ==============================================================================
@@ -94,15 +108,6 @@ request({request})                     *live-preview.server.handler.request()*
     Return: ~
         (`{path: string, if_none_match: string}?`) path to the file and
         If-None-Match header
-
-routes({path})                          *live-preview.server.handler.routes()*
-    Handle routes
-
-    Parameters: ~
-      • {path}  (`string`) path from the http request
-
-    Return: ~
-        (`string`) path to the file
 
                             *live-preview.server.handler.send_http_response()*
 send_http_response({client}, {status}, {content_type}, {body}, {headers})

@@ -1,5 +1,6 @@
 Server	live-preview.txt	/*Server*
 Server:new()	live-preview.txt	/*Server:new()*
+Server:routes()	live-preview.txt	/*Server:routes()*
 Server:start()	live-preview.txt	/*Server:start()*
 Server:stop()	live-preview.txt	/*Server:stop()*
 Server:watch_dir()	live-preview.txt	/*Server:watch_dir()*
@@ -12,7 +13,6 @@ live-preview.preview_file()	live-preview.txt	/*live-preview.preview_file()*
 live-preview.server	live-preview.txt	/*live-preview.server*
 live-preview.server.handler.client()	live-preview.txt	/*live-preview.server.handler.client()*
 live-preview.server.handler.request()	live-preview.txt	/*live-preview.server.handler.request()*
-live-preview.server.handler.routes()	live-preview.txt	/*live-preview.server.handler.routes()*
 live-preview.server.handler.send_http_response()	live-preview.txt	/*live-preview.server.handler.send_http_response()*
 live-preview.server.handler.serve_file()	live-preview.txt	/*live-preview.server.handler.serve_file()*
 live-preview.server.utils.content_type.get()	live-preview.txt	/*live-preview.server.utils.content_type.get()*
