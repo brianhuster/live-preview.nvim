@@ -164,6 +164,13 @@ get({file_path})                *live-preview.server.utils.content_type.get()*
     Return: ~
         (`string?`) content type
 
+mime                             *live-preview.server.utils.content_type.mime*
+    Table of file extensions and their corresponding MIME types
+
+    Example: >lua
+        mime["html"] -- Output : "text/html"
+<
+
 
 ==============================================================================
 Lua module: require("live-preview.etag")                   *live-preview.etag*

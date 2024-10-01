@@ -16,6 +16,7 @@ live-preview.server.handler.routes()	live-preview.txt	/*live-preview.server.hand
 live-preview.server.handler.send_http_response()	live-preview.txt	/*live-preview.server.handler.send_http_response()*
 live-preview.server.handler.serve_file()	live-preview.txt	/*live-preview.server.handler.serve_file()*
 live-preview.server.utils.content_type.get()	live-preview.txt	/*live-preview.server.utils.content_type.get()*
+live-preview.server.utils.content_type.mime	live-preview.txt	/*live-preview.server.utils.content_type.mime*
 live-preview.server.utils.etag.generate()	live-preview.txt	/*live-preview.server.utils.etag.generate()*
 live-preview.server.websocket.handshake()	live-preview.txt	/*live-preview.server.websocket.handshake()*
 live-preview.server.websocket.send()	live-preview.txt	/*live-preview.server.websocket.send()*
