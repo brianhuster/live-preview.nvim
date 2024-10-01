@@ -48,6 +48,11 @@ function Server:start(ip, port)
 				client:close()
 				return
 			end
+			if not request then
+				print("No request")
+				client:close()
+				return
+			end
 			if request then
 				local req_info = handler.request(client, request)
 				if req_info then

@@ -107,14 +107,13 @@ end
 ---@param client uv_tcp_t: client connection
 ---@param callback fun(err: string|nil, data: string|nil): void A callback function to handle the result
 ---    - `err`: Error message, if any (nil if no error)
----    - `data`: Data received from the client (nil if there's an error)
+---    - `data`: Request from the client
 ---@return string: request from the client
 function M.client(client, callback)
 	local buffer = ""
 
 	client:read_start(function(err, chunk)
 		if err then
-			print("Read error: " .. err)
 			client:close()
 			callback(err, nil)
 		end
