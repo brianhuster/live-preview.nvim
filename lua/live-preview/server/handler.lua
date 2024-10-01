@@ -39,10 +39,9 @@ end
 --- Otherwise, if it is a GET request, return the path from it
 ---@param request string: HTTP request
 ---@return {path: string, if_none_match: string} | nil : path to the file and If-None-Match header
-function M.request(client, request)
+function M.request(request)
 	if request:match("Upgrade: websocket") then
 		websocket.handshake(client, request)
-		return nil
 	end
 	local path = request:match("GET (.+) HTTP/1.1")
 	path = path or '/'
@@ -109,26 +108,27 @@ end
 ---@return string: request from the client
 function M.client(client)
 	return coroutine.wrap(function()
-		local buffer = ""
+        local buffer = ""
 
-		client:read_start(function(err, chunk)
-			if err then
-				print("Read error: " .. err)
-				client:close()
-				return
-			end
+        client:read_start(function(err, chunk)
+            if err then
+                print("Read error: " .. err)
+                client:close()
+                coroutine.yield(nil, err)  -- Yield nếu có lỗi
+            end
 
-			if chunk then
-				buffer = buffer .. chunk
-				if buffer:match("\r\n\r\n$") then
-					client:read_stop()
-					coroutine.yield(buffer)
-				end
-			else
-				client:close()
-			end
-		end)
-	end)()
+            if chunk then
+                buffer = buffer .. chunk
+                if buffer:match("\r\n\r\n$") then
+                    client:read_stop()
+                    coroutine.yield(buffer)  -- Yield buffer khi đã nhận đủ dữ liệu
+                end
+            else
+                client:close()
+                coroutine.yield(buffer)  -- Yield buffer nếu không còn dữ liệu
+            end
+        end)
+    end)()
 end
 
 return M
