@@ -43,9 +43,9 @@ Server class for live-preview.nvim
     Fields: ~
       • {new}        (`fun(self: Server, webroot: string)`) Constructor
       • {routes}     (`fun(self: Server, path: string): string`) Handle routes
-      • {watch_dir}  (`fun(self: Server, callback: function)`) Watch a
-                     directory for changes and send a message "reload" to a
-                     WebSocket client
+      • {watch_dir}  (`fun(self: Server, func: function)`) Watch a directory
+                     for changes and send a message "reload" to a WebSocket
+                     client
       • {start}      (`fun(self: Server, ip: string, port: number)`) Start the
                      server
       • {stop}       (`fun(self: Server)`) Stop the server
@@ -76,12 +76,12 @@ Server:start({ip}, {port})                                    *Server:start()*
 Server:stop()                                                  *Server:stop()*
     Stop the server
 
-Server:watch_dir({callback})                              *Server:watch_dir()*
+Server:watch_dir({func})                                  *Server:watch_dir()*
     Watch a directory for changes and send a message "reload" to a WebSocket
     client
 
     Parameters: ~
-      • {callback}  (`function`) function to call when a change is detected
+      • {func}  (`function`) function to call when a change is detected
 
 
 ==============================================================================
