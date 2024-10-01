@@ -35,7 +35,6 @@ async function connectWebSocket() {
 	};
 
 	socket.onerror = (error) => {
-		connected = false;
 		console.error("WebSocket error:", error);
 		console.log("connected: ", connected);
 	};
@@ -43,10 +42,10 @@ async function connectWebSocket() {
 
 window.onload = () => {
 	connectWebSocket();
-	//setInterval(() => {
-	//	if (!connected) {
-	//		connectWebSocket();
-	//	}
-	//}, 1000);
+	setInterval(() => {
+		if (!connected) {
+			connectWebSocket();
+		}
+	}, 1000);
 };
 
