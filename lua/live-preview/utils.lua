@@ -61,7 +61,7 @@ end
 
 --- Get the path of the current lua file
 ---
-M.get_path_lua_file = function()
+function M.get_path_lua_file()
     local info = debug.getinfo(2, "S")
     if not info then
         print("Cannot get info")
@@ -83,7 +83,7 @@ end
 --- Execute a shell commands
 ---@param cmd string
 ---@return table: a table with fields code, stdout, stderr, signal
-M.term_cmd = function(cmd)
+function M.term_cmd(cmd)
     local shell = "sh"
     if uv.os_uname().version:match("Windows") then
         shell = "pwsh"
@@ -100,7 +100,7 @@ end
 --- Execute a shell command and wait for the exit
 ---@param cmd string
 ---@return table: a table with fields code, stdout, stderr, signal
-M.await_term_cmd = function(cmd)
+function M.await_term_cmd(cmd)
     local shell = "sh"
     if uv.os_uname().version:match("Windows") then
         shell = "pwsh"
@@ -230,7 +230,7 @@ end
 --- Open URL in the browser
 ---@param path string
 ---@param browser string
-M.open_browser = function(path, browser)
+function M.open_browser(path, browser)
     vim.validate({
         path = { path, 'string' },
     })
@@ -265,7 +265,7 @@ end
 
 --- Kill a process which is not Neovim running on a port
 --- @param port number
-M.kill_port = function(port)
+function M.kill_port(port)
     local cmd
     if vim.uv.os_uname().version:match("Windows") then
         cmd = string.format([[

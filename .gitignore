@@ -1,5 +1,5 @@
 node_modules/
-tests/
 package-lock.json
+package.json
 
 
