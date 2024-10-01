@@ -1,5 +1,7 @@
 ---@brief Server class for live-preview.nvim
 
+local handler = require("live-preview.server.handler")
+
 ---@class Server
 local Server = {}
 Server.__index = Server
@@ -40,13 +42,13 @@ function Server:start(ip, port)
 
 		local client = uv.new_tcp()
 		self.server:accept(client)
-		local request = M.handler.client(client)
-		local req_info = M.handler.request(request)
+		local request = handler.client(client)
+		local req_info = handler.request(request)
 		if req_info then
 			local path = req_info.path
 			local if_none_match = req_info.if_none_match
-			local file_path = M.handler.routes(path)
-			M.handler.serve_file(client, file_path, if_none_match)
+			local file_path = handler.routes(path)
+			handler.serve_file(client, file_path, if_none_match)
 		end
 		self:watch_dir()
 	end)
