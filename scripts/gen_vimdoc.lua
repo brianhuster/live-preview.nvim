@@ -74,6 +74,7 @@ local config = {
 		filename = 'live-preview.txt',
 		section_order = {
 			'init.lua',
+			'init.lua',
 			'handler.lua',
 			'websocket.lua',
 			'content_type.lua',
