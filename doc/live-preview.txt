@@ -2,45 +2,31 @@
 ==============================================================================
 Lua module : require("live-preview")                            *live-preview*
 
-Server module for live-preview.nvim
+Live preview for markdown, asciidoc, and html files. These are functions for
+setting up, starting, and stopping the live preview server.
 
 
-*Server*
-
-    Fields: ~
-      • {new}        (`fun(self: Server, webroot: string)`) Constructor
-      • {watch_dir}  (`fun(self: Server)`) Watch a directory for changes and
-                     send a message "reload" to a WebSocket client
-      • {start}      (`fun(self: Server, ip: string, port: number)`) Start the
-                     server
-      • {stop}       (`fun(self: Server)`) Stop the server
-
-
-Server:new({webroot})                                           *Server:new()*
-    Constructor
+preview_file({filepath}, {port})                 *live-preview.preview_file()*
+    Start live preview
 
     Parameters: ~
-      • {webroot}  (`string`) path to the webroot
+      • {filepath}  (`string`) path to the file
+      • {port}      (`number`) port to run the server on
 
-Server:start({ip}, {port})                                    *Server:start()*
-    Start the server
+setup({opts})                                           *live-preview.setup()*
+    Setup live preview
 
     Parameters: ~
-      • {ip}    (`string`) IP address to bind to
-      • {port}  (`number`) port to bind to
+      • {opts}  (`{commands: {start: string, stop: string}, port: number, browser: string}`)
 
-Server:stop()                                                  *Server:stop()*
-    Stop the server
-
-Server:watch_dir()                                        *Server:watch_dir()*
-    Watch a directory for changes and send a message "reload" to a WebSocket
-    client
+stop_preview()                                   *live-preview.stop_preview()*
+    Stop live preview
 
 
 ==============================================================================
-Lua module : require("live-preview")                            *live-preview*
+Lua module: require("live-preview.server")               *live-preview.server*
 
-Server module for live-preview.nvim
+Server class for live-preview.nvim
 
 
 *Server*
