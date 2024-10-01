@@ -44,12 +44,7 @@ function Server:start(ip, port)
 		self.server:accept(client)
 		handler.client(client, function(error, request)
 			if error then
-				print("Read error: " .. error)
-				client:close()
-				return
-			end
-			if not request then
-				print("No request")
+				print(error)
 				client:close()
 				return
 			end

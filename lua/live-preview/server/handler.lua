@@ -39,7 +39,7 @@ end
 --- Otherwise, if it is a GET request, return the path from it
 ---@param request string: HTTP request
 ---@return {path: string, if_none_match: string} | nil : path to the file and If-None-Match header
-function M.request(request)
+function M.request(client, request)
 	if request:match("Upgrade: websocket") then
 		websocket.handshake(client, request)
 	end
