@@ -105,7 +105,7 @@ local config = {
 			return string.format('live-preview.%s', name:lower())
 		end,
 		fn_helptag_fmt = function(fun)
-			fun.module = fun.module:gsub('/lua/', '/')
+			fun.module = fun.module:gsub('/init/', '/')
 			fn_helptag_fmt_common(fun)
 		end
 	}
@@ -377,7 +377,7 @@ local function render_fun_header(fun, cfg)
 	if not cfg.fn_helptag_fmt then
 		cfg.fn_helptag_fmt = fn_helptag_fmt_common
 	end
-	print("Cfg.fn_helptag_fmt(fun)", cfg.fn_helptag_fmt(fun))
+
 	local tag = '*' .. cfg.fn_helptag_fmt(fun) .. '*'
 
 	if #proto + #tag > TEXT_WIDTH - 8 then
