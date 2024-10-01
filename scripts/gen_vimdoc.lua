@@ -106,7 +106,7 @@ local config = {
 		end,
 		fn_helptag_fmt = function(fun)
 			fun.module = fun.module:gsub('/init/', '/')
-			fn_helptag_fmt_common(fun)
+			return fn_helptag_fmt_common(fun)
 		end
 	}
 }
