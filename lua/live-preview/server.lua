@@ -59,6 +59,7 @@ end
 --- @param content_type string: HTTP content type
 --- @param body string: response body
 --- @param headers table: response headers
+--- @return string: HTTP response
 function Server:send_http_response(status, content_type, body, headers)
 	local response = "HTTP/1.1 " .. status .. "\r\n" ..
 		"Content-Type: " .. content_type .. "\r\n" ..
@@ -72,7 +73,9 @@ function Server:send_http_response(status, content_type, body, headers)
 	end
 
 	response = response .. "\r\n" .. body
+	print(response)
 	self.client:write(response)
+	return response
 end
 
 --- Handle an HTTP request
@@ -131,14 +134,11 @@ function Server:handle_client()
 
 	self.client:read_start(function(err, chunk)
 		if err then
-			print("Read error: " .. err .. "\n")
-			print(chunk .. "\n")
 			self.client:close()
 			return
 		end
 
 		if chunk then
-			print(chunk .. "\n")
 			buffer = buffer .. chunk
 			if buffer:match("\r\n\r\n$") then
 				self:handle_request(buffer)
