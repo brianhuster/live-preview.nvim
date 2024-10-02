@@ -1,4 +1,7 @@
 ---@brief Content type module for the server
+--- To require this module, do ```lua
+--- local content_type = require('live-preview.server.utils.content_type')
+--- ```
 
 local M = {}
 local supported_filetype = require('live-preview.utils').supported_filetype

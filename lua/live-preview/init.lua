@@ -5,6 +5,7 @@
 --- ```lua
 --- local live_preview = require('live-preview')
 --- ```
+--- 
 
 local M = {}
 M.server = require("live-preview.server")
