@@ -207,7 +207,8 @@ await_term_cmd({cmd})                    *live-preview.utils.await_term_cmd()*
     Execute a shell command and wait for the exit
 
     Parameters: ~
-      • {cmd}  (`string`)
+      • {cmd}  (`string`) terminal command to execute. Term_cmd will use sh or
+               pwsh depending on the OS
 
     Return: ~
         (`table`) a table with fields code, stdout, stderr, signal
@@ -252,14 +253,17 @@ supported_filetype({file_name})
     Return: ~
         (`filetype`) string | nil
 
-term_cmd({cmd})                                *live-preview.utils.term_cmd()*
+term_cmd({cmd}, {callback})                    *live-preview.utils.term_cmd()*
     Execute a shell commands
 
     Parameters: ~
-      • {cmd}  (`string`)
-
-    Return: ~
-        (`table`) a table with fields code, stdout, stderr, signal
+      • {cmd}       (`string`) terminal command to execute. Term_cmd will use
+                    sh or pwsh depending on the OS
+      • {callback}  (`function`) function to call when the command finishes.
+                    • code: the exit code of the command
+                    • signal: the signal that killed the process
+                    • stdout: the standard output of the command
+                    • stderr: the standard error of the command
 
 uv_read_file({file_path})                  *live-preview.utils.uv_read_file()*
     Read a file using libuv
