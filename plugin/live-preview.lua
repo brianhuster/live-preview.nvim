@@ -8,7 +8,7 @@ if not is_compatible(nvim_ver, nvim_ver_range) then
 	vim.notify_once("Live Preview requires Neovim " .. nvim_ver_range .. ", but you are using " .. nvim_ver)
 end
 
-vim.api.nvim_create_autocmd("BufRead", "BufNewFile", {
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = "*/live-preview.nvim/doc/*.txt",
 	callback = function()
 		vim.bo.filetype = 'help'
