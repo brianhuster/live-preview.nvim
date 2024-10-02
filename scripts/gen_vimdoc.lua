@@ -104,7 +104,7 @@ local config = {
 			if name:lower() == 'spec' then
 				return 'spec = require("live-preview.spec")'
 			end
-			return string.format('Live Preview Module : ', name:lower())
+			return string.format('Live Preview Module : %s', name:lower())
 		end,
 		helptag_fmt = function(name)
 			if name:lower() == 'init' then
@@ -114,8 +114,8 @@ local config = {
 		end,
 		fn_helptag_fmt = function(fun)
 			if fun.module then
-			fun.module = fun.module:gsub('.init', '')
-		end
+				fun.module = fun.module:gsub('.init', '')
+			end
 			return fn_helptag_fmt_common(fun)
 		end
 	}
