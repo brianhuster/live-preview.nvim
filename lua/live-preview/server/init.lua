@@ -3,5 +3,5 @@
 local M = {}
 M.handler = require('live-preview.server.handler')
 M.utils = require('live-preview.server.utils')
-M.Server = require('lua.live-preview.server.server')
+M.Server = require('live-preview.server.server')
 return M
