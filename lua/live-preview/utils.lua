@@ -81,16 +81,26 @@ M.get_parent_path = function(full_path, subpath)
 end
 
 --- Execute a shell commands
----@param cmd string
----@return table: a table with fields code, stdout, stderr, signal
-function M.term_cmd(cmd)
+---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
+---@param callback function: function to call when the command finishes. 
+---		- code: the exit code of the command 
+---		- signal: the signal that killed the process 
+---		- stdout: the standard output of the command 
+---		- stderr: the standard error of the command
+function M.term_cmd(cmd, callback)
     local shell = "sh"
     if uv.os_uname().version:match("Windows") then
         shell = "pwsh"
     end
 
     local on_exit = function(result)
-        return result
+        local code = result.code
+		local signal = result.signal
+		local stdout = result.stdout
+		local stderr = result.stderr
+		if callback then
+			callback(code, signal, stdout, stderr)
+		end
     end
 
     vim.system({ shell, '-c', cmd }, { text = true }, on_exit)
@@ -98,7 +108,7 @@ end
 
 
 --- Execute a shell command and wait for the exit
----@param cmd string
+---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
 ---@return table: a table with fields code, stdout, stderr, signal
 function M.await_term_cmd(cmd)
     local shell = "sh"
