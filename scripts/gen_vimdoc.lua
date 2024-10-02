@@ -113,8 +113,9 @@ local config = {
 			return string.format('live-preview.%s', name:lower())
 		end,
 		fn_helptag_fmt = function(fun)
-			vim.print(fun)
-			fun.module = fun.module:gsub('.init', '')
+			if fun.module then
+				fun.module = fun.module:gsub('.init', '')
+			end
 			return fn_helptag_fmt_common(fun)
 		end
 	}
