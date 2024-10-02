@@ -33,9 +33,11 @@ stop_preview()                                   *live-preview.stop_preview()*
 
 
 ==============================================================================
-Lua module: require("live-preview.server")               *live-preview.server*
+Live Preview Module :                                    *live-preview.server*
 
-Server class for live-preview.nvim
+Server class for live-preview.nvim To call this class, do ```lua local Server
+= require('live-preview.server') >
+<
 
 
 *Server*
@@ -85,9 +87,10 @@ Server:watch_dir({func})                                  *Server:watch_dir()*
 
 
 ==============================================================================
-Lua module: require("live-preview.handler")             *live-preview.handler*
+Live Preview Module :                                   *live-preview.handler*
 
-HTTP handler module for server in live-preview.nvim
+HTTP handler module for server in live-preview.nvim To require this module, do
+`local handler = require('live-preview.server.handler')`
 
 
 client({client}, {callback})            *live-preview.server.handler.client()*
@@ -136,9 +139,11 @@ serve_file({client}, {file_path})
 
 
 ==============================================================================
-Lua module: require("live-preview.websocket")         *live-preview.websocket*
+Live Preview Module :                                 *live-preview.websocket*
 
-WebSocket server implementation
+WebSocket server implementation To require this module, do ```lua local
+websocket = require('live-preview.server.websocket') >
+<
 
 
                                    *live-preview.server.websocket.handshake()*
@@ -158,9 +163,11 @@ send({client}, {message})               *live-preview.server.websocket.send()*
 
 
 ==============================================================================
-Lua module: require("live-preview.content_type")   *live-preview.content_type*
+Live Preview Module :                              *live-preview.content_type*
 
-Content type module for the server
+Content type module for the server To require this module, do ```lua local
+content_type = require('live-preview.server.utils.content_type') >
+<
 
 
 get({file_path})                *live-preview.server.utils.content_type.get()*
@@ -181,9 +188,11 @@ mime                             *live-preview.server.utils.content_type.mime*
 
 
 ==============================================================================
-Lua module: require("live-preview.etag")                   *live-preview.etag*
+Live Preview Module :                                      *live-preview.etag*
 
-ETag module
+ETag module To require this module, do ```lua local etag =
+require('live-preview.server.utils.etag') >
+<
 
 
 generate({file_path})              *live-preview.server.utils.etag.generate()*
@@ -198,7 +207,7 @@ generate({file_path})              *live-preview.server.utils.etag.generate()*
 
 
 ==============================================================================
-Lua module: require("live-preview.utils")                 *live-preview.utils*
+Live Preview Module :                                     *live-preview.utils*
 
 Utility functions for live-preview.nvim
 
@@ -273,7 +282,7 @@ uv_read_file({file_path})                  *live-preview.utils.uv_read_file()*
 
 
 ==============================================================================
-Lua module: require("live-preview.health")               *live-preview.health*
+Live Preview Module :                                    *live-preview.health*
 
 To run health check for Live Preview, run >vim
     :checkhealth live-preview
@@ -283,7 +292,22 @@ This will check if your Neovim version is compatible with Live Preview and if
 the commands to open browser are available.
 
 
-is_compatible()                                              *is_compatible()*
+check                                              *live-preview.health.check*
+    Run health check for Live Preview. This can also be run using
+    `:checkhealth live-preview`
+
+    See also: ~
+      • https://neovim.io/doc/user/health.html
+
+is_compatible({ver}, {range})            *live-preview.health.is_compatible()*
+    Check if the version is compatible with the range
+
+    Parameters: ~
+      • {ver}    (`string`) version to check. Example: "0.10.1"
+      • {range}  (`string`) range to check against. Example: ">=0.10.0"
+
+    Return: ~
+        (`boolean`) true if compatible, false otherwise
 
 
  vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
