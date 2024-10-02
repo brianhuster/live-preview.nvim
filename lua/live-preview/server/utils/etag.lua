@@ -1,6 +1,7 @@
 ---@brief ETag module
 
 local M = {}
+
 --- Generate an ETag for a file
 --- The Etag is generated based on the modification time of the file
 --- @param file_path string: path to the file
