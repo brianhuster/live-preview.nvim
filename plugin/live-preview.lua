@@ -15,3 +15,5 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 		vim.bo.readonly = true
 	end,
 })
+
+require("live-preview").setup()
