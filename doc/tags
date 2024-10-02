@@ -4,12 +4,13 @@ Server:routes()	live-preview.txt	/*Server:routes()*
 Server:start()	live-preview.txt	/*Server:start()*
 Server:stop()	live-preview.txt	/*Server:stop()*
 Server:watch_dir()	live-preview.txt	/*Server:watch_dir()*
-is_compatible()	live-preview.txt	/*is_compatible()*
 live-preview	live-preview.txt	/*live-preview*
 live-preview.content_type	live-preview.txt	/*live-preview.content_type*
 live-preview.etag	live-preview.txt	/*live-preview.etag*
 live-preview.handler	live-preview.txt	/*live-preview.handler*
 live-preview.health	live-preview.txt	/*live-preview.health*
+live-preview.health.check	live-preview.txt	/*live-preview.health.check*
+live-preview.health.is_compatible()	live-preview.txt	/*live-preview.health.is_compatible()*
 live-preview.preview_file()	live-preview.txt	/*live-preview.preview_file()*
 live-preview.server	live-preview.txt	/*live-preview.server*
 live-preview.server.handler.client()	live-preview.txt	/*live-preview.server.handler.client()*

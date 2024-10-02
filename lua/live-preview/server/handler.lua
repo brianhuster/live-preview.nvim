@@ -1,4 +1,9 @@
 ---@brief HTTP handler module for server in live-preview.nvim
+--- To require this module, do ```lua
+---
+--- local handler = require('live-preview.server.handler')
+---
+--- ```
 
 local websocket = require('live-preview.server.websocket')
 local read_file = require('live-preview.utils').uv_read_file

@@ -1,4 +1,9 @@
 ---@brief Server class for live-preview.nvim
+--- To call this class, do ```lua
+---
+--- local Server = require('live-preview.server')
+--- 
+--- ```
 
 local handler = require("live-preview.server.handler")
 local get_plugin_path = require("live-preview.utils").get_plugin_path

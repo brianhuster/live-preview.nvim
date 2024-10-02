@@ -104,7 +104,7 @@ local config = {
 			if name:lower() == 'spec' then
 				return 'spec = require("live-preview.spec")'
 			end
-			return string.format('Lua module: require("live-preview.%s")', name:lower())
+			return string.format('Live Preview Module : %s', name:upper())
 		end,
 		helptag_fmt = function(name)
 			if name:lower() == 'init' then
