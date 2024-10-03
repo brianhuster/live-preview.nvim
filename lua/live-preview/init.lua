@@ -5,7 +5,7 @@
 --- ```lua
 --- local live_preview = require('live-preview')
 --- ```
---- 
+---
 
 local M = {}
 M.server = require("live-preview.server")
@@ -60,12 +60,12 @@ end
 
 --- Setup live preview
 --- @param opts {commands: {start: string, stop: string}, port: number, browser: string}
----  	- commands: {start: string, stop: string} - commands to start and stop live preview 
+---  	- commands: {start: string, stop: string} - commands to start and stop live preview
 ---  		(default: {start = "LivePreview", stop = "StopPreview"})
 ---  	- port: number - port to run the server on (default: 5500)
 ---  	- browser: string - browser to open the preview in (default: "default"). The "default" value will open the preview in system default browser.
-function M.setup()
-	local opts = vim.tbl_deep_extend("force", default_options, opts or {})
+function M.setup(opts)
+	opts = vim.tbl_deep_extend("force", default_options, opts or {})
 
 	vim.api.nvim_create_user_command(opts.commands.start, function()
 		local filepath = vim.fn.expand('%:p')
