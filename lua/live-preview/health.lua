@@ -18,7 +18,7 @@ local M = {}
 --- @return boolean: true if compatible, false otherwise
 function M.is_compatible(ver, range)
 	local requirement = vim.version.range(range)
-	return requirement:has(ver)
+	return requirement:match(ver)
 end
 
 --- Run health check for Live Preview. This can also be run using `:checkhealth live-preview`

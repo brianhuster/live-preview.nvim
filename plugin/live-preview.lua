@@ -13,3 +13,5 @@ vim.filetype.add({
 		[".*/live%-preview%.nvim/doc/.+%.txt"] = "help"
 	},
 })
+
+
