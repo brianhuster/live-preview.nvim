@@ -5,8 +5,11 @@ Lua module : require("live-preview")                            *live-preview*
 Live preview for markdown, asciidoc, and html files.
 
 To work with API from this plugin, require it in your Lua code: >lua
-    local live_preview = require('live-preview')
+    local a_name_you_like = require('live-preview')
 <
+
+To use any functions provided by this plugin (see below), replace
+`live-preview` in that function's tag name with the name you chose above
 
 
 preview_file({filepath}, {port})                 *live-preview.preview_file()*
