@@ -72,6 +72,8 @@ function M.uv_write_file(file_path, data)
 	uv.fs_close(fd)
 end
 
+--- Get path of the Lua file where the function is called
+---@return string | nil
 function M.get_path_lua_file()
 	local info = debug.getinfo(2, "S")
 	if not info then
@@ -84,6 +86,11 @@ function M.get_path_lua_file()
 	end
 end
 
+--- Get the parent path of a subpath
+--- Example: get_parent_path("/home/user/.config/nvim/lua/live-preview/utils.lua", "/lua/live-preview/utils.lua") will return "/home/user/.config/nvim"
+--- @param full_path string
+--- @param subpath string
+--- @return string | nil
 M.get_parent_path = function(full_path, subpath)
 	local escaped_subpath = subpath:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
 	local pattern = "(.*)" .. escaped_subpath
