@@ -13,7 +13,13 @@ gendoc:
 .PHONY: update_readme
 update_readme:
 	@echo "Updating README based on pkg.json"
-	@nvim -l scripts/update_readme.lua
+	@nvim --headless -c "luafile scripts/update_readme.lua" -c "qa!"
+
+.PHONY: test
+test: 
+	@nvim --headless \
+		-c "luafile scripts/gen_api_spec.lua" \
+		-c "PlenaryBustedDirectory tests/" -c "qa!"
 
 .PHONY: test_html
 test_html:

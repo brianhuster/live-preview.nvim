@@ -1,9 +1,4 @@
 Server	live-preview.txt	/*Server*
-Server:new()	live-preview.txt	/*Server:new()*
-Server:routes()	live-preview.txt	/*Server:routes()*
-Server:start()	live-preview.txt	/*Server:start()*
-Server:stop()	live-preview.txt	/*Server:stop()*
-Server:watch_dir()	live-preview.txt	/*Server:watch_dir()*
 get_path_lua_file()	live-preview.txt	/*get_path_lua_file()*
 live-preview	live-preview.txt	/*live-preview*
 live-preview.content_type	live-preview.txt	/*live-preview.content_type*
@@ -14,6 +9,11 @@ live-preview.health.check()	live-preview.txt	/*live-preview.health.check()*
 live-preview.health.is_compatible()	live-preview.txt	/*live-preview.health.is_compatible()*
 live-preview.preview_file()	live-preview.txt	/*live-preview.preview_file()*
 live-preview.server	live-preview.txt	/*live-preview.server*
+live-preview.server.Server:new()	live-preview.txt	/*live-preview.server.Server:new()*
+live-preview.server.Server:routes()	live-preview.txt	/*live-preview.server.Server:routes()*
+live-preview.server.Server:start()	live-preview.txt	/*live-preview.server.Server:start()*
+live-preview.server.Server:stop()	live-preview.txt	/*live-preview.server.Server:stop()*
+live-preview.server.Server:watch_dir()	live-preview.txt	/*live-preview.server.Server:watch_dir()*
 live-preview.server.handler.client()	live-preview.txt	/*live-preview.server.handler.client()*
 live-preview.server.handler.request()	live-preview.txt	/*live-preview.server.handler.request()*
 live-preview.server.handler.send_http_response()	live-preview.txt	/*live-preview.server.handler.send_http_response()*

@@ -1,4 +1,4 @@
-name: Generate docs from Lua source
+name: CI
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build-sources:
-    name: Generate docs
+    name: CI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,6 +18,12 @@ jobs:
         run: |
           sudo snap install nvim --classic
           nvim --version
+
+      - name: Install dependencies
+        run: |
+          mkdir -p ~/.local/share/nvim/site/pack/vendor/start
+          git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
+          ln -s $(pwd) ~/.local/share/nvim/site/pack/vendor/start
 
       - name: Generating docs
         run: |
@@ -41,4 +47,6 @@ jobs:
           files: 'README.md README.*.md'
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-
+      - name: Run test
+        run: |
+          make test

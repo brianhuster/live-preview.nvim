@@ -40,7 +40,7 @@ Live Preview Module : SERVER                             *live-preview.server*
 
 Server class for live-preview.nvim To call this class, do ```lua
 
-local Server = require('live-preview.server') >
+local Server = require('live-preview').server.Server >
 <
 
 
@@ -57,13 +57,13 @@ local Server = require('live-preview.server') >
       • {stop}       (`fun(self: Server)`) Stop the server
 
 
-Server:new({webroot})                                           *Server:new()*
+Server:new({webroot})                       *live-preview.server.Server:new()*
     Constructor
 
     Parameters: ~
       • {webroot}  (`string`) path to the webroot
 
-Server:routes({path})                                        *Server:routes()*
+Server:routes({path})                    *live-preview.server.Server:routes()*
     Handle routes
 
     Parameters: ~
@@ -72,17 +72,17 @@ Server:routes({path})                                        *Server:routes()*
     Return: ~
         (`string`) path to the file
 
-Server:start({ip}, {port})                                    *Server:start()*
+Server:start({ip}, {port})                *live-preview.server.Server:start()*
     Start the server
 
     Parameters: ~
       • {ip}    (`string`) IP address to bind to
       • {port}  (`number`) port to bind to
 
-Server:stop()                                                  *Server:stop()*
+Server:stop()                              *live-preview.server.Server:stop()*
     Stop the server
 
-Server:watch_dir({func})                                  *Server:watch_dir()*
+Server:watch_dir({func})              *live-preview.server.Server:watch_dir()*
     Watch a directory for changes and send a message "reload" to a WebSocket
     client
 

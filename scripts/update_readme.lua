@@ -1,4 +1,5 @@
 #!/usr/bin/env -S nvim -l
+local uv = vim.uv
 local read_file_sync = require("live-preview").utils.uv_read_file
 local write_file_sync = require("live-preview").utils.uv_write_file
 

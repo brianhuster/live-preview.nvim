@@ -10,20 +10,32 @@ end
 local function extract_functions(input)
 	local functions = {}
 	for line in input:gmatch("[^\n]+") do
-		-- Sử dụng biểu thức chính quy để tìm các chuỗi phù hợp
-		local func_name = line:match("/%*(%S+%b())%s*%*")
+		local func_name = line:match("/%*(%S+%b())%*")
 		if func_name then
-			func_name = func_name:gsub("live%-preview", "l")
+			func_name = func_name:gsub("live%-preview", "L")
 			table.insert(functions, func_name)
 		end
 	end
 	return functions
 end
 
--- Gọi hàm để trích xuất các tên hàm
-local extracted_functions = extract_functions(read_tags_file())
+local functions = extract_functions(read_tags_file())
 
--- In các hàm đã trích xuất
-for _, func in ipairs(extracted_functions) do
-	print(func)
-end
+local content = string.format([[
+L = require("live-preview")
+local functions = %s
+describe("Testing API functions", function()
+	for _, func in ipairs(functions) do
+		it("should be accessible " .. func, function()
+			local status, err = pcall(function()
+				local fn = load("return " .. func)
+				assert(fn, "Function is not accessible: " .. func)
+			end)
+
+			assert(status, err or "unknown error")
+		end)
+	end
+end)
+]], vim.inspect(functions))
+
+l.utils.uv_write_file("tests/api_spec.lua", content)
