@@ -91,7 +91,7 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 
 ## Cảm ơn
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) vì hàm sha1
-* * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) vì ý tưởng
+* [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) vì ý tưởng
 
 
 ### Ủng hộ
