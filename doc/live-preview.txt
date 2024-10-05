@@ -38,8 +38,8 @@ stop_preview()                                   *live-preview.stop_preview()*
 ==============================================================================
 Live Preview Module : SERVER                             *live-preview.server*
 
-Server class for live-preview.nvim To call this class, do ```lua local Server
-= require('live-preview').server.Server >
+Server class for live-preview.nvim To call this class, do >lua
+    local Server = require('live-preview').server.Server
 <
 
 
