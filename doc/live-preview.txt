@@ -226,7 +226,23 @@ await_term_cmd({cmd})                    *live-preview.utils.await_term_cmd()*
     Return: ~
         (`table`) a table with fields code, stdout, stderr, signal
 
-get_path_lua_file()                                      *get_path_lua_file()*
+get_parent_path                           *live-preview.utils.get_parent_path*
+    Get the parent path of a subpath Example:
+    get_parent_path("/home/user/.config/nvim/lua/live-preview/utils.lua",
+    "/lua/live-preview/utils.lua") will return "/home/user/.config/nvim"
+
+    Parameters: ~
+      • {full_path}  (`string`)
+      • {subpath}    (`string`)
+
+    Return: ~
+        (`string?`)
+
+get_path_lua_file()                   *live-preview.utils.get_path_lua_file()*
+    Get path of the Lua file where the function is called
+
+    Return: ~
+        (`string?`)
 
 get_plugin_path()                       *live-preview.utils.get_plugin_path()*
     Get the path where live-preview is installed

@@ -1,5 +1,4 @@
 Server	live-preview.txt	/*Server*
-get_path_lua_file()	live-preview.txt	/*get_path_lua_file()*
 live-preview	live-preview.txt	/*live-preview*
 live-preview.content_type	live-preview.txt	/*live-preview.content_type*
 live-preview.etag	live-preview.txt	/*live-preview.etag*
@@ -27,6 +26,8 @@ live-preview.setup()	live-preview.txt	/*live-preview.setup()*
 live-preview.stop_preview()	live-preview.txt	/*live-preview.stop_preview()*
 live-preview.utils	live-preview.txt	/*live-preview.utils*
 live-preview.utils.await_term_cmd()	live-preview.txt	/*live-preview.utils.await_term_cmd()*
+live-preview.utils.get_parent_path	live-preview.txt	/*live-preview.utils.get_parent_path*
+live-preview.utils.get_path_lua_file()	live-preview.txt	/*live-preview.utils.get_path_lua_file()*
 live-preview.utils.get_plugin_path()	live-preview.txt	/*live-preview.utils.get_plugin_path()*
 live-preview.utils.kill_port()	live-preview.txt	/*live-preview.utils.kill_port()*
 live-preview.utils.open_browser()	live-preview.txt	/*live-preview.utils.open_browser()*
