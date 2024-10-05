@@ -96,7 +96,7 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 
 ## Acknowledgements
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) for the sha1 function
-* [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) and [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-serve) for the idea inspiration
+* [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) and [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) for the idea inspiration
 
 ### Buy me a coffee
 #### Paypal
