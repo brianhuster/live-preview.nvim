@@ -4,12 +4,13 @@ Server:routes()	live-preview.txt	/*Server:routes()*
 Server:start()	live-preview.txt	/*Server:start()*
 Server:stop()	live-preview.txt	/*Server:stop()*
 Server:watch_dir()	live-preview.txt	/*Server:watch_dir()*
+get_path_lua_file()	live-preview.txt	/*get_path_lua_file()*
 live-preview	live-preview.txt	/*live-preview*
 live-preview.content_type	live-preview.txt	/*live-preview.content_type*
 live-preview.etag	live-preview.txt	/*live-preview.etag*
 live-preview.handler	live-preview.txt	/*live-preview.handler*
 live-preview.health	live-preview.txt	/*live-preview.health*
-live-preview.health.check	live-preview.txt	/*live-preview.health.check*
+live-preview.health.check()	live-preview.txt	/*live-preview.health.check()*
 live-preview.health.is_compatible()	live-preview.txt	/*live-preview.health.is_compatible()*
 live-preview.preview_file()	live-preview.txt	/*live-preview.preview_file()*
 live-preview.server	live-preview.txt	/*live-preview.server*
@@ -26,7 +27,6 @@ live-preview.setup()	live-preview.txt	/*live-preview.setup()*
 live-preview.stop_preview()	live-preview.txt	/*live-preview.stop_preview()*
 live-preview.utils	live-preview.txt	/*live-preview.utils*
 live-preview.utils.await_term_cmd()	live-preview.txt	/*live-preview.utils.await_term_cmd()*
-live-preview.utils.get_path_lua_file()	live-preview.txt	/*live-preview.utils.get_path_lua_file()*
 live-preview.utils.get_plugin_path()	live-preview.txt	/*live-preview.utils.get_plugin_path()*
 live-preview.utils.kill_port()	live-preview.txt	/*live-preview.utils.kill_port()*
 live-preview.utils.open_browser()	live-preview.txt	/*live-preview.utils.open_browser()*
@@ -34,4 +34,5 @@ live-preview.utils.sha1()	live-preview.txt	/*live-preview.utils.sha1()*
 live-preview.utils.supported_filetype()	live-preview.txt	/*live-preview.utils.supported_filetype()*
 live-preview.utils.term_cmd()	live-preview.txt	/*live-preview.utils.term_cmd()*
 live-preview.utils.uv_read_file()	live-preview.txt	/*live-preview.utils.uv_read_file()*
+live-preview.utils.uv_write_file()	live-preview.txt	/*live-preview.utils.uv_write_file()*
 live-preview.websocket	live-preview.txt	/*live-preview.websocket*

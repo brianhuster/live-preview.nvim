@@ -232,8 +232,7 @@ await_term_cmd({cmd})                    *live-preview.utils.await_term_cmd()*
     Return: ~
         (`table`) a table with fields code, stdout, stderr, signal
 
-get_path_lua_file()                   *live-preview.utils.get_path_lua_file()*
-    Get the path of the current lua file
+get_path_lua_file()                                      *get_path_lua_file()*
 
 get_plugin_path()                       *live-preview.utils.get_plugin_path()*
     Get the path where live-preview is installed
@@ -290,6 +289,12 @@ uv_read_file({file_path})                  *live-preview.utils.uv_read_file()*
     Parameters: ~
       • {file_path}  (`string`)
 
+uv_write_file({file_path})                *live-preview.utils.uv_write_file()*
+    Write a file using libuv
+
+    Parameters: ~
+      • {file_path}  (`string`)
+
 
 ==============================================================================
 Live Preview Module : HEALTH                             *live-preview.health*
@@ -302,7 +307,7 @@ This will check if your Neovim version is compatible with Live Preview and if
 the commands to open browser are available.
 
 
-check                                              *live-preview.health.check*
+check()                                          *live-preview.health.check()*
     Run health check for Live Preview. This can also be run using
     `:checkhealth live-preview`
 
