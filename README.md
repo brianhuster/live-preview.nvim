@@ -94,6 +94,10 @@ Use the command `:help live-preview` to see the help documentation.
 
 Since this is a young project, there should be a lot of rooms for improvements. If you would like to contribute to this project, please feel free to open an issue or a pull request.
 
+## Acknowledgements
+* [glacambre/firenvim](https://github.com/glacambre/firenvim) for the sha1 function
+* [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) and [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-serve) for the idea inspiration
+
 ### Buy me a coffee
 #### Paypal
 [https://www.paypal.com/paypalme/brianphambinhan](https://www.paypal.com/paypalme/brianphambinhan)

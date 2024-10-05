@@ -89,7 +89,12 @@ Gõ lệnh `:help live-preview@vi` để xem tài liệu hướng dẫn đầy �
 
 Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần cải thiện. Nếu bạn muốn đóng góp cho dự án này, hãy mở một issue hoặc pull request. 
 
-### Buy me a coffee
+## Cảm ơn
+* [glacambre/firenvim](https://github.com/glacambre/firenvim) vì hàm sha1
+* * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-serve) vì ý tưởng
+
+
+### Ủng hộ
 #### Paypal
 [https://www.paypal.com/paypalme/brianphambinhan](https://www.paypal.com/paypalme/brianphambinhan)
 
