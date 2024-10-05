@@ -20,5 +20,5 @@ runs:
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git remote set-url origin https://x-access-token:${{ inputs.github_token }}@github.com/${{ github.repository }}.git
         git add ${{ inputs.files }}
-        git diff --quiet && git diff --staged --quiet || (git commit -m "${{ inputs.commit-message }}"; git push)
+        git diff --quiet && git diff --staged --quiet || (git commit -m "${{ inputs.commit-message }}"; git pull --rebase; git push)
 

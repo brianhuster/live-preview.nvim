@@ -60,6 +60,9 @@ end
 --- @return string
 local function fn_helptag_fmt_common(fun)
 	local fn_sfx = fun.table and '' or '()'
+	if fun.classvar and fun.module then
+		return fmt('%s:%s%s', fun.module, fun.name, fn_sfx)
+	end
 	if fun.classvar then
 		return fmt('%s:%s%s', fun.classvar, fun.name, fn_sfx)
 	end
@@ -74,7 +77,7 @@ local config = {
 		filename = 'live-preview.txt',
 		section_order = {
 			'init.lua',
-			'server.lua',
+			'Server.lua',
 			'handler.lua',
 			'websocket.lua',
 			'content_type.lua',
@@ -85,7 +88,7 @@ local config = {
 		},
 		files = {
 			'lua/live-preview/init.lua',
-			'lua/live-preview/server/server.lua',
+			'lua/live-preview/server/Server.lua',
 			'lua/live-preview/server/handler.lua',
 			'lua/live-preview/server/websocket.lua',
 			'lua/live-preview/server/utils/content_type.lua',
@@ -115,6 +118,8 @@ local config = {
 		fn_helptag_fmt = function(fun)
 			if fun.module then
 				fun.module = fun.module:gsub('.init', '')
+				fun.module = fun.module:gsub('lua.', '')
+				fun.module = fun.module:gsub('.lua', '')
 			end
 			return fn_helptag_fmt_common(fun)
 		end

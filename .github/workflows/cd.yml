@@ -38,7 +38,7 @@ jobs:
         fi
     - name: Create GitHub Release
       run: |
-        gh release create "latest" --title "Latest release" --notes "${RELEASE_NOTES}"
+        gh release create "latest" --title "latest" --notes "${RELEASE_NOTES}"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

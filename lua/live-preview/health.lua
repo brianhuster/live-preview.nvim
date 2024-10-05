@@ -23,7 +23,7 @@ end
 
 --- Run health check for Live Preview. This can also be run using `:checkhealth live-preview`
 --- @see https://neovim.io/doc/user/health.html
-M.check = function()
+function M.check()
 	vim.health.start("Live Preview Health Check")
 	if not M.is_compatible(nvim_ver, nvim_ver_range) then
 		vim.health.warn(
