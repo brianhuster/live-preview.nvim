@@ -1,8 +1,7 @@
 ---@brief WebSocket server implementation
---- To require this module, do ```lua
----
+--- To require this module, do
+--- ```lua
 --- local websocket = require('live-preview.server.websocket')
---- 
 --- ```
 
 local sha1 = require('live-preview.utils').sha1

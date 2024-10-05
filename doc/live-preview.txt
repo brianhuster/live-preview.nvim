@@ -38,9 +38,8 @@ stop_preview()                                   *live-preview.stop_preview()*
 ==============================================================================
 Live Preview Module : SERVER                             *live-preview.server*
 
-Server class for live-preview.nvim To call this class, do ```lua
-
-local Server = require('live-preview').server.Server >
+Server class for live-preview.nvim To call this class, do ```lua local Server
+= require('live-preview').server.Server >
 <
 
 
@@ -93,10 +92,8 @@ Server:watch_dir({func})              *live-preview.server.Server:watch_dir()*
 ==============================================================================
 Live Preview Module : HANDLER                           *live-preview.handler*
 
-HTTP handler module for server in live-preview.nvim To require this module, do
-```lua
-
-local handler = require('live-preview.server.handler') >
+HTTP handler module for server in live-preview.nvim To require this module, do >lua
+    local handler = require('live-preview.server.handler')
 <
 
 
@@ -148,9 +145,8 @@ serve_file({client}, {file_path})
 ==============================================================================
 Live Preview Module : WEBSOCKET                       *live-preview.websocket*
 
-WebSocket server implementation To require this module, do ```lua
-
-local websocket = require('live-preview.server.websocket') >
+WebSocket server implementation To require this module, do >lua
+    local websocket = require('live-preview.server.websocket')
 <
 
 
@@ -173,9 +169,8 @@ send({client}, {message})               *live-preview.server.websocket.send()*
 ==============================================================================
 Live Preview Module : CONTENT_TYPE                 *live-preview.content_type*
 
-Content type module for the server To require this module, do ```lua
-
-local content_type = require('live-preview.server.utils.content_type') >
+Content type module for the server To require this module, do >lua
+    local content_type = require('live-preview.server.utils.content_type')
 <
 
 
@@ -199,9 +194,8 @@ mime                             *live-preview.server.utils.content_type.mime*
 ==============================================================================
 Live Preview Module : ETAG                                 *live-preview.etag*
 
-ETag module To require this module, do ```lua
-
-local etag = require('live-preview.server.utils.etag') >
+ETag module To require this module, do >lua
+    local etag = require('live-preview.server.utils.etag')
 <
 
 
