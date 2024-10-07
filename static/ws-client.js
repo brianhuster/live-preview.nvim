@@ -28,6 +28,7 @@ async function connectWebSocket() {
 		}
 		else {
 			const message = JSON.parse(event.data);
+			console.log("Message received: ", message);
 			if (message.type === "scroll") {
 				const line = message.line;
 				const filepath = message.filepath;
