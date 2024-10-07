@@ -16,11 +16,13 @@ Server.__index = Server
 local uv = vim.uv
 local need_scroll = false
 local top_line = 1
+local filepath = ""
 
 vim.api.nvim_create_autocmd("WinScrolled", {
 	callback = function()
 		need_scroll = true
 		top_line = vim.fn.line("w0")
+		filepath = vim.api.nvim_buf_get_name(0)
 	end
 })
 
@@ -34,7 +36,6 @@ local function send_scroll(client)
 	if not need_scroll then
 		return
 	end
-	local filepath = vim.api.nvim_buf_get_name(0)
 	if not supported_filetype(filepath) then
 		return
 	end
