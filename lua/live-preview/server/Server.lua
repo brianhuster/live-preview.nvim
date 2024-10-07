@@ -33,9 +33,11 @@ vim.api.nvim_create_autocmd("WinScrolled", {
 --- - line: top line of the window
 --- @param client uv_tcp_t: client
 local function send_scroll(client)
+	print(need_scroll)
 	if not need_scroll then
 		return
 	end
+	print(supported_filetype(filepath))
 	if not supported_filetype(filepath) then
 		return
 	end
@@ -44,6 +46,7 @@ local function send_scroll(client)
 		filepath = filepath or '',
 		line = top_line,
 	}
+	vim.print(message)
 	websocket.send_json(client, message)
 	need_scroll = false
 end
