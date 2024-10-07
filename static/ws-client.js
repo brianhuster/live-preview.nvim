@@ -37,7 +37,8 @@ async function connectWebSocket() {
 				if (currentPath.includes(filepath)) {
 					const targetElement = document.querySelector(`[data-line-number="${line}"]`);
 					if (targetElement) {
-						const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+						const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+						console.log("Scrolling to line: ", line);
 						window.scrollTo({ top: elementPosition, behavior: 'smooth' });
 					}
 				}
