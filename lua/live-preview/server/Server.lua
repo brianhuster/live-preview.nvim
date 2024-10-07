@@ -32,7 +32,7 @@ local function send_scroll(client)
 	if not need_scroll then
 		return
 	end
-	local top_line = vim.fn.line("w0")
+	local top_line = vim.api.nvim_win_get_cursor(0)[1]
 	local filepath = vim.api.nvim_buf_get_name(0)
 	if not supported_filetype(filepath) then
 		return
