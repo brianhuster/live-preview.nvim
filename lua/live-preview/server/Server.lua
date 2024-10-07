@@ -16,20 +16,41 @@ Server.__index = Server
 
 local uv = vim.uv
 
+--- Send a scroll message to a WebSocket client
+--- The message is a table with the following
+--- - type: "scroll"
+--- - filepath: path to the file
+--- - line: top line of the window
+--- @param client uv_tcp_t: client
+local function send_scroll(client)
+	local top_line = vim.fn.line("w0")
+	local filepath = vim.api.nvim_buf_get_name(0)
+	if not supported_filetype(filepath) then
+		return
+	end
+	local message = {
+		type = "scroll",
+		filepath = filepath or '',
+		line = top_line,
+	}
+	websocket.send_json(client, message)
+end
+
+
+local function setup_autocmd()
+	vim.api.nvim_create_autocmd("WinScrolled", {
+		callback = function()
+			send_scroll(ws_client)
+		end
+	})
+end
+
 --- Constructor
 --- @param webroot string: path to the webroot
 function Server:new(webroot)
 	self.webroot = webroot or "."
 	self.server = uv.new_tcp()
 	return self
-end
-
-local function setup_autocmd()
-	vim.api.nvim_create_autocmd("WinScrolled", {
-		callback = function()
-			self:send_scroll(ws_client)
-		end
-	})
 end
 
 --- Handle routes
@@ -45,6 +66,8 @@ function Server:routes(path)
 	else
 		file_path = vim.fs.joinpath(self.webroot, path)
 	end
+
+
 	return file_path
 end
 
@@ -59,26 +82,6 @@ function Server:watch_dir(func)
 		end
 		func()
 	end)
-end
-
---- Send a scroll message to a WebSocket client
---- The message is a table with the following
---- - type: "scroll"
---- - filepath: path to the file
---- - line: top line of the window
---- @param client uv_tcp_t: client
-function Server:send_scroll(client)
-	local top_line = vim.fn.line("w0")
-	local filepath = vim.api.nvim_buf_get_name(0)
-	if not supported_filetype(filepath) then
-		return
-	end
-	local message = {
-		type = "scroll",
-		filepath = filepath or '',
-		line = top_line,
-	}
-	websocket.send_json(client, message)
 end
 
 --- Start the server
