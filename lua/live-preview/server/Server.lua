@@ -8,13 +8,19 @@ local handler = require("live-preview.server.handler")
 local get_plugin_path = require("live-preview.utils").get_plugin_path
 local websocket = require("live-preview.server.websocket")
 local supported_filetype = require("live-preview.utils").supported_filetype
-local ws_client
 
 ---@class Server
 local Server = {}
 Server.__index = Server
 
 local uv = vim.uv
+local need_scroll = false
+
+vim.api.nvim_create_autocmd("WinScrolled", {
+	callback = function()
+		need_scroll = true
+	end
+})
 
 --- Send a scroll message to a WebSocket client
 --- The message is a table with the following
@@ -23,6 +29,9 @@ local uv = vim.uv
 --- - line: top line of the window
 --- @param client uv_tcp_t: client
 local function send_scroll(client)
+	if not need_scroll then
+		return
+	end
 	local top_line = vim.fn.line("w0")
 	local filepath = vim.api.nvim_buf_get_name(0)
 	if not supported_filetype(filepath) then
@@ -34,16 +43,10 @@ local function send_scroll(client)
 		line = top_line,
 	}
 	websocket.send_json(client, message)
+	need_scroll = false
 end
 
 
-local function setup_autocmd()
-	vim.api.nvim_create_autocmd("WinScrolled", {
-		callback = function()
-			send_scroll(ws_client)
-		end
-	})
-end
 
 --- Constructor
 --- @param webroot string: path to the webroot
@@ -105,7 +108,6 @@ function Server:start(ip, port)
 				return
 			end
 			if request then
-				ws_client = client
 				local req_info = handler.request(client, request)
 				if req_info then
 					local path = req_info.path
@@ -115,6 +117,7 @@ function Server:start(ip, port)
 				end
 			end
 		end)
+		send_scroll(client)
 		self:watch_dir(function()
 			websocket.send(client, "reload")
 		end)
