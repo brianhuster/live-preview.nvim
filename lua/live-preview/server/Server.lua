@@ -8,6 +8,7 @@ local handler = require("live-preview.server.handler")
 local get_plugin_path = require("live-preview.utils").get_plugin_path
 local websocket = require("live-preview.server.websocket")
 local supported_filetype = require("live-preview.utils").supported_filetype
+local ws_client
 
 ---@class Server
 local Server = {}
@@ -21,6 +22,14 @@ function Server:new(webroot)
 	self.webroot = webroot or "."
 	self.server = uv.new_tcp()
 	return self
+end
+
+local function setup_autocmd()
+	vim.api.nvim_create_autocmd("WinScrolled", {
+		callback = function()
+			self:send_scroll(ws_client)
+		end
+	})
 end
 
 --- Handle routes
@@ -76,6 +85,7 @@ end
 --- @param ip string: IP address to bind to
 --- @param port number: port to bind to
 function Server:start(ip, port)
+	setup_autocmd()
 	self.server:bind(ip, port)
 	self.server:listen(128, function(err)
 		if err then
@@ -92,6 +102,7 @@ function Server:start(ip, port)
 				return
 			end
 			if request then
+				ws_client = client
 				local req_info = handler.request(client, request)
 				if req_info then
 					local path = req_info.path
@@ -101,11 +112,6 @@ function Server:start(ip, port)
 				end
 			end
 		end)
-		vim.api.nvim_create_autocmd("WinScrolled", {
-			callback = function()
-				self:send_scroll(client)
-			end
-		})
 		self:watch_dir(function()
 			websocket.send(client, "reload")
 		end)
