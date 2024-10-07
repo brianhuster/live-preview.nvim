@@ -91,7 +91,6 @@ end
 --- @param ip string: IP address to bind to
 --- @param port number: port to bind to
 function Server:start(ip, port)
-	setup_autocmd()
 	self.server:bind(ip, port)
 	self.server:listen(128, function(err)
 		if err then
