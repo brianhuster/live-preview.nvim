@@ -10,6 +10,7 @@ live-preview.preview_file()	live-preview.txt	/*live-preview.preview_file()*
 live-preview.server	live-preview.txt	/*live-preview.server*
 live-preview.server.Server:new()	live-preview.txt	/*live-preview.server.Server:new()*
 live-preview.server.Server:routes()	live-preview.txt	/*live-preview.server.Server:routes()*
+live-preview.server.Server:send_scroll()	live-preview.txt	/*live-preview.server.Server:send_scroll()*
 live-preview.server.Server:start()	live-preview.txt	/*live-preview.server.Server:start()*
 live-preview.server.Server:stop()	live-preview.txt	/*live-preview.server.Server:stop()*
 live-preview.server.Server:watch_dir()	live-preview.txt	/*live-preview.server.Server:watch_dir()*
@@ -22,6 +23,7 @@ live-preview.server.utils.content_type.mime	live-preview.txt	/*live-preview.serv
 live-preview.server.utils.etag.generate()	live-preview.txt	/*live-preview.server.utils.etag.generate()*
 live-preview.server.websocket.handshake()	live-preview.txt	/*live-preview.server.websocket.handshake()*
 live-preview.server.websocket.send()	live-preview.txt	/*live-preview.server.websocket.send()*
+live-preview.server.websocket.send_json()	live-preview.txt	/*live-preview.server.websocket.send_json()*
 live-preview.setup()	live-preview.txt	/*live-preview.setup()*
 live-preview.stop_preview()	live-preview.txt	/*live-preview.stop_preview()*
 live-preview.utils	live-preview.txt	/*live-preview.utils*

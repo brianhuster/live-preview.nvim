@@ -46,14 +46,21 @@ Server class for live-preview.nvim To call this class, do >lua
 *Server*
 
     Fields: ~
-      • {new}        (`fun(self: Server, webroot: string)`) Constructor
-      • {routes}     (`fun(self: Server, path: string): string`) Handle routes
-      • {watch_dir}  (`fun(self: Server, func: function)`) Watch a directory
-                     for changes and send a message "reload" to a WebSocket
-                     client
-      • {start}      (`fun(self: Server, ip: string, port: number)`) Start the
-                     server
-      • {stop}       (`fun(self: Server)`) Stop the server
+      • {new}          (`fun(self: Server, webroot: string)`) Constructor
+      • {routes}       (`fun(self: Server, path: string): string`) Handle
+                       routes
+      • {watch_dir}    (`fun(self: Server, func: function)`) Watch a directory
+                       for changes and send a message "reload" to a WebSocket
+                       client
+      • {send_scroll}  (`fun(self: Server, client: uv_tcp_t)`) Send a scroll
+                       message to a WebSocket client The message is a table
+                       with the following
+                       • type: "scroll"
+                       • filepath: path to the file
+                       • line: top line of the window
+      • {start}        (`fun(self: Server, ip: string, port: number)`) Start
+                       the server
+      • {stop}         (`fun(self: Server)`) Stop the server
 
 
 Server:new({webroot})                       *live-preview.server.Server:new()*
@@ -70,6 +77,16 @@ Server:routes({path})                    *live-preview.server.Server:routes()*
 
     Return: ~
         (`string`) path to the file
+
+Server:send_scroll({client})        *live-preview.server.Server:send_scroll()*
+    Send a scroll message to a WebSocket client The message is a table with
+    the following
+    • type: "scroll"
+    • filepath: path to the file
+    • line: top line of the window
+
+    Parameters: ~
+      • {client}  (`uv_tcp_t`) client
 
 Server:start({ip}, {port})                *live-preview.server.Server:start()*
     Start the server
@@ -164,6 +181,14 @@ send({client}, {message})               *live-preview.server.websocket.send()*
     Parameters: ~
       • {client}   (`uv_tcp_t`) client
       • {message}  (`string`) message to send
+
+                                   *live-preview.server.websocket.send_json()*
+send_json({client}, {message})
+    Send a JSON message to a WebSocket client
+
+    Parameters: ~
+      • {client}   (`uv_tcp_t`) client
+      • {message}  (`table`) message to send
 
 
 ==============================================================================
