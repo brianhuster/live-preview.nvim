@@ -10,7 +10,6 @@ live-preview.preview_file()	live-preview.txt	/*live-preview.preview_file()*
 live-preview.server	live-preview.txt	/*live-preview.server*
 live-preview.server.Server:new()	live-preview.txt	/*live-preview.server.Server:new()*
 live-preview.server.Server:routes()	live-preview.txt	/*live-preview.server.Server:routes()*
-live-preview.server.Server:send_scroll()	live-preview.txt	/*live-preview.server.Server:send_scroll()*
 live-preview.server.Server:start()	live-preview.txt	/*live-preview.server.Server:start()*
 live-preview.server.Server:stop()	live-preview.txt	/*live-preview.server.Server:stop()*
 live-preview.server.Server:watch_dir()	live-preview.txt	/*live-preview.server.Server:watch_dir()*
