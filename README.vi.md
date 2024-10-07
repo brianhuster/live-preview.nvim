@@ -95,6 +95,8 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 * [sindresorhus/github-markdown-css](https://github.com/sindresorhus/github-markdown-css) CSS cho file Markdown
 * [markedjs/marked](https://github.com/markedjs/marked) cho việc chuyển đổi file Markdown thành HTML
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) cho việc chuyển đổi file AsciiDoc thành HTML
+* [KaTeX](https://github.com/KaTeX/KaTeX) cho hiển thị phương trình toán học
+* [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) cho hiển thị biểu đồ
 
 
 ### Ủng hộ

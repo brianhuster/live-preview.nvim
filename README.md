@@ -100,8 +100,8 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 * [sindresorhus/github-markdown-css](https://github.com/sindresorhus/github-markdown-css) CSS style for Markdown files
 * [markedjs/marked](https://github.com/markedjs/marked) for parsing Markdown files
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) for parsing AsciiDoc files
-* [KaTeX](https://katex.org/) for rendering math equations
-* [mermaid-js/mermaid](https://github.com/me)
+* [KaTeX](https://github.com/KaTeX/KaTeX) for rendering math equations
+* [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) for rendering diagrams
 
 ### Buy me a coffee
 #### Paypal
