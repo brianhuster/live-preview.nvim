@@ -38,4 +38,12 @@ function M.send(client, message)
 	client:write(frame)
 end
 
+--- Send a JSON message to a WebSocket client
+--- @param client uv_tcp_t: client
+--- @param message table: message to send
+function M.send_json(client, message)
+	local json = vim.json.encode(message)
+	M.send(client, json)
+end
+
 return M

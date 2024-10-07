@@ -26,6 +26,21 @@ async function connectWebSocket() {
 			console.log("Reload message received");
 			window.location.reload();
 		}
+		else {
+			const message = JSON.parse(event.data);
+			if (message.type === "scroll") {
+				const line = message.line;
+				const filepath = message.filepath;
+				const currentPath = window.location.pathname;
+
+				if (currentPath.includes(filepath)) {
+					const targetElement = document.querySelector(`[data-line-number="${line}"]`);
+					if (targetElement) {
+						targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					}
+				}
+			}
+		}
 	};
 
 	socket.onclose = () => {
