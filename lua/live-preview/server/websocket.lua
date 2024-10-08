@@ -34,7 +34,22 @@ end
 --- @param client uv_tcp_t: client
 --- @param message string: message to send
 function M.send(client, message)
-	local frame = string.char(0x81) .. string.char(#message) .. message
+	local byteMessage = message
+	local length = #byteMessage
+
+	local frame = string.char(0x81)
+
+	if length <= 125 then
+		frame = frame .. string.char(length) .. byteMessage
+	elseif length <= 65535 then
+		frame = frame .. string.char(126) .. string.char(bit.rshift(length, 8), length % 256) .. byteMessage
+	else
+		frame = frame .. string.char(127) ..
+			string.char(bit.rshift(length, 56), bit.rshift(length, 48) % 256, bit.rshift(length, 40) % 256,
+				bit.rshift(length, 32) % 256, bit.rshift(length, 24) % 256, bit.rshift(length, 16) % 256,
+				bit.rshift(length, 8) % 256, length % 256) .. byteMessage
+	end
+
 	client:write(frame)
 end
 
