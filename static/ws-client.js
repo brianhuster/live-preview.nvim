@@ -32,6 +32,7 @@ async function connectWebSocket() {
 			content = message.content;
 			render(content);
 			renderKatex();
+			renderMermaid();
 		}
 	};
 
