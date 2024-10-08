@@ -18,6 +18,9 @@ Supports mermaid for rendering diagrams in markdown files
 
 https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
+
+![](output.jpeg)
+
 ## Requirements
 
 - Neovim >=0.10.0
@@ -102,6 +105,12 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) for parsing AsciiDoc files
 * [KaTeX](https://github.com/KaTeX/KaTeX) for rendering math equations
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) for rendering diagrams
+
+## TODO
+- [x] Support for KaTex
+- [x] Support for Katex in Markdown
+- [ ] Autoscroll in the browser as you scroll in the Markdown and AsciiDoc files in Neovim
+- [ ] Support for diagrams in AsciiDoc
 
 ### Buy me a coffee
 #### Paypal
