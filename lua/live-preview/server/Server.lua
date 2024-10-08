@@ -17,14 +17,7 @@ local uv = vim.uv
 local need_scroll = false
 local top_line = 1
 local filepath = ""
-
-vim.api.nvim_create_autocmd("WinScrolled", {
-	callback = function()
-		need_scroll = true
-		top_line = vim.fn.line("w0")
-		filepath = vim.api.nvim_buf_get_name(0)
-	end
-})
+local ws_client
 
 --- Send a scroll message to a WebSocket client
 --- The message is a table with the following
@@ -51,6 +44,17 @@ local function send_scroll(client)
 	need_scroll = false
 end
 
+
+vim.api.nvim_create_autocmd("WinScrolled", {
+	callback = function()
+		need_scroll = true
+		top_line = vim.fn.line("w0")
+		filepath = vim.api.nvim_buf_get_name(0)
+		if ws_client then
+			send_scroll(ws_client)
+		end
+	end
+})
 
 --- Constructor
 --- @param webroot string: path to the webroot
@@ -120,7 +124,7 @@ function Server:start(ip, port)
 				end
 			end
 		end)
-		send_scroll(client)
+		ws_client = client
 		self:watch_dir(function()
 			websocket.send(client, "reload")
 		end)
