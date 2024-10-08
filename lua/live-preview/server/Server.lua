@@ -26,7 +26,6 @@ local ws_client
 --- - line: top line of the window
 --- @param client uv_tcp_t: client
 local function send_scroll(client)
-	print("need_scroll", need_scroll)
 	if not need_scroll then
 		return
 	end
@@ -40,6 +39,7 @@ local function send_scroll(client)
 		filepath = filepath or '',
 		line = top_line,
 	}
+	print(message)
 	vim.print(message)
 	websocket.send_json(client, message)
 	need_scroll = false
