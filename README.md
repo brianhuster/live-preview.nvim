@@ -97,6 +97,12 @@ Use the command `:help live-preview` to see the help documentation.
 
 Since this is a young project, there should be a lot of rooms for improvements. If you would like to contribute to this project, please feel free to open an issue or a pull request.
 
+## TODO
+- [x] Support for KaTex
+- [x] Support for Katex in Markdown
+- [ ] Autoscroll in the browser as you scroll in the Markdown and AsciiDoc files in Neovim
+- [ ] Support for diagrams in AsciiDoc
+
 ## Acknowledgements
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) for the sha1 function
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) and [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) for the idea inspiration
@@ -105,12 +111,6 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) for parsing AsciiDoc files
 * [KaTeX](https://github.com/KaTeX/KaTeX) for rendering math equations
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) for rendering diagrams
-
-## TODO
-- [x] Support for KaTex
-- [x] Support for Katex in Markdown
-- [ ] Autoscroll in the browser as you scroll in the Markdown and AsciiDoc files in Neovim
-- [ ] Support for diagrams in AsciiDoc
 
 ### Buy me a coffee
 #### Paypal
