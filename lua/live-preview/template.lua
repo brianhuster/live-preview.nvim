@@ -22,6 +22,7 @@ local html_template = function(body, stylesheet, script_tag)
             <div class="markdown-body">
 ]] .. body .. [[
             </div>
+			<script defer src="/live-preview.nvim/static/katex/main.js"></script>
             <script defer src="/live-preview.nvim/static/mermaid/main.js"></script>
         </body>
 
