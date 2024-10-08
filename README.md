@@ -3,6 +3,7 @@ A plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/
 
 _You can read this README in [Tiếng Việt](README.vi.md)_
 
+
 ## Features
 Supports markdown, HTML (with reference to CSS, JS), and AsciiDoc files
 

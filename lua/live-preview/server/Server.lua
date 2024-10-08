@@ -127,7 +127,8 @@ function Server:start(ip, port)
 			if supported_filetype(filepath) == 'html' then
 				websocket.send_json(client, { type = "reload" })
 			else
-				websocket.send_json(client, { type = "update", content = utils.uv_read_file(filepath) })
+				local content = utils.uv_read_file(filepath)
+				websocket.send_json(client, { type = "update", content = content })
 			end
 		end)
 	end)
