@@ -36,14 +36,11 @@ async function connectWebSocket() {
 				console.log("filepath: ", filepath);
 				const currentPath = window.location.pathname;
 				console.log("currentPath: ", currentPath);
-				console.log("currentPath.includes(filepath): ", currentPath.includes(filepath));
+				console.log("filepath.includes(currentPath): ", currentPath.includes(filepath));
 				if (filepath.includes(currentPath)) {
-					const targetElement = document.querySelector(`[data-line-number="${line}"]`);
-					console.log("targetElement: ", targetElement);
-					if (targetElement) {
-						const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
-						console.log("Scrolling to line: ", line);
-						window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+					const elementToScrollTo = document.elementFromPoint(0, line * lineHeight);
+					if (elementToScrollTo) {
+						elementToScrollTo.scrollIntoView({ behavior: 'smooth', block: 'center' });
 					}
 				}
 			}
