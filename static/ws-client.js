@@ -31,16 +31,17 @@ async function connectWebSocket() {
 			const message = JSON.parse(event.data);
 			if (message.type === "scroll") {
 				const line = message.line;
-				console.log("line: ", line);
 				const filepath = message.filepath;
-				console.log("filepath: ", filepath);
 				const currentPath = window.location.pathname;
-				console.log("currentPath: ", currentPath);
-				console.log("filepath.includes(currentPath): ", currentPath.includes(filepath));
 				if (filepath.includes(currentPath)) {
-					const elementToScrollTo = document.elementFromPoint(0, line * lineHeight);
-					if (elementToScrollTo) {
-						elementToScrollTo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					const targetElement = document.querySelector(`[data-line-number="${line}"]`);
+
+					// Nếu tìm thấy phần tử, cuộn đến vị trí đó
+					if (targetElement) {
+						targetElement.scrollIntoView({
+							behavior: 'smooth',
+							block: 'start'
+						});
 					}
 				}
 			}
