@@ -26,14 +26,15 @@ local ws_client
 --- - line: top line of the window
 --- @param client uv_tcp_t: client
 local function send_scroll(client)
-	print(need_scroll)
+	print("need_scroll", need_scroll)
 	if not need_scroll then
 		return
 	end
-	print(supported_filetype(filepath))
+	print("filepath", filepath)
 	if not supported_filetype(filepath) then
 		return
 	end
+	print("supported_filetype(filepath)", supported_filetype(filepath))
 	local message = {
 		type = "scroll",
 		filepath = filepath or '',
