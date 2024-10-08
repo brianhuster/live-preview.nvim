@@ -31,9 +31,11 @@ async function connectWebSocket() {
 			const message = JSON.parse(event.data);
 			if (message.type === "scroll") {
 				const line = message.line;
+				console.log("line: ", line);
 				const filepath = message.filepath;
+				console.log("filepath: ", filepath);
 				const currentPath = window.location.pathname;
-
+				console.log("currentPath: ", currentPath);
 				if (currentPath.includes(filepath)) {
 					const targetElement = document.querySelector(`[data-line-number="${line}"]`);
 					if (targetElement) {
