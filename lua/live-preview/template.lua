@@ -11,11 +11,11 @@ local html_template = function(body, stylesheet, script_tag)
             <title>Live preview</title>
 ]] .. stylesheet .. [[
 ]] .. script_tag .. [[
-            <script defer src='/live-preview.nvim/static/ws-client.js'></script>"
             <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">
             <script defer src="/live-preview.nvim/static/katex/katex.min.js"></script>
             <script defer src="/live-preview.nvim/static/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
             <script src="/live-preview.nvim/static/mermaid/mermaid.min.js"></script>
+			<script defer src='/live-preview.nvim/static/ws-client.js'></script>
         </head>
 
         <body>

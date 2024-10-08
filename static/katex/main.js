@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+function renderKatex() {
 	renderMathInElement(document.body, {
 		delimiters: [
 			{ left: '$$', right: '$$', display: true },
@@ -8,4 +8,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		],
 		throwOnError: false
 	});
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+	renderKatex();
 });

@@ -31,6 +31,7 @@ async function connectWebSocket() {
 		} else if (message.type = "update") {
 			content = message.content;
 			render(content);
+			renderKatex();
 		}
 	};
 
