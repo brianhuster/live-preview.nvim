@@ -8,6 +8,7 @@ local handler = require("live-preview.server.handler")
 local get_plugin_path = require("live-preview.utils").get_plugin_path
 local websocket = require("live-preview.server.websocket")
 local supported_filetype = require("live-preview.utils").supported_filetype
+local utils = require("live-preview.utils")
 
 ---@class Server
 local Server = {}
@@ -123,7 +124,11 @@ function Server:start(ip, port)
 		end)
 		ws_client = client
 		self:watch_dir(function()
-			websocket.send(client, "reload")
+			if supported_filetype(filepath) == 'html' then
+				websocket.send_json(client, { type = "reload" })
+			else
+				websocket.send_json(client, { type = "update", content = utils.uv_read_file(filepath) })
+			end
 		end)
 	end)
 

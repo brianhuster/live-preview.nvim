@@ -1,7 +1,7 @@
 local M = {}
 
 local html_template = function(body, stylesheet, script_tag)
-    return [[
+	return [[
         <!DOCTYPE html>
         <html lang="en">
 
@@ -10,6 +10,7 @@ local html_template = function(body, stylesheet, script_tag)
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Live preview</title>
 ]] .. stylesheet .. [[
+]] .. script_tag .. [[
             <script src='/live-preview.nvim/static/ws-client.js'></script>"
             <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">
             <script defer src="/live-preview.nvim/static/katex/katex.min.js"></script>
@@ -21,7 +22,6 @@ local html_template = function(body, stylesheet, script_tag)
             <div class="markdown-body">
 ]] .. body .. [[
             </div>
-]] .. script_tag .. [[
             <script defer src="/live-preview.nvim/static/mermaid/main.js"></script>
         </body>
 
@@ -31,46 +31,46 @@ local html_template = function(body, stylesheet, script_tag)
 end
 
 M.md2html = function(md)
-    local script = [[
+	local script = [[
         <script defer type="module" src='/live-preview.nvim/static/markdown/main.js'></script>
     ]]
-    local stylesheet = [[
+	local stylesheet = [[
         <link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">
     ]]
-    return html_template(md, stylesheet, script)
+	return html_template(md, stylesheet, script)
 end
 
 
 M.adoc2html = function(adoc)
-    local script = [[
+	local script = [[
         <script defer type="module" src='/live-preview.nvim/static/asciidoc/main.js'></script>
     ]]
-    local stylesheet = [[
+	local stylesheet = [[
         <link rel="stylesheet" href="/live-preview.nvim/static/asciidoc/asciidoctor.min.css">
     ]]
-    return html_template(adoc, stylesheet, script)
+	return html_template(adoc, stylesheet, script)
 end
 
 
 
 M.toHTML = function(text, filetype)
-    if filetype == 'markdown' then
-        return M.md2html(text)
-    elseif filetype == 'asciidoc' then
-        return M.adoc2html(text)
-    end
+	if filetype == 'markdown' then
+		return M.md2html(text)
+	elseif filetype == 'asciidoc' then
+		return M.adoc2html(text)
+	end
 end
 
 
 M.handle_body = function(data)
-    local ws_script = "<script src='/live-preview.nvim/static/ws-client.js'></script>"
-    local body
-    if data:match("<head>") then
-        body = data:gsub("<head>", "<head>" .. ws_script)
-    else
-        body = ws_script .. data
-    end
-    return body
+	local ws_script = "<script src='/live-preview.nvim/static/ws-client.js'></script>"
+	local body
+	if data:match("<head>") then
+		body = data:gsub("<head>", "<head>" .. ws_script)
+	else
+		body = ws_script .. data
+	end
+	return body
 end
 
 

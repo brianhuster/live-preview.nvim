@@ -13,8 +13,12 @@ const renderer = {
 
 marked.use({ renderer });
 
+const render = (text) => {
+	const html = marked.parse(markdownText, { lineNumbers: true });
+	console.log(html);
+	document.querySelector('.markdown-body').innerHTML = html;
+}
+
 const markdownText = document.querySelector('.markdown-body').innerHTML;
-const html = marked.parse(markdownText, { lineNumbers: true });
-console.log(html);
-document.querySelector('.markdown-body').innerHTML = html;
+render(markdownText);
 

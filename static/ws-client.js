@@ -22,29 +22,15 @@ async function connectWebSocket() {
 	};
 
 	socket.onmessage = (event) => {
-		if (event.data === "reload") {
+		console.log("Message received: ", event.data);
+		const message = JSON.parse(event.data);
+
+		if (message.type === "reload") {
 			console.log("Reload message received");
 			window.location.reload();
-		}
-		else {
-			console.log("Message received: ", event.data);
-			const message = JSON.parse(event.data);
-			if (message.type === "scroll") {
-				const line = message.line;
-				const filepath = message.filepath;
-				const currentPath = window.location.pathname;
-				if (filepath.includes(currentPath)) {
-					const targetElement = document.querySelector(`[data-line-number="${line}"]`);
-
-					// Nếu tìm thấy phần tử, cuộn đến vị trí đó
-					if (targetElement) {
-						targetElement.scrollIntoView({
-							behavior: 'smooth',
-							block: 'start'
-						});
-					}
-				}
-			}
+		} else if (message.type = "update") {
+			content = message.content;
+			render(content);
 		}
 	};
 
