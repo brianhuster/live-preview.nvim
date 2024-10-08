@@ -29,18 +29,15 @@ local function send_scroll(client)
 	if not need_scroll then
 		return
 	end
-	print("filepath", filepath)
 	if not supported_filetype(filepath) then
 		return
 	end
-	print("supported_filetype(filepath)", supported_filetype(filepath))
 	local message = {
 		type = "scroll",
 		filepath = filepath or '',
 		line = top_line,
 	}
-	print(message)
-	vim.print(message)
+	vim.print("Sending message", message)
 	websocket.send_json(client, message)
 	need_scroll = false
 end
