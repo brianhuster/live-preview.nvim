@@ -1,5 +1,3 @@
-
-
 [listing,python]
 ----
 3>2
