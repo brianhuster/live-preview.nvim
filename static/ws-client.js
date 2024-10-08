@@ -37,7 +37,7 @@ async function connectWebSocket() {
 				const currentPath = window.location.pathname;
 				console.log("currentPath: ", currentPath);
 				console.log("currentPath.includes(filepath): ", currentPath.includes(filepath));
-				if (currentPath.includes(filepath)) {
+				if (filepath.includes(currentPath)) {
 					const targetElement = document.querySelector(`[data-line-number="${line}"]`);
 					console.log("targetElement: ", targetElement);
 					if (targetElement) {

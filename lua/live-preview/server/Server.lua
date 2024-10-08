@@ -37,7 +37,6 @@ local function send_scroll(client)
 		filepath = filepath or '',
 		line = top_line,
 	}
-	vim.print("Sending message", message)
 	websocket.send_json(client, message)
 	need_scroll = false
 end
