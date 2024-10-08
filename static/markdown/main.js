@@ -20,6 +20,7 @@ class Lexer {
 
 const renderer = {
 	code({ text, lang, escaped, token }) {
+		console.log("token", token);
 		const langString = (lang || '').match(/^\S*/)?.[0];
 		const code = text.replace(/\n$/, '') + '\n';
 		if (!langString) {
