@@ -1,7 +1,7 @@
 # live-preview.nvim
 A plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/wiki/Markdown), [HTML](https://en.wikipedia.org/wiki/HTML) (along with CSS, JavaScript) and [AsciiDoc](https://asciidoc.org/) files in a web browser with live updates. No external dependencies or runtime are required, since the backend is fully written in Lua and Neovim's built-in functions
 
-_You can read this README in [Tiếng Việt](README.vi.md)_
+_You can read this README in [Tiếng Việt](README.vi.md)
 
 ## Features
 Supports markdown, HTML (with reference to CSS, JS), and AsciiDoc files
