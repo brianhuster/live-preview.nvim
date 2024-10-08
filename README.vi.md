@@ -89,7 +89,7 @@ Gõ lệnh `:help live-preview@vi` để xem tài liệu hướng dẫn đầy �
 
 Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần cải thiện. Nếu bạn muốn đóng góp cho dự án này, hãy mở một issue hoặc pull request. 
 
-## Kế ho
+## TODO
 
 - [x] Hỗ trợ công thức toán bằng Katex
 - [x] Hỗ trợ biểu đồ Mermaid trong Markdown
