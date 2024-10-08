@@ -165,6 +165,14 @@ send({client}, {message})               *live-preview.server.websocket.send()*
       • {client}   (`uv_tcp_t`) client
       • {message}  (`string`) message to send
 
+                                   *live-preview.server.websocket.send_json()*
+send_json({client}, {message})
+    Send a JSON message to a WebSocket client
+
+    Parameters: ~
+      • {client}   (`uv_tcp_t`) client
+      • {message}  (`table`) message to send
+
 
 ==============================================================================
 Live Preview Module : CONTENT_TYPE                 *live-preview.content_type*

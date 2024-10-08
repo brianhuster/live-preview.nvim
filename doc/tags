@@ -22,6 +22,7 @@ live-preview.server.utils.content_type.mime	live-preview.txt	/*live-preview.serv
 live-preview.server.utils.etag.generate()	live-preview.txt	/*live-preview.server.utils.etag.generate()*
 live-preview.server.websocket.handshake()	live-preview.txt	/*live-preview.server.websocket.handshake()*
 live-preview.server.websocket.send()	live-preview.txt	/*live-preview.server.websocket.send()*
+live-preview.server.websocket.send_json()	live-preview.txt	/*live-preview.server.websocket.send_json()*
 live-preview.setup()	live-preview.txt	/*live-preview.setup()*
 live-preview.stop_preview()	live-preview.txt	/*live-preview.stop_preview()*
 live-preview.utils	live-preview.txt	/*live-preview.utils*
