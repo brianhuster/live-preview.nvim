@@ -32,7 +32,8 @@ end
 
 M.md2html = function(md)
 	local script = [[
-        <script defer type="module" src='/live-preview.nvim/static/markdown/main.js'></script>
+		<script defer src="/live-preview.nvim/static/markdown/marked.min.js"></script>
+        <script defer src='/live-preview.nvim/static/markdown/main.js'></script>
     ]]
 	local stylesheet = [[
         <link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">

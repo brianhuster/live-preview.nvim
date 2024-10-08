@@ -1,5 +1,3 @@
-import { marked } from '/live-preview.nvim/static/markdown/marked.min.js';
-
 const renderer = {
 	code({ text, lang, escaped }) {
 		const langString = (lang || '').match(/^\S*/)?.[0];
@@ -14,7 +12,7 @@ const renderer = {
 marked.use({ renderer });
 
 const render = (text) => {
-	const html = marked.parse(markdownText, { lineNumbers: true });
+	const html = marked.parse(text, { lineNumbers: true });
 	console.log(html);
 	document.querySelector('.markdown-body').innerHTML = html;
 }
