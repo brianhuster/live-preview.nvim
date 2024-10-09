@@ -66,7 +66,7 @@ Lệnh này sẽ mở tệp Markdown hoặc HTML hiện tại trong trình duy�
 
 `:StopPreview`
 
-Gõ lệnh `:help live-preview` để xem bằng tiếng Anh.
+Gõ lệnh `:help livepreview` để xem bằng tiếng Anh.
 
 ## Đóng góp
 
