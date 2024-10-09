@@ -74,7 +74,7 @@ end
 
 local config = {
 	lua = {
-		filename = 'live-preview.txt',
+		filename = 'livepreview.txt',
 		section_order = {
 			'init.lua',
 			'Server.lua',
@@ -87,33 +87,33 @@ local config = {
 			'spec.lua',
 		},
 		files = {
-			'lua/live-preview/init.lua',
-			'lua/live-preview/server/Server.lua',
-			'lua/live-preview/server/handler.lua',
-			'lua/live-preview/server/websocket.lua',
-			'lua/live-preview/server/utils/content_type.lua',
-			'lua/live-preview/server/utils/etag.lua',
-			'lua/live-preview/utils.lua',
-			'lua/live-preview/health.lua',
-			'lua/live-preview/spec.lua',
+			'lua/livepreview/init.lua',
+			'lua/livepreview/server/Server.lua',
+			'lua/livepreview/server/handler.lua',
+			'lua/livepreview/server/websocket.lua',
+			'lua/livepreview/server/utils/content_type.lua',
+			'lua/livepreview/server/utils/etag.lua',
+			'lua/livepreview/utils.lua',
+			'lua/livepreview/health.lua',
+			'lua/livepreview/spec.lua',
 		},
 		fn_xform = function(fun)
 			fun.name = fun.name:gsub('M.', '')
 		end,
 		section_fmt = function(name)
 			if name:lower() == 'init' then
-				return 'Lua module : require("live-preview")'
+				return 'Lua module : require("livepreview")'
 			end
 			if name:lower() == 'spec' then
-				return 'spec = require("live-preview.spec")'
+				return 'spec = require("livepreview.spec")'
 			end
 			return string.format('Live Preview Module : %s', name:upper())
 		end,
 		helptag_fmt = function(name)
 			if name:lower() == 'init' then
-				return 'live-preview'
+				return 'livepreview'
 			end
-			return string.format('live-preview.%s', name:lower())
+			return string.format('livepreview.%s', name:lower())
 		end,
 		fn_helptag_fmt = function(fun)
 			if fun.module then
