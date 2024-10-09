@@ -9,7 +9,9 @@ Hỗ trợ Katex để hiển thị các phương trình toán học trong tệp
 
 Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown
 
-### [Cập nhật](RELEASE.md)
+### Cập nhật
+
+Xem [RELEASE.md](RELEASE.md)
 
 **⚠️ Quan trọng:** Bạn cần xóa bộ nhớ đệm của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
 

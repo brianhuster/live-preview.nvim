@@ -10,7 +10,9 @@ Support Katex for rendering math equations in markdown and AsciiDoc files
 
 Supports mermaid for rendering diagrams in markdown files
 
-### [Updates](RELEASE.md) 
+### Updates
+
+See [RELEASE.md](RELEASE.md) 
 
 **⚠️ Important Notice:** You must clear the cache of the browser after updating to ensure the plugin works correctly.
 
