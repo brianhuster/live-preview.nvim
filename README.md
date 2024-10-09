@@ -25,51 +25,31 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
 ## Installation
 
-You can install the plugin using your favorite plugin manager. Here are some examples:
+### Using lazy.nvim (recommended)
 
-### Using lazy.nvim
 ```lua
 require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
         dependencies = {'brianhuster/autosave.nvim'}, -- Not required, but recomended for autosaving
+        opts = {},
     }
 })
 ```
 
-### Using vim-plug
-```vim
-Plug 'brianhuster/live-preview.nvim'
-Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
-```
-
 ## Setup
 
-Add the following to your `init.lua`:
+You can customize the plugin by passing a table to the opts variable. Here is an example of how to customize the plugin
 
 ```lua
-require('live-preview').setup()
-```
-
-For `init.vim`:
-
-```vim
-lua require('live-preview').setup()
-```
-
-You can also customize the plugin by passing a table to the `setup` function. Here is an example of how to customize the plugin:bubbles
-
-- Using Lua:
-
-```lua
-require('live-preview').setup({
+opts = {
     commands = {
         start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
         stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
     },
     port = 5500, -- Port to run the live preview server on. Default is 5500
     browser = "default", -- Browser to open the live preview in. Default is 'default', meaning the default browser of your system will be used
-})
+}
 ```
 
 ## Usage

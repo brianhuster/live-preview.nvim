@@ -32,41 +32,24 @@ require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
         dependencies = {'brianhuster/autosave.nvim'}, -- Không bắt buộc, nhưng nên có để tự động lưu tệp khi bạn chỉnh sửa file
+        opts = {},
     }
 })
 ```
 
-### Với vim-plug
-```vim
-Plug 'brianhuster/live-preview.nvim'
-Plug 'brianhuster/autosave.nvim' " Không bắt buộc, nhưng nên có để tự động lưu tệp khi bạn chỉnh sửa file
-```
-
 ## Thiết lập
 
-Thêm đoạn code sau vào `init.lua`:
+Bạn có thể tùy chỉnh plugin. Dưới đây là cấu hình mặc định
 
 ```lua
-require('live-preview').setup()
-```
-
-Nếu bạn dùng `init.vim`:
-
-```vim
-lua require('live-preview').setup()
-```
-
-Bạn cũng có thể tùy chỉnh plugin. Dưới đây là cấu hình mặc định
-
-```lua
-require('live-preview').setup({
+opts = {
     commands = {
         start = 'LivePreview', -- Lệnh khởi động máy chủ live-preview.
         stop = 'StopPreview', -- Lệnh để dừng máy chủ live-preview.
     },
     port = 5500, -- Cổng để chạy máy chủ live-preview 
     browser = "default", -- Trình duyệt để xem kết quả live-preview. Mặc định "default" sẽ mở trình duyệt mặc định của hệ điều hành
-})
+}
 ```
 
 ## Cách dùng
