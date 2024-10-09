@@ -273,8 +273,9 @@ open_browser({path}, {browser})            *live-preview.utils.open_browser()*
       • {browser}  (`string`)
 
 sha1({val})                                        *live-preview.utils.sha1()*
-    Compute the SHA1 hash of a string. Copyright (C) 2007 *Free Software
-    Foundation, Inc*.
+    Compute the SHA1 hash of a string.
+
+    Copyright (C) 2007 *Free Software Foundation, Inc*.
 
     Parameters: ~
       • {val}  (`string`)

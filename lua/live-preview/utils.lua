@@ -140,6 +140,7 @@ function M.await_term_cmd(cmd)
 end
 
 --- Compute the SHA1 hash of a string.
+---
 --- Copyright (C) 2007 [Free Software Foundation, Inc](https://fsf.org/).
 ---@param val string
 ---@return string: SHA1 hash
