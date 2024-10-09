@@ -95,8 +95,8 @@ Use the command `:help live-preview` to see the help documentation.
 Since this is a young project, there should be a lot of rooms for improvements. If you would like to contribute to this project, please feel free to open an issue or a pull request.
 
 ## TODO
-- [x] Support for KaTex
-- [x] Support for Katex in Markdown
+- [x] Support for KaTex math in Markdown and AsciiDoc
+- [x] Support for Mermaid diagrams in Markdown
 - [ ] Autoscroll in the browser as you scroll in the Markdown and AsciiDoc files in Neovim
 - [ ] Support for diagrams in AsciiDoc
 
