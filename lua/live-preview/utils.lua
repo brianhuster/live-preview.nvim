@@ -86,7 +86,11 @@ function M.get_path_lua_file()
 end
 
 --- Get the parent path of a subpath
---- Example: get_parent_path("/home/user/.config/nvim/lua/live-preview/utils.lua", "/lua/live-preview/utils.lua") will return "/home/user/.config/nvim"
+---
+--- Example: ```lua
+--- get_parent_path("/home/user/.config/nvim/lua/live-preview/utils.lua", "/lua/live-preview/utils.lua")
+--- ```
+--- will return "/home/user/.config/nvim"
 --- @param full_path string
 --- @param subpath string
 --- @return string | nil
@@ -136,7 +140,7 @@ function M.await_term_cmd(cmd)
 end
 
 --- Compute the SHA1 hash of a string.
---- Source : https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
+--- Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
 ---@param val string
 ---@return string: SHA1 hash
 function M.sha1(val)
