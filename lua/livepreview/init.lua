@@ -21,7 +21,7 @@ local default_options = {
 		stop = "StopPreview",
 	},
 	port = 5500,
-	browser = {},
+	browser = "default",
 }
 
 

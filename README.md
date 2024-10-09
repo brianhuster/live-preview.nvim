@@ -23,7 +23,6 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 ## Requirements
 
 - Neovim >=0.10.0
-    (recommended >=0.10.2)
 - A modern web browser
 
 ## Installation
@@ -68,8 +67,8 @@ You can customize the plugin by passing a table to the `opts` variable or the fu
         start = 'LivePreview', -- Command to start the live preview server and open the default browser.
         stop = 'StopPreview', -- Command to stop the live preview. 
     },
-    port = 5500, -- Port to run the live preview server on. Default is 5500
-    browser = {}, -- Table of browsers to open the live preview in. By default, it will use the default browser of your system. This option is only configurable on Neovim 0.10.2 and later.
+    port = 5500, -- Port to run the live preview server on.
+    browser = 'default', -- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
 }
 ```
 

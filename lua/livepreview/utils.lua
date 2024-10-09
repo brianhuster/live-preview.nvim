@@ -103,7 +103,7 @@ end
 
 --- Execute a shell commands
 ---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
----@param callback function: function to call when the command finishes.
+---@param callback function|nil: function to call when the command finishes.
 ---		- code: the exit code of the command
 ---		- signal: the signal that killed the process
 ---		- stdout: the standard output of the command
@@ -258,20 +258,18 @@ function M.sha1(val)
 end
 
 --- Open URL in the browser
---- The browsers parameter is only usable in Neovim 0.10.2 or later
 ---
 --- Example: ```lua
---- open_browser("https://neovim.io/", {"firefox", "google-chrome"})
+--- open_browser("https://neovim.io/", "firefox")
+--- open_browser("https://neovim.io/", "flatpak run com.microsoft.Edge")
 --- ```
 --- @param path string
---- @param browsers string|string[]|nil
-function M.open_browser(path, browsers)
-	if browsers == nil or browsers == 'default' or browsers == {} then
+--- @param browser string|nil
+function M.open_browser(path, browser)
+	if browser == "default" or #browser == 0 or browser == nil then
 		vim.ui.open(path)
-	elseif type(browsers) == 'string' then
-		vim.ui.open(path, { cmd = { browsers } })
-	elseif type(browsers) == 'table' then
-		vim.ui.open(path, { cmd = browsers })
+	else
+		M.term_cmd(browser .. " " .. path)
 	end
 end
 

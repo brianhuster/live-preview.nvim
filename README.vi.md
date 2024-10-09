@@ -69,7 +69,7 @@ Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opt
         stop = 'StopPreview', -- Lệnh để dừng máy chủ live-preview.
     },
     port = 5500, -- Cổng để chạy máy chủ live-preview 
-    browser = {}, -- Danh sách trình duyệt để xem kết quả live-preview. Mặc định là trình duyệt mặc định của hệ điều hành. Lưu ý, tùy chọn này chỉ tùy chỉnh được trong Neovim 0.10.2 trở lên.
+    browser = 'default', -- Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành. 
 }
 ```
 
