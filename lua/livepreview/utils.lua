@@ -287,7 +287,7 @@ function M.open_browser(path, browser)
 	elseif vim.fn.executable('xdg-open') == 1 then
 		cmd = { 'xdg-open', path }
 	else
-		return nil, 'vim.ui.open: no handler found (tried: wslview, xdg-open)'
+		return nil, 'no handler found (tried: wslview, xdg-open)'
 	end
 
 	vim.system(cmd, { text = true, detach = true })
