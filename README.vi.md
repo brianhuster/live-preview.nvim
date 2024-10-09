@@ -37,12 +37,30 @@ require("lazy").setup({
 })
 ```
 
+### mini.deps
+```lua
+add({
+    source = 'brianhuster/live-preview.nvim',
+    depends = { 'brianhuster/autosave.nvim' }, -- Not required, but recomended for autosaving
+})
+require('livepreview').setup()
+```
+
+### vim-plug
+```vim
+Plug 'brianhuster/live-preview.nvim'
+Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
+lua EOF
+require('livepreview').setup()
+EOF
+```
+
 ## Thiết lập
 
-Bạn có thể tùy chỉnh plugin. Dưới đây là cấu hình mặc định
+Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opts` hoặc hàm `require('livepreview`).setup()`. Dưới đây là cấu hình mặc định
 
 ```lua
-opts = {
+{
     commands = {
         start = 'LivePreview', -- Lệnh khởi động máy chủ live-preview.
         stop = 'StopPreview', -- Lệnh để dừng máy chủ live-preview.

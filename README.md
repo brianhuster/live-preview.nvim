@@ -37,12 +37,30 @@ require("lazy").setup({
 })
 ```
 
+### mini.deps
+```lua
+add({
+    source = 'brianhuster/live-preview.nvim',
+    depends = { 'brianhuster/autosave.nvim' }, -- Not required, but recomended for autosaving
+})
+require('livepreview').setup()
+```
+
+### vim-plug
+```vim
+Plug 'brianhuster/live-preview.nvim'
+Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
+lua EOF
+require('livepreview').setup()
+EOF
+```
+
 ## Setup
 
-You can customize the plugin by passing a table to the opts variable. Here is an example of how to customize the plugin
+You can customize the plugin by passing a table to the `opts` variable or the function `require('livepreview').setup()`. Here is an example of how to customize the plugin:
 
 ```lua
-opts = {
+{
     commands = {
         start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
         stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
