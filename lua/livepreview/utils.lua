@@ -258,39 +258,21 @@ function M.sha1(val)
 end
 
 --- Open URL in the browser
----@param path string
----@param browser string
-function M.open_browser(path, browser)
-	vim.validate({
-		path = { path, 'string' },
-	})
-	local is_uri = path:match('%w+:')
-	if not is_uri then
-		path = vim.fn.expand(path)
+--- The browsers parameter is only usable in Neovim 0.10.2 or later
+---
+--- Example: ```lua
+--- open_browser("https://neovim.io/", {"firefox", "google-chrome"})
+--- ```
+--- @param path string
+--- @param browsers string|string[]|nil
+function M.open_browser(path, browsers)
+	if browsers == nil or browsers == 'default' or browsers == {} then
+		vim.ui.open(path)
+	elseif type(browsers) == 'string' then
+		vim.ui.open(path, { cmd = { browsers } })
+	elseif type(browsers) == 'table' then
+		vim.ui.open(path, { cmd = browsers })
 	end
-
-	local cmd
-	if browser ~= 'default' then
-		cmd = { browser, path }
-	elseif vim.fn.has('mac') == 1 then
-		cmd = { 'open', path }
-	elseif vim.fn.has('win32') == 1 then
-		if vim.fn.executable('rundll32') == 1 then
-			cmd = { 'rundll32', 'url.dll,FileProtocolHandler', path }
-		elseif vim.fn.executable("start") == 1 then
-			cmd = { 'start', path }
-		else
-			return nil, 'vim.ui.open: rundll32 and start not found'
-		end
-	elseif vim.fn.executable('wslview') == 1 then
-		cmd = { 'wslview', path }
-	elseif vim.fn.executable('xdg-open') == 1 then
-		cmd = { 'xdg-open', path }
-	else
-		return nil, 'no handler found (tried: wslview, xdg-open)'
-	end
-
-	vim.system(cmd, { text = true, detach = true })
 end
 
 --- Kill a process which is not Neovim running on a port

@@ -22,6 +22,7 @@ https://github.com/user-attachments/assets/e9a64709-8758-44d8-9e3c-9c15e0bf2a0e
 ## Yêu cầu
 
 - Neovim >=0.10.0
+    (khuyến nghị >=0.10.2)
 - Một trình duyệt web
 
 ## Cài đặt
@@ -68,7 +69,7 @@ Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opt
         stop = 'StopPreview', -- Lệnh để dừng máy chủ live-preview.
     },
     port = 5500, -- Cổng để chạy máy chủ live-preview 
-    browser = "default", -- Trình duyệt để xem kết quả live-preview. Mặc định "default" sẽ mở trình duyệt mặc định của hệ điều hành
+    browser = {}, -- Danh sách trình duyệt để xem kết quả live-preview. Mặc định là trình duyệt mặc định của hệ điều hành. Lưu ý, tùy chọn này chỉ tùy chỉnh được trong Neovim 0.10.2 trở lên.
 }
 ```
 
