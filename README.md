@@ -57,7 +57,7 @@ EOF
 
 ## Setup
 
-You can customize the plugin by passing a table to the `opts` variable or the function `require('livepreview').setup()`. Here is an example of how to customize the plugin:
+You can customize the plugin by passing a table to the `opts` variable or the function `require('livepreview').setup()`. Here is the default configuration:
 
 ```lua
 {
