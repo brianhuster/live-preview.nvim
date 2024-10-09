@@ -64,11 +64,11 @@ You can customize the plugin by passing a table to the `opts` variable or the fu
 ```lua
 {
     commands = {
-        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
-        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
+        start = 'LivePreview', -- Command to start the live preview server and open the default browser.
+        stop = 'StopPreview', -- Command to stop the live preview. 
     },
-    port = 5500, -- Port to run the live preview server on. Default is 5500
-    browser = "default", -- Browser to open the live preview in. Default is 'default', meaning the default browser of your system will be used
+    port = 5500, -- Port to run the live preview server on.
+    browser = 'default', -- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
 }
 ```
 

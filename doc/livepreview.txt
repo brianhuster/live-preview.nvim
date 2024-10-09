@@ -265,9 +265,13 @@ kill_port({port})                              *livepreview.utils.kill_port()*
 open_browser({path}, {browser})             *livepreview.utils.open_browser()*
     Open URL in the browser
 
+    Example: ```lua open_browser("https://neovim.io/", "firefox")
+    open_browser("https://neovim.io/", "flatpak run com.microsoft.Edge") >
+<
+
     Parameters: ~
       • {path}     (`string`)
-      • {browser}  (`string`)
+      • {browser}  (`string?`)
 
 sha1({val})                                         *livepreview.utils.sha1()*
     Compute the SHA1 hash of a string.
@@ -297,7 +301,7 @@ term_cmd({cmd}, {callback})                     *livepreview.utils.term_cmd()*
     Parameters: ~
       • {cmd}       (`string`) terminal command to execute. Term_cmd will use
                     sh or pwsh depending on the OS
-      • {callback}  (`function`) function to call when the command finishes.
+      • {callback}  (`function?`) function to call when the command finishes.
                     • code: the exit code of the command
                     • signal: the signal that killed the process
                     • stdout: the standard output of the command

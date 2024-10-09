@@ -103,7 +103,7 @@ end
 
 --- Execute a shell commands
 ---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
----@param callback function: function to call when the command finishes.
+---@param callback function|nil: function to call when the command finishes.
 ---		- code: the exit code of the command
 ---		- signal: the signal that killed the process
 ---		- stdout: the standard output of the command
@@ -258,39 +258,19 @@ function M.sha1(val)
 end
 
 --- Open URL in the browser
----@param path string
----@param browser string
+---
+--- Example: ```lua
+--- open_browser("https://neovim.io/", "firefox")
+--- open_browser("https://neovim.io/", "flatpak run com.microsoft.Edge")
+--- ```
+--- @param path string
+--- @param browser string|nil
 function M.open_browser(path, browser)
-	vim.validate({
-		path = { path, 'string' },
-	})
-	local is_uri = path:match('%w+:')
-	if not is_uri then
-		path = vim.fn.expand(path)
-	end
-
-	local cmd
-	if browser ~= 'default' then
-		cmd = { browser, path }
-	elseif vim.fn.has('mac') == 1 then
-		cmd = { 'open', path }
-	elseif vim.fn.has('win32') == 1 then
-		if vim.fn.executable('rundll32') == 1 then
-			cmd = { 'rundll32', 'url.dll,FileProtocolHandler', path }
-		elseif vim.fn.executable("start") == 1 then
-			cmd = { 'start', path }
-		else
-			return nil, 'vim.ui.open: rundll32 and start not found'
-		end
-	elseif vim.fn.executable('wslview') == 1 then
-		cmd = { 'wslview', path }
-	elseif vim.fn.executable('xdg-open') == 1 then
-		cmd = { 'xdg-open', path }
+	if browser == "default" or #browser == 0 or browser == nil then
+		vim.ui.open(path)
 	else
-		return nil, 'no handler found (tried: wslview, xdg-open)'
+		M.term_cmd(browser .. " " .. path)
 	end
-
-	vim.system(cmd, { text = true, detach = true })
 end
 
 --- Kill a process which is not Neovim running on a port
