@@ -1,16 +1,16 @@
 ---@brief HTTP handler module for server in live-preview.nvim
 --- To require this module, do
 --- ```lua
---- local handler = require('live-preview.server.handler')
+--- local handler = require('livepreview.server.handler')
 --- ```
 
-local websocket = require('live-preview.server.websocket')
-local read_file = require('live-preview.utils').uv_read_file
-local supported_filetype = require('live-preview.utils').supported_filetype
-local toHTML = require('live-preview.template').toHTML
-local handle_body = require('live-preview.template').handle_body
-local get_content_type = require('live-preview.server.utils.content_type').get
-local generate_etag = require('live-preview.server.utils.etag').generate
+local websocket = require('livepreview.server.websocket')
+local read_file = require('livepreview.utils').uv_read_file
+local supported_filetype = require('livepreview.utils').supported_filetype
+local toHTML = require('livepreview.template').toHTML
+local handle_body = require('livepreview.template').handle_body
+local get_content_type = require('livepreview.server.utils.content_type').get
+local generate_etag = require('livepreview.server.utils.etag').generate
 
 local M = {}
 

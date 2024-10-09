@@ -1,7 +1,7 @@
 ---@brief ETag module
 --- To require this module, do
 --- ```lua
---- local etag = require('live-preview.server.utils.etag')
+--- local etag = require('livepreview.server.utils.etag')
 --- ```
 
 local M = {}
