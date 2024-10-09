@@ -110,6 +110,8 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) for rendering diagrams
 
 ### Buy me a coffee
+Maintaining this project takes time and effort, especially as I am a student now. If you find this project helpful, please consider supporting me :>
+
 #### Paypal
 [https://www.paypal.com/paypalme/brianphambinhan](https://www.paypal.com/paypalme/brianphambinhan)
 
