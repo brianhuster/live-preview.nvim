@@ -1,11 +1,11 @@
 ---@brief Content type module for the server
 --- To require this module, do
 --- ```lua
---- local content_type = require('live-preview.server.utils.content_type')
+--- local content_type = require('livepreview.server.utils.content_type')
 --- ```
 
 local M = {}
-local supported_filetype = require('live-preview.utils').supported_filetype
+local supported_filetype = require('livepreview.utils').supported_filetype
 
 --- Get the content type of a file
 --- @param file_path string: path to the file

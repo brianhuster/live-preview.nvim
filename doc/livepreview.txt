@@ -1,25 +1,21 @@
-
 ==============================================================================
-Lua module : require("live-preview")                            *live-preview*
+Lua module : require("livepreview")                              *livepreview*
 
 Live preview for markdown, asciidoc, and html files.
 
 To work with API from this plugin, require it in your Lua code: >lua
-    local a_name_you_like = require('live-preview')
+    local livepreview = require('livepreview')
 <
 
-To use any functions provided by this plugin (see below), replace
-`live-preview` in that function's tag name with the name you chose above
 
-
-preview_file({filepath}, {port})                 *live-preview.preview_file()*
+preview_file({filepath}, {port})                  *livepreview.preview_file()*
     Start live preview
 
     Parameters: ~
       • {filepath}  (`string`) path to the file
       • {port}      (`number`) port to run the server on
 
-setup({opts})                                           *live-preview.setup()*
+setup({opts})                                            *livepreview.setup()*
     Setup live preview
 
     Parameters: ~
@@ -31,15 +27,15 @@ setup({opts})                                           *live-preview.setup()*
                   "default"). The "default" value will open the preview in
                   system default browser.
 
-stop_preview()                                   *live-preview.stop_preview()*
+stop_preview()                                    *livepreview.stop_preview()*
     Stop live preview
 
 
 ==============================================================================
-Live Preview Module : SERVER                             *live-preview.server*
+Live Preview Module : SERVER                              *livepreview.server*
 
 Server class for live-preview.nvim To call this class, do >lua
-    local Server = require('live-preview').server.Server
+    local Server = require('livepreview').server.Server
 <
 
 
@@ -56,13 +52,13 @@ Server class for live-preview.nvim To call this class, do >lua
       • {stop}       (`fun(self: Server)`) Stop the server
 
 
-Server:new({webroot})                       *live-preview.server.Server:new()*
+Server:new({webroot})                        *livepreview.server.Server:new()*
     Constructor
 
     Parameters: ~
       • {webroot}  (`string`) path to the webroot
 
-Server:routes({path})                    *live-preview.server.Server:routes()*
+Server:routes({path})                     *livepreview.server.Server:routes()*
     Handle routes
 
     Parameters: ~
@@ -71,17 +67,17 @@ Server:routes({path})                    *live-preview.server.Server:routes()*
     Return: ~
         (`string`) path to the file
 
-Server:start({ip}, {port})                *live-preview.server.Server:start()*
+Server:start({ip}, {port})                 *livepreview.server.Server:start()*
     Start the server
 
     Parameters: ~
       • {ip}    (`string`) IP address to bind to
       • {port}  (`number`) port to bind to
 
-Server:stop()                              *live-preview.server.Server:stop()*
+Server:stop()                               *livepreview.server.Server:stop()*
     Stop the server
 
-Server:watch_dir({func})              *live-preview.server.Server:watch_dir()*
+Server:watch_dir({func})               *livepreview.server.Server:watch_dir()*
     Watch a directory for changes and send a message "reload" to a WebSocket
     client
 
@@ -90,14 +86,14 @@ Server:watch_dir({func})              *live-preview.server.Server:watch_dir()*
 
 
 ==============================================================================
-Live Preview Module : HANDLER                           *live-preview.handler*
+Live Preview Module : HANDLER                            *livepreview.handler*
 
 HTTP handler module for server in live-preview.nvim To require this module, do >lua
-    local handler = require('live-preview.server.handler')
+    local handler = require('livepreview.server.handler')
 <
 
 
-client({client}, {callback})            *live-preview.server.handler.client()*
+client({client}, {callback})             *livepreview.server.handler.client()*
     Handle a client connection, read the request and send a response
 
     Parameters: ~
@@ -109,7 +105,7 @@ client({client}, {callback})            *live-preview.server.handler.client()*
     Return: ~
         (`string`) request from the client
 
-request({request})                     *live-preview.server.handler.request()*
+request({request})                      *livepreview.server.handler.request()*
     Handle an HTTP request If the request is a websocket upgrade request, it
     will call websocket handshake Otherwise, if it is a GET request, return
     the path from it
@@ -121,7 +117,7 @@ request({request})                     *live-preview.server.handler.request()*
         (`{path: string, if_none_match: string}?`) path to the file and
         If-None-Match header
 
-                            *live-preview.server.handler.send_http_response()*
+                             *livepreview.server.handler.send_http_response()*
 send_http_response({client}, {status}, {content_type}, {body}, {headers})
     Send an HTTP response
 
@@ -133,7 +129,7 @@ send_http_response({client}, {status}, {content_type}, {body}, {headers})
       • {headers}       (`table`) (optional) additional headers to include in
                         the response
 
-                                    *live-preview.server.handler.serve_file()*
+                                     *livepreview.server.handler.serve_file()*
 serve_file({client}, {file_path})
     Serve a file to the client
 
@@ -143,14 +139,14 @@ serve_file({client}, {file_path})
 
 
 ==============================================================================
-Live Preview Module : WEBSOCKET                       *live-preview.websocket*
+Live Preview Module : WEBSOCKET                        *livepreview.websocket*
 
 WebSocket server implementation To require this module, do >lua
-    local websocket = require('live-preview.server.websocket')
+    local websocket = require('livepreview.server.websocket')
 <
 
 
-                                   *live-preview.server.websocket.handshake()*
+                                    *livepreview.server.websocket.handshake()*
 handshake({client}, {request})
     Handle a WebSocket handshake request
 
@@ -158,14 +154,14 @@ handshake({client}, {request})
       • {client}   (`uv_tcp_t`) client
       • {request}  (`string`) client request
 
-send({client}, {message})               *live-preview.server.websocket.send()*
+send({client}, {message})                *livepreview.server.websocket.send()*
     Send a message to a WebSocket client
 
     Parameters: ~
       • {client}   (`uv_tcp_t`) client
       • {message}  (`string`) message to send
 
-                                   *live-preview.server.websocket.send_json()*
+                                    *livepreview.server.websocket.send_json()*
 send_json({client}, {message})
     Send a JSON message to a WebSocket client
 
@@ -175,14 +171,14 @@ send_json({client}, {message})
 
 
 ==============================================================================
-Live Preview Module : CONTENT_TYPE                 *live-preview.content_type*
+Live Preview Module : CONTENT_TYPE                  *livepreview.content_type*
 
 Content type module for the server To require this module, do >lua
-    local content_type = require('live-preview.server.utils.content_type')
+    local content_type = require('livepreview.server.utils.content_type')
 <
 
 
-get({file_path})                *live-preview.server.utils.content_type.get()*
+get({file_path})                 *livepreview.server.utils.content_type.get()*
     Get the content type of a file
 
     Parameters: ~
@@ -191,7 +187,7 @@ get({file_path})                *live-preview.server.utils.content_type.get()*
     Return: ~
         (`string?`) content type
 
-mime                             *live-preview.server.utils.content_type.mime*
+mime                              *livepreview.server.utils.content_type.mime*
     Table of file extensions and their corresponding MIME types
 
     Example: >lua
@@ -200,14 +196,14 @@ mime                             *live-preview.server.utils.content_type.mime*
 
 
 ==============================================================================
-Live Preview Module : ETAG                                 *live-preview.etag*
+Live Preview Module : ETAG                                  *livepreview.etag*
 
 ETag module To require this module, do >lua
-    local etag = require('live-preview.server.utils.etag')
+    local etag = require('livepreview.server.utils.etag')
 <
 
 
-generate({file_path})              *live-preview.server.utils.etag.generate()*
+generate({file_path})               *livepreview.server.utils.etag.generate()*
     Generate an ETag for a file The Etag is generated based on the
     modification time of the file
 
@@ -219,12 +215,12 @@ generate({file_path})              *live-preview.server.utils.etag.generate()*
 
 
 ==============================================================================
-Live Preview Module : UTILS                               *live-preview.utils*
+Live Preview Module : UTILS                                *livepreview.utils*
 
 Utility functions for live-preview.nvim
 
 
-await_term_cmd({cmd})                    *live-preview.utils.await_term_cmd()*
+await_term_cmd({cmd})                     *livepreview.utils.await_term_cmd()*
     Execute a shell command and wait for the exit
 
     Parameters: ~
@@ -234,12 +230,12 @@ await_term_cmd({cmd})                    *live-preview.utils.await_term_cmd()*
     Return: ~
         (`table`) a table with fields code, stdout, stderr, signal
 
-get_parent_path                           *live-preview.utils.get_parent_path*
+get_parent_path                            *livepreview.utils.get_parent_path*
     Get the parent path of a subpath
 
     Example: ```lua
-    get_parent_path("/home/user/.config/nvim/lua/live-preview/utils.lua",
-    "/lua/live-preview/utils.lua") >
+    get_parent_path("/home/user/.config/nvim/lua/livepreview/utils.lua",
+    "/lua/livepreview/utils.lua") >
         will return "/home/user/.config/nvim"
 <
 
@@ -250,29 +246,29 @@ get_parent_path                           *live-preview.utils.get_parent_path*
     Return: ~
         (`string?`)
 
-get_path_lua_file()                   *live-preview.utils.get_path_lua_file()*
+get_path_lua_file()                    *livepreview.utils.get_path_lua_file()*
     Get path of the Lua file where the function is called
 
     Return: ~
         (`string?`)
 
-get_plugin_path()                       *live-preview.utils.get_plugin_path()*
-    Get the path where live-preview is installed
+get_plugin_path()                        *livepreview.utils.get_plugin_path()*
+    Get the path where live-preview.nvim is installed
 
-kill_port({port})                             *live-preview.utils.kill_port()*
+kill_port({port})                              *livepreview.utils.kill_port()*
     Kill a process which is not Neovim running on a port
 
     Parameters: ~
       • {port}  (`number`)
 
-open_browser({path}, {browser})            *live-preview.utils.open_browser()*
+open_browser({path}, {browser})             *livepreview.utils.open_browser()*
     Open URL in the browser
 
     Parameters: ~
       • {path}     (`string`)
       • {browser}  (`string`)
 
-sha1({val})                                        *live-preview.utils.sha1()*
+sha1({val})                                         *livepreview.utils.sha1()*
     Compute the SHA1 hash of a string.
 
     Copyright (C) 2007 *Free Software Foundation, Inc*.
@@ -283,7 +279,7 @@ sha1({val})                                        *live-preview.utils.sha1()*
     Return: ~
         (`string`) SHA1 hash
 
-                                     *live-preview.utils.supported_filetype()*
+                                      *livepreview.utils.supported_filetype()*
 supported_filetype({file_name})
     Check if file name has a supported filetype (html, markdown, asciidoc).
     Warning: this function will call a Vimscript function
@@ -294,7 +290,7 @@ supported_filetype({file_name})
     Return: ~
         (`filetype`) string | nil
 
-term_cmd({cmd}, {callback})                    *live-preview.utils.term_cmd()*
+term_cmd({cmd}, {callback})                     *livepreview.utils.term_cmd()*
     Execute a shell commands
 
     Parameters: ~
@@ -306,13 +302,13 @@ term_cmd({cmd}, {callback})                    *live-preview.utils.term_cmd()*
                     • stdout: the standard output of the command
                     • stderr: the standard error of the command
 
-uv_read_file({file_path})                  *live-preview.utils.uv_read_file()*
+uv_read_file({file_path})                   *livepreview.utils.uv_read_file()*
     Read a file using libuv
 
     Parameters: ~
       • {file_path}  (`string`)
 
-uv_write_file({file_path})                *live-preview.utils.uv_write_file()*
+uv_write_file({file_path})                 *livepreview.utils.uv_write_file()*
     Write a file using libuv
 
     Parameters: ~
@@ -320,24 +316,24 @@ uv_write_file({file_path})                *live-preview.utils.uv_write_file()*
 
 
 ==============================================================================
-Live Preview Module : HEALTH                             *live-preview.health*
+Live Preview Module : HEALTH                              *livepreview.health*
 
 To run health check for Live Preview, run >vim
-    :checkhealth live-preview
+    :checkhealth livepreview
 <
 
 This will check if your Neovim version is compatible with Live Preview and if
 the commands to open browser are available.
 
 
-check()                                          *live-preview.health.check()*
+check()                                           *livepreview.health.check()*
     Run health check for Live Preview. This can also be run using
-    `:checkhealth live-preview`
+    `:checkhealth livepreview`
 
     See also: ~
       • https://neovim.io/doc/user/health.html
 
-is_compatible({ver}, {range})            *live-preview.health.is_compatible()*
+is_compatible({ver}, {range})             *livepreview.health.is_compatible()*
     Check if the version is compatible with the range
 
     Parameters: ~

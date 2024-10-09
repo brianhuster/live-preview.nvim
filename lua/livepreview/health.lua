@@ -1,11 +1,11 @@
 ---@brief
 --- To run health check for Live Preview, run
 --- ```vim
---- :checkhealth live-preview
+--- :checkhealth livepreview
 --- ```
 --- This will check if your Neovim version is compatible with Live Preview and if the commands to open browser are available.
 
-local spec = require("live-preview.spec")
+local spec = require("livepreview.spec")
 local nvim_ver_range = spec().engines.nvim
 local nvim_ver_table = vim.version()
 local nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
@@ -21,7 +21,7 @@ function M.is_compatible(ver, range)
 	return requirement:has(ver)
 end
 
---- Run health check for Live Preview. This can also be run using `:checkhealth live-preview`
+--- Run health check for Live Preview. This can also be run using `:checkhealth livepreview`
 --- @see https://neovim.io/doc/user/health.html
 function M.check()
 	vim.health.start("Live Preview Health Check")
@@ -47,5 +47,3 @@ function M.check()
 end
 
 return M
-
-

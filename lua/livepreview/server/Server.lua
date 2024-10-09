@@ -1,14 +1,14 @@
 ---@brief Server class for live-preview.nvim
 --- To call this class, do
 --- ```lua
---- local Server = require('live-preview').server.Server
+--- local Server = require('livepreview').server.Server
 --- ```
 
-local handler = require("live-preview.server.handler")
-local get_plugin_path = require("live-preview.utils").get_plugin_path
-local websocket = require("live-preview.server.websocket")
-local supported_filetype = require("live-preview.utils").supported_filetype
-local utils = require("live-preview.utils")
+local handler = require("livepreview.server.handler")
+local get_plugin_path = require("livepreview.utils").get_plugin_path
+local websocket = require("livepreview.server.websocket")
+local supported_filetype = require("livepreview.utils").supported_filetype
+local utils = require("livepreview.utils")
 
 ---@class Server
 local Server = {}

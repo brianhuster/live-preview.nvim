@@ -22,14 +22,14 @@ function M.supported_filetype(file_name)
 	end
 end
 
---- Get the path where live-preview is installed
+--- Get the path where live-preview.nvim is installed
 ---
 function M.get_plugin_path()
 	local full_path = M.get_path_lua_file()
 	if not full_path then
 		return nil
 	end
-	local subpath = "/lua/live-preview/utils.lua"
+	local subpath = "/lua/livepreview/utils.lua"
 	return M.get_parent_path(full_path, subpath)
 end
 
@@ -88,7 +88,7 @@ end
 --- Get the parent path of a subpath
 ---
 --- Example: ```lua
---- get_parent_path("/home/user/.config/nvim/lua/live-preview/utils.lua", "/lua/live-preview/utils.lua")
+--- get_parent_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/lua/livepreview/utils.lua")
 --- ```
 --- will return "/home/user/.config/nvim"
 --- @param full_path string

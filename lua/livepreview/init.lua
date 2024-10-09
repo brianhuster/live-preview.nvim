@@ -3,17 +3,15 @@
 ---
 --- To work with API from this plugin, require it in your Lua code:
 --- ```lua
---- local a_name_you_like = require('live-preview')
+--- local livepreview = require('livepreview')
 --- ```
----
----To use any functions provided by this plugin (see below), replace `live-preview` in that function's tag name with the name you chose above
 
 local M = {}
-M.server = require("live-preview.server")
-M.utils = require("live-preview.utils")
-M.spec = require("live-preview.spec")
-M.health = require("live-preview.health")
-M.template = require("live-preview.template")
+M.server = require("livepreview.server")
+M.utils = require("livepreview.utils")
+M.spec = require("livepreview.spec")
+M.health = require("livepreview.health")
+M.template = require("livepreview.template")
 
 local server
 

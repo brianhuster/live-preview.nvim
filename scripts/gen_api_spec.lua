@@ -1,7 +1,7 @@
-local l = require("live-preview")
+local l = require("livepreview")
 
 local function read_tags_file()
-	local uv_read_file = require("live-preview").utils.uv_read_file
+	local uv_read_file = require("livepreview").utils.uv_read_file
 	local tags_file = "doc/tags"
 	local tags = uv_read_file(tags_file)
 	return tags
@@ -22,7 +22,7 @@ end
 local functions = extract_functions(read_tags_file())
 
 local content = string.format([[
-L = require("live-preview")
+L = require("livepreview")
 local functions = %s
 describe("Testing API functions", function()
 	for _, func in ipairs(functions) do
