@@ -10,6 +10,6 @@ end
 
 vim.filetype.add({
 	pattern = {
-		[".*/livepreview%.nvim/doc/.+%.txt"] = "help"
+		[".*/live-preview%.nvim/doc/.+%.txt"] = "help"
 	},
 })
