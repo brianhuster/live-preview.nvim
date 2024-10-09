@@ -1,17 +1,17 @@
 # live-preview.nvim
 
-Một plugin Neovim cho phép bạn xem kết quả file [Markdown](https://vi.wikipedia.org/wiki/Markdown), [HTML](https://vi.wikipedia.org/wiki/HTML) (nhúng kèm CSS, JS) và [AsciiDoc](https://asciidoc.org/) trong trình duyệt web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại trừ chính LuaJIT được tích hợp sẵn trong Neovim.
+Một plugin Neovim cho phép bạn xem kết quả tệp [Markdown](https://vi.wikipedia.org/wiki/Markdown), [HTML](https://vi.wikipedia.org/wiki/HTML) (nhúng kèm CSS, JS) và [AsciiDoc](https://asciidoc.org/) trong trình duyệt web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại trừ chính LuaJIT được tích hợp sẵn trong Neovim.
 
 ## Tính năng
-Hỗ trợ các file Markdown, HTML (kèm CSS, JS) và AsciiDoc
+Hỗ trợ các tệp Markdown, HTML (kèm CSS, JS) và AsciiDoc
 
-Hỗ trợ Katex để hiển thị các phương trình toán học trong file Markdown và AsciiDoc
+Hỗ trợ Katex để hiển thị các phương trình toán học trong tệp Markdown và AsciiDoc
 
-Hỗ trợ mermaid để hiển thị các biểu đồ trong file Markdown
+Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown
 
 ### [Cập nhật](RELEASE.md)
 
-**⚠️ Quan trọng:** Bạn cần xóa cache của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
+**⚠️ Quan trọng:** Bạn cần xóa bộ nhớ đệm của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
 
 ## Video demo
 
@@ -31,7 +31,7 @@ Bạn có thể cài đặt plugin này bằng một trình quản lý plugin. D
 require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
-        dependencies = {'brianhuster/autosave.nvim'}, -- Không bắt buộc, nhưng nên có để tự động lưu file khi bạn chỉnh sửa file
+        dependencies = {'brianhuster/autosave.nvim'}, -- Không bắt buộc, nhưng nên có để tự động lưu tệp khi bạn chỉnh sửa file
     }
 })
 ```
@@ -39,7 +39,7 @@ require("lazy").setup({
 ### Với vim-plug
 ```vim
 Plug 'brianhuster/live-preview.nvim'
-Plug 'brianhuster/autosave.nvim' " Không bắt buộc, nhưng nên có để tự động lưu file khi bạn chỉnh sửa file
+Plug 'brianhuster/autosave.nvim' " Không bắt buộc, nhưng nên có để tự động lưu tệp khi bạn chỉnh sửa file
 ```
 
 ## Thiết lập
@@ -61,10 +61,10 @@ Bạn cũng có thể tùy chỉnh plugin. Dưới đây là cấu hình mặc �
 ```lua
 require('live-preview').setup({
     commands = {
-        start = 'LivePreview', -- Lệnh khởi động server live-preview.
-        stop = 'StopPreview', -- Lệnh để dừng server live-preview.
+        start = 'LivePreview', -- Lệnh khởi động máy chủ live-preview.
+        stop = 'StopPreview', -- Lệnh để dừng máy chủ live-preview.
     },
-    port = 5500, -- Cổng để chạy server live-preview 
+    port = 5500, -- Cổng để chạy máy chủ live-preview 
     browser = "default", -- Trình duyệt để xem kết quả live-preview. Mặc định "default" sẽ mở trình duyệt mặc định của hệ điều hành
 })
 ```
@@ -73,17 +73,17 @@ require('live-preview').setup({
 
 > Hướng dẫn dưới đây sử dụng cấu hình mặc định
 
-Để khởi động server live-preview, dùng lệnh:
+Để khởi động máy chủ live-preview, dùng lệnh:
 
 `:LivePreview`
 
-Lệnh này sẽ mở file Markdown hoặc HTML hiện tại trong trình duyệt web tại địa chỉ "http://localhost:5500/tên-file" và cập nhật trực tiếp mỗi khi bạn chỉnh sửa file.
+Lệnh này sẽ mở tệp Markdown hoặc HTML hiện tại trong trình duyệt web tại địa chỉ "http://localhost:5500/tên-file" và cập nhật trực tiếp mỗi khi bạn chỉnh sửa file.
 
-Để tắt server live-preview, dùng lệnh:
+Để tắt máy chủ live-preview, dùng lệnh:
 
 `:StopPreview`
 
-Gõ lệnh `:help live-preview@vi` để xem tài liệu hướng dẫn đầy đủ bằng tiếng Việt hoặc `:help live-preview` để xem bằng tiếng Anh.
+Gõ lệnh `:help live-preview` để xem bằng tiếng Anh.
 
 ## Đóng góp
 
@@ -93,15 +93,15 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 
 - [x] Hỗ trợ công thức toán bằng Katex
 - [x] Hỗ trợ biểu đồ Mermaid trong Markdown
-- [ ] Tự động cuộn trang web khi bạn cuộn trong file Markdown và AsciiDoc trong Neovim
+- [ ] Tự động cuộn trang web khi bạn cuộn trong tệp Markdown và AsciiDoc trong Neovim
 - [ ] Hỗ trợ biểu đồ trong AsciiDoc
 
 ## Cảm ơn
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) vì hàm sha1
-* [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) vì ý tưởng
-* [sindresorhus/github-markdown-css](https://github.com/sindresorhus/github-markdown-css) CSS cho file Markdown
-* [markedjs/marked](https://github.com/markedjs/marked) cho việc chuyển đổi file Markdown thành HTML
-* [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) cho việc chuyển đổi file AsciiDoc thành HTML
+* [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-máy chủ) vì ý tưởng
+* [sindresorhus/github-markdown-css](https://github.com/sindresorhus/github-markdown-css) CSS cho tệp Markdown
+* [markedjs/marked](https://github.com/markedjs/marked) cho việc chuyển đổi tệp Markdown thành HTML
+* [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) cho việc chuyển đổi tệp AsciiDoc thành HTML
 * [KaTeX](https://github.com/KaTeX/KaTeX) cho hiển thị phương trình toán học
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) cho hiển thị biểu đồ
 
@@ -110,5 +110,5 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 #### Paypal
 [https://www.paypal.com/paypalme/brianphambinhan](https://www.paypal.com/paypalme/brianphambinhan)
 
-#### Momo (Vietnam)
+#### Momo (Việt Nam)
 [https://me.momo.vn/brianphambinhan](https://me.momo.vn/brianphambinhan)
