@@ -8,6 +8,7 @@ if not is_compatible(nvim_ver, nvim_ver_range) then
 	vim.notify_once("Live Preview requires Neovim " .. nvim_ver_range .. ", but you are using " .. nvim_ver)
 end
 
+package.loaded["live-preview"] = require("livepreview")
 vim.filetype.add({
 	pattern = {
 		[".*/live%-preview%.nvim/doc/.+%.txt"] = "help"
