@@ -235,9 +235,13 @@ await_term_cmd({cmd})                    *live-preview.utils.await_term_cmd()*
         (`table`) a table with fields code, stdout, stderr, signal
 
 get_parent_path                           *live-preview.utils.get_parent_path*
-    Get the parent path of a subpath Example:
+    Get the parent path of a subpath
+
+    Example: ```lua
     get_parent_path("/home/user/.config/nvim/lua/live-preview/utils.lua",
-    "/lua/live-preview/utils.lua") will return "/home/user/.config/nvim"
+    "/lua/live-preview/utils.lua") >
+        will return "/home/user/.config/nvim"
+<
 
     Parameters: ~
       • {full_path}  (`string`)
@@ -269,8 +273,8 @@ open_browser({path}, {browser})            *live-preview.utils.open_browser()*
       • {browser}  (`string`)
 
 sha1({val})                                        *live-preview.utils.sha1()*
-    Compute the SHA1 hash of a string. Source :
-    https://github.com/glacambre/firenvim/blob/master/lua/firenvim/firenvim-utils.lua
+    Compute the SHA1 hash of a string. Copyright (C) 2007 *Free Software
+    Foundation, Inc*.
 
     Parameters: ~
       • {val}  (`string`)

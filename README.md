@@ -18,9 +18,6 @@ Supports mermaid for rendering diagrams in markdown files
 
 https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
-
-![](output.jpeg)
-
 ## Requirements
 
 - Neovim >=0.10.0

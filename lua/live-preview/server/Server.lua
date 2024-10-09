@@ -57,8 +57,8 @@ vim.api.nvim_create_autocmd("WinScrolled", {
 --- Constructor
 --- @param webroot string: path to the webroot
 function Server:new(webroot)
-	self.webroot = webroot or "."
 	self.server = uv.new_tcp()
+	self.webroot = webroot or "."
 	return self
 end
 
@@ -139,8 +139,12 @@ end
 
 --- Stop the server
 function Server:stop()
-	self.server:close()
-	self.server = uv.new_tcp()
+	if self.server then
+		self.server:close(function()
+			print("Server closed")
+		end)
+		self.server = nil
+	end
 end
 
 return Server
