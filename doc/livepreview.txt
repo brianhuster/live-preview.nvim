@@ -262,12 +262,17 @@ kill_port({port})                              *livepreview.utils.kill_port()*
     Parameters: ~
       • {port}  (`number`)
 
-open_browser({path}, {browser})             *livepreview.utils.open_browser()*
-    Open URL in the browser
+open_browser({path}, {browsers})            *livepreview.utils.open_browser()*
+    Open URL in the browser The browsers parameter is only usable in Neovim
+    0.10.2 or later
+
+    Example: ```lua open_browser("https://neovim.io/", {"firefox",
+    "google-chrome"}) >
+<
 
     Parameters: ~
-      • {path}     (`string`)
-      • {browser}  (`string`)
+      • {path}      (`string`)
+      • {browsers}  (`string|string[]?`)
 
 sha1({val})                                         *livepreview.utils.sha1()*
     Compute the SHA1 hash of a string.
