@@ -77,7 +77,7 @@ You must add the line `require('livepreview').setup()` (Lua) or `lua require('li
 
 ## Setup
 
-You can customize the plugin by passing a table to the `opts` variable or the function `require('livepreview').setup()` or the Vimscript variable `g:livepreview_config`. Here is the default configuration:
+You can customize the plugin by passing a table to the `opts` variable (if you use lazy.nvim) or the function `require('livepreview').setup()`. Here is the default configuration:
 
 ### In Lua
 
