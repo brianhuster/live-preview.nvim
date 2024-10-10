@@ -52,6 +52,7 @@ require('livepreview').setup()
 ```vim
 Plug 'brianhuster/live-preview.nvim'
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
+
 let g:livepreview_config = {} " Cấu hình tùy chọn
 lua require('livepreview').setup(vim.g.livepreview_config)
 ```
