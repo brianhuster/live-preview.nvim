@@ -30,7 +30,7 @@ local function send_scroll(client)
 	if not need_scroll then
 		return
 	end
-	if not supported_filetype(filepath) then
+	if not supported_filetype(filepath) or supported_filetype == "html" then
 		return
 	end
 	local message = {

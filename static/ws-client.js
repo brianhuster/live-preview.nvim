@@ -30,9 +30,11 @@ async function connectWebSocket() {
 			window.location.reload();
 		} else if (message.type = "update") {
 			content = message.content;
-			render(content);
-			renderKatex();
-			renderMermaid();
+			if (render) {
+				render(content);
+				renderKatex();
+				renderMermaid();
+			}
 		}
 	};
 
