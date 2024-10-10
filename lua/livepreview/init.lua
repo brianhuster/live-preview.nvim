@@ -47,6 +47,7 @@ end
 ---@param port number: port to run the server on
 function M.preview_file(filepath, port)
 	M.utils.kill_port(port)
+	M.stop_preview()
 	server = M.server.Server:new(vim.fs.dirname(filepath))
 	vim.wait(50, function()
 		server:start("127.0.0.1", port)
