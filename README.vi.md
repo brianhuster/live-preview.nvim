@@ -52,6 +52,7 @@ require('livepreview').setup()
 ```vim
 Plug 'brianhuster/live-preview.nvim'
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
+
 let g:livepreview_config = {} " Cấu hình tùy chọn
 lua require('livepreview').setup(vim.g.livepreview_config)
 ```
@@ -71,9 +72,9 @@ git clone https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/
 
 Bạn cần thêm dòng `require('livepreview').setup()` (Lua) hoặc `lua require('livepreview').setup()` (Vimscript) vào tệp cấu hình Neovim của bạn để kích hoạt plugin.
 
-## Thiết lập
+## Tùy chỉnh
 
-Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opts` hoặc hàm `require('livepreview`).setup()` (với Lua) hoặc biến `g:livepreview` (với Vimscript). Dưới đây là cấu hình mặc định
+Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opts` (với lazy.nvim) hoặc hàm `require('livepreview`).setup()`. Dưới đây là cấu hình mặc định
 
 ### Trong Lua
 
