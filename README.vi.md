@@ -13,7 +13,7 @@ Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown
 
 Xem [RELEASE.md](RELEASE.md)
 
-**⚠️ Quan trọng:** Bạn cần xóa bộ nhớ đệm của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
+**⚠️ Chú ý:** Bạn cần xóa bộ nhớ đệm của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
 
 ## Video demo
 
@@ -52,14 +52,15 @@ require('livepreview').setup()
 ```vim
 Plug 'brianhuster/live-preview.nvim'
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
-lua EOF
-require('livepreview').setup()
-EOF
+let g:livepreview_config = {} " Cấu hình tùy chọn
+lua require('livepreview').setup(vim.g.livepreview_config)
 ```
 
 ## Thiết lập
 
-Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opts` hoặc hàm `require('livepreview`).setup()`. Dưới đây là cấu hình mặc định
+Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opts` hoặc hàm `require('livepreview`).setup()` (với Lua) hoặc biến `g:livepreview` (với Vimscript). Dưới đây là cấu hình mặc định
+
+### Trong Lua
 
 ```lua
 {
@@ -71,6 +72,21 @@ Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opt
     browser = 'default', -- Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành. 
 }
 ```
+
+### Trong Vimscript
+
+```vim
+let g:livepreview_config = {
+    \ 'commands': {
+    \     'start': 'LivePreview', " Lệnh khởi động máy chủ live-preview.
+    \     'stop': 'StopPreview', " Lệnh để dừng máy chủ live-preview.
+    \ },
+    \ 'port': 5500, " Cổng để chạy máy chủ live-preview
+    \ 'browser': 'default', " Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành.
+\ }
+```
+
+**⚠️ Chú ý:** Đảm bảo rằng bạn cấu hình `g:livepreview_config` trước khi gọi `lua require('livepreview').setup()`.
 
 ## Cách dùng
 

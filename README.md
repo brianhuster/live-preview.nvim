@@ -52,14 +52,16 @@ require('livepreview').setup()
 ```vim
 Plug 'brianhuster/live-preview.nvim'
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
-lua EOF
-require('livepreview').setup()
-EOF
+
+let g:livepreview_config = {} " Optional configuration
+lua require('livepreview').setup(vim.g.livepreview_config)
 ```
 
 ## Setup
 
 You can customize the plugin by passing a table to the `opts` variable or the function `require('livepreview').setup()`. Here is the default configuration:
+
+### In Lua
 
 ```lua
 {
@@ -71,6 +73,21 @@ You can customize the plugin by passing a table to the `opts` variable or the fu
     browser = 'default', -- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
 }
 ```
+
+### In Vimscript
+
+```vim
+let g:livepreview_config = {
+    \ 'commands': {
+        \ 'start': 'LivePreview', " Command to start the live preview server and open the default browser.
+        \ 'stop': 'StopPreview', " Command to stop the live preview. 
+    \ },
+    \ 'port': 5500, " Port to run the live preview server on.
+    \ 'browser': 'default', " Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
+\ }
+```
+
+**⚠️ Important Notice:** Make sure you configure `g:livepreview_config` before calling `lua require('livepreview').setup()`.
 
 ## Usage
 
