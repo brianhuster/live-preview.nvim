@@ -19,3 +19,4 @@ local plugin_path = require('livepreview.utils').get_plugin_path()
 if plugin_path and plugin_path:match("/nvim/pack") then
 	require('livepreview').setup()
 end
+

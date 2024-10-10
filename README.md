@@ -59,6 +59,20 @@ let g:livepreview_config = {} " Optional configuration
 lua require('livepreview').setup(vim.g.livepreview_config)
 ```
 
+### Native package (without a plugin manager)
+
+#### Linux, MacOS, Unix-based
+
+```sh
+git clone https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
+```
+
+#### Windows (Powershell)
+
+```powershell
+git clone https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
+```
+
 ## Setup
 
 You can customize the plugin by passing a table to the `opts` variable or the function `require('livepreview').setup()`. Here is the default configuration:
