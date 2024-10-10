@@ -27,6 +27,8 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
 ## Installation
 
+You can install this plugin using a plugin manager. Most plugin managers are supported. Below are some examples
+
 ### Using lazy.nvim (recommended)
 
 ```lua
