@@ -69,6 +69,7 @@ git clone https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/b
 git clone https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
 ```
 
+Bạn cần thêm dòng `require('livepreview').setup()` (Lua) hoặc `lua require('livepreview').setup()` (Vimscript) vào tệp cấu hình Neovim của bạn để kích hoạt plugin.
 
 ## Thiết lập
 
