@@ -61,13 +61,13 @@ lua require('livepreview').setup(vim.g.livepreview_config)
 
 ### Native package (without a plugin manager)
 
-#### Linux, MacOS, Unix-based
+- **Linux, MacOS, Unix-based**
 
-* sh
+```sh
 git clone https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
 ```
 
-* Windows (Powershell)
+- **Windows (Powershell)**
 
 ```powershell
 git clone https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"

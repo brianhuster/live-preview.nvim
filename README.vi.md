@@ -57,13 +57,13 @@ lua require('livepreview').setup(vim.g.livepreview_config)
 ```
 ### Cài đặt thủ công (không dùng trình quản lý plugin)
 
-#### Linux, MacOS, dựa trên Unix
+- **Linux, MacOS, dựa trên Unix**
 
 ```sh
 git clone https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
 ```
 
-#### Windows (Powershell)
+- **Windows (Powershell)**
 
 ```powershell
 git clone https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
