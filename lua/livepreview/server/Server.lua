@@ -101,7 +101,7 @@ function Server:start(ip, port, func)
 	local result = self.server:bind(ip, port)
 	if result == 0 then
 		print(string.format(
-		"The port %d seems to have been in used. If live-preview doesn't work, please check and stop the process that uses the port.",
+			"The port %d seems to have been in used. If live-preview doesn't work, please check and stop the process that uses the port.",
 			port))
 		return
 	end
@@ -138,7 +138,7 @@ function Server:start(ip, port, func)
 	end)
 
 	print("Server listening on port " .. port)
-	uv.run()
+	-- uv.run()
 end
 
 --- Stop the server
