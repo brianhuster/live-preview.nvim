@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+</head>
+
+<body>
+	<div class="container" id="egg-1">
+		<h1 class="egg-name">Name here</h1>
+		<button class="egg-btn">Reveal</button>
+	</div>
+	<div class="container" id="egg-1">
+		<h1 class="egg-name">Name here</h1>
+		<div class="egg-inf">
+			<p class="egg-age">Age: ...</p>
+			<p class="egg-ban">Ban: ...</p>
+			<p class="egg-role">Chuc vu: ...</p>
+		</div>
+		<button class="egg-btn">hide</button>
+	</div>
+</body>
+<script>
+	const data = {
+		1: {
+			name: "Pham Thanh Dat",
+			birthdate: new Date('2004-17-09'),
+			ban: "giao duc",
+		},
+		2: {
+			name: "Hoang Thi Hanh",
+			birthdate: new Date('2005-01-01'),
+			ban: "truyen thong",
+		},
+		3: {
+			name: "Trinh Phu Thai",
+			birthdate: new Date('2005-01-01'),
+			ban: "truyen thong + giao duc",
+		},
+		4: {
+			name: "Nguyen Tuan Dat",
+			birthdate: new Date('2004-01-01'),
+			ban: "giao duc",
+			"chuc vu": "chu nhiem",
+		},
+	};
+
+	// Hàm này lấy input là data như trên và thực hiện thêm một thẻ div có id là egg-{id} và class container vào body của DOM
+	// Thể div egg-{id} chỉ chứa name của một thành viên (trong the h1 class egg-name) và một nút reveal (the button class egg-btn)
+	// Khi ấn nút reveal thì text của nút reveal chuyển thành hide và hiển thị các thông tin khác của member
+	// Khi ấn nút hide thì quay lại trạng thái ban đầu
+	// Nếu không có "chuc vu" thì trả ra "thanh vien"
+	// Age tính toán theo birthdate
+	// Mở file html này ra nhìn 2 thẻ div bên trên để hiểu nha!!!
+
+	// Có thể tách ra nhiều hàm con
+	// Submit tất cả code trong 1 file .html
+	function age(birthdate) {
+		const today = new Date();
+		thisYear = today.getFullYear();
+		birthYear = birthdate.getFullYear();
+		return thisYear - birthYear;
+	}
+	function addMemberCard(memberData) {
+		const container = document.createElement('div')
+		container.id = `egg-${memberData.id}`
+		container.classList.add('container')
+		const name = document.createElement('h1')
+		name.classList.add('egg-name')
+		name.innerText = memberData.name
+		container.appendChild(name)
+		const button = document.createElement('button')
+		button.classList.add('egg-btn')
+		button.innerText = 'Reveal'
+		button.onclick = function () {
+			const inf = document.createElement('div')
+			inf.classList.add('egg-inf')
+			const age = document.createElement('p')
+			age.classList.add('egg-age')
+			age.innerText = `Age: ${age(memberData.birthdate)}`
+			inf.appendChild(age)
+			const ban = document.createElement('p')
+			ban.classList.add('egg-ban')
+			ban.innerText = `Ban: ${memberData.ban}`
+			inf.appendChild(ban)
+			const role = document.createElement('p')
+			role.classList.add('egg-role')
+			role.innerText = `Chuc vu: ${memberData['chuc vu'] || 'thanh vien'}`
+			inf.appendChild(role)
+			container.appendChild(inf)
+			button.innerText = 'Hide'
+			button.onclick = function () {
+				inf.remove()
+				button.innerText = 'Reveal'
+			}
+		}
+	}
+	window.onload = function () {
+		for (const id in data) {
+			addMemberCard(data[id])
+		}
+	}
+</script>
+
+</html>
