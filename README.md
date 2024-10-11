@@ -37,7 +37,7 @@ require("lazy").setup({
         'brianhuster/live-preview.nvim',
         dependencies = {'brianhuster/autosave.nvim'}, -- Not required, but recomended for autosaving
         opts = {},
-    }
+   }
 })
 ```
 

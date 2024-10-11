@@ -40,6 +40,7 @@ end
 --- Stop live preview
 function M.stop_preview()
 	server:stop()
+	server = nil
 end
 
 --- Start live preview
