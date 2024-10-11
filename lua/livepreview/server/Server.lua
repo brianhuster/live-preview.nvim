@@ -76,7 +76,6 @@ function Server:routes(path)
 		file_path = vim.fs.joinpath(self.webroot, path)
 	end
 
-
 	return file_path
 end
 
