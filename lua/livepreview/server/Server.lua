@@ -101,7 +101,8 @@ function Server:start(ip, port, func)
 	local result = self.server:bind(ip, port)
 	if result == 0 then
 		print("The port", port, "seems to have been in used. Please check and stop it")
-		self:stop()
+		self.server:close()
+		self.server = uv.new_tcp()
 		return
 	end
 	self.server:listen(128, function(err)
