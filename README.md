@@ -146,12 +146,11 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 
 ### Buy me a coffee
 Maintaining this project takes time and effort, especially as I am a student now. If you find this project helpful, please consider supporting me :>
-<style>
-    img {
-      height: 69px;
-      width: auto;
-    }
-</style>
-[![Paypal](https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg)](https://paypal.me/brianphambinhan)
-[![Momo (Vietnam)](https://github.com/user-attachments/assets/3907d317-b62f-43f5-a231-3ec7eb4eaa1b)](https://me.momo.vn/brianphambinhan)
+
+<a href="https://paypal.me/brianphambinhan">
+    <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="Paypal" style="height: 69px;">
+</a>
+<a href="https://me.momo.vn/brianphambinhan">
+    <img src="https://github.com/user-attachments/assets/3907d317-b62f-43f5-a231-3ec7eb4eaa1b" alt="Momo (Vietnam)" style="height: 69px;">
+</a>
 
