@@ -99,7 +99,10 @@ end
 --- 	@param client uv_tcp_t: uv_tcp client
 function Server:start(ip, port, func)
 	local result = self.server:bind(ip, port)
-	print(result)
+	if result == 0 then
+		print("The port", port, "seems to have been in used. Please check and stop it")
+		return
+	end
 	self.server:listen(128, function(err)
 		if err then
 			print("Listen error: " .. err)
