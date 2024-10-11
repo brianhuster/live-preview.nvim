@@ -147,8 +147,5 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 ### Buy me a coffee
 Maintaining this project takes time and effort, especially as I am a student now. If you find this project helpful, please consider supporting me :>
 
-#### Paypal
-[https://www.paypal.com/paypalme/brianphambinhan](https://www.paypal.com/paypalme/brianphambinhan)
-
-#### Momo (Vietnam)
-[https://me.momo.vn/brianphambinhan](https://me.momo.vn/brianphambinhan)
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/brianphambinhan) 
+[![Momo (Vietnam)](https://developers.momo.vn/v3/img/logo.svg)](https://me.momo.vn/brianphambinhan)
