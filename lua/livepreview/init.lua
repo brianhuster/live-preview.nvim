@@ -57,7 +57,7 @@ function M.preview_file(filepath, port)
 				M.server.websocket.send_json(client, { type = "update", content = content })
 			end
 		end)
-	end)
+	end, 99)
 end
 
 local function disable_atomic_writes()
