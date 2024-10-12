@@ -48,15 +48,24 @@ end
 function M.preview_file(filepath, port)
 	M.utils.kill_port(port)
 	server = M.server.Server:new(vim.fs.dirname(filepath))
-	vim.wait(50, function()
-		server:start("127.0.0.1", port, function(client)
-			if M.utils.supported_filetype(filepath) == 'html' then
-				M.server.websocket.send_json(client, { type = "reload" })
-			else
-				local content = M.utils.uv_read_file(filepath)
-				M.server.websocket.send_json(client, { type = "update", content = content })
-			end
-		end)
+	-- vim.wait(50, function()
+	-- 	server:start("127.0.0.1", port, function(client)
+	-- 		if M.utils.supported_filetype(filepath) == 'html' then
+	-- 			M.server.websocket.send_json(client, { type = "reload" })
+	-- 		else
+	-- 			local content = M.utils.uv_read_file(filepath)
+	-- 			M.server.websocket.send_json(client, { type = "update", content = content })
+	-- 		end
+	-- 	end)
+	-- end)
+	vim.uv.sleep(50)
+	server:start("127.0.0.1", port, function(client)
+		if M.utils.supported_filetype(filepath) == 'html' then
+			M.server.websocket.send_json(client, { type = "reload" })
+		else
+			local content = M.utils.uv_read_file(filepath)
+			M.server.websocket.send_json(client, { type = "update", content = content })
+		end
 	end)
 end
 
