@@ -130,7 +130,7 @@ send_http_response({client}, {status}, {content_type}, {body}, {headers})
       • {status}        (`string`) for example "200 OK", "404 Not Found", etc.
       • {content_type}  (`string`) MIME type of the response
       • {body}          (`string`) body of the response
-      • {headers}       (`table`) (optional) additional headers to include in
+      • {headers}       (`table?`) (optional) additional headers to include in
                         the response
 
                                      *livepreview.server.handler.serve_file()*
