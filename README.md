@@ -55,7 +55,8 @@ require('livepreview').setup()
 Plug 'brianhuster/live-preview.nvim'
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 
-let g:livepreview_config = {} " Optional configuration
+let g:livepreview_config = {} " Optional configuration. 
+lua require('livepreview').setup(vim.g.livepreview_config) " Required to enable the plugin
 ```
 
 ### Native package (without a plugin manager)
