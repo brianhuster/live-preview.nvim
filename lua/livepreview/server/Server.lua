@@ -4,11 +4,11 @@
 --- local Server = require('livepreview').server.Server
 --- ```
 
+
 local handler = require("livepreview.server.handler")
 local get_plugin_path = require("livepreview.utils").get_plugin_path
 local websocket = require("livepreview.server.websocket")
 local supported_filetype = require("livepreview.utils").supported_filetype
-local utils = require("livepreview.utils")
 
 ---@class Server
 local Server = {}

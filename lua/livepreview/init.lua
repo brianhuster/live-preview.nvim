@@ -63,10 +63,6 @@ function M.preview_file(filepath, port)
 	end, 99)
 end
 
-local function disable_atomic_writes()
-	vim.o.backupcopy = 'yes'
-end
-
 --- Setup live preview
 --- @param opts {commands: {start: string, stop: string}, port: number, browser: string}
 ---  	- commands: {start: string, stop: string} - commands to start and stop live preview
@@ -74,7 +70,12 @@ end
 ---  	- port: number - port to run the server on (default: 5500)
 ---  	- browser: string - browser to open the preview in (default: "default"). The "default" value will open the preview in system default browser.
 function M.setup(opts)
-	opts = vim.tbl_deep_extend("force", default_options, opts or {})
+	if not opts then
+		opts = vim.tbl.deep_extend("force", default_options, vim.g.livepreview_config or {})
+	else
+		opts = vim.tbl_deep_extend("force", default_options, opts or {})
+		vim.g.livepreview_config = opts
+	end
 
 	vim.api.nvim_create_user_command(opts.commands.start, function()
 		local filepath = vim.fn.expand('%:p')
@@ -101,8 +102,6 @@ function M.setup(opts)
 		M.stop_preview()
 		print("Live preview stopped")
 	end, {})
-
-	disable_atomic_writes()
 end
 
 return M

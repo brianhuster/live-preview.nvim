@@ -4,6 +4,8 @@
 --- local handler = require('livepreview.server.handler')
 --- ```
 
+---@alias uv_tcp_t userdata
+
 local websocket = require('livepreview.server.websocket')
 local read_file = require('livepreview.utils').uv_read_file
 local supported_filetype = require('livepreview.utils').supported_filetype
@@ -19,7 +21,7 @@ local M = {}
 --- @param status string: for example "200 OK", "404 Not Found", etc.
 --- @param content_type string: MIME type of the response
 --- @param body string: body of the response
---- @param headers table: (optional) additional headers to include in the response
+--- @param headers table|nil: (optional) additional headers to include in the response
 function M.send_http_response(client, status, content_type, body, headers)
 	local response = "HTTP/1.1 " .. status .. "\r\n" ..
 		"Content-Type: " .. content_type .. "\r\n" ..
@@ -87,7 +89,7 @@ function M.serve_file(client, file_path, if_none_match)
 	end
 
 	M.send_http_response(client, '200 OK', get_content_type(file_path), body, {
-		["ETag"] = etag
+		["ETag"] = etag,
 	})
 end
 

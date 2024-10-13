@@ -21,6 +21,15 @@ function M.is_compatible(ver, range)
 	return requirement:has(ver)
 end
 
+local function checkhealth_command(cmd)
+	if vim.fn.executable(cmd) then
+		vim.health.ok(cmd)
+	else
+		vim.health.warn(cmd .. " not available")
+	end
+end
+
+
 --- Run health check for Live Preview. This can also be run using `:checkhealth livepreview`
 --- @see https://neovim.io/doc/user/health.html
 function M.check()
@@ -38,11 +47,7 @@ function M.check()
 		"For Live Preview to open default browser, at least one of these commands must be executable. If you have specified a custom browser in your configuration, you can ignore this message.")
 	local open_cmds = { "xdg-open", "open", "start", "rundll32", "wslview" }
 	for _, cmd in ipairs(open_cmds) do
-		if vim.fn.executable(cmd) then
-			vim.health.ok(cmd)
-		else
-			vim.health.warn(cmd .. " not available")
-		end
+		checkhealth_command(cmd)
 	end
 end
 
