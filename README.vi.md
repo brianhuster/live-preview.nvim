@@ -54,7 +54,6 @@ Plug 'brianhuster/live-preview.nvim'
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 
 let g:livepreview_config = {} " Cấu hình tùy chọn
-lua require('livepreview').setup(vim.g.livepreview_config)
 ```
 ### Cài đặt thủ công (không dùng trình quản lý plugin)
 
@@ -69,8 +68,6 @@ git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/n
 ```powershell
 git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
 ```
-
-Bạn cần thêm dòng `require('livepreview').setup()` (Lua) hoặc `lua require('livepreview').setup()` (Vimscript) vào tệp cấu hình Neovim của bạn để kích hoạt plugin.
 
 ## Tùy chỉnh
 

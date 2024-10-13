@@ -56,7 +56,6 @@ Plug 'brianhuster/live-preview.nvim'
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 
 let g:livepreview_config = {} " Optional configuration
-lua require('livepreview').setup(vim.g.livepreview_config)
 ```
 
 ### Native package (without a plugin manager)
@@ -104,8 +103,6 @@ let g:livepreview_config = {
     \ 'browser': 'default', " Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
 \ }
 ```
-
-**⚠️ Important Notice:** Make sure you configure `g:livepreview_config` before calling `lua require('livepreview').setup()`.
 
 ## Usage
 
