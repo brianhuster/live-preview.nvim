@@ -61,13 +61,13 @@ lua require('livepreview').setup(vim.g.livepreview_config)
 - **Linux, MacOS, dựa trên Unix**
 
 ```sh
-git clone https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
+git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
 ```
 
 - **Windows (Powershell)**
 
 ```powershell
-git clone https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
+git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
 ```
 
 Bạn cần thêm dòng `require('livepreview').setup()` (Lua) hoặc `lua require('livepreview').setup()` (Vimscript) vào tệp cấu hình Neovim của bạn để kích hoạt plugin.
