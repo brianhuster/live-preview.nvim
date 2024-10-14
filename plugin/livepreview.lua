@@ -12,6 +12,6 @@ package.loaded["live-preview"] = require("livepreview")
 vim.filetype.add({
 	pattern = {
 		[".*/live%-preview%.nvim/doc/.+%.txt"] = "help",
-		[".*/live%-preview%.nvim/*/template.lua"] = "luax"
+		[".*/live%-preview%.nvim/.*/template.lua"] = "luax"
 	},
 })
