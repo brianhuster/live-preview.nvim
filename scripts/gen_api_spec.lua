@@ -12,7 +12,7 @@ local function extract_functions(input)
 	for line in input:gmatch("[^\n]+") do
 		local func_name = line:match("/%*(%S+%b())%*")
 		if func_name then
-			func_name = func_name:gsub("live%-preview", "L")
+			func_name = func_name:gsub("livepreview", "L")
 			table.insert(functions, func_name)
 		end
 	end

@@ -46,8 +46,7 @@ end
 vim.api.nvim_create_autocmd("WinScrolled", {
 	callback = function()
 		need_scroll = true
-		top_line = vim.fngit
-		reset --hard <commit-hash>.line("w0")
+		top_line = vim.fn.line("w0")
 		filepath = vim.api.nvim_buf_get_name(0)
 		if ws_client then
 			send_scroll(ws_client)
