@@ -48,7 +48,7 @@ Server class for live-preview.nvim To call this class, do >lua
       • {watch_dir}  (`fun(self: Server, func: function)`) Watch a directory
                      for changes and send a message "reload" to a WebSocket
                      client
-      • {start}      (`fun(self: Server, ip: string, port: number, func: function, client: uv_tcp_t)`)
+      • {start}      (`fun(self: Server, ip: string, port: number, func: function)`)
                      Start the server
       • {stop}       (`fun(self: Server)`) Stop the server
 
@@ -68,15 +68,14 @@ Server:routes({path})                     *livepreview.server.Server:routes()*
     Return: ~
         (`string`) path to the file
 
-                                           *livepreview.server.Server:start()*
-Server:start({ip}, {port}, {func}, {client})
+Server:start({ip}, {port}, {func})         *livepreview.server.Server:start()*
     Start the server
 
     Parameters: ~
-      • {ip}      (`string`) IP address to bind to
-      • {port}    (`number`) port to bind to
-      • {func}    (`function`)
-      • {client}  (`uv_tcp_t`) uv_tcp client
+      • {ip}    (`string`) IP address to bind to
+      • {port}  (`number`) port to bind to
+      • {func}  (`function`)
+                • client uv_tcp_t: The uv_tcp client passed to func
 
 Server:stop()                               *livepreview.server.Server:stop()*
     Stop the server
