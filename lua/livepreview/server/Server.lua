@@ -98,13 +98,7 @@ end
 --- @param func function(client)|nil: function to call when when there is a change in the watched directory
 --- 	@param client uv_tcp_t: uv_tcp client
 function Server:start(ip, port, func)
-	local result = self.server:bind(ip, port)
-	if result == 0 then
-		print(string.format(
-			"Note : If live-preview doesn't work, please check and stop the process that uses the port %d",
-			port))
-		return
-	end
+	self.server:bind(ip, port)
 	self.server:listen(128, function(err)
 		if err then
 			print("Listen error: " .. err)
