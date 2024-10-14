@@ -17,9 +17,6 @@
 --[[!
 LPEG grammar for LuaCATS
 ]]
---[[!
-LPEG grammar for LuaCATS
-]]
 
 local lpeg = vim.lpeg
 local P, R, S = lpeg.P, lpeg.R, lpeg.S

@@ -95,8 +95,8 @@ end
 --- Start the server
 --- @param ip string: IP address to bind to
 --- @param port number: port to bind to
---- @param func function(client)|nil: function to call when when there is a change in the watched directory
---- 	@param client uv_tcp_t: uv_tcp client
+--- @param func function({client: uv_tcp_t})|nil # Function to call when there is a change in the watched directory
+--- 	- client uv_tcp_t: The uv_tcp client passed to func
 function Server:start(ip, port, func)
 	self.server:bind(ip, port)
 	self.server:listen(128, function(err)
