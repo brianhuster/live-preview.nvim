@@ -50,7 +50,6 @@ Server class for live-preview.nvim To call this class, do >lua
                      client
       • {start}      (`fun(self: Server, ip: string, port: number, func: function, client: uv_tcp_t)`)
                      Start the server
-
       • {stop}       (`fun(self: Server)`) Stop the server
 
 
@@ -78,7 +77,6 @@ Server:start({ip}, {port}, {func}, {client})
       • {port}    (`number`) port to bind to
       • {func}    (`function`)
       • {client}  (`uv_tcp_t`) uv_tcp client
-
 
 Server:stop()                               *livepreview.server.Server:stop()*
     Stop the server
@@ -131,9 +129,8 @@ send_http_response({client}, {status}, {content_type}, {body}, {headers})
       • {client}        (`uv_tcp_t`) client connection
       • {status}        (`string`) for example "200 OK", "404 Not Found", etc.
       • {content_type}  (`string`) MIME type of the response
-      • {body}          (`string`) body of the respons
+      • {body}          (`string`) body of the response
       • {headers}       (`table?`) (optional) additional headers to include in
-
                         the response
 
                                      *livepreview.server.handler.serve_file()*
@@ -279,7 +276,6 @@ open_browser({path}, {browser})             *livepreview.utils.open_browser()*
       • {path}     (`string`)
       • {browser}  (`string?`)
 
-
 sha1({val})                                         *livepreview.utils.sha1()*
     Compute the SHA1 hash of a string.
 
@@ -309,7 +305,6 @@ term_cmd({cmd}, {callback})                     *livepreview.utils.term_cmd()*
       • {cmd}       (`string`) terminal command to execute. Term_cmd will use
                     sh or pwsh depending on the OS
       • {callback}  (`function?`) function to call when the command finishes.
-
                     • code: the exit code of the command
                     • signal: the signal that killed the process
                     • stdout: the standard output of the command
