@@ -4,11 +4,11 @@
 --- local Server = require('livepreview').server.Server
 --- ```
 
+
 local handler = require("livepreview.server.handler")
 local get_plugin_path = require("livepreview.utils").get_plugin_path
 local websocket = require("livepreview.server.websocket")
 local supported_filetype = require("livepreview.utils").supported_filetype
-local utils = require("livepreview.utils")
 
 ---@class Server
 local Server = {}
@@ -30,7 +30,7 @@ local function send_scroll(client)
 	if not need_scroll then
 		return
 	end
-	if not supported_filetype(filepath) then
+	if not supported_filetype(filepath) or supported_filetype == "html" then
 		return
 	end
 	local message = {
@@ -76,7 +76,6 @@ function Server:routes(path)
 		file_path = vim.fs.joinpath(self.webroot, path)
 	end
 
-
 	return file_path
 end
 
@@ -96,7 +95,9 @@ end
 --- Start the server
 --- @param ip string: IP address to bind to
 --- @param port number: port to bind to
-function Server:start(ip, port)
+--- @param func function(client)|nil: function to call when when there is a change in the watched directory
+--- 	@param client uv_tcp_t: uv_tcp client
+function Server:start(ip, port, func)
 	self.server:bind(ip, port)
 	self.server:listen(128, function(err)
 		if err then
@@ -124,11 +125,8 @@ function Server:start(ip, port)
 		end)
 		ws_client = client
 		self:watch_dir(function()
-			if supported_filetype(filepath) == 'html' then
-				websocket.send_json(client, { type = "reload" })
-			else
-				local content = utils.uv_read_file(filepath)
-				websocket.send_json(client, { type = "update", content = content })
+			if func then
+				func(client)
 			end
 		end)
 	end)

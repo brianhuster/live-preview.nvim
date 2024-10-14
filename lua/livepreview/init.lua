@@ -47,14 +47,20 @@ end
 ---@param port number: port to run the server on
 function M.preview_file(filepath, port)
 	M.utils.kill_port(port)
+	if server then
+		server:stop()
+	end
 	server = M.server.Server:new(vim.fs.dirname(filepath))
 	vim.wait(50, function()
-		server:start("127.0.0.1", port)
-	end)
-end
-
-local function disable_atomic_writes()
-	vim.o.backupcopy = 'yes'
+		server:start("127.0.0.1", port, function(client)
+			if M.utils.supported_filetype(filepath) == 'html' then
+				M.server.websocket.send_json(client, { type = "reload" })
+			else
+				local content = M.utils.uv_read_file(filepath)
+				M.server.websocket.send_json(client, { type = "update", content = content })
+			end
+		end)
+	end, 99)
 end
 
 --- Setup live preview
@@ -91,8 +97,6 @@ function M.setup(opts)
 		M.stop_preview()
 		print("Live preview stopped")
 	end, {})
-
-	disable_atomic_writes()
 end
 
 return M

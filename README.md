@@ -10,7 +10,9 @@ Support Katex for rendering math equations in markdown and AsciiDoc files
 
 Supports mermaid for rendering diagrams in markdown files
 
-### [Updates](RELEASE.md) 
+### Updates
+
+See [RELEASE.md](RELEASE.md) 
 
 **⚠️ Important Notice:** You must clear the cache of the browser after updating to ensure the plugin works correctly.
 
@@ -25,51 +27,82 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
 ## Installation
 
-You can install the plugin using your favorite plugin manager. Here are some examples:
+You can install this plugin using a plugin manager. Most plugin managers are supported. Below are some examples
 
-### Using lazy.nvim
+### Using lazy.nvim (recommended)
+
 ```lua
 require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
         dependencies = {'brianhuster/autosave.nvim'}, -- Not required, but recomended for autosaving
-    }
+        opts = {},
+   }
 })
 ```
 
-### Using vim-plug
+### mini.deps
+```lua
+add({
+    source = 'brianhuster/live-preview.nvim',
+    depends = { 'brianhuster/autosave.nvim' }, -- Not required, but recomended for autosaving
+})
+require('livepreview').setup()
+```
+
+### vim-plug
 ```vim
 Plug 'brianhuster/live-preview.nvim'
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
+
+let g:livepreview_config = {} " Optional configuration. 
+lua require('livepreview').setup(vim.g.livepreview_config) " Required to enable the plugin
 ```
+
+### Native package (without a plugin manager)
+
+- **Linux, MacOS, Unix-based**
+
+```sh
+git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
+```
+
+- **Windows (Powershell)**
+
+```powershell
+git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
+```
+
+You must add the line `require('livepreview').setup()` (Lua) or `lua require('livepreview').setup()` (Vimscript) to your Neovim configuration file to enable the plugin.
 
 ## Setup
 
-Add the following to your `init.lua`:
+You can customize the plugin by passing a table to the `opts` variable (if you use lazy.nvim) or the function `require('livepreview').setup()`. Here is the default configuration:
+
+### In Lua
 
 ```lua
-require('live-preview').setup()
+{
+    commands = {
+        start = 'LivePreview', -- Command to start the live preview server and open the default browser.
+        stop = 'StopPreview', -- Command to stop the live preview. 
+    },
+    port = 5500, -- Port to run the live preview server on.
+    browser = 'default', -- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
+}
 ```
 
-For `init.vim`:
+### In Vimscript
 
 ```vim
-lua require('live-preview').setup()
-```
-
-You can also customize the plugin by passing a table to the `setup` function. Here is an example of how to customize the plugin:bubbles
-
-- Using Lua:
-
-```lua
-require('live-preview').setup({
-    commands = {
-        start = 'LivePreview', -- Command to start the live preview server and open the default browser. Default is 'LivePreview'
-        stop = 'StopPreview', -- Command to stop the live preview. Default is 'StopPreview'
-    },
-    port = 5500, -- Port to run the live preview server on. Default is 5500
-    browser = "default", -- Browser to open the live preview in. Default is 'default', meaning the default browser of your system will be used
-})
+let g:livepreview_config = {
+    \ 'commands': {
+        \ 'start': 'LivePreview', " Command to start the live preview server and open the default browser.
+        \ 'stop': 'StopPreview', " Command to stop the live preview. 
+    \ },
+    \ 'port': 5500, " Port to run the live preview server on.
+    \ 'browser': 'default', " Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
+\ }
 ```
 
 ## Usage
@@ -88,7 +121,7 @@ To stop the live preview server, use the command:
 
 These commands can be changed based on your customization in the `setup` function in your Neovim configuration file. 
 
-Use the command `:help live-preview` to see the help documentation.
+Use the command `:help livepreview` to see the help documentation.
 
 ## Contributing
 
@@ -110,8 +143,14 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) for rendering diagrams
 
 ### Buy me a coffee
-#### Paypal
-[https://www.paypal.com/paypalme/brianphambinhan](https://www.paypal.com/paypalme/brianphambinhan)
+Maintaining this project takes time and effort, especially as I am a student now. If you find this project helpful, please consider supporting me :>
 
-#### Momo (Vietnam)
-[https://me.momo.vn/brianphambinhan](https://me.momo.vn/brianphambinhan)
+<a href="https://paypal.me/brianphambinhan">
+    <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="Paypal" style="height: 69px;">
+</a>
+<a href="https://img.vietqr.io/image/mb-9704229209586831984-print.png?addInfo=Donate%20for%20livepreview%20plugin%20nvim&accountName=PHAM%20BINH%20AN">
+    <img src="https://github.com/user-attachments/assets/f28049dc-ce7c-4975-a85e-be36612fd061" alt="VietQR" style="height: 85px;">
+</a>
+<a href="https://me.momo.vn/brianphambinhan">
+    <img src="https://github.com/user-attachments/assets/3907d317-b62f-43f5-a231-3ec7eb4eaa1b" alt="Momo (Vietnam)" style="height: 85px;">
+</a>

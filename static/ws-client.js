@@ -22,7 +22,6 @@ async function connectWebSocket() {
 	};
 
 	socket.onmessage = (event) => {
-		console.log("Message received: ", event.data);
 		const message = JSON.parse(event.data);
 
 		if (message.type === "reload") {
@@ -30,9 +29,11 @@ async function connectWebSocket() {
 			window.location.reload();
 		} else if (message.type = "update") {
 			content = message.content;
-			render(content);
-			renderKatex();
-			renderMermaid();
+			if (render) {
+				render(content);
+				renderKatex();
+				renderMermaid();
+			}
 		}
 	};
 

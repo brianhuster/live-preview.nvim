@@ -9,9 +9,11 @@ Hỗ trợ Katex để hiển thị các phương trình toán học trong tệp
 
 Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown
 
-### [Cập nhật](RELEASE.md)
+### Cập nhật
 
-**⚠️ Quan trọng:** Bạn cần xóa bộ nhớ đệm của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
+Xem [RELEASE.md](RELEASE.md)
+
+**⚠️ Chú ý:** Bạn cần xóa bộ nhớ đệm của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
 
 ## Video demo
 
@@ -32,42 +34,73 @@ require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
         dependencies = {'brianhuster/autosave.nvim'}, -- Không bắt buộc, nhưng nên có để tự động lưu tệp khi bạn chỉnh sửa file
+        opts = {},
     }
 })
 ```
 
-### Với vim-plug
+### mini.deps
+```lua
+add({
+    source = 'brianhuster/live-preview.nvim',
+    depends = { 'brianhuster/autosave.nvim' }, -- Not required, but recomended for autosaving
+})
+require('livepreview').setup()
+```
+
+### vim-plug
 ```vim
 Plug 'brianhuster/live-preview.nvim'
-Plug 'brianhuster/autosave.nvim' " Không bắt buộc, nhưng nên có để tự động lưu tệp khi bạn chỉnh sửa file
+Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
+
+let g:livepreview_config = {} " Cấu hình tùy chọn
+lua require('livepreview').setup(vim.g.livepreview_config) " Bắt buộc để kích hoạt plugin
+```
+### Cài đặt thủ công (không dùng trình quản lý plugin)
+
+- **Linux, MacOS, dựa trên Unix**
+
+```sh
+git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
 ```
 
-## Thiết lập
+- **Windows (Powershell)**
 
-Thêm đoạn code sau vào `init.lua`:
+```powershell
+git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
+```
+
+## Tùy chỉnh
+
+Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opts` (với lazy.nvim) hoặc hàm `require('livepreview`).setup()`. Dưới đây là cấu hình mặc định
+
+### Trong Lua
 
 ```lua
-require('live-preview').setup()
-```
-
-Nếu bạn dùng `init.vim`:
-
-```vim
-lua require('live-preview').setup()
-```
-
-Bạn cũng có thể tùy chỉnh plugin. Dưới đây là cấu hình mặc định
-
-```lua
-require('live-preview').setup({
+{
     commands = {
         start = 'LivePreview', -- Lệnh khởi động máy chủ live-preview.
         stop = 'StopPreview', -- Lệnh để dừng máy chủ live-preview.
     },
     port = 5500, -- Cổng để chạy máy chủ live-preview 
-    browser = "default", -- Trình duyệt để xem kết quả live-preview. Mặc định "default" sẽ mở trình duyệt mặc định của hệ điều hành
-})
+    browser = 'default', -- Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành. 
+}
 ```
+
+### Trong Vimscript
+
+```vim
+let g:livepreview_config = {
+    \ 'commands': {
+    \     'start': 'LivePreview', " Lệnh khởi động máy chủ live-preview.
+    \     'stop': 'StopPreview', " Lệnh để dừng máy chủ live-preview.
+    \ },
+    \ 'port': 5500, " Cổng để chạy máy chủ live-preview
+    \ 'browser': 'default', " Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành.
+\ }
+```
+
+**⚠️ Chú ý:** Đảm bảo rằng bạn cấu hình `g:livepreview_config` trước khi gọi `lua require('livepreview').setup()`.
 
 ## Cách dùng
 
@@ -83,7 +116,7 @@ Lệnh này sẽ mở tệp Markdown hoặc HTML hiện tại trong trình duy�
 
 `:StopPreview`
 
-Gõ lệnh `:help live-preview` để xem bằng tiếng Anh.
+Gõ lệnh `:help livepreview` để xem bằng tiếng Anh.
 
 ## Đóng góp
 
@@ -107,9 +140,13 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 
 
 ### Ủng hộ
-#### Momo (Việt Nam)
-[https://me.momo.vn/brianphambinhan](https://me.momo.vn/brianphambinhan)
 
-#### Paypal
-[https://www.paypal.com/paypalme/brianphambinhan](https://www.paypal.com/paypalme/brianphambinhan)
-
+<a href="https://me.momo.vn/brianphambinhan">
+    <img src="https://github.com/user-attachments/assets/3907d317-b62f-43f5-a231-3ec7eb4eaa1b" alt="Momo (Vietnam)" style="height: 85px;">
+</a>
+<a href="https://img.vietqr.io/image/mb-9704229209586831984-print.png?addInfo=Donate%20for%20livepreview%20plugin%20nvim&accountName=PHAM%20BINH%20AN">
+    <img src="https://github.com/user-attachments/assets/f28049dc-ce7c-4975-a85e-be36612fd061" alt="VietQR" style="height: 85px;">
+</a>
+<a href="https://paypal.me/brianphambinhan">
+    <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="Paypal" style="height: 69px;">
+</a>
