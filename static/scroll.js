@@ -89,7 +89,7 @@ function relativeScroll(line, ratio, len) {
 	scroll(offsetTop - document.documentElement.clientHeight * ratio)
 }
 
-export default {
+scrollToLine = {
 	relative: function({
 		cursor,
 		winline,

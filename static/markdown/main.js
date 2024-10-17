@@ -9,6 +9,7 @@ const md = window.markdownit({
 		return ''; // use external default escaping
 	}
 });
+md.use(injectLinenumbersPlugin);
 
 const render = (text) => {
 	const html = md.render(text, { lineNumbers: true });

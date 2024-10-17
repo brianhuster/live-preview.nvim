@@ -35,6 +35,12 @@ async function connectWebSocket() {
 				renderMermaid();
 			}
 		}
+		else if (message.type = "scroll") {
+			scrollToLine.middle({
+				cursor: message.cursor[1],
+				len: message.len
+			})
+		}
 	};
 
 	socket.onclose = () => {

@@ -16,7 +16,6 @@ Server.__index = Server
 
 local uv = vim.uv
 local need_scroll = false
-local top_line = 1
 local filepath = ""
 local ws_client
 
@@ -36,7 +35,8 @@ local function send_scroll(client)
 	local message = {
 		type = "scroll",
 		filepath = filepath or '',
-		line = top_line,
+		cursor = vim.api.nvim_win_get_cursor(0),
+		length = vim.api.nvim_buf_line_count(0),
 	}
 	websocket.send_json(client, message)
 	need_scroll = false
