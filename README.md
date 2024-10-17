@@ -10,6 +10,8 @@ Support Katex for rendering math equations in markdown and AsciiDoc files
 
 Supports mermaid for rendering diagrams in markdown files
 
+Syntax highlighting for code blocks in Markdown and AsciiDoc
+
 ### Updates
 
 See [RELEASE.md](RELEASE.md) 

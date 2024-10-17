@@ -9,6 +9,8 @@ Hỗ trợ Katex để hiển thị các phương trình toán học trong tệp
 
 Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown
 
+Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
+
 ### Cập nhật
 
 Xem [RELEASE.md](RELEASE.md)
