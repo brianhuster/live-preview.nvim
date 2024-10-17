@@ -116,7 +116,7 @@ function Server:start(ip, port, func)
 				local req_info = handler.request(client, request)
 				if req_info then
 					local path = req_info.path
-			http://localhost:5500/README.md		local if_none_match = req_info.if_none_match
+					local if_none_match = req_info.if_none_match
 					local file_path = self:routes(path)
 					handler.serve_file(client, file_path, if_none_match)
 				end
