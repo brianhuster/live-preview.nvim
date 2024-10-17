@@ -20,7 +20,7 @@
 // const markdownText = document.querySelector('.markdown-body').innerHTML;
 // render(markdownText);
 
-const md = markdownit({
+const md = window.markdownit({
 	highlight: function(str, lang) {
 		if (lang && hljs.getLanguage(lang)) {
 			try {
