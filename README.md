@@ -10,6 +10,8 @@ Support Katex for rendering math equations in markdown and AsciiDoc files
 
 Supports mermaid for rendering diagrams in markdown files
 
+Syntax highlighting for code blocks in Markdown and AsciiDoc
+
 ### Updates
 
 See [RELEASE.md](RELEASE.md) 
@@ -130,12 +132,14 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 ## TODO
 - [x] Support for KaTex math in Markdown and AsciiDoc
 - [x] Support for Mermaid diagrams in Markdown
+- [x] Syntax highlighting for code blocks in Markdown and AsciiDoc
 - [ ] Autoscroll in the browser as you scroll in the Markdown and AsciiDoc files in Neovim
 - [ ] Support for diagrams in AsciiDoc
 
 ## Acknowledgements
-* [glacambre/firenvim](https://github.com/glacambre/firenvim) for the sha1 function
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) and [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) for the idea inspiration
+* [glacambre/firenvim](https://github.com/glacambre/firenvim) for the sha1 function reference
+* [iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) for some JavaScript reference
 * [sindresorhus/github-markdown-css](https://github.com/sindresorhus/github-markdown-css) CSS style for Markdown files
 * [markedjs/marked](https://github.com/markedjs/marked) for parsing Markdown files
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) for parsing AsciiDoc files

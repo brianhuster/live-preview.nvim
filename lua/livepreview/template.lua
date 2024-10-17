@@ -16,8 +16,8 @@ local html_template = function(body, stylesheet, script_tag)
             <script src="/live-preview.nvim/static/mermaid/mermaid.min.js"></script>
 			<link rel="stylesheet" href="/live-preview.nvim/static/highlight/default.min.css">
 			<script defer src="/live-preview.nvim/static/highlight/highlight.min.js"></script>
-			<script defer src='/live-preview.nvim/static/ws-client.js'></script>
 ]] .. script_tag .. [[
+			<script defer src='/live-preview.nvim/static/ws-client.js'></script>
         </head>
 
         <body>
@@ -27,14 +27,13 @@ local html_template = function(body, stylesheet, script_tag)
 			<script defer src="/live-preview.nvim/static/katex/main.js"></script>
             <script defer src="/live-preview.nvim/static/mermaid/main.js"></script>
         </body>
-
         </html>
-
     ]]
 end
 
 M.md2html = function(md)
 	local script = [[
+		<script defer src="/live-preview.nvim/static/markdown/line-numbers.js"></script>
 		<script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script>
 		<script defer src='/live-preview.nvim/static/markdown/main.js'></script>
 	]]

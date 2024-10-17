@@ -23,6 +23,8 @@ async function connectWebSocket() {
 
 	socket.onmessage = (event) => {
 		const message = JSON.parse(event.data);
+		console.log(message);
+		console.log(message.type === "scroll");
 
 		if (message.type === "reload") {
 			console.log("Reload message received");
@@ -34,6 +36,12 @@ async function connectWebSocket() {
 				renderKatex();
 				renderMermaid();
 			}
+		} else if (message.type = "scroll") {
+			console.log("Scroll message received");
+			scrollToLine.middle({
+				cursor: message.cursor[1],
+				len: message.len
+			})
 		}
 	};
 
