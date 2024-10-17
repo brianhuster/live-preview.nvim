@@ -38,6 +38,7 @@ local function send_scroll(client)
 		cursor = vim.api.nvim_win_get_cursor(0),
 		length = vim.api.nvim_buf_line_count(0),
 	}
+	vim.print(message)
 	websocket.send_json(client, message)
 	need_scroll = false
 end
@@ -48,7 +49,6 @@ vim.api.nvim_create_autocmd("WinScrolled", {
 		need_scroll = true
 		filepath = vim.api.nvim_buf_get_name(0)
 		if ws_client then
-			print("need_scroll", need_scroll)
 			send_scroll(ws_client)
 		end
 	end
