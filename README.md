@@ -14,8 +14,6 @@ Syntax highlighting for code blocks in Markdown and AsciiDoc
 
 Sync scrolling
 
-NHuw vaayj
-
 ### Updates
 
 See [RELEASE.md](RELEASE.md) 
