@@ -32,11 +32,19 @@ local html_template = function(body, stylesheet, script_tag)
 end
 
 M.md2html = function(md)
+	-- local script = [[
+	-- 	<script defer src="/live-preview.nvim/static/markdown/marked.min.js"></script>
+	--        <script defer src='/live-preview.nvim/static/markdown/main.js'></script>
+	--    ]]
 	local script = [[
-		<script defer src="/live-preview.nvim/static/markdown/marked.min.js"></script>
-        <script defer src='/live-preview.nvim/static/markdown/main.js'></script>
-    ]]
+		<script defer src="
+https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js
+"></script>
+		<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+		<script defer src='/live-preview.nvim/static/markdown/main.js'></script>
+	]]
 	local stylesheet = [[
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
         <link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">
     ]]
 	return html_template(md, stylesheet, script)
