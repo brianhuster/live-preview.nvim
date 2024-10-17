@@ -23,6 +23,7 @@ async function connectWebSocket() {
 
 	socket.onmessage = (event) => {
 		const message = JSON.parse(event.data);
+		console.log("Message received: ", message);
 
 		if (message.type === "reload") {
 			console.log("Reload message received");

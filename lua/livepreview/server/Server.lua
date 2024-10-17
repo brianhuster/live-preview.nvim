@@ -46,7 +46,6 @@ end
 vim.api.nvim_create_autocmd("WinScrolled", {
 	callback = function()
 		need_scroll = true
-		top_line = vim.fn.line("w0")
 		filepath = vim.api.nvim_buf_get_name(0)
 		if ws_client then
 			send_scroll(ws_client)
@@ -117,7 +116,7 @@ function Server:start(ip, port, func)
 				local req_info = handler.request(client, request)
 				if req_info then
 					local path = req_info.path
-					local if_none_match = req_info.if_none_match
+			http://localhost:5500/README.md		local if_none_match = req_info.if_none_match
 					local file_path = self:routes(path)
 					handler.serve_file(client, file_path, if_none_match)
 				end
