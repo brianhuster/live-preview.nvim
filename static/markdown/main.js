@@ -12,7 +12,7 @@ const md = window.markdownit({
 md.use(injectLinenumbersPlugin);
 
 const render = (text) => {
-	const html = md.render(text, { lineNumbers: true });
+	const html = md.render(text);
 	console.log(html);
 	document.querySelector('.markdown-body').innerHTML = html;
 	hljs.highlightAll();
