@@ -133,8 +133,9 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 - [ ] Hỗ trợ biểu đồ trong AsciiDoc
 
 ## Cảm ơn
-* [glacambre/firenvim](https://github.com/glacambre/firenvim) vì hàm sha1
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-máy chủ) vì ý tưởng
+* [glacambre/firenvim](https://github.com/glacambre/firenvim) vì hàm sha1
+* [iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) vì một số tham khảo về JavaScript
 * [sindresorhus/github-markdown-css](https://github.com/sindresorhus/github-markdown-css) CSS cho tệp Markdown
 * [markedjs/marked](https://github.com/markedjs/marked) cho việc chuyển đổi tệp Markdown thành HTML
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) cho việc chuyển đổi tệp AsciiDoc thành HTML
