@@ -48,6 +48,7 @@ vim.api.nvim_create_autocmd("WinScrolled", {
 		need_scroll = true
 		filepath = vim.api.nvim_buf_get_name(0)
 		if ws_client then
+			print("need_scroll", need_scroll)
 			send_scroll(ws_client)
 		end
 	end
