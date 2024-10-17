@@ -10,12 +10,14 @@ local html_template = function(body, stylesheet, script_tag)
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Live preview</title>
 ]] .. stylesheet .. [[
-]] .. script_tag .. [[
-            <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">
+            <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">	
             <script defer src="/live-preview.nvim/static/katex/katex.min.js"></script>
             <script defer src="/live-preview.nvim/static/katex/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
             <script src="/live-preview.nvim/static/mermaid/mermaid.min.js"></script>
+			<link rel="stylesheet" href="/live-preview.nvim/static/highlight/default.min.css">
+			<script defer src="/live-preview.nvim/static/highlight/highlight.min.js"></script>
 			<script defer src='/live-preview.nvim/static/ws-client.js'></script>
+]] .. script_tag .. [[
         </head>
 
         <body>
@@ -33,9 +35,9 @@ end
 
 M.md2html = function(md)
 	local script = [[
-		<script defer src="/live-preview.nvim/static/markdown/marked.min.js"></script>
-        <script defer src='/live-preview.nvim/static/markdown/main.js'></script>
-    ]]
+		<script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script>
+		<script defer src='/live-preview.nvim/static/markdown/main.js'></script>
+	]]
 	local stylesheet = [[
         <link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">
     ]]
