@@ -1,10 +1,5 @@
-### Breaking changes
-`require('live-preview')` is deprecated (but still usable). Use `require('livepreview')` instead. 
-
-For help, use `:help livepreview` instead of `:help live-preview`.
-
 ### New features
 
-Improve performance
+Code block syntax highlighting in markdown and Asciidoc files
 
-Fix some errors with Katex renderings
+**⚠️ Important Notice:** You must clear the cache of the browser after updating to ensure the plugin works correctly. 
