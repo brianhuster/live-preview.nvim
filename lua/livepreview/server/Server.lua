@@ -38,7 +38,6 @@ local function send_scroll(client)
 		cursor = vim.api.nvim_win_get_cursor(0),
 		length = vim.api.nvim_buf_line_count(0),
 	}
-	vim.print(message)
 	websocket.send_json(client, message)
 	need_scroll = false
 end
