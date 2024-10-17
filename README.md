@@ -12,8 +12,6 @@ Supports mermaid for rendering diagrams in markdown files
 
 Syntax highlighting for code blocks in Markdown and AsciiDoc
 
-Sync scrolling
-
 ### Updates
 
 See [RELEASE.md](RELEASE.md) 
