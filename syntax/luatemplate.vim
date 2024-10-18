@@ -20,4 +20,4 @@ syntax region luaHTML start="\[\[" end="\]\]" contains=@HTML containedin=luaStri
 " Link the new region to the HTML highlighting
 highlight default link luaHTML htmlString
 
-let b:current_syntax = "luatpl"
+let b:current_syntax = "luatemplate"
