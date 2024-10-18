@@ -1,0 +1,2 @@
+@import url('./github.min.css') screen and (prefers-color-scheme: light);
+@import url('./github-dark.min.css') screen and (prefers-color-scheme: dark);

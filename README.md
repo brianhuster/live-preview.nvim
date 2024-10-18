@@ -16,7 +16,7 @@ Syntax highlighting for code blocks in Markdown and AsciiDoc
 
 See [RELEASE.md](RELEASE.md) 
 
-**⚠️ Important Notice:** You must clear the cache of the browser after updating to ensure the plugin works correctly.
+**⚠️ Important Notice:** You should clear the cache of the browser after updating to ensure the plugin works correctly.
 
 ## Demo video
 

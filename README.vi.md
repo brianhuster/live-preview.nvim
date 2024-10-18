@@ -15,7 +15,7 @@ Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
 
 Xem [RELEASE.md](RELEASE.md)
 
-**⚠️ Chú ý:** Bạn cần xóa bộ nhớ đệm của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
+**⚠️ Chú ý:** Bạn nên xóa bộ nhớ đệm của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
 
 ## Video demo
 
