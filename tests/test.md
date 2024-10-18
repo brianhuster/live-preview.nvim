@@ -1,7 +1,6 @@
 # like to contribute to this project, please feel free to open an issue
 $E = mc^2$
 ```mermaid 
-%%{init: {'theme':'neutral'}}%%
 graph TD
     A-->B;
     A-->C;
