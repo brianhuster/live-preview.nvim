@@ -1,4 +1,3 @@
-package.path = package.path .. ';./?.luatpl'
 
 local spec = require("livepreview.spec")
 local nvim_ver_range = spec().engines.nvim

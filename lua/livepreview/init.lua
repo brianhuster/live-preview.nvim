@@ -7,6 +7,8 @@
 --- ```
 
 local M = {}
+package.path = package.path .. ';./?.luatpl'
+
 M.server = require("livepreview.server")
 M.utils = require("livepreview.utils")
 M.spec = require("livepreview.spec")
