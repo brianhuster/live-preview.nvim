@@ -16,11 +16,18 @@ local template_path = vim.fs.joinpath(plugin_path, "lua/live-preview.nvim/templa
 function M.generate(file_path)
 	local etag
 	local attr = vim.uv.fs_stat(file_path)
+	local template_mtime
 	if not attr then
 		return nil
 	end
 	local modification_time = attr.mtime
-	local template_mtime = vim.uv.fs_stat(template_path).mtime
+	local template_stat = vim.uv.fs_stat(template_path)
+	if not template_stat then
+		template_mtime = 0
+	else
+		template_mtime = template_stat.mtime
+	end
+
 	local function mtime_compare(mtime1, mtime2)
 		if mtime1.sec > mtime2.sec then
 			return true
@@ -30,6 +37,7 @@ function M.generate(file_path)
 			return false
 		end
 	end
+
 	if mtime_compare(modification_time, template_mtime) then
 		etag = modification_time.sec .. "." .. modification_time.nsec
 	else
