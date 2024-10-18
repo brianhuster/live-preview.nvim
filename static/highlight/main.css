@@ -1,0 +1,7 @@
+@media (prefers-color-scheme: light) {
+	@import url('path/to/github.min.css');
+}
+
+@media (prefers-color-scheme: dark) {
+	@import url('path/to/github-dark.min.css');
+}
