@@ -1,4 +1,3 @@
-
 local spec = require("livepreview.spec")
 local nvim_ver_range = spec().engines.nvim
 local nvim_ver_table = vim.version()
@@ -13,6 +12,6 @@ package.loaded["live-preview"] = require("livepreview")
 vim.filetype.add({
 	pattern = {
 		[".*/live%-preview%.nvim/doc/.+%.txt"] = "help",
-		[".*/.+%.luatpl"] = "luatemplate"
+		[".*/live%-preview%.nvim/.+%template.lua"] = "luatemplate"
 	},
 })
