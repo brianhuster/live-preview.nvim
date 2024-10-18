@@ -1,7 +1,2 @@
-@media (prefers-color-scheme: light) {
-	@import url('./github.min.css');
-}
-
-@media (prefers-color-scheme: dark) {
-	@import url('./github-dark.min.css');
-}
+@import url('./github.min.css') screen and (prefers-color-scheme: light);
+@import url('./github-dark.min.css') screen and (prefers-color-scheme: dark);
