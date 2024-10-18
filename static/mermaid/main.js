@@ -4,23 +4,12 @@ function renderMermaid() {
 	});
 }
 
-const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+mermaid.initialize({
+	startOnLoad: false,
+	securityLevel: 'loose',
+	theme: 'neutral',
+});
 
-function handleColorSchemeChange(event) {
-	if (event.matches) {
-		mermaid.initialize({
-			startOnLoad: false,
-			securityLevel: 'loose',
-			theme: 'dark',
-		});
-	} else {
-		mermaid.initialize({
-			startOnLoad: false,
-			securityLevel: 'loose',
-			theme: 'default',
-		});
-	}
-}
 
 renderMermaid();
 mediaQueryList.addListener(handleColorSchemeChange);
