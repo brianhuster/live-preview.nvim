@@ -7,7 +7,7 @@
 local M = {}
 
 local plugin_path = require("livepreview.utils").get_plugin_path()
-local template_path = vim.fs.joinpath(plugin_path, "template.lua")
+local template_path = vim.fs.joinpath(plugin_path, "lua/live-preview.nvim/template.lua")
 
 --- Generate an ETag for a file
 --- The Etag is generated based on the modification time of the file
