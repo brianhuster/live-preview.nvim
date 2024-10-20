@@ -139,9 +139,8 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 ## Acknowledgements
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) and [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) for the idea inspiration
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) for the sha1 function reference
-* [iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) for some JavaScript reference
 * [sindresorhus/github-markdown-css](https://github.com/sindresorhus/github-markdown-css) CSS style for Markdown files
-* [markedjs/marked](https://github.com/markedjs/marked) for parsing Markdown files
+* [markdown-it/markdown-it](https://github.com/markdown-it/markdown-it) for parsing Markdown files
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) for parsing AsciiDoc files
 * [KaTeX](https://github.com/KaTeX/KaTeX) for rendering math equations
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) for rendering diagrams
