@@ -102,14 +102,14 @@ end
 
 --- Extract base path from a file path
 --- Example: ```lua
---- get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim")
+--- get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim/")
 --- ```
 --- will return "lua/livepreview/utils.lua"
 --- @param full_path string
 --- @param parent_path string
 --- @return string
 function M.get_base_path(full_path, parent_path)
-	local pattern = parent_path .. "/(.*)"
+	local pattern = parent_path .. "(.*)"
 	local base_path = full_path:match(pattern)
 	return base_path or ''
 end
