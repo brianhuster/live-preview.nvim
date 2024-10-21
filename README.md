@@ -32,7 +32,9 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
 You can install this plugin using a plugin manager. Most plugin managers are supported. Below are some examples
 <details>
-<summary>### Using lazy.nvim (recommended)</summary>
+<summary>
+### Using lazy.nvim (recommended)
+</summary>
 
 ```lua
 require("lazy").setup({
@@ -47,7 +49,9 @@ require("lazy").setup({
 </details>
 
 <details>
-<summary>### mini.deps</summary>
+<summary>
+### mini.deps
+</summary>
 
 ```lua
 add({
@@ -60,7 +64,9 @@ require('livepreview').setup()
 </details>
 
 <details>
-<summary>### vim-plug</summary>
+<summary>
+### vim-plug
+</summary>
 
 ```vim
 Plug 'brianhuster/live-preview.nvim'
@@ -73,7 +79,9 @@ lua require('livepreview').setup(vim.g.livepreview_config) " Required to enable 
 </details>
 
 <details>
-<summary>### Native package (without a plugin manager)</summary>
+<summary>
+### Native package (without a plugin manager)
+</summary>
 
 - **Linux, MacOS, Unix-based**
 
