@@ -25,13 +25,14 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 ## Requirements
 
 - Neovim >=0.10.0
+    (recommended: >=0.10.2)
 - A modern web browser
 
 ## Installation
 
 You can install this plugin using a plugin manager. Most plugin managers are supported. Below are some examples
-
-### Using lazy.nvim (recommended)
+<details>
+<summary>### Using lazy.nvim (recommended)</summary>
 
 ```lua
 require("lazy").setup({
@@ -43,7 +44,11 @@ require("lazy").setup({
 })
 ```
 
-### mini.deps
+</details>
+
+<details>
+<summary>### mini.deps</summary>
+
 ```lua
 add({
     source = 'brianhuster/live-preview.nvim',
@@ -52,7 +57,11 @@ add({
 require('livepreview').setup()
 ```
 
-### vim-plug
+</details>
+
+<details>
+<summary>### vim-plug</summary>
+
 ```vim
 Plug 'brianhuster/live-preview.nvim'
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
@@ -61,7 +70,10 @@ let g:livepreview_config = {} " Optional configuration.
 lua require('livepreview').setup(vim.g.livepreview_config) " Required to enable the plugin
 ```
 
-### Native package (without a plugin manager)
+</details>
+
+<details>
+<summary>### Native package (without a plugin manager)</summary>
 
 - **Linux, MacOS, Unix-based**
 
@@ -76,6 +88,7 @@ git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppD
 ```
 
 You must add the line `require('livepreview').setup()` (Lua) or `lua require('livepreview').setup()` (Vimscript) to your Neovim configuration file to enable the plugin.
+</details>
 
 ## Setup
 
