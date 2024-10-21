@@ -58,7 +58,7 @@ local function checkhealth_port(port)
 		if not name or #name == 0 then
 			return nil
 		else
-			return cmd_result
+			return name
 		end
 	end
 
@@ -71,7 +71,8 @@ local function checkhealth_port(port)
 		else
 			local process_name = getProcessName(cmd_result)
 			vim.health.warn(
-			string.format [[The port %d is being used by another process: %s (PID: %d). This Neovim's PID is %d]], port,
+				string.format [[The port %d is being used by another process: %s (PID: %d). This Neovim's PID is %d]],
+				port,
 				process_name, cmd_result, vim.uv.os_getpid)
 		end
 	end
