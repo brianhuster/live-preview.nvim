@@ -50,7 +50,7 @@ require("lazy").setup({
 <summary>mini.deps</summary>
 
 ```lua
-add({
+MiniDeps.add({
     source = 'brianhuster/live-preview.nvim',
     depends = { 'brianhuster/autosave.nvim' }, -- Not required, but recomended for autosaving
 })
