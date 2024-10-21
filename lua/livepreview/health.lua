@@ -44,44 +44,48 @@ local function checkhealth_port(port)
 		cmd = string.format("lsof -i:%d | grep LISTEN | awk '{print $2}'", port)
 	end
 	local cmd_result = await_term_cmd(cmd)
+	local pid = vim.split(cmd_result.stdout, "\n")[1]
 
-	local function getProcessName(pid)
-		local cmd
+	local function getProcessName(processID)
+		local command
 		if vim.uv.os_uname().version:match("Windows") then
-			cmd = string.format([[
+			command = string.format([[
 				Get-Process -Id %d | Select-Object -ExpandProperty Name
-			]], pid)
+			]], processID)
 		else
-			cmd = string.format("ps -p %d -o comm=", pid)
+			command = string.format("ps -p %d -o comm=", processID)
 		end
-		local name = await_term_cmd(cmd)
+		local result = await_term_cmd(command)
+		local name = result.stdout
 		if not name or #name == 0 then
-			return nil
+			return ''
 		else
-			return name
+			return vim.split(name, "\n")[1]
 		end
 	end
-
-	if not cmd_result or #cmd_result == 0 then
+	if not pid or #pid == 0 then
 		vim.health.warn("Server is not running at port " .. port)
 		return
 	else
-		if cmd_result == vim.uv.os_getpid() then
-			vim.health.ok("Server is running at port " .. port)
+		if tonumber(pid) == vim.uv.os_getpid() then
+			vim.health.ok("Server is healthy on port " .. port)
+			local serverObj = require('livepreview').serverObj
+			if serverObj and serverObj.webroot then
+				vim.health.info("Server root: " .. serverObj.webroot)
+			end
 		else
-			local process_name = getProcessName(cmd_result)
+			local process_name = getProcessName(pid)
 			vim.health.warn(
-				string.format [[The port %d is being used by another process: %s (PID: %d). This Neovim's PID is %d]],
-				port,
-				process_name, cmd_result, vim.uv.os_getpid)
+				string.format([[The port %d is being used by another process: %s (PID: %s).]],
+					port, process_name, pid
+				)
+			)
 		end
 	end
 end
 
 
-
---- Run health check for Live Preview. This can also be run using `:checkhealth livepreview`
---- @see https://neovim.io/doc/user/health.html
+--- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()
 	vim.health.start("Check compatibility")
 	if not M.is_compatible(nvim_ver, nvim_ver_range) then

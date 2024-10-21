@@ -15,7 +15,7 @@ M.spec = require("livepreview.spec")
 M.health = require("livepreview.health")
 M.template = require("livepreview.template")
 
-local server
+M.serverObj = nil
 
 local function find_buf() -- find html/md buffer
 	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -31,7 +31,7 @@ end
 
 --- Stop live preview
 function M.stop_preview()
-	server:stop()
+	M.serverObj:stop()
 end
 
 --- Start live preview
@@ -39,12 +39,12 @@ end
 ---@param port number: port to run the server on
 function M.preview_file(filepath, port)
 	M.utils.kill_port(port)
-	if server then
-		server:stop()
+	if M.serverObj then
+		M.serverObj:stop()
 	end
-	server = M.server.Server:new(vim.fs.dirname(filepath) and M.config.dynamic_root or nil)
+	M.serverObj = M.server.Server:new(vim.fs.dirname(filepath) and M.config.dynamic_root or nil)
 	vim.wait(50, function()
-		server:start("127.0.0.1", port, function(client)
+		M.serverObj:start("127.0.0.1", port, function(client)
 			if M.utils.supported_filetype(filepath) == 'html' then
 				M.server.websocket.send_json(client, { type = "reload" })
 			else
