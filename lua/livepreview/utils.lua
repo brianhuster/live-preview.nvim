@@ -109,6 +109,10 @@ end
 --- @param parent_path string
 --- @return string
 function M.get_base_path(full_path, parent_path)
+	if parent_path:sub(-1) ~= "/" then
+		parent_path = parent_path .. "/"
+	end
+
 	local pattern = parent_path .. "(.*)"
 	local base_path = full_path:match(pattern)
 	return base_path or ''
