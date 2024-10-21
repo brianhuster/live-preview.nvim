@@ -93,13 +93,26 @@ end
 --- @param full_path string
 --- @param subpath string
 --- @return string | nil
-M.get_parent_path = function(full_path, subpath)
+function M.get_parent_path(full_path, subpath)
 	local escaped_subpath = subpath:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
 	local pattern = "(.*)" .. escaped_subpath
 	local parent_path = full_path:match(pattern)
 	return parent_path
 end
 
+--- Extract base path from a file path
+--- Example: ```lua
+--- get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim")
+--- ```
+--- will return "lua/livepreview/utils.lua"
+--- @param full_path string
+--- @param parent_path string
+--- @return string | nil
+function M.get_base_path(full_path, parent_path)
+	local pattern = parent_path .. "/(.*)"
+	local base_path = full_path:match(pattern)
+	return base_path
+end
 
 --- Join paths using the correct separator for the OS
 --- @param ... string: paths to join

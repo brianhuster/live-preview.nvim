@@ -88,7 +88,7 @@ function M.setup(opts)
 			string.format(
 				"http://localhost:%d/%s",
 				config.port,
-				vim.fs.basename(filepath) and config.dynamic_root or M.utils.get_parent_path(filepath, vim.uv.cwd())
+				vim.fs.basename(filepath) and config.dynamic_root or M.utils.get_base_path(filepath, vim.uv.cwd())
 			),
 			config.browser
 		)
