@@ -33,6 +33,7 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 You can install this plugin using a plugin manager. Most plugin managers are supported. Below are some examples
 <details>
 <summary>
+
 ### Using lazy.nvim (recommended)
 </summary>
 
@@ -50,6 +51,7 @@ require("lazy").setup({
 
 <details>
 <summary>
+
 ### mini.deps
 </summary>
 
@@ -65,6 +67,7 @@ require('livepreview').setup()
 
 <details>
 <summary>
+
 ### vim-plug
 </summary>
 
@@ -80,6 +83,7 @@ lua require('livepreview').setup(vim.g.livepreview_config) " Required to enable 
 
 <details>
 <summary>
+
 ### Native package (without a plugin manager)
 </summary>
 

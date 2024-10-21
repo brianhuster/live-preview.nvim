@@ -33,6 +33,7 @@ Bạn có thể cài đặt plugin này bằng một trình quản lý plugin. D
 
 <details>
 <summary>
+
 ### Với lazy.nvim
 </summary>
 
@@ -50,6 +51,7 @@ require("lazy").setup({
 
 <details>
 <summary>
+
 ### mini.deps
 </summary>
 
@@ -65,6 +67,7 @@ require('livepreview').setup()
 
 <details>
 <summary>
+
 ### vim-plug
 </summary>
 
@@ -80,6 +83,7 @@ lua require('livepreview').setup(vim.g.livepreview_config) " Bắt buộc để 
 
 <details>
 <summary>
+
 ### Cài đặt thủ công (không dùng trình quản lý plugin)
 </summary>
 
