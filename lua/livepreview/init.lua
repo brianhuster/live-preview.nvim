@@ -8,6 +8,7 @@
 
 local M = {}
 
+M.config = {}
 M.server = require("livepreview.server")
 M.utils = require("livepreview.utils")
 M.spec = require("livepreview.spec")
@@ -15,7 +16,6 @@ M.health = require("livepreview.health")
 M.template = require("livepreview.template")
 
 local server
-local config
 
 local function find_buf() -- find html/md buffer
 	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -42,7 +42,7 @@ function M.preview_file(filepath, port)
 	if server then
 		server:stop()
 	end
-	server = M.server.Server:new(vim.fs.dirname(filepath) and config.dynamic_root or nil)
+	server = M.server.Server:new(vim.fs.dirname(filepath) and M.config.dynamic_root or nil)
 	vim.wait(50, function()
 		server:start("127.0.0.1", port, function(client)
 			if M.utils.supported_filetype(filepath) == 'html' then
@@ -73,9 +73,9 @@ function M.setup(opts)
 		dynamic_root = false,
 	}
 
-	config = vim.tbl_deep_extend("force", default_options, opts or {})
+	M.config = vim.tbl_deep_extend("force", default_options, opts or {})
 
-	vim.api.nvim_create_user_command(config.commands.start, function()
+	vim.api.nvim_create_user_command(M.config.commands.start, function()
 		local filepath = vim.fn.expand('%:p')
 		if not M.utils.supported_filetype(filepath) then
 			filepath = find_buf()
@@ -87,16 +87,16 @@ function M.setup(opts)
 		M.utils.open_browser(
 			string.format(
 				"http://localhost:%d/%s",
-				config.port,
-				vim.fs.basename(filepath) and config.dynamic_root or M.utils.get_base_path(filepath, vim.uv.cwd())
+				M.config.port,
+				vim.fs.basename(filepath) and M.config.dynamic_root or M.utils.get_base_path(filepath, vim.uv.cwd())
 			),
-			config.browser
+			M.config.browser
 		)
 
-		M.preview_file(filepath, config.port)
+		M.preview_file(filepath, M.config.port)
 	end, {})
 
-	vim.api.nvim_create_user_command(config.commands.stop, function()
+	vim.api.nvim_create_user_command(M.config.commands.stop, function()
 		M.stop_preview()
 		print("Live preview stopped")
 	end, {})

@@ -315,6 +315,7 @@ function M.open_browser(path, browser)
 	end
 end
 
+
 --- Kill a process which is not Neovim running on a port
 --- @param port number
 function M.kill_port(port)
