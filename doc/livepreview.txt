@@ -16,21 +16,21 @@ preview_file({filepath}, {port})                  *livepreview.preview_file()*
       • {filepath}  (`string`) path to the file
       • {port}      (`number`) port to run the server on
 
-setup({options})                                         *livepreview.setup()*
+setup({opts})                                            *livepreview.setup()*
     Setup live preview
 
     Parameters: ~
-      • {options}  (`{commands: {start: string, stop: string}, port: number, browser: string}`, default: {start = "LivePreview", stop = "StopPreview"})
-                   • commands: {start: string, stop: string} - commands to
-                     start and stop live preview
-                   • port: number - port to run the server on (default: 5500)
-                   • browser: string - browser to open the preview in
-                     (default: "default"). The "default" value will open the
-                     preview in system default browser.
-                   • dynamic_root: boolean - whether to use dynamic root for
-                     the server (default: false). Using dynamic root will
-                     always make the server root the parent directory of the
-                     file being previewed.
+      • {opts}  (`{commands: {start: string, stop: string}, port: number, browser: string}`, default: {start = "LivePreview", stop = "StopPreview"})
+                • commands: {start: string, stop: string} - commands to start
+                  and stop live preview
+                • port: number - port to run the server on (default: 5500)
+                • browser: string - browser to open the preview in (default:
+                  "default"). The "default" value will open the preview in
+                  system default browser.
+                • dynamic_root: boolean - whether to use dynamic root for the
+                  server (default: false). Using dynamic root will always make
+                  the server root the parent directory of the file being
+                  previewed.
 
 stop_preview()                                    *livepreview.stop_preview()*
     Stop live preview
