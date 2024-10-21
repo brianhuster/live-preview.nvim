@@ -24,13 +24,19 @@ https://github.com/user-attachments/assets/e9a64709-8758-44d8-9e3c-9c15e0bf2a0e
 ## Yêu cầu
 
 - Neovim >=0.10.0
+    (khuyến nghị: >=0.10.2)
 - Một trình duyệt web
 
 ## Cài đặt
 
 Bạn có thể cài đặt plugin này bằng một trình quản lý plugin. Dưới đây là một số ví dụ 
 
+<details>
+<summary>
+
 ### Với lazy.nvim
+</summary>
+
 ```lua
 require("lazy").setup({
     {
@@ -41,7 +47,14 @@ require("lazy").setup({
 })
 ```
 
+</details>
+
+<details>
+<summary>
+
 ### mini.deps
+</summary>
+
 ```lua
 add({
     source = 'brianhuster/live-preview.nvim',
@@ -50,7 +63,14 @@ add({
 require('livepreview').setup()
 ```
 
+</details>
+
+<details>
+<summary>
+
 ### vim-plug
+</summary>
+
 ```vim
 Plug 'brianhuster/live-preview.nvim'
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
@@ -58,7 +78,14 @@ Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 let g:livepreview_config = {} " Cấu hình tùy chọn
 lua require('livepreview').setup(vim.g.livepreview_config) " Bắt buộc để kích hoạt plugin
 ```
+
+</details>
+
+<details>
+<summary>
+
 ### Cài đặt thủ công (không dùng trình quản lý plugin)
+</summary>
 
 - **Linux, MacOS, dựa trên Unix**
 
@@ -71,6 +98,9 @@ git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/n
 ```powershell
 git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
 ```
+
+Bạn phải thêm dòng `require('livepreview').setup()` (Lua) hoặc `lua require('livepreview').setup()` (Vimscript) vào tệp cấu hình Neovim của bạn để kích hoạt plugin.
+</details>
 
 ## Tùy chỉnh
 
