@@ -113,9 +113,9 @@ function M.get_base_path(full_path, parent_path)
 		parent_path = parent_path .. "/"
 	end
 
-	local pattern = parent_path .. "(.*)"
-	local base_path = full_path:match(pattern)
-	return base_path or ''
+	if full_path:sub(1, #parent_path) == parent_path then
+		return full_path:sub(#parent_path + 1)
+	end
 end
 
 --- Join paths using the correct separator for the OS
