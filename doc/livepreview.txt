@@ -238,7 +238,23 @@ await_term_cmd({cmd})                     *livepreview.utils.await_term_cmd()*
     Return: ~
         (`table`) a table with fields code, stdout, stderr, signal
 
-get_parent_path                            *livepreview.utils.get_parent_path*
+                                           *livepreview.utils.get_base_path()*
+get_base_path({full_path}, {parent_path})
+    Extract base path from a file path Example: ```lua
+    get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua",
+    "/home/user/.config/nvim") >
+        will return "lua/livepreview/utils.lua"
+<
+
+    Parameters: ~
+      • {full_path}    (`string`)
+      • {parent_path}  (`string`)
+
+    Return: ~
+        (`string?`)
+
+                                         *livepreview.utils.get_parent_path()*
+get_parent_path({full_path}, {subpath})
     Get the parent path of a subpath
 
     Example: ```lua
