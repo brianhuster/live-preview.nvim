@@ -22,7 +22,6 @@ function M.supported_filetype(file_name)
 end
 
 --- Get the path where live-preview.nvim is installed
----
 function M.get_plugin_path()
 	local full_path = M.get_path_lua_file()
 	if not full_path then

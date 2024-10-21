@@ -56,7 +56,7 @@ function M.preview_file(filepath, port)
 end
 
 --- Setup live preview
---- @param options {commands: {start: string, stop: string}, port: number, browser: string}
+--- @param opts {commands: {start: string, stop: string}, port: number, browser: string}
 ---  	- commands: {start: string, stop: string} - commands to start and stop live preview
 ---  		(default: {start = "LivePreview", stop = "StopPreview"})
 ---  	- port: number - port to run the server on (default: 5500)
