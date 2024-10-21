@@ -16,17 +16,21 @@ preview_file({filepath}, {port})                  *livepreview.preview_file()*
       • {filepath}  (`string`) path to the file
       • {port}      (`number`) port to run the server on
 
-setup({opts})                                            *livepreview.setup()*
+setup({options})                                         *livepreview.setup()*
     Setup live preview
 
     Parameters: ~
-      • {opts}  (`{commands: {start: string, stop: string}, port: number, browser: string}`, default: {start = "LivePreview", stop = "StopPreview"})
-                • commands: {start: string, stop: string} - commands to start
-                  and stop live preview
-                • port: number - port to run the server on (default: 5500)
-                • browser: string - browser to open the preview in (default:
-                  "default"). The "default" value will open the preview in
-                  system default browser.
+      • {options}  (`{commands: {start: string, stop: string}, port: number, browser: string}`, default: {start = "LivePreview", stop = "StopPreview"})
+                   • commands: {start: string, stop: string} - commands to
+                     start and stop live preview
+                   • port: number - port to run the server on (default: 5500)
+                   • browser: string - browser to open the preview in
+                     (default: "default"). The "default" value will open the
+                     preview in system default browser.
+                   • dynamic_root: boolean - whether to use dynamic root for
+                     the server (default: false). Using dynamic root will
+                     always make the server root the parent directory of the
+                     file being previewed.
 
 stop_preview()                                    *livepreview.stop_preview()*
     Stop live preview
@@ -43,12 +47,12 @@ Server class for live-preview.nvim To call this class, do >lua
 *Server*
 
     Fields: ~
-      • {new}        (`fun(self: Server, webroot: string)`) Constructor
+      • {new}        (`fun(self: Server, webroot: string?)`) Constructor
       • {routes}     (`fun(self: Server, path: string): string`) Handle routes
       • {watch_dir}  (`fun(self: Server, func: function)`) Watch a directory
                      for changes and send a message "reload" to a WebSocket
                      client
-      • {start}      (`fun(self: Server, ip: string, port: number, func: function)`)
+      • {start}      (`fun(self: Server, ip: string, port: number, func: function?)`)
                      Start the server
       • {stop}       (`fun(self: Server)`) Stop the server
 
@@ -57,7 +61,7 @@ Server:new({webroot})                        *livepreview.server.Server:new()*
     Constructor
 
     Parameters: ~
-      • {webroot}  (`string`) path to the webroot
+      • {webroot}  (`string?`) path to the webroot
 
 Server:routes({path})                     *livepreview.server.Server:routes()*
     Handle routes
@@ -74,7 +78,8 @@ Server:start({ip}, {port}, {func})         *livepreview.server.Server:start()*
     Parameters: ~
       • {ip}    (`string`) IP address to bind to
       • {port}  (`number`) port to bind to
-      • {func}  (`function`)
+      • {func}  (`function?`) Function to call when there is a change in the
+                watched directory
                 • client uv_tcp_t: The uv_tcp client passed to func
 
 Server:stop()                               *livepreview.server.Server:stop()*
@@ -257,6 +262,18 @@ get_path_lua_file()                    *livepreview.utils.get_path_lua_file()*
 
 get_plugin_path()                        *livepreview.utils.get_plugin_path()*
     Get the path where live-preview.nvim is installed
+
+joinpath({...})                                 *livepreview.utils.joinpath()*
+    Join paths using the correct separator for the OS
+
+    Parameters: ~
+      • {...}  (`string`) paths to join
+
+    Return: ~
+        (`string`) the joined path example: ```lua joinpath("home", "user",
+        "file.txt") -- returns "home/user/file.txt" joinpath("home", "user",
+        "folder", "../file.txt") -- returns "home/user/file.txt" >
+<
 
 kill_port({port})                              *livepreview.utils.kill_port()*
     Kill a process which is not Neovim running on a port
