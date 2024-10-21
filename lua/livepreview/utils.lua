@@ -4,7 +4,6 @@
 local M = {}
 
 local uv = vim.uv
-
 if not bit then
 	bit = require("bit")
 end
@@ -99,6 +98,33 @@ M.get_parent_path = function(full_path, subpath)
 	local pattern = "(.*)" .. escaped_subpath
 	local parent_path = full_path:match(pattern)
 	return parent_path
+end
+
+
+--- Join paths using the correct separator for the OS
+--- @param ... string: paths to join
+--- @return string: the joined path
+--- example: ```lua
+--- joinpath("home", "user", "file.txt") -- returns "home/user/file.txt"
+--- joinpath("home", "user", "folder", "../file.txt") -- returns "home/user/file.txt"
+--- ```
+function M.joinpath(...)
+	local parts = { ... }
+	local stack = {}
+
+	for _, part in ipairs(parts) do
+		for segment in string.gmatch(part, "[^/\\]+") do
+			if segment == ".." then
+				if #stack > 0 then
+					table.remove(stack)
+				end
+			elseif segment ~= "." then
+				table.insert(stack, segment)
+			end
+		end
+	end
+
+	return vim.fs.joinpath(unpack(stack))
 end
 
 --- Execute a shell commands

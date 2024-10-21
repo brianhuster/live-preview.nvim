@@ -15,16 +15,7 @@ M.health = require("livepreview.health")
 M.template = require("livepreview.template")
 
 local server
-
-local default_options = {
-	commands = {
-		start = "LivePreview",
-		stop = "StopPreview",
-	},
-	port = 5500,
-	browser = "default",
-}
-
+local config
 
 local function find_buf() -- find html/md buffer
 	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -51,7 +42,7 @@ function M.preview_file(filepath, port)
 	if server then
 		server:stop()
 	end
-	server = M.server.Server:new(vim.fs.dirname(filepath))
+	server = M.server.Server:new(vim.fs.dirname(filepath) and config.dynamic_root or nil)
 	vim.wait(50, function()
 		server:start("127.0.0.1", port, function(client)
 			if M.utils.supported_filetype(filepath) == 'html' then
@@ -61,19 +52,30 @@ function M.preview_file(filepath, port)
 				M.server.websocket.send_json(client, { type = "update", content = content })
 			end
 		end)
-	end, 99)
+	end, 98)
 end
 
 --- Setup live preview
---- @param opts {commands: {start: string, stop: string}, port: number, browser: string}
+--- @param options {commands: {start: string, stop: string}, port: number, browser: string}
 ---  	- commands: {start: string, stop: string} - commands to start and stop live preview
 ---  		(default: {start = "LivePreview", stop = "StopPreview"})
 ---  	- port: number - port to run the server on (default: 5500)
 ---  	- browser: string - browser to open the preview in (default: "default"). The "default" value will open the preview in system default browser.
+---  	- dynamic_root: boolean - whether to use dynamic root for the server (default: false). Using dynamic root will always make the server root the parent directory of the file being previewed.
 function M.setup(opts)
-	opts = vim.tbl_deep_extend("force", default_options, opts or {})
+	local default_options = {
+		commands = {
+			start = "LivePreview",
+			stop = "StopPreview",
+		},
+		port = 5500,
+		browser = "default",
+		dynamic_root = false,
+	}
 
-	vim.api.nvim_create_user_command(opts.commands.start, function()
+	config = vim.tbl_deep_extend("force", default_options, opts or {})
+
+	vim.api.nvim_create_user_command(config.commands.start, function()
 		local filepath = vim.fn.expand('%:p')
 		if not M.utils.supported_filetype(filepath) then
 			filepath = find_buf()
@@ -85,16 +87,16 @@ function M.setup(opts)
 		M.utils.open_browser(
 			string.format(
 				"http://localhost:%d/%s",
-				opts.port,
-				vim.fs.basename(filepath)
+				config.port,
+				vim.fs.basename(filepath) and config.dynamic_root or M.utils.get_parent_path(filepath, vim.uv.cwd())
 			),
-			opts.browser
+			config.browser
 		)
 
-		M.preview_file(filepath, opts.port)
+		M.preview_file(filepath, config.port)
 	end, {})
 
-	vim.api.nvim_create_user_command(opts.commands.stop, function()
+	vim.api.nvim_create_user_command(config.commands.stop, function()
 		M.stop_preview()
 		print("Live preview stopped")
 	end, {})
