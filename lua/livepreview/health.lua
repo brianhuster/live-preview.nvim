@@ -83,7 +83,7 @@ end
 --- Run health check for Live Preview. This can also be run using `:checkhealth livepreview`
 --- @see https://neovim.io/doc/user/health.html
 function M.check()
-	vim.health.start("Live Preview Health Check")
+	vim.health.start("Check compatibility")
 	if not M.is_compatible(nvim_ver, nvim_ver_range) then
 		vim.health.error(
 			"Live Preview requires Neovim " .. nvim_ver_range .. ", but you are using " .. nvim_ver
@@ -92,14 +92,13 @@ function M.check()
 		vim.health.ok("Neovim is compatible with Live Preview")
 	end
 
-	vim.health.info("\n")
 	if (require("livepreview").config.port) then
-		vim.health.info("Checkhealth server and process")
+		vim.health.start("Checkhealth server and process")
 		vim.health.info("This Nvim process's PID is " .. vim.uv.os_getpid())
 		checkhealth_port(require("livepreview").config.port)
 	end
 
-	vim.health.info("\n")
+	vim.health.start("Check commands")
 	vim.health.info(
 		"For Live Preview to open default browser, at least one of these commands must be executable. If you have specified a custom browser in your configuration, you can ignore this message.")
 	local open_cmds = { "xdg-open", "open", "start", "rundll32", "wslview" }
