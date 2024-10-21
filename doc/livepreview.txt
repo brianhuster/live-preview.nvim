@@ -251,7 +251,7 @@ get_base_path({full_path}, {parent_path})
       • {parent_path}  (`string`)
 
     Return: ~
-        (`string?`)
+        (`string`)
 
                                          *livepreview.utils.get_parent_path()*
 get_parent_path({full_path}, {subpath})
