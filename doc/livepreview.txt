@@ -27,6 +27,10 @@ setup({opts})                                            *livepreview.setup()*
                 • browser: string - browser to open the preview in (default:
                   "default"). The "default" value will open the preview in
                   system default browser.
+                • dynamic_root: boolean - whether to use dynamic root for the
+                  server (default: false). Using dynamic root will always make
+                  the server root the parent directory of the file being
+                  previewed.
 
 stop_preview()                                    *livepreview.stop_preview()*
     Stop live preview
@@ -43,12 +47,12 @@ Server class for live-preview.nvim To call this class, do >lua
 *Server*
 
     Fields: ~
-      • {new}        (`fun(self: Server, webroot: string)`) Constructor
+      • {new}        (`fun(self: Server, webroot: string?)`) Constructor
       • {routes}     (`fun(self: Server, path: string): string`) Handle routes
       • {watch_dir}  (`fun(self: Server, func: function)`) Watch a directory
                      for changes and send a message "reload" to a WebSocket
                      client
-      • {start}      (`fun(self: Server, ip: string, port: number, func: function)`)
+      • {start}      (`fun(self: Server, ip: string, port: number, func: function?)`)
                      Start the server
       • {stop}       (`fun(self: Server)`) Stop the server
 
@@ -57,7 +61,7 @@ Server:new({webroot})                        *livepreview.server.Server:new()*
     Constructor
 
     Parameters: ~
-      • {webroot}  (`string`) path to the webroot
+      • {webroot}  (`string?`) path to the webroot
 
 Server:routes({path})                     *livepreview.server.Server:routes()*
     Handle routes
@@ -74,7 +78,8 @@ Server:start({ip}, {port}, {func})         *livepreview.server.Server:start()*
     Parameters: ~
       • {ip}    (`string`) IP address to bind to
       • {port}  (`number`) port to bind to
-      • {func}  (`function`)
+      • {func}  (`function?`) Function to call when there is a change in the
+                watched directory
                 • client uv_tcp_t: The uv_tcp client passed to func
 
 Server:stop()                               *livepreview.server.Server:stop()*
@@ -233,7 +238,23 @@ await_term_cmd({cmd})                     *livepreview.utils.await_term_cmd()*
     Return: ~
         (`table`) a table with fields code, stdout, stderr, signal
 
-get_parent_path                            *livepreview.utils.get_parent_path*
+                                           *livepreview.utils.get_base_path()*
+get_base_path({full_path}, {parent_path})
+    Extract base path from a file path Example: ```lua
+    get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua",
+    "/home/user/.config/nvim/") >
+        will return "lua/livepreview/utils.lua"
+<
+
+    Parameters: ~
+      • {full_path}    (`string`)
+      • {parent_path}  (`string`)
+
+    Return: ~
+        (`string`)
+
+                                         *livepreview.utils.get_parent_path()*
+get_parent_path({full_path}, {subpath})
     Get the parent path of a subpath
 
     Example: ```lua
@@ -257,6 +278,18 @@ get_path_lua_file()                    *livepreview.utils.get_path_lua_file()*
 
 get_plugin_path()                        *livepreview.utils.get_plugin_path()*
     Get the path where live-preview.nvim is installed
+
+joinpath({...})                                 *livepreview.utils.joinpath()*
+    Join paths using the correct separator for the OS
+
+    Parameters: ~
+      • {...}  (`string`) paths to join
+
+    Return: ~
+        (`string`) the joined path example: ```lua joinpath("home", "user",
+        "file.txt") -- returns "home/user/file.txt" joinpath("home", "user",
+        "folder", "../file.txt") -- returns "home/user/file.txt" >
+<
 
 kill_port({port})                              *livepreview.utils.kill_port()*
     Kill a process which is not Neovim running on a port
@@ -334,11 +367,8 @@ the commands to open browser are available.
 
 
 check()                                           *livepreview.health.check()*
-    Run health check for Live Preview. This can also be run using
+    Run checkhealth for Live Preview. This can also be called using
     `:checkhealth livepreview`
-
-    See also: ~
-      • https://neovim.io/doc/user/health.html
 
 is_compatible({ver}, {range})             *livepreview.health.is_compatible()*
     Check if the version is compatible with the range

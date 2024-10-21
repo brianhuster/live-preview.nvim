@@ -54,10 +54,10 @@ vim.api.nvim_create_autocmd("WinScrolled", {
 })
 
 --- Constructor
---- @param webroot string: path to the webroot
+--- @param webroot string|nil: path to the webroot
 function Server:new(webroot)
 	self.server = uv.new_tcp()
-	self.webroot = webroot or "."
+	self.webroot = webroot or uv.cwd()
 	return self
 end
 
@@ -94,7 +94,7 @@ end
 --- Start the server
 --- @param ip string: IP address to bind to
 --- @param port number: port to bind to
---- @param func function({client: uv_tcp_t})|nil # Function to call when there is a change in the watched directory
+--- @param func function|nil: Function to call when there is a change in the watched directory
 --- 	- client uv_tcp_t: The uv_tcp client passed to func
 function Server:start(ip, port, func)
 	self.server:bind(ip, port)
@@ -131,6 +131,7 @@ function Server:start(ip, port, func)
 	end)
 
 	print("Server listening on port " .. port)
+	print("Webroot: " .. self.webroot)
 	uv.run()
 end
 

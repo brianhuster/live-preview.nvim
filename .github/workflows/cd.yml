@@ -25,7 +25,7 @@ jobs:
     - name: Read release notes
       id: read_release_notes
       run: |
-        RELEASE_NOTES=$(cat RELEASE.md)
+        RELEASE_NOTES=$(sed 's/`/\\`/g' RELEASE.md)
         echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
         echo "$RELEASE_NOTES" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV

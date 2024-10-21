@@ -4,7 +4,6 @@
 local M = {}
 
 local uv = vim.uv
-
 if not bit then
 	bit = require("bit")
 end
@@ -23,7 +22,6 @@ function M.supported_filetype(file_name)
 end
 
 --- Get the path where live-preview.nvim is installed
----
 function M.get_plugin_path()
 	local full_path = M.get_path_lua_file()
 	if not full_path then
@@ -94,11 +92,55 @@ end
 --- @param full_path string
 --- @param subpath string
 --- @return string | nil
-M.get_parent_path = function(full_path, subpath)
+function M.get_parent_path(full_path, subpath)
 	local escaped_subpath = subpath:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
 	local pattern = "(.*)" .. escaped_subpath
 	local parent_path = full_path:match(pattern)
 	return parent_path
+end
+
+--- Extract base path from a file path
+--- Example: ```lua
+--- get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim/")
+--- ```
+--- will return "lua/livepreview/utils.lua"
+--- @param full_path string
+--- @param parent_path string
+--- @return string
+function M.get_base_path(full_path, parent_path)
+	if parent_path:sub(-1) ~= "/" then
+		parent_path = parent_path .. "/"
+	end
+
+	if full_path:sub(1, #parent_path) == parent_path then
+		return full_path:sub(#parent_path + 1)
+	end
+end
+
+--- Join paths using the correct separator for the OS
+--- @param ... string: paths to join
+--- @return string: the joined path
+--- example: ```lua
+--- joinpath("home", "user", "file.txt") -- returns "home/user/file.txt"
+--- joinpath("home", "user", "folder", "../file.txt") -- returns "home/user/file.txt"
+--- ```
+function M.joinpath(...)
+	local parts = { ... }
+	local stack = {}
+
+	for _, part in ipairs(parts) do
+		for segment in string.gmatch(part, "[^/\\]+") do
+			if segment == ".." then
+				if #stack > 0 then
+					table.remove(stack)
+				end
+			elseif segment ~= "." then
+				table.insert(stack, segment)
+			end
+		end
+	end
+
+	return vim.fs.joinpath(unpack(stack))
 end
 
 --- Execute a shell commands
@@ -272,6 +314,7 @@ function M.open_browser(path, browser)
 		M.term_cmd(browser .. " " .. path)
 	end
 end
+
 
 --- Kill a process which is not Neovim running on a port
 --- @param port number
