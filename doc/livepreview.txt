@@ -367,11 +367,8 @@ the commands to open browser are available.
 
 
 check()                                           *livepreview.health.check()*
-    Run health check for Live Preview. This can also be run using
+    Run checkhealth for Live Preview. This can also be called using
     `:checkhealth livepreview`
-
-    See also: ~
-      • https://neovim.io/doc/user/health.html
 
 is_compatible({ver}, {range})             *livepreview.health.is_compatible()*
     Check if the version is compatible with the range
