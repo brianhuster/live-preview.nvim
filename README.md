@@ -25,6 +25,7 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 ## Requirements
 
 - Neovim >=0.10.0
+
     (recommended: >=0.10.2)
 - A modern web browser
 
