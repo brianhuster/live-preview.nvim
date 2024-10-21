@@ -22,14 +22,6 @@ function M.is_compatible(ver, range)
 	return requirement:has(ver)
 end
 
-local function checkhealth_command(cmd)
-	if vim.fn.executable(cmd) then
-		vim.health.ok(cmd)
-	else
-		vim.health.warn(cmd .. " not available")
-	end
-end
-
 local function checkhealth_port(port)
 	local cmd
 	if vim.uv.os_uname().version:match("Windows") then
@@ -71,7 +63,7 @@ local function checkhealth_port(port)
 			vim.health.ok("Server is healthy on port " .. port)
 			local serverObj = require('livepreview').serverObj
 			if serverObj and serverObj.webroot then
-				vim.health.info("Server root: " .. serverObj.webroot)
+				vim.health.ok("Server root: " .. serverObj.webroot)
 			end
 		else
 			local process_name = getProcessName(pid)
@@ -100,14 +92,6 @@ function M.check()
 		vim.health.start("Checkhealth server and process")
 		vim.health.info("This Nvim process's PID is " .. vim.uv.os_getpid())
 		checkhealth_port(require("livepreview").config.port)
-	end
-
-	vim.health.start("Check commands")
-	vim.health.info(
-		"For Live Preview to open default browser, at least one of these commands must be executable. If you have specified a custom browser in your configuration, you can ignore this message.")
-	local open_cmds = { "xdg-open", "open", "start", "rundll32", "wslview" }
-	for _, cmd in ipairs(open_cmds) do
-		checkhealth_command(cmd)
 	end
 end
 
