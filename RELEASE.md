@@ -7,5 +7,6 @@
 - Checkhealth : 
     - **Server and process** : check if the server is running, and its root directory. It can also check if the port is being used by another process and tell you its PID and process name.
     - **User config** : You can check your live-preview.nvim config right in `checkhealth`, without going to your Nvim config file
+- Add support for embed html in markdown
 
 **⚠️ Important Notice:** You should clear the cache of the browser after updating to ensure the plugin works correctly. 
