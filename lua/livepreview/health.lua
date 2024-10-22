@@ -82,10 +82,10 @@ function M.check()
 	vim.health.start("Check compatibility")
 	if not M.is_compatible(nvim_ver, nvim_ver_range) then
 		vim.health.error(
-			"Live Preview requires Neovim " .. nvim_ver_range .. ", but you are using " .. nvim_ver
+			"Live Preview requires Nvim " .. nvim_ver_range .. ", but you are using " .. nvim_ver
 		)
 	else
-		vim.health.ok("Neovim is compatible with Live Preview")
+		vim.health.ok("Nvim " .. nvim_ver .. " is compatible with Live Preview")
 	end
 
 	if (require("livepreview").config.port) then
