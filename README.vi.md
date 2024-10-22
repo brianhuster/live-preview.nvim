@@ -1,6 +1,6 @@
 # live-preview.nvim
 
-Một plugin Neovim cho phép bạn xem kết quả tệp [Markdown](https://vi.wikipedia.org/wiki/Markdown), [HTML](https://vi.wikipedia.org/wiki/HTML) (nhúng kèm CSS, JS) và [AsciiDoc](https://asciidoc.org/) trong trình duyệt web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại trừ chính LuaJIT được tích hợp sẵn trong Neovim.
+Một plugin Neovim cho phép bạn xem kết quả tệp [Markdown](https://vi.wikipedia.org/wiki/Markdown), [HTML](https://vi.wikipedia.org/wiki/HTML) (nhúng kèm CSS, JS) và [AsciiDoc](https://asciidoc.org/) trong trình duyệt web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại trừ chính Lua được tích hợp sẵn trong Neovim.
 
 ## Tính năng
 Hỗ trợ các tệp Markdown, HTML (kèm CSS, JS) và AsciiDoc
@@ -144,7 +144,7 @@ Gõ lệnh `:help livepreview` để xem bằng tiếng Anh.
 
 Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần cải thiện. Nếu bạn muốn đóng góp cho dự án này, hãy mở một issue hoặc pull request. 
 
-## TODO
+## Mục tiêu
 
 - [x] Hỗ trợ công thức toán bằng Katex
 - [x] Hỗ trợ biểu đồ Mermaid trong Markdown
@@ -152,14 +152,14 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 - [ ] Tự động cuộn trang web khi bạn cuộn trong tệp Markdown và AsciiDoc trong Neovim
 - [ ] Hỗ trợ biểu đồ trong AsciiDoc
 
-## Non-goals
+## Không phải mục tiêu
 
-Dưới đây là một số tính năng không nằm trong roadmap của live-preview.nvim, tuy nhiên chúng tôi luôn hoan nghênh pull request
+Dưới đây là một số tính năng không nằm trong kế hoạch của live-preview.nvim, tuy nhiên chúng tôi luôn hoan nghênh pull request
 
 - Thêm file css và js vào config
 
 ## Cảm ơn
-* [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-máy chủ) vì ý tưởng
+* [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) vì ý tưởng
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) vì hàm sha1
 * [sindresorhus/github-markdown-css](https://github.com/sindresorhus/github-markdown-css) CSS cho tệp Markdown
 * [markdown-it/markdown-it](https://github.com/markdown-it/markdown-it) cho việc chuyển đổi tệp Markdown thành HTML
