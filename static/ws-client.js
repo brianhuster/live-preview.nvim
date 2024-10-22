@@ -24,20 +24,28 @@ async function connectWebSocket() {
 	socket.onmessage = (event) => {
 		const message = JSON.parse(event.data);
 		console.log(message);
-		console.log(message.type === "scroll");
 
 		if (message.type === "reload") {
 			console.log("Reload message received");
 			window.location.reload();
-		} else if (message.type = "update") {
+		} else if (message.type === "update") {
 			content = message.content;
-			if (render) {
+
+			// Check if the render function is defined before calling it
+			if (typeof render !== "undefined") {
 				render(content);
-				renderKatex();
-				renderMermaid();
+				if (typeof renderKatex !== "undefined") {
+					renderKatex();
+				}
+				if (typeof renderMermaid !== "undefined") {
+					renderMermaid();
+				}
+			} else {
+				console.warn("Render function is not defined.");
 			}
-		} else if (message.type = "scroll") {
+		} else if (message.type === "scroll") {
 			console.log("Scroll message received");
+			window.scrollTo(message.cursor[0], message.cursor[1]);
 		}
 	};
 
@@ -59,4 +67,3 @@ window.onload = () => {
 		}
 	}, 1000);
 };
-
