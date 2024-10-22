@@ -1,0 +1,37 @@
+name: Auto Close Inactive Issues
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Chạy mỗi ngày vào giữa đêm
+
+jobs:
+  close-inactive-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Close inactive issues
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const { issues } = await github.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+            });
+
+            const now = new Date();
+            const inactivePeriod = 7 * 24 * 60 * 60 * 1000; // 7 ngày tính bằng milliseconds
+
+            for (const issue of issues) {
+              const lastUpdated = new Date(issue.updated_at);
+              if (now - lastUpdated > inactivePeriod && !issue.comments) {
+                await github.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  state: 'closed'
+                });
+              }
+            }
