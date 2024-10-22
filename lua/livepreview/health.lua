@@ -77,6 +77,11 @@ local function checkhealth_port(port)
 end
 
 
+local function check_config()
+	vim.health.info(vim.inspect(require("livepreview").config))
+end
+
+
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()
 	vim.health.start("Check compatibility")
@@ -93,6 +98,10 @@ function M.check()
 		vim.health.info("This Nvim process's PID is " .. vim.uv.os_getpid())
 		checkhealth_port(require("livepreview").config.port)
 	end
+
+	vim.health.start("Check your live-preview.nvim config")
+	check_config()
 end
 
 return M
+

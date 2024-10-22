@@ -8,7 +8,9 @@
 
 local M = {}
 
+---Your config is saved as a table in this variable
 M.config = {}
+
 M.server = require("livepreview.server")
 M.utils = require("livepreview.utils")
 M.spec = require("livepreview.spec")
