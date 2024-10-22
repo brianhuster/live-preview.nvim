@@ -1,4 +1,4 @@
-const wsUrl = getWebSocketUrl();tt
+const wsUrl = getWebSocketUrl();
 let socket = new WebSocket(wsUrl);
 let connected = true;
 
