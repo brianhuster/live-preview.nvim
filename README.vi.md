@@ -153,6 +153,12 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 - [ ] Tự động cuộn trang web khi bạn cuộn trong tệp Markdown và AsciiDoc trong Neovim
 - [ ] Hỗ trợ biểu đồ trong AsciiDoc
 
+## Non-goals
+
+Dưới đây là một số tính năng không nằm trong roadmap của live-preview.nvim, tuy nhiên chúng tôi luôn hoan nghênh pull request
+
+- Thêm file css và js vào config
+
 ## Cảm ơn
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-máy chủ) vì ý tưởng
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) vì hàm sha1

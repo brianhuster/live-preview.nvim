@@ -152,6 +152,11 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 - [ ] Autoscroll in the browser as you scroll in the Markdown and AsciiDoc files in Neovim
 - [ ] Support for diagrams in AsciiDoc
 
+## Non goals
+
+These are not in roadmap of live-preview.nvim right now, but pull requests are welcome
+- Allow users to add custom css and js files in configuration
+
 ## Acknowledgements
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) and [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) for the idea inspiration
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) for the sha1 function reference
