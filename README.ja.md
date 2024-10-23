@@ -1,6 +1,6 @@
 # live-preview.nvim
 
-Neovimのプラグインで、[Markdown](https://ja.wikipedia.org/wiki/Markdown)、[HTML](https://ja.wikipedia.org/wiki/HTML)（CSS、JSを含む）、および[AsciiDoc](https://asciidoc.org/)ファイルの結果をブラウザでライブプレビューでき、ファイルに変更を加える度にブラウザを再読み込みする必要がありません。バックエンドは完全にLuaとNeovimの組み込み関数で書かれているためですので、外部の依存関係やNodeJS、Pythonのようなランタイムは必要ありません。
+Neovimのプラグインで、[Markdown](https://ja.wikipedia.org/wiki/Markdown)、[HTML](https://ja.wikipedia.org/wiki/HTML)（CSS、JSを含む）、及び[AsciiDoc](https://asciidoc.org/)ファイルの結果をブラウザでライブプレビューでき、ファイルに変更を加える度にブラウザを再読み込みする必要がありません。バックエンドは完全にLuaとNeovimの組み込み関数で書かれている為ですので、外部の依存関係やNodeJS、Pythonのようなランタイムは必要ありません。
 
 ## 機能
 Markdown、HTML（CSS、JSを含む）、及びAsciiDocファイルのサポート
