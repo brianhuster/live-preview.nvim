@@ -8,11 +8,9 @@
 
 local M = {}
 
----Your config is saved as a table in this variable
-M.config = {}
-
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
+local config = require('livepreview.config').config
 
 M.serverObj = nil
 
@@ -75,7 +73,7 @@ function M.setup(opts)
 		sync_scroll = false,
 	}
 
-	M.config = vim.tbl_deep_extend("force", default_options, opts or {})
+	config = vim.tbl_deep_extend("force", default_options, opts or {})
 
 	vim.api.nvim_create_user_command(M.config.commands.start, function()
 		local filepath = vim.fn.expand('%:p')
