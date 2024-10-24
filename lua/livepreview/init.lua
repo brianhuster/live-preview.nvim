@@ -87,7 +87,7 @@ function M.setup(opts)
 		utils.open_browser(
 			string.format(
 				"http://localhost:%d/%s",
-				M.config.port,
+				config.port,
 				vim.fs.basename(filepath) and config.dynamic_root or utils.get_base_path(filepath, vim.uv.cwd())
 			),
 			config.browser
