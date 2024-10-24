@@ -289,8 +289,6 @@ joinpath({...})                                 *livepreview.utils.joinpath()*
       • {...}  (`string`) paths to join
 
     Return: ~
-        (`string`) the joined path example: ```lua joinpath("home", "user",
-        "file.txt") -- returns "home/user/file.txt" joinpath("home", "user",
         "folder", "../file.txt") -- returns "home/user/file.txt" >
 <
 
