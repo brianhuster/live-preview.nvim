@@ -13,9 +13,6 @@ M.config = {}
 
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
-local spec = require("livepreview.spec")
-local health = require("livepreview.health")
-local template = require("livepreview.template")
 
 M.serverObj = nil
 
