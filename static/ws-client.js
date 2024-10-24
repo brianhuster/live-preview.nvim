@@ -45,7 +45,6 @@ async function connectWebSocket() {
 			}
 		} else if (message.type === "scroll") {
 			console.log("Scroll message received");
-			window.scrollTo(message.cursor[0], message.cursor[1]);
 		}
 	};
 
