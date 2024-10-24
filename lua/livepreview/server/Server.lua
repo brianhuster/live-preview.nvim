@@ -42,7 +42,7 @@ local function send_scroll(client)
 	need_scroll = false
 end
 
-if config.scroll_sync then
+if config.config.scroll_sync then
 	vim.api.nvim_create_autocmd("WinScrolled", {
 		callback = function()
 			need_scroll = true

@@ -10,6 +10,7 @@ local await_term_cmd = require("livepreview.utils").await_term_cmd
 local nvim_ver_range = spec().engines.nvim
 local nvim_ver_table = vim.version()
 local nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
+local config = requrie("livepreview.config").config
 
 local M = {}
 
@@ -78,7 +79,7 @@ end
 
 
 local function check_config()
-	vim.health.info(vim.inspect(require("livepreview.config")))
+	vim.health.info(vim.inspect(config))
 end
 
 
@@ -93,10 +94,10 @@ function M.check()
 		vim.health.ok("Nvim " .. nvim_ver .. " is compatible with Live Preview")
 	end
 
-	if (require("livepreview.config").port) then
+	if (require(config.port)) then
 		vim.health.start("Checkhealth server and process")
 		vim.health.info("This Nvim process's PID is " .. vim.uv.os_getpid())
-		checkhealth_port(require("livepreview").config.port)
+		checkhealth_port(config.port)
 	end
 
 	vim.health.start("Check your live-preview.nvim config")

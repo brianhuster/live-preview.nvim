@@ -39,7 +39,7 @@ function M.preview_file(filepath, port)
 	if M.serverObj then
 		M.serverObj:stop()
 	end
-	M.serverObj = server.Server:new(vim.fs.dirname(filepath) and config.dynamic_root or nil)
+	M.serverObj = server.Server:new(vim.fs.dirname(filepath) and config.config.dynamic_root or nil)
 	vim.wait(50, function()
 		M.serverObj:start("127.0.0.1", port, function(client)
 			if utils.supported_filetype(filepath) == 'html' then
@@ -73,9 +73,9 @@ function M.setup(opts)
 		sync_scroll = false,
 	}
 
-	config = vim.tbl_deep_extend("force", default_options, opts or {})
+	config.config = vim.tbl_deep_extend("force", default_options, opts or {})
 
-	vim.api.nvim_create_user_command(config.commands.start, function()
+	vim.api.nvim_create_user_command(config.config.commands.start, function()
 		local filepath = vim.fn.expand('%:p')
 		if not utils.supported_filetype(filepath) then
 			filepath = find_buf()
@@ -87,16 +87,16 @@ function M.setup(opts)
 		utils.open_browser(
 			string.format(
 				"http://localhost:%d/%s",
-				config.port,
-				vim.fs.basename(filepath) and config.dynamic_root or utils.get_base_path(filepath, vim.uv.cwd())
+				config.config.port,
+				vim.fs.basename(filepath) and config.config.dynamic_root or utils.get_base_path(filepath, vim.uv.cwd())
 			),
-			config.browser
+			config.config.browser
 		)
 
-		M.preview_file(filepath, config.port)
+		M.preview_file(filepath, config.config.port)
 	end, {})
 
-	vim.api.nvim_create_user_command(config.commands.stop, function()
+	vim.api.nvim_create_user_command(config.config.commands.stop, function()
 		M.stop_preview()
 		print("Live preview stopped")
 	end, {})
