@@ -1,5 +1,9 @@
 ---@brief
 --- Utility functions for live-preview.nvim
+--- To require this module, do
+--- ```lua
+--- local utils = require('livepreview.utils')
+--- ```
 
 local M = {}
 
