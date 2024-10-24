@@ -9,9 +9,6 @@ To work with API from this plugin, require it in your Lua code: >lua
 <
 
 
-config                                                    *livepreview.config*
-    Your config is saved as a table in this variable
-
 preview_file({filepath}, {port})                  *livepreview.preview_file()*
     Start live preview
 
