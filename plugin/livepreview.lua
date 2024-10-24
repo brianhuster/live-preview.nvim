@@ -9,9 +9,12 @@ if not is_compatible(nvim_ver, nvim_ver_range) then
 end
 
 package.loaded["live-preview"] = require("livepreview")
+
 vim.filetype.add({
 	pattern = {
 		[".*/live%-preview%.nvim/doc/.+%.txt"] = "help",
 		[".*/live%-preview%.nvim/.*template.lua"] = "luatemplate"
 	},
 })
+
+vim.o.backupcopy = "yes"
