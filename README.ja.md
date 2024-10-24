@@ -167,6 +167,7 @@ let g:livepreview_config = {
 * AsciiDocからHTMLへの変換を行う [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js)
 * 数式を表示するための [KaTeX](https://github.com/KaTeX/KaTeX)
 * 図表を表示するための [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid)
+* [digitalmoksha/markdown-it-inject-linenumbers](https://github.com/digitalmoksha/markdown-it-inject-linenumbers) : HTML出力に行番号を挿入するためのmarkdown-itプラグイン
 
 ### サポート
 

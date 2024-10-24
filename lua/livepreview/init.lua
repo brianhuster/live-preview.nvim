@@ -64,6 +64,7 @@ end
 ---  	- port: number - port to run the server on (default: 5500)
 ---  	- browser: string - browser to open the preview in (default: "default"). The "default" value will open the preview in system default browser.
 ---  	- dynamic_root: boolean - whether to use dynamic root for the server (default: false). Using dynamic root will always make the server root the parent directory of the file being previewed.
+---  	- sync_scroll: boolean - whether to sync scroll between the preview and the file (default: false). This is experimental and may not work as expected.
 function M.setup(opts)
 	local default_options = {
 		commands = {
@@ -73,6 +74,7 @@ function M.setup(opts)
 		port = 5500,
 		browser = "default",
 		dynamic_root = false,
+		sync_scroll = false,
 	}
 
 	M.config = vim.tbl_deep_extend("force", default_options, opts or {})

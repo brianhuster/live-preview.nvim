@@ -166,6 +166,7 @@ Dưới đây là một số tính năng không nằm trong kế hoạch của l
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) cho việc chuyển đổi tệp AsciiDoc thành HTML
 * [KaTeX](https://github.com/KaTeX/KaTeX) cho hiển thị phương trình toán học
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) cho hiển thị biểu đồ
+* [digitalmoksha/markdown-it-inject-linenumbers](https://github.com/digitalmoksha/markdown-it-inject-linenumbers) : một plugin markdown-it để chèn số dòng vào đầu ra HTML
 
 
 ### Ủng hộ
