@@ -78,7 +78,7 @@ end
 
 
 local function check_config()
-	vim.health.info(vim.inspect(require("livepreview").config))
+	vim.health.info(vim.inspect(require("livepreview.config")))
 end
 
 

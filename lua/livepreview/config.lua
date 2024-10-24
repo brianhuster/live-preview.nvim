@@ -4,5 +4,4 @@
 ---local config = require('livepreview.config')
 ---```
 local M = {}
-M.config = {}
 return M
