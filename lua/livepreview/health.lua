@@ -10,7 +10,7 @@ local await_term_cmd = require("livepreview.utils").await_term_cmd
 local nvim_ver_range = spec().engines.nvim
 local nvim_ver_table = vim.version()
 local nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
-local config = requrie("livepreview.config").config
+local config = require("livepreview.config").config
 
 local M = {}
 
