@@ -1,7 +1,5 @@
 " Vim syntax file
 " Language: Lua with embedded HTML as [[string]]
-" Maintainer: Pham Binh An
-" Latest Revision: 2024-10-18
 
 if exists("b:current_syntax")
   finish
