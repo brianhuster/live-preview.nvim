@@ -34,6 +34,9 @@ setup({opts})                                            *livepreview.setup()*
                   server (default: false). Using dynamic root will always make
                   the server root the parent directory of the file being
                   previewed.
+                • sync_scroll: boolean - whether to sync scroll between the
+                  preview and the file (default: false). This is experimental
+                  and may not work as expected.
 
 stop_preview()                                    *livepreview.stop_preview()*
     Stop live preview
