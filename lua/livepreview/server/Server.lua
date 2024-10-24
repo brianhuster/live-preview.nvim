@@ -9,6 +9,7 @@ local handler = require("livepreview.server.handler")
 local get_plugin_path = require("livepreview.utils").get_plugin_path
 local websocket = require("livepreview.server.websocket")
 local supported_filetype = require("livepreview.utils").supported_filetype
+local config = require("livepreview").config
 
 ---@class Server
 local Server = {}
@@ -41,7 +42,7 @@ local function send_scroll(client)
 	need_scroll = false
 end
 
-if require("livepreview").config.scroll_sync then
+if config.scroll_sync then
 	vim.api.nvim_create_autocmd("WinScrolled", {
 		callback = function()
 			need_scroll = true
