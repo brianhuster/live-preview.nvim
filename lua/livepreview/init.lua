@@ -75,6 +75,9 @@ function M.setup(opts)
 
 	config.config = vim.tbl_deep_extend("force", default_options, opts or {})
 
+	vim.print(config.config)
+	vim.print(require('livepreview.config').config)
+
 	vim.api.nvim_create_user_command(config.config.commands.start, function()
 		local filepath = vim.fn.expand('%:p')
 		if not utils.supported_filetype(filepath) then
