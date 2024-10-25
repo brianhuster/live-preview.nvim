@@ -335,7 +335,7 @@ supported_filetype({file_name})
       • {file_name}  (`string`)
 
     Return: ~
-        (`filetype`) string | nil
+        (`filetype`) string
 
 term_cmd({cmd}, {callback})                     *livepreview.utils.term_cmd()*
     Execute a shell commands

@@ -96,13 +96,17 @@ end
 --- @param func function: function to call when a change is detected
 function Server:watch_dir(func)
 	local watcher = uv.new_fs_event()
-	watcher:start(self.webroot, {}, function(err, filename, event)
-		if err then
-			print("Watch error: " .. err)
-			return
+	watcher:start(
+		self.webroot,
+		{ recursive = true },
+		function(err, filename, event)
+			if err then
+				print("Watch error: " .. err)
+				return
+			end
+			func()
 		end
-		func()
-	end)
+	)
 end
 
 --- Start the server

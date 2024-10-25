@@ -153,7 +153,7 @@ let g:livepreview_config = {
 ## 目標
 
 - [x] Katexによる数式サポート
-- [x] MermaidによるMarkdownファイル内の図表サポート
+- [x] MermaidによるMarkdown及びAsciiDocファイル内の図表サポート
 - [x] Markdown及びAsciiDocファイル内のコードシンタックスハイライト
 - [x] MarkdownファイルをNeovim内でスクロールした際に、ウェブページも自動的にスクロール
 - [ ] AsciiDocファイル内の図表サポート

@@ -64,19 +64,20 @@ NOTE: Đây là một ghi chú quan trọng trong tài liệu.
 [source,python]
 ----
 def hello():
-    print("Hello, Asciidoc!")
+    print(3>2)
 ----
 
 == Kết luận
 
 Asciidoc là một công cụ mạnh mẽ và dễ sử dụng để tạo tài liệu có cấu trúc. Với các yếu tố linh hoạt như tiêu đề, danh sách, bảng, và mã nguồn, bạn có thể dễ dàng tạo ra một tài liệu dài và đầy đủ.
 
-[listing,python]
+[source,python]
 ----
-3>2
+def hello():
+	print("Hello, Asciidoc!")
 ----
 
-[listing]
+[source,mermaid]
 ----
 graph TD;
     A-->B;
