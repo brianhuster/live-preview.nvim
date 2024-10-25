@@ -100,11 +100,23 @@ function Server:watch_dir(func)
 			print("Watch error: " .. err)
 			return
 		end
+		if event == "rename" and not uv.fs_stat(filename) then
+			-- Handle the case where a directory is deleted
+			for i, handle in ipairs(self._watch_handles) do
+				if handle.path == filename then
+					handle:stop()
+					handle:close()
+					table.remove(self._watch_handles, i)
+					break
+				end
+			end
+		end
 		func()
 	end
 
 	local function watch(path)
 		local handle = uv.new_fs_event()
+		handle.path = path -- Store the path in the handle for easy reference
 		handle:start(path, { recursive = false }, on_change)
 		return handle
 	end
@@ -186,6 +198,7 @@ function Server:stop()
 			print("Server closed")
 		end)
 		self.server = nil
+		self._watch_handles = nil
 	end
 end
 
