@@ -43,7 +43,6 @@ M.md2html = function(md)
 	return html_template(md, stylesheet, script)
 end
 
-
 M.adoc2html = function(adoc)
 	local script = [[
 		<script defer src="/live-preview.nvim/static/asciidoc/asciidoctor.min.js"></script>
@@ -55,16 +54,13 @@ M.adoc2html = function(adoc)
 	return html_template(adoc, stylesheet, script)
 end
 
-
-
 M.toHTML = function(text, filetype)
-	if filetype == 'markdown' then
+	if filetype == "markdown" then
 		return M.md2html(text)
-	elseif filetype == 'asciidoc' then
+	elseif filetype == "asciidoc" then
 		return M.adoc2html(text)
 	end
 end
-
 
 M.handle_body = function(data)
 	local ws_script = "<script src='/live-preview.nvim/static/ws-client.js'></script>"

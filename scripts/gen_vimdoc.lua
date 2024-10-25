@@ -31,8 +31,8 @@
 ---   parameter is marked as [out].
 --- - Each function documentation is separated by a single line.
 
-local luacats_parser = require('scripts.luacats_parser')
-local util = require('scripts.text_utils')
+local luacats_parser = require("scripts.luacats_parser")
+local util = require("scripts.text_utils")
 
 local fmt = string.format
 
@@ -83,18 +83,18 @@ local function nvim_api_info()
 	if not nvim_api_info_ then
 		--- @type integer?, boolean?
 		local level, prerelease
-		for l in io.lines('CMakeLists.txt') do
+		for l in io.lines("CMakeLists.txt") do
 			--- @cast l string
 			if level and prerelease then
 				break
 			end
-			local m1 = l:match('^set%(NVIM_API_LEVEL%s+(%d+)%)')
+			local m1 = l:match("^set%(NVIM_API_LEVEL%s+(%d+)%)")
 			if m1 then
 				level = tonumber(m1) --[[@as integer]]
 			end
-			local m2 = l:match('^set%(NVIM_API_PRERELEASE%s+(%w+)%)')
+			local m2 = l:match("^set%(NVIM_API_PRERELEASE%s+(%w+)%)")
 			if m2 then
-				prerelease = m2 == 'true'
+				prerelease = m2 == "true"
 			end
 		end
 		nvim_api_info_ = { level = level, prerelease = prerelease }
@@ -106,15 +106,15 @@ end
 --- @param fun nvim.luacats.parser.fun
 --- @return string
 local function fn_helptag_fmt_common(fun)
-	local fn_sfx = fun.table and '' or '()'
+	local fn_sfx = fun.table and "" or "()"
 	if fun.classvar and fun.module then
-		return fmt('%s:%s%s', fun.module, fun.name, fn_sfx)
+		return fmt("%s:%s%s", fun.module, fun.name, fn_sfx)
 	end
 	if fun.classvar then
-		return fmt('%s:%s%s', fun.classvar, fun.name, fn_sfx)
+		return fmt("%s:%s%s", fun.classvar, fun.name, fn_sfx)
 	end
 	if fun.module then
-		return fmt('%s.%s%s', fun.module, fun.name, fn_sfx)
+		return fmt("%s.%s%s", fun.module, fun.name, fn_sfx)
 	end
 	return fun.name .. fn_sfx
 end
@@ -122,72 +122,71 @@ end
 --- @type table<string,nvim.gen_vimdoc.Config>
 local config = {
 	lua = {
-		filename = 'livepreview.txt',
+		filename = "livepreview.txt",
 		section_order = {
-			'init.lua',
-			'Server.lua',
-			'handler.lua',
-			'websocket.lua',
-			'content_type.lua',
-			'etag.lua',
-			'utils.lua',
-			'health.lua',
-			'spec.lua',
+			"init.lua",
+			"Server.lua",
+			"handler.lua",
+			"websocket.lua",
+			"content_type.lua",
+			"etag.lua",
+			"utils.lua",
+			"health.lua",
+			"spec.lua",
 		},
 		files = {
-			'lua/livepreview/init.lua',
-			'lua/livepreview/server/Server.lua',
-			'lua/livepreview/server/handler.lua',
-			'lua/livepreview/server/websocket.lua',
-			'lua/livepreview/server/utils/content_type.lua',
-			'lua/livepreview/server/utils/etag.lua',
-			'lua/livepreview/utils.lua',
-			'lua/livepreview/health.lua',
-			'lua/livepreview/spec.lua',
+			"lua/livepreview/init.lua",
+			"lua/livepreview/server/Server.lua",
+			"lua/livepreview/server/handler.lua",
+			"lua/livepreview/server/websocket.lua",
+			"lua/livepreview/server/utils/content_type.lua",
+			"lua/livepreview/server/utils/etag.lua",
+			"lua/livepreview/utils.lua",
+			"lua/livepreview/health.lua",
+			"lua/livepreview/spec.lua",
 		},
 		fn_xform = function(fun)
-			fun.name = fun.name:gsub('M.', '')
+			fun.name = fun.name:gsub("M.", "")
 		end,
 		section_fmt = function(name)
-			if name:lower() == 'init' then
+			if name:lower() == "init" then
 				return 'Lua module : require("livepreview")'
 			end
-			if name:lower() == 'spec' then
+			if name:lower() == "spec" then
 				return 'spec = require("livepreview.spec")'
 			end
-			return string.format('Live Preview Module : %s', name:upper())
+			return string.format("Live Preview Module : %s", name:upper())
 		end,
 		helptag_fmt = function(name)
-			if name:lower() == 'init' then
-				return 'livepreview'
+			if name:lower() == "init" then
+				return "livepreview"
 			end
-			return string.format('livepreview.%s', name:lower())
+			return string.format("livepreview.%s", name:lower())
 		end,
 		fn_helptag_fmt = function(fun)
 			if fun.module then
-				fun.module = fun.module:gsub('.init', '')
-				fun.module = fun.module:gsub('lua.', '')
-				fun.module = fun.module:gsub('.lua', '')
+				fun.module = fun.module:gsub(".init", "")
+				fun.module = fun.module:gsub("lua.", "")
+				fun.module = fun.module:gsub(".lua", "")
 			end
 			return fn_helptag_fmt_common(fun)
-		end
-	}
+		end,
+	},
 }
-
 
 --- @param ty string
 --- @param generics table<string,string>
 --- @return string
 local function replace_generics(ty, generics)
-	if ty:sub(-2) == '[]' then
+	if ty:sub(-2) == "[]" then
 		local ty0 = ty:sub(1, -3)
 		if generics[ty0] then
-			return generics[ty0] .. '[]'
+			return generics[ty0] .. "[]"
 		end
-	elseif ty:sub(-1) == '?' then
+	elseif ty:sub(-1) == "?" then
 		local ty0 = ty:sub(1, -2)
 		if generics[ty0] then
-			return generics[ty0] .. '?'
+			return generics[ty0] .. "?"
 		end
 	end
 
@@ -196,8 +195,8 @@ end
 
 --- @param name string
 local function fmt_field_name(name)
-	local name0, opt = name:match('^([^?]*)(%??)$')
-	return fmt('{%s}%s', name0, opt)
+	local name0, opt = name:match("^([^?]*)(%??)$")
+	return fmt("{%s}%s", name0, opt)
 end
 
 --- @param ty string
@@ -207,21 +206,18 @@ local function render_type(ty, generics, default)
 	if generics then
 		ty = replace_generics(ty, generics)
 	end
-	ty = ty:gsub('%s*|%s*nil', '?')
-	ty = ty:gsub('nil%s*|%s*(.*)', '%1?')
-	ty = ty:gsub('%s*|%s*', '|')
+	ty = ty:gsub("%s*|%s*nil", "?")
+	ty = ty:gsub("nil%s*|%s*(.*)", "%1?")
+	ty = ty:gsub("%s*|%s*", "|")
 	if default then
-		return fmt('(`%s`, default: %s)', ty, default)
+		return fmt("(`%s`, default: %s)", ty, default)
 	end
-	return fmt('(`%s`)', ty)
+	return fmt("(`%s`)", ty)
 end
 
 --- @param p nvim.luacats.parser.param|nvim.luacats.parser.field
 local function should_render_field_or_param(p)
-	return not p.nodoc
-		and not p.access
-		and not contains(p.name, { '_', 'self' })
-		and not vim.startswith(p.name, '_')
+	return not p.nodoc and not p.access and not contains(p.name, { "_", "self" }) and not vim.startswith(p.name, "_")
 end
 
 --- @param desc? string
@@ -231,9 +227,9 @@ local function get_default(desc)
 		return
 	end
 
-	local default = desc:match('\n%s*%([dD]efault: ([^)]+)%)')
+	local default = desc:match("\n%s*%([dD]efault: ([^)]+)%)")
 	if default then
-		desc = desc:gsub('\n%s*%([dD]efault: [^)]+%)', '')
+		desc = desc:gsub("\n%s*%([dD]efault: [^)]+%)", "")
 	end
 
 	return desc, default
@@ -247,7 +243,7 @@ local function get_class(ty, classes)
 		return
 	end
 
-	local cty = ty:gsub('%s*|%s*nil', '?'):gsub('?$', ''):gsub('%[%]$', '')
+	local cty = ty:gsub("%s*|%s*nil", "?"):gsub("?$", ""):gsub("%[%]$", "")
 
 	return classes[cty]
 end
@@ -268,7 +264,7 @@ local function inline_type(obj, classes)
 
 	if not cls.inlinedoc then
 		-- Not inlining so just add a: "See |tag|."
-		local tag = fmt('|%s|', cls.name)
+		local tag = fmt("|%s|", cls.name)
 		if obj.desc and obj.desc:find(tag) then
 			-- Tag already there
 			return
@@ -276,28 +272,28 @@ local function inline_type(obj, classes)
 
 		-- TODO(lewis6991): Aim to remove this. Need this to prevent dead
 		-- references to types defined in runtime/lua/vim/lsp/_meta/protocol.lua
-		if not vim.startswith(cls.name, 'vim.') then
+		if not vim.startswith(cls.name, "vim.") then
 			return
 		end
 
-		obj.desc = obj.desc or ''
-		local period = (obj.desc == '' or vim.endswith(obj.desc, '.')) and '' or '.'
-		obj.desc = obj.desc .. fmt('%s See %s.', period, tag)
+		obj.desc = obj.desc or ""
+		local period = (obj.desc == "" or vim.endswith(obj.desc, ".")) and "" or "."
+		obj.desc = obj.desc .. fmt("%s See %s.", period, tag)
 		return
 	end
 
-	local ty_isopt = (ty:match('%?$') or ty:match('%s*|%s*nil')) ~= nil
-	local ty_islist = (ty:match('%[%]$')) ~= nil
-	ty = ty_isopt and 'table?' or ty_islist and 'table[]' or 'table'
+	local ty_isopt = (ty:match("%?$") or ty:match("%s*|%s*nil")) ~= nil
+	local ty_islist = (ty:match("%[%]$")) ~= nil
+	ty = ty_isopt and "table?" or ty_islist and "table[]" or "table"
 
-	local desc = obj.desc or ''
+	local desc = obj.desc or ""
 	if cls.desc then
 		desc = desc .. cls.desc
-	elseif desc == '' then
+	elseif desc == "" then
 		if ty_islist then
-			desc = desc .. 'A list of objects with the following fields:'
+			desc = desc .. "A list of objects with the following fields:"
 		else
-			desc = desc .. 'A table with the following fields:'
+			desc = desc .. "A table with the following fields:"
 		end
 	end
 
@@ -307,11 +303,11 @@ local function inline_type(obj, classes)
 			local fdesc, default = get_default(f.desc)
 			local fty = render_type(f.type, nil, default)
 			local fnm = fmt_field_name(f.name)
-			table.insert(desc_append, table.concat({ '-', fnm, fty, fdesc }, ' '))
+			table.insert(desc_append, table.concat({ "-", fnm, fty, fdesc }, " "))
 		end
 	end
 
-	desc = desc .. '\n' .. table.concat(desc_append, '\n')
+	desc = desc .. "\n" .. table.concat(desc_append, "\n")
 	obj.type = ty
 	obj.desc = desc
 end
@@ -342,8 +338,8 @@ local function render_fields_or_params(xs, generics, classes, exclude_types)
 		inline_type(p, classes)
 		local nm, ty, desc = p.name, p.type, p.desc
 
-		local fnm = p.kind == 'operator' and fmt('op(%s)', nm) or fmt_field_name(nm)
-		local pnm = fmt('      • %-' .. indent .. 's', fnm)
+		local fnm = p.kind == "operator" and fmt("op(%s)", nm) or fmt_field_name(nm)
+		local pnm = fmt("      • %-" .. indent .. "s", fnm)
 
 		if ty then
 			local pty = render_type(ty, generics, default)
@@ -351,14 +347,14 @@ local function render_fields_or_params(xs, generics, classes, exclude_types)
 			if desc then
 				table.insert(ret, pnm)
 				if #pty > TEXT_WIDTH - indent then
-					vim.list_extend(ret, { ' ', pty, '\n' })
+					vim.list_extend(ret, { " ", pty, "\n" })
 					table.insert(ret, md_to_vimdoc(desc, 9 + indent, 9 + indent, TEXT_WIDTH, true))
 				else
-					desc = fmt('%s %s', pty, desc)
+					desc = fmt("%s %s", pty, desc)
 					table.insert(ret, md_to_vimdoc(desc, 1, 9 + indent, TEXT_WIDTH, true))
 				end
 			else
-				table.insert(ret, fmt('%s %s\n', pnm, pty))
+				table.insert(ret, fmt("%s %s\n", pnm, pty))
 			end
 		else
 			if desc then
@@ -380,12 +376,12 @@ local function render_class(class, classes)
 
 	local ret = {} --- @type string[]
 
-	table.insert(ret, fmt('*%s*\n', class.name))
+	table.insert(ret, fmt("*%s*\n", class.name))
 
 	if class.parent then
-		local txt = fmt('Extends: |%s|', class.parent)
+		local txt = fmt("Extends: |%s|", class.parent)
 		table.insert(ret, md_to_vimdoc(txt, INDENTATION, INDENTATION, TEXT_WIDTH))
-		table.insert(ret, '\n')
+		table.insert(ret, "\n")
 	end
 
 	if class.desc then
@@ -393,11 +389,11 @@ local function render_class(class, classes)
 	end
 
 	local fields_txt = render_fields_or_params(class.fields, nil, classes)
-	if not fields_txt:match('^%s*$') then
-		table.insert(ret, '\n    Fields: ~\n')
+	if not fields_txt:match("^%s*$") then
+		table.insert(ret, "\n    Fields: ~\n")
 		table.insert(ret, fields_txt)
 	end
-	table.insert(ret, '\n')
+	table.insert(ret, "\n")
 
 	return table.concat(ret)
 end
@@ -420,38 +416,38 @@ local function render_fun_header(fun, cfg)
 
 	local args = {} --- @type string[]
 	for _, p in ipairs(fun.params or {}) do
-		if p.name ~= 'self' then
+		if p.name ~= "self" then
 			args[#args + 1] = fmt_field_name(p.name)
 		end
 	end
 
 	local nm = fun.name
 	if fun.classvar then
-		nm = fmt('%s:%s', fun.classvar, nm)
+		nm = fmt("%s:%s", fun.classvar, nm)
 	end
-	if nm == 'vim.bo' then
-		nm = 'vim.bo[{bufnr}]'
+	if nm == "vim.bo" then
+		nm = "vim.bo[{bufnr}]"
 	end
-	if nm == 'vim.wo' then
-		nm = 'vim.wo[{winid}][{bufnr}]'
+	if nm == "vim.wo" then
+		nm = "vim.wo[{winid}][{bufnr}]"
 	end
 
-	local proto = fun.table and nm or nm .. '(' .. table.concat(args, ', ') .. ')'
+	local proto = fun.table and nm or nm .. "(" .. table.concat(args, ", ") .. ")"
 
 	if not cfg.fn_helptag_fmt then
 		cfg.fn_helptag_fmt = fn_helptag_fmt_common
 	end
 
-	local tag = '*' .. cfg.fn_helptag_fmt(fun) .. '*'
+	local tag = "*" .. cfg.fn_helptag_fmt(fun) .. "*"
 
 	if #proto + #tag > TEXT_WIDTH - 8 then
-		table.insert(ret, fmt('%78s\n', tag))
-		local name, pargs = proto:match('([^(]+%()(.*)')
+		table.insert(ret, fmt("%78s\n", tag))
+		local name, pargs = proto:match("([^(]+%()(.*)")
 		table.insert(ret, name)
 		table.insert(ret, wrap(pargs, 0, #name, TEXT_WIDTH))
 	else
 		local pad = TEXT_WIDTH - #proto - #tag
-		table.insert(ret, proto .. string.rep(' ', pad) .. tag)
+		table.insert(ret, proto .. string.rep(" ", pad) .. tag)
 	end
 
 	return table.concat(ret)
@@ -472,9 +468,9 @@ local function render_returns(returns, generics, classes, exclude_types)
 	end
 
 	if #returns > 1 then
-		table.insert(ret, '    Return (multiple): ~\n')
+		table.insert(ret, "    Return (multiple): ~\n")
 	elseif #returns == 1 and next(returns[1]) then
-		table.insert(ret, '    Return: ~\n')
+		table.insert(ret, "    Return: ~\n")
 	end
 
 	for _, p in ipairs(returns) do
@@ -488,7 +484,7 @@ local function render_returns(returns, generics, classes, exclude_types)
 		blk[#blk + 1] = rnm
 		blk[#blk + 1] = desc
 
-		table.insert(ret, md_to_vimdoc(table.concat(blk, ' '), 8, 8, TEXT_WIDTH, true))
+		table.insert(ret, md_to_vimdoc(table.concat(blk, " "), 8, 8, TEXT_WIDTH, true))
 	end
 
 	return table.concat(ret)
@@ -506,27 +502,27 @@ local function render_fun(fun, classes, cfg)
 		return
 	end
 
-	if vim.startswith(fun.name, '_') or fun.name:find('[:.]_') then
+	if vim.startswith(fun.name, "_") or fun.name:find("[:.]_") then
 		return
 	end
 
 	local ret = {} --- @type string[]
 
 	table.insert(ret, render_fun_header(fun, cfg))
-	table.insert(ret, '\n')
+	table.insert(ret, "\n")
 
 	if fun.since then
-		local since = assert(tonumber(fun.since), 'invalid @since on ' .. fun.name)
+		local since = assert(tonumber(fun.since), "invalid @since on " .. fun.name)
 		local info = nvim_api_info()
 		if since == 0 or (info.prerelease and since == info.level) then
 			-- Experimental = (since==0 or current prerelease)
-			local s = 'WARNING: This feature is experimental/unstable.'
+			local s = "WARNING: This feature is experimental/unstable."
 			table.insert(ret, md_to_vimdoc(s, INDENTATION, INDENTATION, TEXT_WIDTH))
-			table.insert(ret, '\n')
+			table.insert(ret, "\n")
 		else
-			local v = assert(util.version_level[since], 'invalid @since on ' .. fun.name)
+			local v = assert(util.version_level[since], "invalid @since on " .. fun.name)
 			fun.attrs = fun.attrs or {}
-			table.insert(fun.attrs, ('Since: %s'):format(v))
+			table.insert(fun.attrs, ("Since: %s"):format(v))
 		end
 	end
 
@@ -535,50 +531,50 @@ local function render_fun(fun, classes, cfg)
 	end
 
 	if fun.notes then
-		table.insert(ret, '\n    Note: ~\n')
+		table.insert(ret, "\n    Note: ~\n")
 		for _, p in ipairs(fun.notes) do
-			table.insert(ret, '      • ' .. md_to_vimdoc(p.desc, 0, 8, TEXT_WIDTH, true))
+			table.insert(ret, "      • " .. md_to_vimdoc(p.desc, 0, 8, TEXT_WIDTH, true))
 		end
 	end
 
 	if fun.attrs then
-		table.insert(ret, '\n    Attributes: ~\n')
+		table.insert(ret, "\n    Attributes: ~\n")
 		for _, attr in ipairs(fun.attrs) do
 			local attr_str = ({
-				textlock = 'not allowed when |textlock| is active or in the |cmdwin|',
-				textlock_allow_cmdwin = 'not allowed when |textlock| is active',
-				fast = '|api-fast|',
-				remote_only = '|RPC| only',
-				lua_only = 'Lua |vim.api| only',
+				textlock = "not allowed when |textlock| is active or in the |cmdwin|",
+				textlock_allow_cmdwin = "not allowed when |textlock| is active",
+				fast = "|api-fast|",
+				remote_only = "|RPC| only",
+				lua_only = "Lua |vim.api| only",
 			})[attr] or attr
-			table.insert(ret, fmt('        %s\n', attr_str))
+			table.insert(ret, fmt("        %s\n", attr_str))
 		end
 	end
 
 	if fun.params and #fun.params > 0 then
 		local param_txt = render_fields_or_params(fun.params, fun.generics, classes, cfg.exclude_types)
-		if not param_txt:match('^%s*$') then
-			table.insert(ret, '\n    Parameters: ~\n')
+		if not param_txt:match("^%s*$") then
+			table.insert(ret, "\n    Parameters: ~\n")
 			ret[#ret + 1] = param_txt
 		end
 	end
 
 	if fun.returns then
 		local txt = render_returns(fun.returns, fun.generics, classes, cfg.exclude_types)
-		if not txt:match('^%s*$') then
-			table.insert(ret, '\n')
+		if not txt:match("^%s*$") then
+			table.insert(ret, "\n")
 			ret[#ret + 1] = txt
 		end
 	end
 
 	if fun.see then
-		table.insert(ret, '\n    See also: ~\n')
+		table.insert(ret, "\n    See also: ~\n")
 		for _, p in ipairs(fun.see) do
-			table.insert(ret, '      • ' .. md_to_vimdoc(p.desc, 0, 8, TEXT_WIDTH, true))
+			table.insert(ret, "      • " .. md_to_vimdoc(p.desc, 0, 8, TEXT_WIDTH, true))
 		end
 	end
 
-	table.insert(ret, '\n')
+	table.insert(ret, "\n")
 	return table.concat(ret)
 end
 
@@ -597,11 +593,11 @@ local function render_funs(funs, classes, cfg)
 
 	-- Sort via prototype. Experimental API functions ("nvim__") sort last.
 	table.sort(ret, function(a, b)
-		local a1 = ('\n' .. a):match('\n[a-zA-Z_][^\n]+\n')
-		local b1 = ('\n' .. b):match('\n[a-zA-Z_][^\n]+\n')
+		local a1 = ("\n" .. a):match("\n[a-zA-Z_][^\n]+\n")
+		local b1 = ("\n" .. b):match("\n[a-zA-Z_][^\n]+\n")
 
-		local a1__ = a1:find('^%s*nvim__') and 1 or 0
-		local b1__ = b1:find('^%s*nvim__') and 1 or 0
+		local a1__ = a1:find("^%s*nvim__") and 1 or 0
+		local b1__ = b1:find("^%s*nvim__") and 1 or 0
 		if a1__ ~= b1__ then
 			return a1__ < b1__
 		end
@@ -614,8 +610,8 @@ end
 
 --- @return string
 local function get_script_path()
-	local str = debug.getinfo(2, 'S').source:sub(2)
-	return str:match('(.*[/\\])') or './'
+	local str = debug.getinfo(2, "S").source:sub(2)
+	return str:match("(.*[/\\])") or "./"
 end
 
 local script_path = get_script_path()
@@ -632,19 +628,19 @@ local function delete_lines_below(doc_file, tokenstr)
 		lines[#lines + 1] = line
 	end
 	if not found then
-		error(fmt('not found: %s in %s', tokenstr, doc_file))
+		error(fmt("not found: %s in %s", tokenstr, doc_file))
 	end
 	lines[#lines] = nil
-	local fp = assert(io.open(doc_file, 'w'))
-	fp:write(table.concat(lines, '\n'))
-	fp:write('\n')
+	local fp = assert(io.open(doc_file, "w"))
+	fp:write(table.concat(lines, "\n"))
+	fp:write("\n")
 	fp:close()
 end
 
 --- @param x string
 local function mktitle(x)
-	if x == 'ui' then
-		return 'UI'
+	if x == "ui" then
+		return "UI"
 	end
 	return x:sub(1, 1):upper() .. x:sub(2)
 end
@@ -664,7 +660,7 @@ end
 local function make_section(filename, cfg, section_docs, funs_txt)
 	-- filename: e.g., 'autocmd.c'
 	-- name: e.g. 'autocmd'
-	local name = filename:match('(.*)%.[a-z]+')
+	local name = filename:match("(.*)%.[a-z]+")
 
 	-- Formatted (this is what's going to be written in the vimdoc)
 	-- e.g., "Autocmd Functions"
@@ -672,12 +668,12 @@ local function make_section(filename, cfg, section_docs, funs_txt)
 
 	-- section tag: e.g., "*api-autocmd*"
 	local help_labels = cfg.helptag_fmt(sectname)
-	if type(help_labels) == 'table' then
-		help_labels = table.concat(help_labels, '* *')
+	if type(help_labels) == "table" then
+		help_labels = table.concat(help_labels, "* *")
 	end
-	local help_tags = '*' .. help_labels .. '*'
+	local help_tags = "*" .. help_labels .. "*"
 
-	if funs_txt == '' and #section_docs == 0 then
+	if funs_txt == "" and #section_docs == 0 then
 		return
 	end
 
@@ -697,20 +693,20 @@ local function render_section(section, add_header)
 
 	if add_header ~= false then
 		vim.list_extend(doc, {
-			string.rep('=', TEXT_WIDTH),
-			'\n',
+			string.rep("=", TEXT_WIDTH),
+			"\n",
 			section.title,
-			fmt('%' .. (TEXT_WIDTH - section.title:len()) .. 's', section.help_tag),
+			fmt("%" .. (TEXT_WIDTH - section.title:len()) .. "s", section.help_tag),
 		})
 	end
 
-	local sdoc = '\n\n' .. table.concat(section.doc or {}, '\n')
-	if sdoc:find('[^%s]') then
+	local sdoc = "\n\n" .. table.concat(section.doc or {}, "\n")
+	if sdoc:find("[^%s]") then
 		doc[#doc + 1] = sdoc
 	end
 
 	if section.funs_txt then
-		table.insert(doc, '\n\n')
+		table.insert(doc, "\n\n")
 		table.insert(doc, section.funs_txt)
 	end
 
@@ -727,7 +723,7 @@ local function expand_files(files)
 		if vim.fn.isdirectory(f) == 1 then
 			table.remove(files, k)
 			for path, ty in vim.fs.dir(f) do
-				if ty == 'file' then
+				if ty == "file" then
 					table.insert(files, vim.fs.joinpath(f, path))
 				end
 			end
@@ -737,7 +733,7 @@ end
 
 --- @param cfg nvim.gen_vimdoc.Config
 local function gen_target(cfg)
-	print('Target:', cfg.filename)
+	print("Target:", cfg.filename)
 	local sections = {} --- @type table<string,nvim.gen_vimdoc.Section>
 
 	expand_files(cfg.files)
@@ -750,11 +746,11 @@ local function gen_target(cfg)
 
 	--- First pass so we can collect all classes
 	for _, f in vim.spairs(cfg.files) do
-		local ext = assert(f:match('%.([^.]+)$')) --[[@as 'h'|'c'|'lua']]
+		local ext = assert(f:match("%.([^.]+)$")) --[[@as 'h'|'c'|'lua']]
 		local parser = assert(parsers[ext])
 		local classes, funs, briefs = parser(f)
 		file_results[f] = { classes, funs, briefs }
-		all_classes = vim.tbl_extend('error', all_classes, classes)
+		all_classes = vim.tbl_extend("error", all_classes, classes)
 	end
 
 	for f, r in vim.spairs(file_results) do
@@ -764,12 +760,12 @@ local function gen_target(cfg)
 		for _, b in ipairs(briefs) do
 			briefs_txt[#briefs_txt + 1] = md_to_vimdoc(b, 0, 0, TEXT_WIDTH)
 		end
-		print('    Processing file:', f)
+		print("    Processing file:", f)
 		local funs_txt = render_funs(funs, all_classes, cfg)
 		if next(classes) then
 			local classes_txt = render_classes(classes)
-			if vim.trim(classes_txt) ~= '' then
-				funs_txt = classes_txt .. '\n' .. funs_txt
+			if vim.trim(classes_txt) ~= "" then
+				funs_txt = classes_txt .. "\n" .. funs_txt
 			end
 		end
 		-- FIXME: Using f_base will confuse `_meta/protocol.lua` with `protocol.lua`
@@ -788,19 +784,16 @@ local function gen_target(cfg)
 		end
 	end
 
-	table.insert(
-		docs,
-		fmt(' vim:tw=78:ts=8:sw=%d:sts=%d:et:ft=help:norl:\n', INDENTATION, INDENTATION)
-	)
+	table.insert(docs, fmt(" vim:tw=78:ts=8:sw=%d:sts=%d:et:ft=help:norl:\n", INDENTATION, INDENTATION))
 
-	local doc_file = vim.fs.joinpath(base_dir, 'doc', cfg.filename)
+	local doc_file = vim.fs.joinpath(base_dir, "doc", cfg.filename)
 
 	if vim.uv.fs_stat(doc_file) then
 		delete_lines_below(doc_file, first_section_tag)
 	end
 
-	local fp = assert(io.open(doc_file, 'a'))
-	fp:write(table.concat(docs, '\n'))
+	local fp = assert(io.open(doc_file, "a"))
+	fp:write(table.concat(docs, "\n"))
 	fp:close()
 end
 

@@ -4,7 +4,6 @@
 --- local Server = require('livepreview').server.Server
 --- ```
 
-
 local handler = require("livepreview.server.handler")
 local get_plugin_path = require("livepreview.utils").get_plugin_path
 local websocket = require("livepreview.server.websocket")
@@ -39,7 +38,7 @@ local function send_scroll(client)
 	end
 	local message = {
 		type = "scroll",
-		filepath = filepath or '',
+		filepath = filepath or "",
 		cursor = vim.api.nvim_win_get_cursor(0),
 	}
 	websocket.send_json(client, message)
@@ -48,19 +47,19 @@ local function send_scroll(client)
 end
 
 local function send_scroll_autocmd()
-	vim.api.nvim_create_autocmd(
-		{
-			"WinScrolled", "CursorMoved", "CursorMovedI"
-		}, {
-			callback = function()
-				need_scroll = true
-				filepath = vim.api.nvim_buf_get_name(0)
-				if ws_client then
-					send_scroll(ws_client)
-				end
+	vim.api.nvim_create_autocmd({
+		"WinScrolled",
+		"CursorMoved",
+		"CursorMovedI",
+	}, {
+		callback = function()
+			need_scroll = true
+			filepath = vim.api.nvim_buf_get_name(0)
+			if ws_client then
+				send_scroll(ws_client)
 			end
-		}
-	)
+		end,
+	})
 end
 
 --- Constructor
@@ -81,8 +80,8 @@ end
 --- @return string: path to the file
 function Server:routes(path)
 	local file_path
-	if path == '/' then
-		path = '/index.html'
+	if path == "/" then
+		path = "/index.html"
 	end
 	if path:match("^/live%-preview%.nvim/") then
 		file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'

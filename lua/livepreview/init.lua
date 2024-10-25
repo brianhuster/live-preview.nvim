@@ -40,13 +40,10 @@ function M.preview_file(filepath, port)
 	if M.serverObj then
 		M.serverObj:stop()
 	end
-	M.serverObj = server.Server:new(
-		vim.fs.dirname(filepath) and M.config.dynamic_root or nil,
-		M.config
-	)
+	M.serverObj = server.Server:new(vim.fs.dirname(filepath) and M.config.dynamic_root or nil, M.config)
 	vim.wait(50, function()
 		M.serverObj:start("127.0.0.1", port, function(client)
-			if utils.supported_filetype(filepath) == 'html' then
+			if utils.supported_filetype(filepath) == "html" then
 				server.websocket.send_json(client, { type = "reload" })
 			else
 				local content = utils.uv_read_file(filepath)
@@ -62,9 +59,9 @@ end
 ---  	- commands: {start: string, stop: string} - commands to start and stop live preview
 ---  		(default: {start = "LivePreview", stop = "StopPreview"})
 ---  	- port: number - port to run the server on (default: 5500)
----  	- browser: string - browser to open the preview in (default: "default"). 
+---  	- browser: string - browser to open the preview in (default: "default").
 ---  	The "default" value will open the preview in system default browser.
----  	- dynamic_root: boolean - whether to use dynamic root for the server (default: false). 
+---  	- dynamic_root: boolean - whether to use dynamic root for the server (default: false).
 ---  	Using dynamic root will always make the server root the parent directory of the file being previewed.
 ---  	- sync_scroll: boolean - whether to sync scroll between the preview and the file (default: false). This is experimental and may not work as expected.
 function M.setup(opts)
@@ -82,7 +79,7 @@ function M.setup(opts)
 	M.config = vim.tbl_deep_extend("force", default_options, opts or {})
 
 	vim.api.nvim_create_user_command(M.config.commands.start, function()
-		local filepath = vim.fn.expand('%:p')
+		local filepath = vim.fn.expand("%:p")
 		if not utils.supported_filetype(filepath) then
 			filepath = find_buf()
 			if not filepath then

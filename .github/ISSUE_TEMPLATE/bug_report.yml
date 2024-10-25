@@ -57,12 +57,7 @@ body:
   - type: textarea
     attributes:
       label: Health
-      description: Attach the output of `:checkhealth plugin_template` here
-      render: log
-  - type: textarea
-    attributes:
-      label: Log
-      description: Please enable logging with `vim.g.plugin_template_configuration = {logging = {level = "debug", use_file = true}}` and attach the contents of `~/.local/share/nvim` here or call `:PluginTemplate copy-logs`
+      description: Attach the output of `:checkhealth livepreview` here
       render: log
   - type: textarea
     attributes:
