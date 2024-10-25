@@ -94,7 +94,7 @@ function M.check()
 		vim.health.ok("Nvim " .. nvim_ver .. " is compatible with Live Preview")
 	end
 
-	if (config.port) then
+	if config and config.port then
 		vim.health.start("Checkhealth server and process")
 		vim.health.info("This Nvim process's PID is " .. vim.uv.os_getpid())
 		checkhealth_port(config.port)
@@ -105,4 +105,3 @@ function M.check()
 end
 
 return M
-

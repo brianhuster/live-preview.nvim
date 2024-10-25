@@ -13,7 +13,8 @@ local utils = require("livepreview.utils")
 
 M.serverObj = nil
 
-local function find_buf() -- find html/md buffer
+-- find html/md/adoc buffer
+local function find_buf()
 	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_loaded(buf) then
 			local buf_name = vim.api.nvim_buf_get_name(buf)
