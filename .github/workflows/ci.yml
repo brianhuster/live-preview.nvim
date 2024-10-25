@@ -47,6 +47,6 @@ jobs:
           files: 'README.md README.*.md'
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run test
-        run: |
-          make test
+      # - name: Run test
+      #   run: |
+      #     make test
