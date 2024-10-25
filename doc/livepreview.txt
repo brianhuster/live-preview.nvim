@@ -365,12 +365,13 @@ uv_write_file({file_path})                 *livepreview.utils.uv_write_file()*
 ==============================================================================
 Live Preview Module : HEALTH                              *livepreview.health*
 
-To run health check for Live Preview, run >vim
+To run health check for Live Preview, do >vim
     :checkhealth livepreview
 <
 
-This will check if your Neovim version is compatible with Live Preview and if
-the commands to open browser are available.
+or >vim
+    :che livepreview
+<
 
 
 check()                                           *livepreview.health.check()*
