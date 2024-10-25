@@ -369,10 +369,6 @@ To run health check for Live Preview, do >vim
     :checkhealth livepreview
 <
 
-or >vim
-    :che livepreview
-<
-
 
 check()                                           *livepreview.health.check()*
     Run checkhealth for Live Preview. This can also be called using
