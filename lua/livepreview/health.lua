@@ -1,16 +1,18 @@
 ---@brief
---- To run health check for Live Preview, run
+--- To run health check for Live Preview, do
 --- ```vim
 --- :checkhealth livepreview
 --- ```
---- This will check if your Neovim version is compatible with Live Preview and if the commands to open browser are available.
+--- or
+--- ```vim
+--- :che livepreview
+--- ```
 
 local spec = require("livepreview.spec")
 local await_term_cmd = require("livepreview.utils").await_term_cmd
 local nvim_ver_range = spec().engines.nvim
 local nvim_ver_table = vim.version()
 local nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
-local config = require("livepreview").config
 
 local M = {}
 
@@ -79,7 +81,7 @@ end
 
 
 local function check_config()
-	vim.health.info(vim.inspect(config))
+	vim.health.info(vim.inspect(require("livepreview").config))
 end
 
 
@@ -94,10 +96,10 @@ function M.check()
 		vim.health.ok("Nvim " .. nvim_ver .. " is compatible with Live Preview")
 	end
 
-	if config and config.port then
+	if (require("livepreview").config.port) then
 		vim.health.start("Checkhealth server and process")
 		vim.health.info("This Nvim process's PID is " .. vim.uv.os_getpid())
-		checkhealth_port(config.port)
+		checkhealth_port(require("livepreview").config.port)
 	end
 
 	vim.health.start("Check your live-preview.nvim config")
@@ -105,3 +107,4 @@ function M.check()
 end
 
 return M
+
