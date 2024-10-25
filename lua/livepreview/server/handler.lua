@@ -4,14 +4,13 @@
 --- local handler = require('livepreview.server.handler')
 --- ```
 
-
-local websocket = require('livepreview.server.websocket')
-local read_file = require('livepreview.utils').uv_read_file
-local supported_filetype = require('livepreview.utils').supported_filetype
-local toHTML = require('livepreview.template').toHTML
-local handle_body = require('livepreview.template').handle_body
-local get_content_type = require('livepreview.server.utils.content_type').get
-local generate_etag = require('livepreview.server.utils.etag').generate
+local websocket = require("livepreview.server.websocket")
+local read_file = require("livepreview.utils").uv_read_file
+local supported_filetype = require("livepreview.utils").supported_filetype
+local toHTML = require("livepreview.template").toHTML
+local handle_body = require("livepreview.template").handle_body
+local get_content_type = require("livepreview.server.utils.content_type").get
+local generate_etag = require("livepreview.server.utils.etag").generate
 
 local M = {}
 
@@ -22,10 +21,16 @@ local M = {}
 --- @param body string: body of the response
 --- @param headers table|nil: (optional) additional headers to include in the response
 function M.send_http_response(client, status, content_type, body, headers)
-	local response = "HTTP/1.1 " .. status .. "\r\n" ..
-		"Content-Type: " .. content_type .. "\r\n" ..
-		"Content-Length: " .. #body .. "\r\n" ..
-		"Connection: close\r\n"
+	local response = "HTTP/1.1 "
+		.. status
+		.. "\r\n"
+		.. "Content-Type: "
+		.. content_type
+		.. "\r\n"
+		.. "Content-Length: "
+		.. #body
+		.. "\r\n"
+		.. "Connection: close\r\n"
 
 	if headers then
 		for k, v in pairs(headers) do
@@ -49,13 +54,13 @@ function M.request(client, request)
 		return
 	end
 	local path = request:match("GET (.+) HTTP/1.1")
-	path = path or '/'
+	path = path or "/"
 
 	local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
 
 	return {
 		path = path,
-		if_none_match = if_none_match
+		if_none_match = if_none_match,
 	}
 end
 
@@ -65,14 +70,14 @@ end
 function M.serve_file(client, file_path, if_none_match)
 	local body = read_file(file_path)
 	if not body then
-		M.send_http_response(client, '404 Not Found', 'text/plain', "404 Not Found")
+		M.send_http_response(client, "404 Not Found", "text/plain", "404 Not Found")
 		return
 	end
 
 	local etag = generate_etag(file_path)
 
-	if (if_none_match and if_none_match == etag) then
-		M.send_http_response(client, '304 Not Modified', get_content_type(file_path), "", {
+	if if_none_match and if_none_match == etag then
+		M.send_http_response(client, "304 Not Modified", get_content_type(file_path), "", {
 			["ETag"] = etag,
 		})
 		return
@@ -87,7 +92,7 @@ function M.serve_file(client, file_path, if_none_match)
 		end
 	end
 
-	M.send_http_response(client, '200 OK', get_content_type(file_path), body, {
+	M.send_http_response(client, "200 OK", get_content_type(file_path), body, {
 		["ETag"] = etag,
 	})
 end

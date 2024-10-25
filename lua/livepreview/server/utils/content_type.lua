@@ -5,7 +5,7 @@
 --- ```
 
 local M = {}
-local supported_filetype = require('livepreview.utils').supported_filetype
+local supported_filetype = require("livepreview.utils").supported_filetype
 
 --- Get the content type of a file
 --- @param file_path string: path to the file

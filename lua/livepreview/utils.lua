@@ -38,7 +38,7 @@ end
 --- Read a file using libuv
 ---@param file_path string
 function M.uv_read_file(file_path)
-	local fd = uv.fs_open(file_path, 'r', 438) -- 438 is decimal for 0666
+	local fd = uv.fs_open(file_path, "r", 438) -- 438 is decimal for 0666
 	if not fd then
 		print("Error opening file: " .. file_path)
 		return nil
@@ -63,7 +63,7 @@ end
 --- Write a file using libuv
 --- @param file_path string
 function M.uv_write_file(file_path, data)
-	local fd = uv.fs_open(file_path, 'w', 438) -- 438 is decimal for 0666
+	local fd = uv.fs_open(file_path, "w", 438) -- 438 is decimal for 0666
 	if not fd then
 		print("Error opening file: " .. file_path)
 		return
@@ -170,7 +170,7 @@ function M.term_cmd(cmd, callback)
 		end
 	end
 
-	vim.system({ shell, '-c', cmd }, { text = true }, on_exit)
+	vim.system({ shell, "-c", cmd }, { text = true }, on_exit)
 end
 
 --- Execute a shell command and wait for the exit
@@ -181,7 +181,7 @@ function M.await_term_cmd(cmd)
 	if uv.os_uname().version:match("Windows") then
 		shell = "pwsh"
 	end
-	results = vim.system({ shell, '-c', cmd }, { text = true }):wait()
+	results = vim.system({ shell, "-c", cmd }, { text = true }):wait()
 	return results
 end
 
@@ -192,26 +192,26 @@ end
 ---@return string: SHA1 hash
 function M.sha1(val)
 	local function to_32_bits_str(number)
-		return string.char(bit.band(bit.rshift(number, 24), 255)) ..
-			string.char(bit.band(bit.rshift(number, 16), 255)) ..
-			string.char(bit.band(bit.rshift(number, 8), 255)) ..
-			string.char(bit.band(number, 255))
+		return string.char(bit.band(bit.rshift(number, 24), 255))
+			.. string.char(bit.band(bit.rshift(number, 16), 255))
+			.. string.char(bit.band(bit.rshift(number, 8), 255))
+			.. string.char(bit.band(number, 255))
 	end
 
 	local function to_32_bits_number(str)
-		return bit.lshift(string.byte(str, 1), 24) +
-			bit.lshift(string.byte(str, 2), 16) +
-			bit.lshift(string.byte(str, 3), 8) +
-			string.byte(str, 4)
+		return bit.lshift(string.byte(str, 1), 24)
+			+ bit.lshift(string.byte(str, 2), 16)
+			+ bit.lshift(string.byte(str, 3), 8)
+			+ string.byte(str, 4)
 	end
 	-- Mark message end with bit 1 and pad with bit 0, then add message length
 	-- Append original message length in bits as a 64bit number
 	-- Note: We don't need to bother with 64 bit lengths so we just add 4 to
 	-- number of zeros used for padding and append a 32 bit length instead
-	local padded_message = val ..
-		string.char(128) ..
-		string.rep(string.char(0), 64 - ((string.len(val) + 1 + 8) % 64) + 4) ..
-		to_32_bits_str(string.len(val) * 8)
+	local padded_message = val
+		.. string.char(128)
+		.. string.rep(string.char(0), 64 - ((string.len(val) + 1 + 8) % 64) + 4)
+		.. to_32_bits_str(string.len(val) * 8)
 
 	-- Blindly implement method 1 (section 6.1) of the spec without
 	-- understanding a single thing
@@ -228,24 +228,13 @@ function M.sha1(val)
 		-- Initialize 16 first words
 		local i = 0
 		for W = 1, 64, 4 do
-			words[i] = to_32_bits_number(string.sub(
-				block,
-				W
-			))
+			words[i] = to_32_bits_number(string.sub(block, W))
 			i = i + 1
 		end
 
 		-- Initialize the rest
 		for t = 16, 79, 1 do
-			words[t] = bit.rol(
-				bit.bxor(
-					words[t - 3],
-					words[t - 8],
-					words[t - 14],
-					words[t - 16]
-				),
-				1
-			)
+			words[t] = bit.rol(bit.bxor(words[t - 3], words[t - 8], words[t - 14], words[t - 16]), 1)
 		end
 
 		local A = H0
@@ -258,25 +247,11 @@ function M.sha1(val)
 		for t = 0, 79, 1 do
 			local TEMP
 			if t <= 19 then
-				TEMP = bit.bor(
-						bit.band(B, C),
-						bit.band(
-							bit.bnot(B),
-							D
-						)
-					) +
-					0x5A827999
+				TEMP = bit.bor(bit.band(B, C), bit.band(bit.bnot(B), D)) + 0x5A827999
 			elseif t <= 39 then
 				TEMP = bit.bxor(B, C, D) + 0x6ED9EBA1
 			elseif t <= 59 then
-				TEMP = bit.bor(
-						bit.bor(
-							bit.band(B, C),
-							bit.band(B, D)
-						),
-						bit.band(C, D)
-					) +
-					0x8F1BBCDC
+				TEMP = bit.bor(bit.bor(bit.band(B, C), bit.band(B, D)), bit.band(C, D)) + 0x8F1BBCDC
 			elseif t <= 79 then
 				TEMP = bit.bxor(B, C, D) + 0xCA62C1D6
 			end
@@ -296,11 +271,7 @@ function M.sha1(val)
 		H4 = (H4 + E) % 0x100000000
 	end
 
-	return to_32_bits_str(H0) ..
-		to_32_bits_str(H1) ..
-		to_32_bits_str(H2) ..
-		to_32_bits_str(H3) ..
-		to_32_bits_str(H4)
+	return to_32_bits_str(H0) .. to_32_bits_str(H1) .. to_32_bits_str(H2) .. to_32_bits_str(H3) .. to_32_bits_str(H4)
 end
 
 --- Open URL in the browser
@@ -319,13 +290,13 @@ function M.open_browser(path, browser)
 	end
 end
 
-
 --- Kill a process which is not Neovim running on a port
 --- @param port number
 function M.kill_port(port)
 	local cmd
 	if vim.uv.os_uname().version:match("Windows") then
-		cmd = string.format([[
+		cmd = string.format(
+			[[
             Get-NetTCPConnection -LocalPort %d | Where-Object { $_.State -eq 'Listen' } | ForEach-Object {
                 $pid = $_.OwningProcess
                 $process = Get-Process -Id $pid -ErrorAction SilentlyContinue
@@ -333,11 +304,11 @@ function M.kill_port(port)
                     $process.Id
                 }
             }
-        ]], port)
-	else
-		cmd = string.format("lsof -i:%d | grep LISTEN | grep -v -e 'neovim' -e 'nvim' | awk '{print $2}'",
+        ]],
 			port
 		)
+	else
+		cmd = string.format("lsof -i:%d | grep LISTEN | grep -v -e 'neovim' -e 'nvim' | awk '{print $2}'", port)
 	end
 	local cmd_result = M.await_term_cmd(cmd)
 	if not cmd_result then

@@ -4,7 +4,7 @@
 --- local websocket = require('livepreview.server.websocket')
 --- ```
 
-local sha1 = require('livepreview.utils').sha1
+local sha1 = require("livepreview.utils").sha1
 
 local M = {}
 
@@ -23,10 +23,12 @@ function M.handshake(client, request)
 	accept = vim.base64.encode(accept)
 	accept = vim.trim(accept)
 
-	local response = "HTTP/1.1 101 Switching Protocols\r\n" ..
-		"Upgrade: websocket\r\n" ..
-		"Connection: Upgrade\r\n" ..
-		"Sec-WebSocket-Accept: " .. accept .. "\r\n\r\n"
+	local response = "HTTP/1.1 101 Switching Protocols\r\n"
+		.. "Upgrade: websocket\r\n"
+		.. "Connection: Upgrade\r\n"
+		.. "Sec-WebSocket-Accept: "
+		.. accept
+		.. "\r\n\r\n"
 	client:write(response)
 end
 
@@ -44,10 +46,19 @@ function M.send(client, message)
 	elseif length <= 65535 then
 		frame = frame .. string.char(126) .. string.char(bit.rshift(length, 8), length % 256) .. byteMessage
 	else
-		frame = frame .. string.char(127) ..
-			string.char(bit.rshift(length, 56), bit.rshift(length, 48) % 256, bit.rshift(length, 40) % 256,
-				bit.rshift(length, 32) % 256, bit.rshift(length, 24) % 256, bit.rshift(length, 16) % 256,
-				bit.rshift(length, 8) % 256, length % 256) .. byteMessage
+		frame = frame
+			.. string.char(127)
+			.. string.char(
+				bit.rshift(length, 56),
+				bit.rshift(length, 48) % 256,
+				bit.rshift(length, 40) % 256,
+				bit.rshift(length, 32) % 256,
+				bit.rshift(length, 24) % 256,
+				bit.rshift(length, 16) % 256,
+				bit.rshift(length, 8) % 256,
+				length % 256
+			)
+			.. byteMessage
 	end
 
 	client:write(frame)
