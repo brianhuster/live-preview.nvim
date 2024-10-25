@@ -95,18 +95,44 @@ end
 --- Watch a directory for changes and send a message "reload" to a WebSocket client
 --- @param func function: function to call when a change is detected
 function Server:watch_dir(func)
-	local watcher = uv.new_fs_event()
-	watcher:start(
-		self.webroot,
-		{ recursive = true },
-		function(err, filename, event)
-			if err then
-				print("Watch error: " .. err)
-				return
-			end
-			func()
+	local function on_change(err, filename, event)
+		if err then
+			print("Watch error: " .. err)
+			return
 		end
-	)
+		func()
+	end
+
+	local function watch(path)
+		local handle = uv.new_fs_event()
+		handle:start(path, { recursive = false }, on_change)
+		return handle
+	end
+
+	local function scan_directory(path)
+		local handles = {}
+		local req = uv.fs_scandir(path)
+		if not req then return handles end
+
+		while true do
+			local name, type = uv.fs_scandir_next(req)
+			if not name then break end
+			local full_path = path .. '/' .. name
+			if type == 'directory' then
+				table.insert(handles, watch(full_path))
+				for _, sub_handle in ipairs(scan_directory(full_path)) do
+					table.insert(handles, sub_handle)
+				end
+			end
+		end
+		return handles
+	end
+
+	local handles = scan_directory(self.webroot)
+	table.insert(handles, watch(self.webroot)) -- Include the root directory
+
+	-- Store handles to prevent garbage collection
+	self._watch_handles = handles
 end
 
 --- Start the server
