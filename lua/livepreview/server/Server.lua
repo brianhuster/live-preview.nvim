@@ -109,8 +109,6 @@ function Server:watch_dir(func)
 		return handle
 	end
 
-
-	-- If operating_system is Windows or OSX
 	if operating_system == "Windows" or operating_system == "Darwin" then
 		watch(self.webroot, true)
 	else

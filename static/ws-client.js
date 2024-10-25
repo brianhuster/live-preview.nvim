@@ -49,7 +49,7 @@ async function connectWebSocket() {
 			if (filepath.includes(window.location.pathname)) {
 				const line = document.querySelector(`[data-source-line="${cursor[0]}"]`);
 				if (line) {
-					line.scrollIntoView({ behavior: "smooth" });
+					line.scrollIntoView({ behavior: "smooth", block: "center" });
 				} else {
 					// Find the closest line number
 					const lineNumbers = document.querySelectorAll(".source-line");
@@ -62,7 +62,7 @@ async function connectWebSocket() {
 							closest = lineNumber;
 						}
 					});
-					closest.scrollIntoView({ behavior: "smooth" });
+					closest.scrollIntoView({ behavior: "smooth", block: "center" });
 				}
 			}
 		}
