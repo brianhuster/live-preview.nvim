@@ -107,6 +107,7 @@ You can customize the plugin by passing a table to the `opts` variable (if you u
     port = 5500, -- Port to run the live preview server on.
     browser = 'default', -- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
     dynamic_root = false, -- If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:lua print(vim.uv.cwd())`).
+    sync_scroll = false, -- If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
 }
 ```
 
@@ -121,6 +122,7 @@ let g:livepreview_config = {
     \ 'port': 5500, " Port to run the live preview server on.
     \ 'browser': 'default', " Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
     \ 'dynamic_root': v:false " If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:pwd`).
+    \ 'sync_scroll': v:false " If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
 \ }
 ```
 

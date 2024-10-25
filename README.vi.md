@@ -107,6 +107,7 @@ Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opt
     port = 5500, -- Cổng để chạy máy chủ live-preview 
     browser = 'default', -- Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành. 
     dynamic_root = false, -- Nếu true, thư mục gốc của server sẽ là thư mục mẹ của file được preview. Nếu false, plugin sẽ chạy máy chủ live-preview từ thư mục làm việc hiện tại (Bạn có thể xem thư mục làm việc hiện tại bằng lệnh `:pwd`).
+    sync_scroll = false, -- Nếu true, plugin sẽ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim.
 }
 ```
 
@@ -121,6 +122,7 @@ let g:livepreview_config = {
     \ 'port': 5500, " Cổng để chạy máy chủ live-preview
     \ 'browser': 'default', " Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành.
     \ 'dynamic_root': v:false, " Nếu v:true, thư mục gốc của server sẽ là thư mục mẹ của file được preview. Nếu v:false, plugin sẽ chạy máy chủ live-preview từ thư mục làm việc hiện tại (Bạn có thể xem thư mục làm việc hiện tại bằng lệnh `:pwd`).
+    \ 'sync_scroll': v:false, " Nếu v:true, plugin sẽ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim.
 \ }
 ```
 
