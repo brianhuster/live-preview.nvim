@@ -23,12 +23,12 @@ async function connectWebSocket() {
 
 	socket.onmessage = (event) => {
 		const message = JSON.parse(event.data);
-		console.log(message);
 
 		if (message.type === "reload") {
 			console.log("Reload message received");
 			window.location.reload();
 		} else if (message.type === "update") {
+			console.log("Update message received");
 			content = message.content;
 
 			// Check if the render function is defined before calling it
