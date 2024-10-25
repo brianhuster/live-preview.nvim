@@ -54,9 +54,9 @@ async function connectWebSocket() {
 					// Find the closest line number
 					const lineNumbers = document.querySelectorAll(".source-line");
 					let closest = lineNumbers[0];
-					let minDiff = Math.abs(cursor[0] - parseInt(closest.getAttribute("data-source-line")));
+					let minDiff = Math.abs(start_line - parseInt(closest.getAttribute("data-source-line")));
 					lineNumbers.forEach((lineNumber) => {
-						const diff = Math.abs(cursor[0] - parseInt(lineNumber.getAttribute("data-source-line")));
+						const diff = Math.abs(start_line - parseInt(lineNumber.getAttribute("data-source-line")));
 						if (diff < minDiff) {
 							minDiff = diff;
 							closest = lineNumber;
