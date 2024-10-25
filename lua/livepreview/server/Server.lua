@@ -100,38 +100,11 @@ function Server:watch_dir(func)
 			print("Watch error: " .. err)
 			return
 		end
-
-		if event == "rename" then
-			local stat = uv.fs_stat(filename)
-			if stat then
-				if stat.type == "directory" then
-					-- Handle the case where a new directory is added
-					local new_handle = watch(filename)
-					table.insert(self._watch_handles, new_handle)
-					-- Also scan the new directory for subdirectories
-					for _, sub_handle in ipairs(scan_directory(filename)) do
-						table.insert(self._watch_handles, sub_handle)
-					end
-				end
-			else
-				-- Handle the case where a directory is deleted
-				for i, handle in ipairs(self._watch_handles) do
-					if handle.path == filename then
-						handle:stop()
-						handle:close()
-						table.remove(self._watch_handles, i)
-						break
-					end
-				end
-			end
-		end
-
 		func()
 	end
 
 	local function watch(path)
 		local handle = uv.new_fs_event()
-		handle.path = path -- Store the path in the handle for easy reference
 		handle:start(path, { recursive = false }, on_change)
 		return handle
 	end
