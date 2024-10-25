@@ -153,11 +153,10 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 ## Mục tiêu
 
 - [x] Hỗ trợ công thức toán bằng Katex
-- [x] Hỗ trợ biểu đồ Mermaid trong Markdown
+- [x] Hỗ trợ biểu đồ Mermaid trong Markdown và AsciiDoc
 - [x] Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
 - [x] Tự động cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim
 - [ ] Tự động cuộn trang web khi bạn cuộn trong tệp AsciiDoc trong Neovim
-- [ ] Hỗ trợ biểu đồ trong AsciiDoc
 
 ## Không phải mục tiêu
 
