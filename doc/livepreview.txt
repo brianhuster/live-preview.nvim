@@ -50,7 +50,8 @@ Server class for live-preview.nvim To call this class, do >lua
 *Server*
 
     Fields: ~
-      • {new}        (`fun(self: Server, webroot: string?)`) Constructor
+      • {new}        (`fun(self: Server, webroot: string?, config: table?)`)
+                     Constructor
       • {routes}     (`fun(self: Server, path: string): string`) Handle routes
       • {watch_dir}  (`fun(self: Server, func: function)`) Watch a directory
                      for changes and send a message "reload" to a WebSocket
@@ -60,11 +61,12 @@ Server class for live-preview.nvim To call this class, do >lua
       • {stop}       (`fun(self: Server)`) Stop the server
 
 
-Server:new({webroot})                        *livepreview.server.Server:new()*
+Server:new({webroot}, {config})              *livepreview.server.Server:new()*
     Constructor
 
     Parameters: ~
       • {webroot}  (`string?`) path to the webroot
+      • {config}   (`table?`) configuration
 
 Server:routes({path})                     *livepreview.server.Server:routes()*
     Handle routes
