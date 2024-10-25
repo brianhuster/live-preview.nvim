@@ -11,6 +11,8 @@ Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown
 
 Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
 
+Hỗ trợ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim
+
 ### Cập nhật
 
 Xem [RELEASE.md](RELEASE.md)
@@ -149,7 +151,8 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 - [x] Hỗ trợ công thức toán bằng Katex
 - [x] Hỗ trợ biểu đồ Mermaid trong Markdown
 - [x] Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
-- [ ] Tự động cuộn trang web khi bạn cuộn trong tệp Markdown và AsciiDoc trong Neovim
+- [x] Tự động cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim
+- [ ] Tự động cuộn trang web khi bạn cuộn trong tệp AsciiDoc trong Neovim
 - [ ] Hỗ trợ biểu đồ trong AsciiDoc
 
 ## Không phải mục tiêu

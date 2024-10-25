@@ -45,18 +45,18 @@ async function connectWebSocket() {
 			}
 		} else if (message.type === "scroll") {
 			console.log("Scroll message received");
-			const { filepath, start_line } = message;
+			const { filepath, cursor } = message;
 			if (filepath.includes(window.location.pathname)) {
-				const line = document.querySelector(`[data-source-line="${start_line}"]`);
+				const line = document.querySelector(`[data-source-line="${cursor[0]}"]`);
 				if (line) {
 					line.scrollIntoView({ behavior: "smooth" });
 				} else {
 					// Find the closest line number
 					const lineNumbers = document.querySelectorAll(".source-line");
 					let closest = lineNumbers[0];
-					let minDiff = Math.abs(start_line - parseInt(closest.getAttribute("data-source-line")));
+					let minDiff = Math.abs(cursor[0] - parseInt(closest.getAttribute("data-source-line")));
 					lineNumbers.forEach((lineNumber) => {
-						const diff = Math.abs(start_line - parseInt(lineNumber.getAttribute("data-source-line")));
+						const diff = Math.abs(cursor[0] - parseInt(lineNumber.getAttribute("data-source-line")));
 						if (diff < minDiff) {
 							minDiff = diff;
 							closest = lineNumber;
@@ -86,3 +86,4 @@ window.onload = () => {
 		}
 	}, 1000);
 };
+

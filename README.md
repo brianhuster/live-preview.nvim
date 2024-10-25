@@ -12,6 +12,8 @@ Supports mermaid for rendering diagrams in markdown files
 
 Syntax highlighting for code blocks in Markdown and AsciiDoc
 
+Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim
+
 ### Updates
 
 See [RELEASE.md](RELEASE.md) 
@@ -148,7 +150,8 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 - [x] Support for KaTex math in Markdown and AsciiDoc
 - [x] Support for Mermaid diagrams in Markdown
 - [x] Syntax highlighting for code blocks in Markdown and AsciiDoc
-- [ ] Autoscroll in the browser as you scroll in the Markdown and AsciiDoc files in Neovim
+- [x] Autoscroll in the browser as you scroll in the Markdown files in Neovim
+- [ ] Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
 - [ ] Support for diagrams in AsciiDoc
 
 ## Non goals
