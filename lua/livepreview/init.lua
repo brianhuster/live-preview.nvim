@@ -11,6 +11,7 @@ local M = {}
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
 
+M.config = {}
 M.serverObj = nil
 
 -- find html/md/adoc buffer
