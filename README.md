@@ -154,11 +154,10 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 
 ## TODO
 - [x] Support for KaTex math in Markdown and AsciiDoc
-- [x] Support for Mermaid diagrams in Markdown
+- [x] Support for Mermaid diagrams in Markdown and AsciiDoc
 - [x] Syntax highlighting for code blocks in Markdown and AsciiDoc
 - [x] Autoscroll in the browser as you scroll in the Markdown files in Neovim
 - [ ] Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
-- [ ] Support for diagrams in AsciiDoc
 
 ## Non goals
 
