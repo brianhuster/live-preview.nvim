@@ -12,7 +12,7 @@ Supports mermaid for rendering diagrams in markdown files
 
 Syntax highlighting for code blocks in Markdown and AsciiDoc
 
-Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable it in [setup](#setup))
+Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in [setup](#setup))
 
 ### Updates
 
