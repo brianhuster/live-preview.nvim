@@ -18,6 +18,7 @@ local need_scroll = false
 local filepath = ""
 local ws_client
 local cursor_line
+local operating_system = uv.os_uname().sysname
 
 --- Send a scroll message to a WebSocket client
 --- The message is a table with the following
@@ -102,37 +103,42 @@ function Server:watch_dir(func)
 		end
 		func()
 	end
-
-	local function watch(path)
+	local function watch(path, recursive)
 		local handle = uv.new_fs_event()
-		handle:start(path, { recursive = false }, on_change)
+		handle:start(path, { recursive = recursive }, on_change)
 		return handle
 	end
 
-	local function scan_directory(path)
-		local handles = {}
-		local req = uv.fs_scandir(path)
-		if not req then return handles end
 
-		while true do
-			local name, type = uv.fs_scandir_next(req)
-			if not name then break end
-			local full_path = path .. '/' .. name
-			if type == 'directory' then
-				table.insert(handles, watch(full_path))
-				for _, sub_handle in ipairs(scan_directory(full_path)) do
-					table.insert(handles, sub_handle)
+	-- If operating_system is Windows or OSX
+	if operating_system == "Windows" or operating_system == "Darwin" then
+		watch(self.webroot, true)
+	else
+		local function scan_directory(path)
+			local handles = {}
+			local req = uv.fs_scandir(path)
+			if not req then return handles end
+
+			while true do
+				local name, type = uv.fs_scandir_next(req)
+				if not name then break end
+				local full_path = path .. '/' .. name
+				if type == 'directory' then
+					table.insert(handles, watch(full_path, false))
+					for _, sub_handle in ipairs(scan_directory(full_path)) do
+						table.insert(handles, sub_handle)
+					end
 				end
 			end
+			return handles
 		end
-		return handles
+
+		local handles = scan_directory(self.webroot)
+		table.insert(handles, watch(self.webroot, false)) -- Include the root directory
+
+		-- Store handles to prevent garbage collection
+		self._watch_handles = handles
 	end
-
-	local handles = scan_directory(self.webroot)
-	table.insert(handles, watch(self.webroot)) -- Include the root directory
-
-	-- Store handles to prevent garbage collection
-	self._watch_handles = handles
 end
 
 --- Start the server
