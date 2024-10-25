@@ -11,7 +11,7 @@ Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown
 
 Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
 
-Hỗ trợ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim
+Hỗ trợ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim. (Bạn cần kích hoạt `sync_scroll` trong [Tùy chỉnh](#tùy-chỉnh))
 
 ### Cập nhật
 

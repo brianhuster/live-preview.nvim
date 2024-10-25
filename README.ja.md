@@ -11,7 +11,7 @@ Markdownファイル内の図表を表示するためのMermaidサポート
 
 Markdown及びAsciiDocファイル内のコードシンタックスハイライト
 
-Neovim内でMarkdownファイルをスクロールした際に、ウェブページも自動的にスクロール
+Neovim内でMarkdownファイルをスクロールした際に、ウェブページも自動的にスクロール ([設定](#設定)で`sync_scroll`を有効にする必要があります)
 
 ### 更新
 
