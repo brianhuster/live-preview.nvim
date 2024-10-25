@@ -1,0 +1,85 @@
+name: Bug Report
+description: File a bug/issue
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Before** reporting an issue, make sure to read the all the documentations ([README](https://github.com/brianhuster/live-preview.nvim), [`:h livepreview`](https://github.com/brianhuster/live-preview.nvim/blob/main/doc/livepreview.txt), [Wiki](https://github.com/brianhuster/live-preview.nvim/wiki))
+        and search [existing issues](https://github.com/brianhuster/live-preview.nvim/issues) (even the [closed issues](https://github.com/brianhuster/live-preview.nvim/issues?q=is%3Aissue+is%3Aclosed))
+
+  - type: checkboxes
+    attributes:
+      label: Did you read the documentation and check existing issues?
+      description: Make sure you checked and all of the below before submitting an issue
+      options:
+        - label: I have read all the documentations ([README](https://github.com/brianhuster/live-preview.nvim), [`:h livepreview`](https://github.com/brianhuster/live-preview.nvim/blob/main/doc/livepreview.txt), [Wiki](https://github.com/brianhuster/live-preview.nvim/wiki))
+          required: true
+        - label: I have updated the plugin to the latest version before submitting this issue
+          required: true
+        - label: I have searched the [existing issues](https://github.com/brianhuster/live-preview.nvim/issues) and [closed issues](https://github.com/brianhuster/live-preview.nvim/issues?q=is%3Aissue+is%3Aclosed) issues
+          required: true
+  - type: input
+    attributes:
+      label: "Neovim version (nvim -v)"
+      placeholder: "0.10.0"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: "Operating system/version"
+      placeholder: "Ubuntu 24.04.1"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. Please include any related errors you see in Neovim.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Health
+      description: Attach the output of `:checkhealth plugin_template` here
+      render: log
+  - type: textarea
+    attributes:
+      label: Log
+      description: Please enable logging with `vim.g.plugin_template_configuration = {logging = {level = "debug", use_file = true}}` and attach the contents of `~/.local/share/nvim` here or call `:PluginTemplate copy-logs`
+      render: log
+  - type: textarea
+    attributes:
+      label: Repro
+      description: Minimal `init.lua` to reproduce this issue. Save as `repro.lua` and run with `nvim -u repro.lua`
+      value: |
+        vim.env.LAZY_STDPATH = ".repro"
+        load(vim.fn.system("curl -s https://raw.githubusercontent.com/folke/lazy.nvim/main/bootstrap.lua"))()
+
+        require("lazy.minit").repro({
+            spec = {
+            {
+                -- Add anything you need here (configuration, other plugins, etc)
+                "ColinKennedy/nvim-best-practices-plugin-template",
+            },
+        })
+      render: lua
+    validations:
+      required: false
+

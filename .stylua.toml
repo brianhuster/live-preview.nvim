@@ -1,0 +1,3 @@
+indent_type = "Tabs"
+trailing_comma = "Always"
+no_spaces_around_operators = false

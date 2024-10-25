@@ -46,7 +46,3 @@ jobs:
           commit-message: 'Update README based on pkg.json'
           files: 'README.md README.*.md'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Run test
-      #   run: |
-      #     make test
