@@ -11,7 +11,7 @@ Markdownファイル内の図表を表示するためのMermaidサポート
 
 Markdown及びAsciiDocファイル内のコードシンタックスハイライト
 
-Neovim内でMarkdownファイルをスクロールした際に、ウェブページも自動的にスクロール ([設定](#設定)で`sync_scroll`を有効にする必要があります)
+Neovim内でMarkdownファイルをスクロールした際に、ウェブページも自動的にスクロール ([設定](#設定)で`sync_scroll`を有効にする必要があります. この機能は[brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim)と一緒に使用することをお勧めします)
 
 ### 更新
 
@@ -57,6 +57,7 @@ MiniDeps.add({
     depends = { 'brianhuster/autosave.nvim' }, -- 任意ですが、自動保存を推奨
 })
 require('livepreview').setup()
+require('autosave').setup() -- 任意ですが、自動保存を推奨
 ```
 
 </details>
@@ -66,10 +67,11 @@ require('livepreview').setup()
 
 ```vim
 Plug 'brianhuster/live-preview.nvim'
-Plug 'brianhuster/autosave.nvim' " 任意ですが、自動保存を推奨
-
 let g:livepreview_config = {} " オプション設定
 lua require('livepreview').setup(vim.g.livepreview_config) " プラグインを有効にするために必要
+
+Plug 'brianhuster/autosave.nvim' " 任意ですが、自動保存を推奨
+lua require('autosave').setup() " 自動保存を使用する場合のみ必要
 ```
 
 </details>

@@ -11,7 +11,7 @@ Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown
 
 Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
 
-Hỗ trợ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim. (Bạn cần kích hoạt `sync_scroll` trong [Tùy chỉnh](#tùy-chỉnh))
+Hỗ trợ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim. (Bạn cần kích hoạt `sync_scroll` trong [Tùy chỉnh](#tùy-chỉnh). Tính năng này nên được sử dụng cùng với [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim))
 
 ### Cập nhật
 
@@ -57,6 +57,7 @@ MiniDeps.add({
     depends = { 'brianhuster/autosave.nvim' }, -- Not required, but recomended for autosaving
 })
 require('livepreview').setup()
+require('autosave').setup() -- Not required, but recomended for autosaving
 ```
 
 </details>
@@ -66,10 +67,11 @@ require('livepreview').setup()
 
 ```vim
 Plug 'brianhuster/live-preview.nvim'
-Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
-
 let g:livepreview_config = {} " Cấu hình tùy chọn
 lua require('livepreview').setup(vim.g.livepreview_config) " Bắt buộc để kích hoạt plugin
+
+Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
+lua require('autosave').setup() " Not required, but recomended for autosaving
 ```
 
 </details>

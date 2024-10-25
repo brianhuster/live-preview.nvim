@@ -12,7 +12,7 @@ Supports mermaid for rendering diagrams in markdown files
 
 Syntax highlighting for code blocks in Markdown and AsciiDoc
 
-Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in [setup](#setup))
+Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in [setup](#setup). This feature should be used with [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim))
 
 ### Updates
 
@@ -40,7 +40,7 @@ You can install this plugin using a plugin manager. Most plugin managers are sup
 require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
-        dependencies = {'brianhuster/autosave.nvim'}, -- Not required, but recomended for autosaving
+        dependencies = {'brianhuster/autosave.nvim'}, -- Not required, but recomended for autosaving and sync scrolling
         opts = {},
    }
 })
@@ -54,9 +54,12 @@ require("lazy").setup({
 ```lua
 MiniDeps.add({
     source = 'brianhuster/live-preview.nvim',
-    depends = { 'brianhuster/autosave.nvim' }, -- Not required, but recomended for autosaving
+    depends = { 
+        'brianhuster/autosave.nvim' 
+    }, -- Not required, but recomended for autosaving and sync scrolling
 })
 require('livepreview').setup()
+require('autosave').setup() -- Only required if you want use autosave
 ```
 
 </details>
@@ -66,8 +69,9 @@ require('livepreview').setup()
 
 ```vim
 Plug 'brianhuster/live-preview.nvim'
-Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
+lua require('autosave').setup() " Only required if you want use autosave
 
+Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 let g:livepreview_config = {} " Optional configuration. 
 lua require('livepreview').setup(vim.g.livepreview_config) " Required to enable the plugin
 ```
