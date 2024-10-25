@@ -18,6 +18,7 @@ local uv = vim.uv
 local need_scroll = false
 local filepath = ""
 local ws_client
+local cursor_line
 
 --- Send a scroll message to a WebSocket client
 --- The message is a table with the following
@@ -26,6 +27,10 @@ local ws_client
 --- - line: top line of the window
 --- @param client uv_tcp_t: client
 local function send_scroll(client)
+	local cursor = vim.api.nvim_win_get_cursor(0)
+	if cursor_line == cursor[1] then
+		return
+	end
 	if not need_scroll then
 		return
 	end
@@ -38,6 +43,7 @@ local function send_scroll(client)
 		cursor = vim.api.nvim_win_get_cursor(0),
 	}
 	websocket.send_json(client, message)
+	cursor_line = cursor[1]
 	need_scroll = false
 end
 
