@@ -3,10 +3,6 @@
 --- ```vim
 --- :checkhealth livepreview
 --- ```
---- or
---- ```vim
---- :che livepreview
---- ```
 
 local spec = require("livepreview.spec")
 local await_term_cmd = require("livepreview.utils").await_term_cmd
@@ -107,4 +103,3 @@ function M.check()
 end
 
 return M
-

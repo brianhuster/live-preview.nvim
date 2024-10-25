@@ -42,15 +42,19 @@ local function send_scroll(client)
 end
 
 local function send_scroll_autocmd()
-	vim.api.nvim_create_autocmd("WinScrolled", {
-		callback = function()
-			need_scroll = true
-			filepath = vim.api.nvim_buf_get_name(0)
-			if ws_client then
-				send_scroll(ws_client)
+	vim.api.nvim_create_autocmd(
+		{
+			"WinScrolled", "CursorMoved", "CursorMovedI"
+		}, {
+			callback = function()
+				need_scroll = true
+				filepath = vim.api.nvim_buf_get_name(0)
+				if ws_client then
+					send_scroll(ws_client)
+				end
 			end
-		end
-	})
+		}
+	)
 end
 
 --- Constructor
@@ -151,4 +155,3 @@ function Server:stop()
 end
 
 return Server
-
