@@ -1,6 +1,5 @@
 Server	livepreview.txt	/*Server*
 livepreview	livepreview.txt	/*livepreview*
-livepreview.config	livepreview.txt	/*livepreview.config*
 livepreview.content_type	livepreview.txt	/*livepreview.content_type*
 livepreview.etag	livepreview.txt	/*livepreview.etag*
 livepreview.handler	livepreview.txt	/*livepreview.handler*

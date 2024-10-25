@@ -12,6 +12,8 @@ Supports mermaid for rendering diagrams in markdown files
 
 Syntax highlighting for code blocks in Markdown and AsciiDoc
 
+Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim
+
 ### Updates
 
 See [RELEASE.md](RELEASE.md) 
@@ -148,7 +150,8 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 - [x] Support for KaTex math in Markdown and AsciiDoc
 - [x] Support for Mermaid diagrams in Markdown
 - [x] Syntax highlighting for code blocks in Markdown and AsciiDoc
-- [ ] Autoscroll in the browser as you scroll in the Markdown and AsciiDoc files in Neovim
+- [x] Autoscroll in the browser as you scroll in the Markdown files in Neovim
+- [ ] Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
 - [ ] Support for diagrams in AsciiDoc
 
 ## Non goals
@@ -164,6 +167,7 @@ These are not in roadmap of live-preview.nvim right now, but pull requests are w
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) for parsing AsciiDoc files
 * [KaTeX](https://github.com/KaTeX/KaTeX) for rendering math equations
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) for rendering diagrams
+* [digitalmoksha/markdown-it-inject-linenumbers](https://github.com/digitalmoksha/markdown-it-inject-linenumbers) : A markdown-it plugin for injecting line numbers into html output
 
 ### Buy me a coffee
 Maintaining this project takes time and effort, especially as I am a student now. If you find this project helpful, please consider supporting me :>

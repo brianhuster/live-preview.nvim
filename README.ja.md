@@ -11,6 +11,8 @@ Markdownファイル内の図表を表示するためのMermaidサポート
 
 Markdown及びAsciiDocファイル内のコードシンタックスハイライト
 
+Neovim内でMarkdownファイルをスクロールした際に、ウェブページも自動的にスクロール
+
 ### 更新
 
 [RELEASE.md](RELEASE.md)を参照してください。
@@ -105,6 +107,7 @@ Neovimの設定ファイルに`require('livepreview').setup()`（Lua）または
     port = 5500, -- ライブプレビューサーバーのポート
     browser = 'default', -- ブラウザを開くためのコマンド（例：'firefox', 'flatpak run com.vivaldi.Vivaldi'。'default'はシステムのデフォルトブラウザ）。
     dynamic_root = false, -- trueにすると、プレビューされているファイルの親ディレクトリがサーバーのルートになります。falseの場合、現在の作業ディレクトリからサーバーを起動します（現在の作業ディレクトリは`:pwd`で確認できます）。
+    sync_scroll = false, -- trueにすると、Markdownファイルをスクロールすると、ウェブページも自動的にスクロールします。
 }
 ```
 
@@ -119,6 +122,7 @@ let g:livepreview_config = {
     \ 'port': 5500, " ライブプレビューサーバーのポート
     \ 'browser': 'default', " ブラウザを開くためのコマンド（例：'firefox', 'flatpak run com.vivaldi.Vivaldi'。'default'はシステムのデフォルトブラウザ）。
     \ 'dynamic_root': v:false, " v:trueにすると、プレビューされているファイルの親ディレクトリがサーバーのルートになります。v:falseの場合、現在の作業ディレクトリからサーバーを起動します（現在の作業ディレクトリは`:pwd`で確認できます）。
+    \ 'sync_scroll': v:false " v:trueにすると、Markdownファイルをスクロールすると、ウェブページも自動的にスクロールします。
 \ }
 ```
 
@@ -148,9 +152,10 @@ let g:livepreview_config = {
 
 - [x] Katexによる数式サポート
 - [x] MermaidによるMarkdownファイル内の図表サポート
-- [x] MarkdownおよびAsciiDocファイル内のコードシンタックスハイライト
-- [ ] MarkdownおよびAsciiDocファイルをNeovim内でスクロールした際に、ウェブページも自動的にスクロール
+- [x] Markdown及びAsciiDocファイル内のコードシンタックスハイライト
+- [x] MarkdownファイルをNeovim内でスクロールした際に、ウェブページも自動的にスクロール
 - [ ] AsciiDocファイル内の図表サポート
+- [ ] AsciiDocファイルをNeovim内でスクロールした際に、ウェブページも自動的にスクロール
 
 ## 非目標
 
@@ -167,6 +172,7 @@ let g:livepreview_config = {
 * AsciiDocからHTMLへの変換を行う [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js)
 * 数式を表示するための [KaTeX](https://github.com/KaTeX/KaTeX)
 * 図表を表示するための [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid)
+* [digitalmoksha/markdown-it-inject-linenumbers](https://github.com/digitalmoksha/markdown-it-inject-linenumbers) : HTML出力に行番号を挿入するためのmarkdown-itプラグイン
 
 ### サポート
 
@@ -179,3 +185,4 @@ let g:livepreview_config = {
 <a href="https://paypal.me/brianphambinhan">
     <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="Paypal" style="height: 69px;">
 </a>
+

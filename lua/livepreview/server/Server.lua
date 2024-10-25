@@ -41,22 +41,32 @@ local function send_scroll(client)
 	need_scroll = false
 end
 
-
-vim.api.nvim_create_autocmd("WinScrolled", {
-	callback = function()
-		need_scroll = true
-		filepath = vim.api.nvim_buf_get_name(0)
-		if ws_client then
-			send_scroll(ws_client)
-		end
-	end
-})
+local function send_scroll_autocmd()
+	vim.api.nvim_create_autocmd(
+		{
+			"WinScrolled", "CursorMoved", "CursorMovedI"
+		}, {
+			callback = function()
+				need_scroll = true
+				filepath = vim.api.nvim_buf_get_name(0)
+				if ws_client then
+					send_scroll(ws_client)
+				end
+			end
+		}
+	)
+end
 
 --- Constructor
 --- @param webroot string|nil: path to the webroot
-function Server:new(webroot)
+--- @param config table|nil: configuration
+function Server:new(webroot, config)
 	self.server = uv.new_tcp()
 	self.webroot = webroot or uv.cwd()
+	self.config = config or {}
+	if self.config.sync_scroll then
+		send_scroll_autocmd()
+	end
 	return self
 end
 

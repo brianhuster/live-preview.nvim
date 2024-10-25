@@ -11,6 +11,8 @@ Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown
 
 Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
 
+Hỗ trợ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim
+
 ### Cập nhật
 
 Xem [RELEASE.md](RELEASE.md)
@@ -149,7 +151,8 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 - [x] Hỗ trợ công thức toán bằng Katex
 - [x] Hỗ trợ biểu đồ Mermaid trong Markdown
 - [x] Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
-- [ ] Tự động cuộn trang web khi bạn cuộn trong tệp Markdown và AsciiDoc trong Neovim
+- [x] Tự động cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim
+- [ ] Tự động cuộn trang web khi bạn cuộn trong tệp AsciiDoc trong Neovim
 - [ ] Hỗ trợ biểu đồ trong AsciiDoc
 
 ## Không phải mục tiêu
@@ -166,6 +169,7 @@ Dưới đây là một số tính năng không nằm trong kế hoạch của l
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) cho việc chuyển đổi tệp AsciiDoc thành HTML
 * [KaTeX](https://github.com/KaTeX/KaTeX) cho hiển thị phương trình toán học
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) cho hiển thị biểu đồ
+* [digitalmoksha/markdown-it-inject-linenumbers](https://github.com/digitalmoksha/markdown-it-inject-linenumbers) : một plugin markdown-it để chèn số dòng vào đầu ra HTML
 
 
 ### Ủng hộ

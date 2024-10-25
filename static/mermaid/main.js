@@ -12,5 +12,4 @@ mermaid.initialize({
 
 
 renderMermaid();
-mediaQueryList.addListener(handleColorSchemeChange);
 
