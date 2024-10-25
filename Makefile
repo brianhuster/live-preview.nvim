@@ -32,3 +32,9 @@ test_md:
 .PHONY: test_adoc
 test_adoc:
 	@nvim --headless -c "e tests/test.adoc" -c "LivePreview"
+
+luacheck:
+	luacheck lua plugin scripts
+
+stylua:
+	stylua lua plugin scripts
