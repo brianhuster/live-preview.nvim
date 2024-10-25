@@ -4,7 +4,6 @@
 --- local handler = require('livepreview.server.handler')
 --- ```
 
----@alias uv_tcp_t userdata
 
 local websocket = require('livepreview.server.websocket')
 local read_file = require('livepreview.utils').uv_read_file

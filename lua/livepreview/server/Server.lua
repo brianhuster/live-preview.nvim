@@ -18,6 +18,7 @@ local uv = vim.uv
 local need_scroll = false
 local filepath = ""
 local ws_client
+local start_line
 
 --- Send a scroll message to a WebSocket client
 --- The message is a table with the following
@@ -36,6 +37,7 @@ local function send_scroll(client)
 		type = "scroll",
 		filepath = filepath or '',
 		cursor = vim.api.nvim_win_get_cursor(0),
+		start_line = start_line
 	}
 	websocket.send_json(client, message)
 	need_scroll = false
@@ -132,6 +134,7 @@ function Server:start(ip, port, func)
 			end
 		end)
 		ws_client = client
+		start_line = vim.fn.line('w0')
 		self:watch_dir(function()
 			if func then
 				func(client)

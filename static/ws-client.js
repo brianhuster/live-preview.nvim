@@ -45,11 +45,11 @@ async function connectWebSocket() {
 			}
 		} else if (message.type === "scroll") {
 			console.log("Scroll message received");
-			const { filepath, cursor } = message;
+			const { filepath, start_line } = message;
 			if (filepath.includes(window.location.pathname)) {
-				const line = document.querySelector(`[data-source-line="${cursor[0]}"]`);
+				const line = document.querySelector(`[data-source-line="${start_line}"]`);
 				if (line) {
-					line.scrollIntoView({ behavior: "smooth", block: "center" });
+					line.scrollIntoView({ behavior: "smooth" });
 				} else {
 					// Find the closest line number
 					const lineNumbers = document.querySelectorAll(".source-line");
@@ -62,7 +62,7 @@ async function connectWebSocket() {
 							closest = lineNumber;
 						}
 					});
-					closest.scrollIntoView({ behavior: "smooth", block: "center" });
+					closest.scrollIntoView({ behavior: "smooth" });
 				}
 			}
 		}
