@@ -13,9 +13,16 @@ jobs:
     name: stylua
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: JohnnyMorganz/stylua-action@v3
-        with:
-          version: latest
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --color always --check lua plugin scripts
+    - uses: actions/checkout@v4
+    - uses: JohnnyMorganz/stylua-action@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        version: latest # NOTE: we recommend pinning to a specific version in case of formatting changes
+        # CLI arguments
+        args: lua plugin scripts
+    - name: Commit and push formatted files
+      uses: ./.github/actions/commit-and-push
+      with:
+        commit-message: 'Format Lua files with stylua'
+        files: '**/*.lua'
+        github_token: ${{ secrets.GITHUB_TOKEN }} 
