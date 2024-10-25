@@ -47,7 +47,11 @@ function M.preview_file(filepath, port)
 				server.websocket.send_json(client, { type = "reload" })
 			else
 				local content = utils.uv_read_file(filepath)
-				server.websocket.send_json(client, { type = "update", content = content })
+				local message = {
+					type = "update",
+					content = content,
+				}
+				server.websocket.send_json(client, message)
 			end
 		end)
 		return true
