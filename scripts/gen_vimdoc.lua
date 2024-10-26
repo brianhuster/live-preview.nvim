@@ -111,7 +111,7 @@ local function fn_helptag_fmt_common(fun)
 		return fmt("%s.%s:%s%s", fun.module, fun.classvar, fun.name, fn_sfx)
 	end
 	if fun.module then
-		return fmt("%s:%s%s", fun.module, fun.name, fn_sfx)
+		return fmt("%s.%s%s", fun.module, fun.name, fn_sfx)
 	end
 	return fun.name .. fn_sfx
 end
@@ -121,7 +121,7 @@ local config = {
 	lua = {
 		filename = "livepreview.txt",
 		section_order = {
-			"livepreview.lua",
+			"init.lua",
 			"server.lua",
 			"handler.lua",
 			"websocket.lua",
@@ -133,7 +133,7 @@ local config = {
 			"spec.lua",
 		},
 		files = {
-			"lua/livepreview.lua",
+			"lua/livepreview/init.lua",
 			"lua/livepreview/server.lua",
 			"lua/livepreview/server/handler.lua",
 			"lua/livepreview/server/websocket.lua",
