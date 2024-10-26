@@ -8,6 +8,7 @@ local handler = require("livepreview.server.handler")
 local get_plugin_path = require("livepreview.utils").get_plugin_path
 local websocket = require("livepreview.server.websocket")
 local supported_filetype = require("livepreview.utils").supported_filetype
+local fswatch = require("livepreview.fswatch")
 
 ---@class Server
 local Server = {}
@@ -105,6 +106,10 @@ function Server:watch_dir(func)
 	end
 	local function watch(path, recursive)
 		local handle = uv.new_fs_event()
+		if not handle then
+			print("Failed to create fs event")
+			return
+		end
 		handle:start(path, { recursive = recursive }, on_change)
 		return handle
 	end
@@ -112,30 +117,11 @@ function Server:watch_dir(func)
 	if operating_system == "Windows" or operating_system == "Darwin" then
 		watch(self.webroot, true)
 	else
-		local function scan_directory(path)
-			local handles = {}
-			local req = uv.fs_scandir(path)
-			if not req then return handles end
-
-			while true do
-				local name, type = uv.fs_scandir_next(req)
-				if not name then break end
-				local full_path = path .. '/' .. name
-				if type == 'directory' then
-					table.insert(handles, watch(full_path, false))
-					for _, sub_handle in ipairs(scan_directory(full_path)) do
-						table.insert(handles, sub_handle)
-					end
-				end
-			end
-			return handles
-		end
-
-		local handles = scan_directory(self.webroot)
-		table.insert(handles, watch(self.webroot, false)) -- Include the root directory
-
-		-- Store handles to prevent garbage collection
-		self._watch_handles = handles
+		local watcherObj = fswatch.Watcher:new(self.webroot)
+		watcherObj:start(function(filename, events)
+			func()
+		end)
+		self._watcher = watcherObj
 	end
 end
 
@@ -190,7 +176,8 @@ function Server:stop()
 			print("Server closed")
 		end)
 		self.server = nil
-		self._watch_handles = nil
+		self._watcher:close()
+		self._watcher = nil
 	end
 end
 
