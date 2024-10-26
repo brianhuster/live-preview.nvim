@@ -1,4 +1,5 @@
----@brief Non-native file system watcher.
+---@brief Non-native file system watcher. This is made because [luv](https://github.com/luvit/luv) does not support recursive directory watching in other OSes than Windows and OSX
+---
 ---To use this module, do:
 ---```lua
 ---local fswatch = require('livepreview.fswatch')
@@ -8,7 +9,6 @@ local uv = vim.uv
 
 ---@class Watcher
 ---@field directory string
----@field callback function
 ---@field watcher uv_fs_event_t
 ---@field children Watcher[]
 ---To call this class, do:
@@ -59,18 +59,19 @@ function Watcher:start(callback)
 	for _, subdir in ipairs(find_subdirs(self.directory)) do
 		local fswatcher = Watcher:new(subdir)
 		table.insert(self.children, fswatcher)
+		fswatcher:start(callback)
 	end
 	self.watcher:start(self.directory, { recursive = false }, function(err, filename, events)
 		if err then
 			print("Error: ", err)
 			return
 		end
-		-- if not uv.fs_stat(self.directory) or uv.fs_stat(self.directory).type ~= "directory" then
-		-- 	print("Directory does not exist: ", self.directory)
-		-- 	self.watcher:close()
-		-- 	self = nil
-		-- 	return
-		-- end
+		if not uv.fs_stat(self.directory) or uv.fs_stat(self.directory).type ~= "directory" then
+			print("Directory does not exist: ", self.directory)
+			self.watcher:close()
+			self = nil
+			return
+		end
 		callback(filename, events)
 	end)
 end
