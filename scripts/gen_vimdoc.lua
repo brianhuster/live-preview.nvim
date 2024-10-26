@@ -107,14 +107,11 @@ end
 --- @return string
 local function fn_helptag_fmt_common(fun)
 	local fn_sfx = fun.table and "" or "()"
-	if fun.classvar and fun.module then
-		return fmt("%s:%s%s", fun.module, fun.name, fn_sfx)
-	end
 	if fun.classvar then
-		return fmt("%s:%s%s", fun.classvar, fun.name, fn_sfx)
+		return fmt("%s.%s:%s%s", fun.module, fun.classvar, fun.name, fn_sfx)
 	end
 	if fun.module then
-		return fmt("%s.%s%s", fun.module, fun.name, fn_sfx)
+		return fmt("%s:%s%s", fun.module, fun.name, fn_sfx)
 	end
 	return fun.name .. fn_sfx
 end
