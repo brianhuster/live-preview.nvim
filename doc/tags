@@ -1,7 +1,12 @@
 Server	livepreview.txt	/*Server*
+Watcher	livepreview.txt	/*Watcher*
+Watcher:close()	livepreview.txt	/*Watcher:close()*
 livepreview	livepreview.txt	/*livepreview*
 livepreview.content_type	livepreview.txt	/*livepreview.content_type*
 livepreview.etag	livepreview.txt	/*livepreview.etag*
+livepreview.fswatch	livepreview.txt	/*livepreview.fswatch*
+livepreview.fswatch:new()	livepreview.txt	/*livepreview.fswatch:new()*
+livepreview.fswatch:start()	livepreview.txt	/*livepreview.fswatch:start()*
 livepreview.handler	livepreview.txt	/*livepreview.handler*
 livepreview.health	livepreview.txt	/*livepreview.health*
 livepreview.health.check()	livepreview.txt	/*livepreview.health.check()*
@@ -40,3 +45,4 @@ livepreview.utils.term_cmd()	livepreview.txt	/*livepreview.utils.term_cmd()*
 livepreview.utils.uv_read_file()	livepreview.txt	/*livepreview.utils.uv_read_file()*
 livepreview.utils.uv_write_file()	livepreview.txt	/*livepreview.utils.uv_write_file()*
 livepreview.websocket	livepreview.txt	/*livepreview.websocket*
+luv	livepreview.txt	/*luv*

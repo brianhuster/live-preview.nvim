@@ -363,6 +363,51 @@ uv_write_file({file_path})                 *livepreview.utils.uv_write_file()*
 
 
 ==============================================================================
+Live Preview Module : FSWATCH                            *livepreview.fswatch*
+
+Non-native file system watcher. This is made because *luv* does not support
+recursive directory watching in other OSes than Windows and OSX
+
+To use this module, do: >lua
+    local fswatch = require('livepreview.fswatch')
+<
+
+
+*Watcher*
+    To call this class, do: >lua
+        Watcher = require('livepreview.fswatch').Watcher
+<
+
+    Fields: ~
+      • {directory}  (`string`)
+      • {watcher}    (`uv_fs_event_t`)
+      • {children}   (`Watcher[]`)
+      • {new}        (`fun(self: Watcher, directory: string): Watcher`) Create
+                     a new Watcher for a directory.
+      • {start}      (`fun(self: Watcher, callback: function)`) Start watching
+                     a directory and its subdirectories.
+      • {close}      (`fun(self: Watcher)`)
+
+
+Watcher:close()                                              *Watcher:close()*
+
+Watcher:new({directory})                           *livepreview.fswatch:new()*
+    Create a new Watcher for a directory.
+
+    Parameters: ~
+      • {directory}  (`string`)
+
+    Return: ~
+        (`Watcher`)
+
+Watcher:start({callback})                        *livepreview.fswatch:start()*
+    Start watching a directory and its subdirectories.
+
+    Parameters: ~
+      • {callback}  (`function`)
+
+
+==============================================================================
 Live Preview Module : HEALTH                              *livepreview.health*
 
 To run health check for Live Preview, do >vim
