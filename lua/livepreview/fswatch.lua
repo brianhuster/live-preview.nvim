@@ -4,13 +4,15 @@
 ---local fswatch = require('livepreview.fswatch')
 ---```
 
-local M = {}
-
 local uv = vim.uv
 
 ---@class FSWatcher
 ---@field directory string
 ---@field callback function
+---To call this class, do:
+---```lua
+---FSWatcher = require('livepreview.fswatch').FSWatcher
+---```
 local FSWatcher = {}
 FSWatcher.__index = FSWatcher
 
@@ -59,4 +61,6 @@ function FSWatcher:new(directory, callback)
 	return o
 end
 
-return M
+return {
+	FSWatcher = FSWatcher
+}
