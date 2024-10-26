@@ -117,11 +117,11 @@ function Server:watch_dir(func)
 	if operating_system == "Windows" or operating_system == "Darwin" then
 		watch(self.webroot, true)
 	else
-		local watcher = fswatch.Watcher:new(self.webroot)
-		watcher:start(function(filename, events)
+		local watcherObj = fswatch.Watcher:new(self.webroot)
+		watcherObj:start(function(filename, events)
 			func()
 		end)
-		self._watch_handles = watcher
+		self._watcher = watcherObj
 	end
 end
 
@@ -176,7 +176,8 @@ function Server:stop()
 			print("Server closed")
 		end)
 		self.server = nil
-		self._watch_handles = nil
+		self._watcher:close()
+		self._watcher = nil
 	end
 end
 

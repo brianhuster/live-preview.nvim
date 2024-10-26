@@ -74,6 +74,13 @@ function Watcher:start(callback)
 	end)
 end
 
+function Watcher:close()
+	self.watcher:close()
+	for _, child in ipairs(self.children) do
+		child:close()
+	end
+end
+
 return {
 	Watcher = Watcher
 }
