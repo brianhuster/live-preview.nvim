@@ -18,6 +18,7 @@ FSWatcher.__index = FSWatcher
 
 --- Find all first level subdirectories of a directory.
 --- @param dir string
+--- @return table<string>
 local function find_subdirs(dir)
 	local subdirs = {}
 	local fd = uv.fs_scandir(dir)
@@ -50,7 +51,7 @@ function FSWatcher:new(directory, callback)
 	o.callback = callback
 	o.watcher = uv.new_fs_event()
 	o.chidren = {}
-	for _, subdir in ipairs(find_subdirs(directory)) do
+	for _, subdir in ipairs(find_subdirs(o.directory)) do
 		local fswatcher = FSWatcher:new(subdir, callback)
 		table.insert(o.children, fswatcher)
 	end
