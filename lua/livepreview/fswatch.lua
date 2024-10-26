@@ -48,7 +48,7 @@ function Watcher:new(directory)
 	o.__index = o
 	o.directory = directory
 	o.watcher = uv.new_fs_event()
-	o.chidren = {}
+	o.children = {}
 
 	return o
 end
