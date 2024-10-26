@@ -121,8 +121,8 @@ local config = {
 	lua = {
 		filename = "livepreview.txt",
 		section_order = {
-			"init.lua",
-			"Server.lua",
+			"livepreview.lua",
+			"server.lua",
 			"handler.lua",
 			"websocket.lua",
 			"content_type.lua",
@@ -133,8 +133,8 @@ local config = {
 			"spec.lua",
 		},
 		files = {
-			"lua/livepreview/init.lua",
-			"lua/livepreview/server/Server.lua",
+			"lua/livepreview.lua",
+			"lua/livepreview/server.lua",
 			"lua/livepreview/server/handler.lua",
 			"lua/livepreview/server/websocket.lua",
 			"lua/livepreview/server/utils/content_type.lua",
