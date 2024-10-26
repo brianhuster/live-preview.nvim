@@ -16,6 +16,8 @@ local uv = vim.uv
 local FSWatcher = {}
 FSWatcher.__index = FSWatcher
 
+--- Find all subdirectories of a directory.
+--- @param dir string
 local function find_subdirs(dir)
 	local subdirs = {}
 	local req = uv.fs_scandir(dir)
