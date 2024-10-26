@@ -1,17 +1,17 @@
 Error executing luv callback:
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:21: bad argument #1 to 'fs_scandir' (string expected, got table)                                               
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:23: bad argument #1 to 'fs_scandir' (string expected, got table)                                               
 stack traceback:                                                                                                                                                           
 [C]: in function 'fs_scandir'                                                                                                                                      
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:21: in function 'find_subdirs'                                                                         
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:49: in function 'new'                                                                                  
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:50: in function 'new'                                                                                  
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:29: in function 'find_subdirs'                                                                         
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:49: in function 'new'                                                                                  
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:29: in function 'find_subdirs'                                                                         
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:49: in function 'new'                                                                                  
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:29: in function 'find_subdirs'                                                                         
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:49: in function 'new'                                                                                  
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:29: in function 'find_subdirs'                                                                         
-.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:49: in function 'new'                                                                                  
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:23: in function 'find_subdirs'                                                                         
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:51: in function 'new'                                                                                  
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:52: in function 'new'                                                                                  
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:31: in function 'find_subdirs'                                                                         
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:51: in function 'new'                                                                                  
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:31: in function 'find_subdirs'                                                                         
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:51: in function 'new'                                                                                  
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:31: in function 'find_subdirs'                                                                         
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:51: in function 'new'                                                                                  
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:31: in function 'find_subdirs'                                                                         
+.../nvim/lazy/live-preview.nvim/lua/livepreview/fswatch.lua:51: in function 'new'                                                                                  
 ...lazy/live-preview.nvim/lua/livepreview/server/Server.lua:116: in function 'watch_dir'                                                                           
-...lazy/live-preview.nvim/lua/livepreview/server/Server.lua:155: in function <...lazy/live-preview.nvim/lua/livepreview/server/Server.lua:130>            
+...lazy/live-preview.nvim/lua/livepreview/server/Server.lua:155: in function <...lazy/live-preview.nvim/lua/livepreview/server/Server.lua:130>

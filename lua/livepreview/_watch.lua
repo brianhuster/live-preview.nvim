@@ -145,7 +145,6 @@ function M.watchdirs(path, opts, callback)
 	opts = opts or {}
 	local debounce = opts.debounce or 500
 
-	---@type table<string, uv.uv_fs_event_t> handle by fullpath
 	local handles = {}
 
 	local timer = assert(uv.new_timer())

@@ -16,19 +16,21 @@ local uv = vim.uv
 local FSWatcher = {}
 FSWatcher.__index = FSWatcher
 
---- Find all subdirectories of a directory.
+--- Find all first level subdirectories of a directory.
 --- @param dir string
 local function find_subdirs(dir)
 	local subdirs = {}
-	local req = uv.fs_scandir(dir)
-	if not req then return subdirs end
-
+	local fd = uv.fs_scandir(dir)
+	if not fd then
+		return subdirs
+	end
 	while true do
-		local name, type = uv.fs_scandir_next(req)
-		if not name then break end
-		local full_path = dir .. '/' .. name
-		if type == 'directory' then
-			table.insert(subdirs, FSWatcher:new(full_path, callback))
+		local name, t = uv.fs_scandir_next(fd)
+		if not name then
+			break
+		end
+		if t == "directory" then
+			table.insert(subdirs, dir .. "/" .. name)
 		end
 	end
 	return subdirs
