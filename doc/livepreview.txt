@@ -42,12 +42,15 @@ stop_preview()                                    *livepreview.stop_preview()*
 ==============================================================================
 Live Preview Module : SERVER                              *livepreview.server*
 
-Server class for live-preview.nvim To call this class, do >lua
-    local Server = require('livepreview').server.Server
+Server module for live-preview.nvim To require this module, do >lua
+    local server = require('livepreview.server')
 <
 
 
 *Server*
+    To call this class, do >lua
+        local Server = require('livepreview.server').Server
+<
 
     Fields: ~
       • {new}        (`fun(self: Server, webroot: string?, config: table?)`)
@@ -365,14 +368,6 @@ uv_write_file({file_path})                 *livepreview.utils.uv_write_file()*
 ==============================================================================
 Live Preview Module : FSWATCH                            *livepreview.fswatch*
 
-Non-native file system watcher. This is made because *luv* does not support
-recursive directory watching in other OSes than Windows and OSX
-
-To use this module, do: >lua
-    local fswatch = require('livepreview.fswatch')
-<
-
-
 *Watcher*
     To call this class, do: >lua
         Watcher = require('livepreview.fswatch').Watcher
@@ -386,12 +381,14 @@ To use this module, do: >lua
                      a new Watcher for a directory.
       • {start}      (`fun(self: Watcher, callback: function)`) Start watching
                      a directory and its subdirectories.
-      • {close}      (`fun(self: Watcher)`)
+      • {close}      (`fun(self: Watcher)`) Close the watcher and all its
+                     children.
 
 
-Watcher:close()                                              *Watcher:close()*
+Watcher:close()                          *livepreview.fswatch.Watcher:close()*
+    Close the watcher and all its children.
 
-Watcher:new({directory})                           *livepreview.fswatch:new()*
+Watcher:new({directory})                   *livepreview.fswatch.Watcher:new()*
     Create a new Watcher for a directory.
 
     Parameters: ~
@@ -400,7 +397,7 @@ Watcher:new({directory})                           *livepreview.fswatch:new()*
     Return: ~
         (`Watcher`)
 
-Watcher:start({callback})                        *livepreview.fswatch:start()*
+Watcher:start({callback})                *livepreview.fswatch.Watcher:start()*
     Start watching a directory and its subdirectories.
 
     Parameters: ~

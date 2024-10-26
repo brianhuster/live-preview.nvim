@@ -4,6 +4,7 @@
 ---```lua
 ---local fswatch = require('livepreview.fswatch')
 ---```
+local M = {}
 
 local uv = vim.uv
 
@@ -76,6 +77,7 @@ function Watcher:start(callback)
 	end)
 end
 
+---Close the watcher and all its children.
 function Watcher:close()
 	self.watcher:close()
 	for _, child in ipairs(self.children) do
@@ -83,6 +85,5 @@ function Watcher:close()
 	end
 end
 
-return {
-	Watcher = Watcher
-}
+M.Watcher = Watcher
+return M

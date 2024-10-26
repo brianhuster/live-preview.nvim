@@ -1,9 +1,10 @@
----@brief Server class for live-preview.nvim
---- To call this class, do
---- ```lua
---- local Server = require('livepreview').server.Server
---- ```
+---@brief Server module for live-preview.nvim
+---To require this module, do
+---```lua
+---local server = require('livepreview.server')
+---```
 
+local M = {}
 local handler = require("livepreview.server.handler")
 local get_plugin_path = require("livepreview.utils").get_plugin_path
 local websocket = require("livepreview.server.websocket")
@@ -11,6 +12,9 @@ local supported_filetype = require("livepreview.utils").supported_filetype
 local fswatch = require("livepreview.fswatch")
 
 ---@class Server
+---To call this class, do
+---```lua
+---local Server = require('livepreview.server').Server
 local Server = {}
 Server.__index = Server
 
@@ -181,4 +185,8 @@ function Server:stop()
 	end
 end
 
-return Server
+M.Server = Server
+M.handler = require("livepreview.server.handler")
+M.utils = require("livepreview.server.utils")
+M.websocket = require("livepreview.server.websocket")
+return M
