@@ -106,6 +106,10 @@ function Server:watch_dir(func)
 	end
 	local function watch(path, recursive)
 		local handle = uv.new_fs_event()
+		if not handle then
+			print("Failed to create fs event")
+			return
+		end
 		handle:start(path, { recursive = recursive }, on_change)
 		return handle
 	end
@@ -113,7 +117,8 @@ function Server:watch_dir(func)
 	if operating_system == "Windows" or operating_system == "Darwin" then
 		watch(self.webroot, true)
 	else
-		local watcher = fswatch.FSWatcher:new(self.webroot, function(filename, events)
+		local watcher = fswatch.Watcher:new(self.webroot)
+		watcher:start(function(filename, events)
 			func()
 		end)
 		self._watch_handles = watcher

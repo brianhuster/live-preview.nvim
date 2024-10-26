@@ -6,15 +6,17 @@
 
 local uv = vim.uv
 
----@class FSWatcher
+---@class Watcher
 ---@field directory string
 ---@field callback function
+---@field watcher uv_fs_event_t
+---@field children Watcher[]
 ---To call this class, do:
 ---```lua
----FSWatcher = require('livepreview.fswatch').FSWatcher
+---Watcher = require('livepreview.fswatch').Watcher
 ---```
-local FSWatcher = {}
-FSWatcher.__index = FSWatcher
+local Watcher = {}
+Watcher.__index = Watcher
 
 --- Find all first level subdirectories of a directory.
 --- @param dir string
@@ -37,35 +39,41 @@ local function find_subdirs(dir)
 	return subdirs
 end
 
----Create a new FSWatcher for a directory.
+---Create a new Watcher for a directory.
 ---@param directory string
----@param callback function(filename: string, events: string)
----The callback function to be called when a file changes.
----The `filename` parameter is the name of the file that changed.
----@return FSWatcher
-function FSWatcher:new(directory, callback)
+---@return Watcher
+function Watcher:new(directory)
 	local o = {}
 	setmetatable(o, self)
-	self.__index = self
+	o.__index = o
 	o.directory = directory
-	o.callback = callback
 	o.watcher = uv.new_fs_event()
 	o.chidren = {}
-	for _, subdir in ipairs(find_subdirs(o.directory)) do
-		local fswatcher = FSWatcher:new(subdir, callback)
-		table.insert(o.children, fswatcher)
-	end
-	o.watcher:start(directory, {}, function(err, filename, events)
-		if err then
-			print("Error: ", err)
-			return
-		end
-		o.callback(filename, events)
-	end)
 
 	return o
 end
 
+---Start watching a directory and its subdirectories.
+---@param callback function(filename: string, events: { change: boolean, rename: boolean })
+function Watcher:start(callback)
+	for _, subdir in ipairs(find_subdirs(self.directory)) do
+		local fswatcher = Watcher:new(subdir)
+		table.insert(self.children, fswatcher)
+	end
+	self.watcher:start(self.directory, { recursive = false }, function(err, filename, events)
+		if err then
+			print("Error: ", err)
+			return
+		end
+		if not uv.fs_stat(self.directory) or uv.fs_stat(self.directory).type ~= "directory" then
+			self.watcher:close()
+			self = nil
+			return
+		end
+		callback(filename, events)
+	end)
+end
+
 return {
-	FSWatcher = FSWatcher
+	Watcher = Watcher
 }
