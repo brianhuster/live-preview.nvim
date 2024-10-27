@@ -1,9 +1,12 @@
----@brief Non-native file system watcher. This is made because [luv](https://github.com/luvit/luv) does not support recursive directory watching in other OSes than Windows and OSX
+---@brief Non-native file system watcher.
+---
+---This is made because [luv](https://github.com/luvit/luv) doesn't support recursive directory watching in other OSes than Windows and OSX
 ---
 ---To use this module, do:
 ---```lua
 ---local fswatch = require('livepreview.fswatch')
 ---```
+
 local M = {}
 
 local uv = vim.uv

@@ -45,3 +45,4 @@ livepreview.utils.term_cmd()	livepreview.txt	/*livepreview.utils.term_cmd()*
 livepreview.utils.uv_read_file()	livepreview.txt	/*livepreview.utils.uv_read_file()*
 livepreview.utils.uv_write_file()	livepreview.txt	/*livepreview.utils.uv_write_file()*
 livepreview.websocket	livepreview.txt	/*livepreview.websocket*
+luv	livepreview.txt	/*luv*
