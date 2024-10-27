@@ -24,10 +24,10 @@ local uv = vim.uv
 local Watcher = {}
 Watcher.__index = Watcher
 
---- Find all first level subdirectories of a directory.
+--- List all first level subdirectories of a directory.
 --- @param dir string
 --- @return table<string>
-local function find_subdirs(dir)
+local function get_subdirs(dir)
 	local subdirs = {}
 	local fd = uv.fs_scandir(dir)
 	if not fd then
@@ -62,7 +62,7 @@ end
 ---Start watching a directory and its subdirectories.
 ---@param callback function(filename: string, events: { change: boolean, rename: boolean })
 function Watcher:start(callback)
-	for _, subdir in ipairs(find_subdirs(self.directory)) do
+	for _, subdir in ipairs(get_subdirs(self.directory)) do
 		local fswatcher = Watcher:new(subdir)
 		table.insert(self.children, fswatcher)
 		fswatcher:start(callback)
