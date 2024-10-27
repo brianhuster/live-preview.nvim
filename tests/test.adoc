@@ -6,6 +6,7 @@ Ngày:: 08/10/2024
 
 == Giới thiệu
 
+
 Tài liệu này mô tả cách sử dụng Asciidoc để tạo một tệp tài liệu dài. Chúng tôi sẽ giới thiệu các yếu tố khác nhau như tiêu đề, danh sách, bảng và hình ảnh.
 
 == Các thành phần cơ bản
