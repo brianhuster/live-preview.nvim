@@ -2,6 +2,8 @@
 ---
 ---This is made because |luv| (|vim.uv|) doesn't support recursive directory watching in other OSes than Windows and OSX
 ---
+---This module has only been tested on Linux. For Windows and OSX, it is recommended to use |uv_fs_event_t| with flag { recursive = true }
+---
 ---To use this module, do:
 ---```lua
 ---local fswatch = require('livepreview.fswatch')
@@ -82,7 +84,7 @@ function Watcher:start(callback)
 			--- Check if a directory is created
 			local path = filename and vim.fs.joinpath(self.directory, filename)
 			local filestat = path and uv.fs_stat(path)
-			if filestat and uv.fs_stat(path).type == "directory" then
+			if filestat and filestat.type == "directory" then
 				local fswatcher = Watcher:new(path)
 				table.insert(self.children, fswatcher)
 				fswatcher:start(callback)
