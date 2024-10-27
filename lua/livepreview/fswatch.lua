@@ -70,15 +70,17 @@ function Watcher:start(callback)
 			print("Error: ", err)
 			return
 		end
+		--- Check if the directory still exists
+		if not uv.fs_stat(self.directory) or uv.fs_stat(self.directory).type ~= "directory" then
+			self.watcher:close()
+			self = nil
+			return
+		end
+
 		if events.rename then
-			--- Check if the directory still exists
-			if not uv.fs_stat(self.directory) or uv.fs_stat(self.directory).type ~= "directory" then
-				self.watcher:close()
-				self = nil
-				return
-			end
 			--- Check if a directory is created
-			if uv.fs_stat(filename).type == "directory" then
+			local filestat = filename and uv.fs_stat(filename)
+			if filestat and uv.fs_stat(filename).type == "directory" then
 				local fswatcher = Watcher:new(filename)
 				table.insert(self.children, fswatcher)
 				fswatcher:start(callback)

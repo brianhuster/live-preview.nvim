@@ -17,4 +17,4 @@ vim.filetype.add({
 	},
 })
 
-vim.o.backupcopy = "yes"
+vim.o.backupcopy = "no"
