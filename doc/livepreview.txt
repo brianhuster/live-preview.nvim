@@ -429,15 +429,14 @@ check()                                           *livepreview.health.check()*
     Run checkhealth for Live Preview. This can also be called using
     `:checkhealth livepreview`
 
-is_compatible({ver}, {range})             *livepreview.health.is_compatible()*
-    Check if the version is compatible with the range
-
-    Parameters: ~
-      • {ver}    (`string`) version to check. Example: "0.10.1"
-      • {range}  (`string`) range to check against. Example: ">=0.10.0"
+is_nvim_compatible()                 *livepreview.health.is_nvim_compatible()*
+    Check if the current Nvim version is compatible with Live Preview
 
     Return: ~
-        (`boolean`) true if compatible, false otherwise
+        (`table`) A table with the following
+        • boolean: true if compatible, false otherwise
+        • string: current Nvim version
+        • string: Nvim version range
 
 
  vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
