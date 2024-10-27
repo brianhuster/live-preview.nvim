@@ -1,11 +1,8 @@
-local spec = require("livepreview.spec")
-local nvim_ver_range = spec().engines.nvim
-local nvim_ver_table = vim.version()
-local nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
-local is_compatible = require("livepreview.health").is_compatible
+local health = require("livepreview.health")
 
-if not is_compatible(nvim_ver, nvim_ver_range) then
-	vim.notify_once("Live Preview requires Neovim " .. nvim_ver_range .. ", but you are using " .. nvim_ver)
+if not health.is_nvim_compatible() then
+	vim.notify_once(string.format([["Live Preview requires Nvim %s, but you are using Nvim %s"]],
+		health.supported_nvim_ver_range, health.nvim_ver))
 end
 
 package.loaded["live-preview"] = require("livepreview")
