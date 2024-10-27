@@ -84,7 +84,7 @@ function Watcher:start(callback)
 			--- Check if a directory is created
 			local path = filename and vim.fs.joinpath(self.directory, filename)
 			local filestat = path and uv.fs_stat(path)
-			if filestat and uv.fs_stat(path).type == "directory" then
+			if filestat and filestat.type == "directory" then
 				local fswatcher = Watcher:new(path)
 				table.insert(self.children, fswatcher)
 				fswatcher:start(callback)
