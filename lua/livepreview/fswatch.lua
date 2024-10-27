@@ -68,10 +68,16 @@ function Watcher:start(callback)
 			return
 		end
 		if not uv.fs_stat(self.directory) or uv.fs_stat(self.directory).type ~= "directory" then
-			print("Directory does not exist: ", self.directory)
 			self.watcher:close()
 			self = nil
 			return
+		end
+		if events.rename then
+			if uv.fs_stat(filename).type == "directory" then
+				local fswatcher = Watcher:new(filename)
+				table.insert(self.children, fswatcher)
+				fswatcher:start(callback)
+			end
 		end
 		callback(filename, events)
 	end)
