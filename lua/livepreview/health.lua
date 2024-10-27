@@ -23,16 +23,9 @@ local function is_compatible(ver, range)
 end
 
 --- Check if the current Nvim version is compatible with Live Preview
---- @return table: A table with the following
---- - boolean: true if compatible, false otherwise
---- - string: current Nvim version
---- - string: Nvim version range
+--- @return boolean: true if compatible, false otherwise
 function M.is_nvim_compatible()
-	return {
-		is_compatible(nvim_ver, supported_nvim_ver_range),
-		nvim_ver,
-		supported_nvim_ver_range,
-	}
+	return is_compatible(nvim_ver, supported_nvim_ver_range)
 end
 
 local function checkhealth_port(port)

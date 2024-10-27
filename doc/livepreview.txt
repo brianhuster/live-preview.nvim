@@ -433,10 +433,7 @@ is_nvim_compatible()                 *livepreview.health.is_nvim_compatible()*
     Check if the current Nvim version is compatible with Live Preview
 
     Return: ~
-        (`table`) A table with the following
-        • boolean: true if compatible, false otherwise
-        • string: current Nvim version
-        • string: Nvim version range
+        (`boolean`) true if compatible, false otherwise
 
 
  vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
