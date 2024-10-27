@@ -1,6 +1,6 @@
 const asciidoctor = Asciidoctor();
 
-function render(adoc) {
+function livepreview_render(adoc) {
 	const html = asciidoctor.convert(adoc);
 	console.log(html);
 	document.querySelector('.markdown-body').innerHTML = html;
@@ -8,4 +8,4 @@ function render(adoc) {
 }
 
 const adoc = document.querySelector('.markdown-body').innerHTML;
-render(adoc);
+livepreview_render(adoc);

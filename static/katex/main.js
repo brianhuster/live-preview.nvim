@@ -1,4 +1,4 @@
-function renderKatex() {
+function livepreview_renderKatex() {
 	renderMathInElement(document.body, {
 		delimiters: [
 			{ left: '$$', right: '$$', display: true },
@@ -11,5 +11,5 @@ function renderKatex() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-	renderKatex();
+	livepreview_renderKatex();
 });
