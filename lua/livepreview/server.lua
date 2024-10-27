@@ -21,7 +21,7 @@ Server.__index = Server
 local uv = vim.uv
 local need_scroll = false
 local filepath = ""
-local ws_client
+local connecting_clients = {}
 local cursor_line
 local operating_system = uv.os_uname().sysname
 
@@ -30,8 +30,7 @@ local operating_system = uv.os_uname().sysname
 --- - type: "scroll"
 --- - filepath: path to the file
 --- - line: top line of the window
---- @param client uv_tcp_t: client
-local function send_scroll(client)
+local function send_scroll()
 	local cursor = vim.api.nvim_win_get_cursor(0)
 	if cursor_line == cursor[1] then
 		return
@@ -47,7 +46,9 @@ local function send_scroll(client)
 		filepath = filepath or "",
 		cursor = vim.api.nvim_win_get_cursor(0),
 	}
-	websocket.send_json(client, message)
+	for _, client in ipairs(connecting_clients) do
+		websocket.send_json(client, message)
+	end
 	cursor_line = cursor[1]
 	need_scroll = false
 end
@@ -61,8 +62,8 @@ local function send_scroll_autocmd()
 		callback = function()
 			need_scroll = true
 			filepath = vim.api.nvim_buf_get_name(0)
-			if ws_client then
-				send_scroll(ws_client)
+			if #connecting_clients then
+				send_scroll()
 			end
 		end,
 	})
@@ -147,7 +148,7 @@ function Server:start(ip, port, func)
 		handler.client(client, function(error, request)
 			if error then
 				print(error)
-				client:close()
+
 				return
 			end
 			if request then
@@ -158,9 +159,15 @@ function Server:start(ip, port, func)
 					local file_path = self:routes(path)
 					handler.serve_file(client, file_path, if_none_match)
 				end
+			else
+				for i, c in ipairs(connecting_clients) do
+					if c == client then
+						table.remove(connecting_clients, i)
+					end
+				end
 			end
 		end)
-		ws_client = client
+		table.insert(connecting_clients, client)
 		self:watch_dir(function()
 			if func then
 				func(client)
