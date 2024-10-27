@@ -1,6 +1,6 @@
 ---@brief Non-native file system watcher.
 ---
----This is made because [luv](https://github.com/luvit/luv) doesn't support recursive directory watching in other OSes than Windows and OSX
+---This is made because |luv| (|vim.uv|) doesn't support recursive directory watching in other OSes than Windows and OSX
 ---
 ---To use this module, do:
 ---```lua
