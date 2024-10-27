@@ -16,5 +16,3 @@ vim.filetype.add({
 		[".*/live%-preview%.nvim/.*template.lua"] = "luatemplate",
 	},
 })
-
-vim.o.backupcopy = "no"
