@@ -79,7 +79,8 @@ function Watcher:start(callback)
 
 		if events.rename then
 			--- Check if a directory is created
-			if filename and uv.fs_stat(filename).type == "directory" then
+			local filestat = filename and uv.fs_stat(filename)
+			if filestat and uv.fs_stat(filename).type == "directory" then
 				local fswatcher = Watcher:new(filename)
 				table.insert(self.children, fswatcher)
 				fswatcher:start(callback)
