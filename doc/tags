@@ -10,7 +10,7 @@ livepreview.fswatch.Watcher:start()	livepreview.txt	/*livepreview.fswatch.Watche
 livepreview.handler	livepreview.txt	/*livepreview.handler*
 livepreview.health	livepreview.txt	/*livepreview.health*
 livepreview.health.check()	livepreview.txt	/*livepreview.health.check()*
-livepreview.health.is_compatible()	livepreview.txt	/*livepreview.health.is_compatible()*
+livepreview.health.is_nvim_compatible()	livepreview.txt	/*livepreview.health.is_nvim_compatible()*
 livepreview.preview_file()	livepreview.txt	/*livepreview.preview_file()*
 livepreview.server	livepreview.txt	/*livepreview.server*
 livepreview.server.Server:new()	livepreview.txt	/*livepreview.server.Server:new()*
