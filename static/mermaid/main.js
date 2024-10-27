@@ -1,4 +1,4 @@
-function renderMermaid() {
+function livepreview_renderMermaid() {
 	mermaid.run({
 		querySelector: '.language-mermaid',
 	});
@@ -11,5 +11,5 @@ mermaid.initialize({
 });
 
 
-renderMermaid();
+livepreview_renderMermaid();
 
