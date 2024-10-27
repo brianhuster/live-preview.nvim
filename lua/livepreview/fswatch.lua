@@ -2,7 +2,7 @@
 ---
 ---This is made because |luv| (|vim.uv|) doesn't support recursive directory watching in other OSes than Windows and OSX
 ---
----This module has only been tested on Linux. For Windows and OSX, it is recommended to use |uv_fs_event| with option { recursive = true }
+---This module has only been tested on Linux. For Windows and OSX, it is recommended to use |uv_fs_event_t| with flag { recursive = true }
 ---
 ---To use this module, do:
 ---```lua
