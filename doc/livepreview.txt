@@ -368,6 +368,16 @@ uv_write_file({file_path})                 *livepreview.utils.uv_write_file()*
 ==============================================================================
 Live Preview Module : FSWATCH                            *livepreview.fswatch*
 
+Non-native file system watcher.
+
+This is made because |luv| (|vim.uv|) doesn't support recursive directory
+watching in other OSes than Windows and OSX
+
+To use this module, do: >lua
+    local fswatch = require('livepreview.fswatch')
+<
+
+
 *Watcher*
     To call this class, do: >lua
         Watcher = require('livepreview.fswatch').Watcher
