@@ -10,9 +10,9 @@ const md = window.markdownit({
 		return ''; // use external default escaping
 	}
 });
-md.use(injectLinenumbersPlugin);
+md.use(livepreview_injectLinenumbersPlugin);
 
-const render = (text) => {
+const livepreview_render = (text) => {
 	const html = md.render(text);
 	console.log(html);
 	document.querySelector('.markdown-body').innerHTML = html;
@@ -20,6 +20,6 @@ const render = (text) => {
 }
 
 const markdownText = document.querySelector('.markdown-body').innerHTML;
-render(markdownText);
+livepreview_render(markdownText);
 
 

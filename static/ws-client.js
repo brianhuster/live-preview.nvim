@@ -32,13 +32,13 @@ async function connectWebSocket() {
 			content = message.content;
 
 			// Check if the render function is defined before calling it
-			if (typeof render !== "undefined") {
-				render(content);
-				if (typeof renderKatex !== "undefined") {
-					renderKatex();
+			if (typeof livepreview_render !== "undefined") {
+				livepreview_render(content);
+				if (typeof livepreview_renderKatex !== "undefined") {
+					livepreview_renderKatex();
 				}
-				if (typeof renderMermaid !== "undefined") {
-					renderMermaid();
+				if (typeof livepreview_renderMermaid !== "undefined") {
+					livepreview_renderMermaid();
 				}
 			} else {
 				console.warn("Render function is not defined.");

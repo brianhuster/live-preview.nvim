@@ -19,7 +19,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-function injectLinenumbersPlugin(md) {
+function livepreview_injectLinenumbersPlugin(md) {
 	//
 	// Inject line numbers for sync scroll. Notes:
 	//
