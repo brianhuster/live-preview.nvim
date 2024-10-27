@@ -27,7 +27,7 @@ https://github.com/user-attachments/assets/e9a64709-8758-44d8-9e3c-9c15e0bf2a0e
 ## 必要条件
 
 - Neovim >=0.10.0
-  （推奨: >= 0.10.2）
+  （推奨: >= 0.10.1）
 - Webブラウザ
 
 ## インストール
