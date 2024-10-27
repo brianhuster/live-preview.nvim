@@ -99,7 +99,7 @@ end
 
 --- Handle a client connection, read the request and send a response
 ---@param client uv_tcp_t: client connection
----@param callback function: callback function to handle the result
+---@param callback function(): callback function to handle the result
 ---    - `err`: Error message, if any (nil if no error)
 ---    - `data`: Request from the client
 ---@return string: request from the client

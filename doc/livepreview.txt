@@ -114,7 +114,7 @@ client({client}, {callback})             *livepreview.server.handler.client()*
 
     Parameters: ~
       • {client}    (`uv_tcp_t`) client connection
-      • {callback}  (`function`) callback function to handle the result
+      • {callback}  (`function`)
                     • `err`: Error message, if any (nil if no error)
                     • `data`: Request from the client
 
