@@ -45,6 +45,8 @@ function M.is_nvim_compatible()
 	return is_compatible(M.nvim_ver, M.supported_nvim_ver_range)
 end
 
+--- Checkhealth server and port
+--- @param port number: port to check
 local function checkhealth_port(port)
 	local cmd
 	if vim.uv.os_uname().version:match("Windows") then
@@ -97,29 +99,46 @@ local function checkhealth_port(port)
 		else
 			local process_name = getProcessName(pid)
 			vim.health.warn(
-				string.format([[The port %d is being used by another process: %s (PID: %s).]], port, process_name, pid)
-			)
+				string.format([[The port %d is being used by another process: %s (PID: %s).]], port, process_name, pid),
+				"Though live-preview.nvim can automatically kill processes that use the port when you start a Live Preview server, it can not kill other Neovim processes. If another Neovim process is using the port, you should manually close the server run inside that Neovim, or just close that Neovim.")
 		end
 	end
 end
 
 local function check_config()
-	vim.health.info(vim.inspect(require("livepreview").config))
+	local config = require("livepreview").config
+	if not config or #config == 0 then
+		vim.health.warn("Setup function not called",
+			"Please add `require('livepreview').setup()` to your Lua config or `lua require('livepreview').setup()` to your Vimscript config for Nvim")
+		return
+	else
+		vim.health.info(vim.inspect(config))
+	end
 end
 
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()
 	vim.health.start("Check compatibility")
 	if not M.is_nvim_compatible() then
-		vim.health.error("Live Preview requires Nvim " ..
-			M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver)
+		vim.health.error("|live-preview.nvim| requires Nvim " ..
+			M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver,
+			"Please upgrade your Nvim"
+		)
 	else
 		vim.health.ok("Nvim " .. M.nvim_ver .. " is compatible with Live Preview")
 	end
 
+	if vim.uv.os_uname().version:match("Windows") then
+		if not vim.fn.executable("pwsh") then
+			vim.health.warn("PowerShell not available")
+		else
+			vim.health.ok("PowerShell is available")
+		end
+	end
+
 	if require("livepreview").config.port then
 		vim.health.start("Checkhealth server and process")
-		vim.health.info("This Nvim process's PID is " .. vim.uv.os_getpid())
+		vim.health.ok("This Nvim process's PID is " .. vim.uv.os_getpid())
 		checkhealth_port(require("livepreview").config.port)
 	end
 

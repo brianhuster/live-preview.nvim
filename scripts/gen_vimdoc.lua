@@ -130,7 +130,6 @@ local config = {
 			"utils.lua",
 			"fswatch.lua",
 			"health.lua",
-			"spec.lua",
 		},
 		files = {
 			"lua/livepreview/init.lua",
@@ -142,7 +141,6 @@ local config = {
 			"lua/livepreview/utils.lua",
 			"lua/livepreview/fswatch.lua",
 			"lua/livepreview/health.lua",
-			"lua/livepreview/spec.lua",
 		},
 		fn_xform = function(fun)
 			fun.name = fun.name:gsub("M.", "")

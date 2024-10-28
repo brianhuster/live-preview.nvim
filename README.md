@@ -29,6 +29,7 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 - Neovim >=0.10.0
     (recommended: >=0.10.1)
 - A modern web browser
+- PowerShell (only if you use Windows)
 
 ## Installation
 
