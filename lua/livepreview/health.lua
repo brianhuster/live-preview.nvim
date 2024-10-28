@@ -45,6 +45,8 @@ function M.is_nvim_compatible()
 	return is_compatible(M.nvim_ver, M.supported_nvim_ver_range)
 end
 
+--- Checkhealth server and port
+--- @param port number: port to check
 local function checkhealth_port(port)
 	local cmd
 	if vim.uv.os_uname().version:match("Windows") then
@@ -97,7 +99,10 @@ local function checkhealth_port(port)
 		else
 			local process_name = getProcessName(pid)
 			vim.health.warn(
-				string.format([[The port %d is being used by another process: %s (PID: %s).]], port, process_name, pid)
+				string.format([[The port %d is being used by another process: %s (PID: %s).]], port, process_name, pid),
+				string.format(
+					[["While Live Preview can automatically kill processes that use the port when you run `:%s`, it can not kill other Neovim processes. In that case, you should manually close the server run inside that Neovim."]],
+					require("livepreview").config.commands.start or "LivePreview")
 			)
 		end
 	end
@@ -112,14 +117,16 @@ function M.check()
 	vim.health.start("Check compatibility")
 	if not M.is_nvim_compatible() then
 		vim.health.error("Live Preview requires Nvim " ..
-			M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver)
+			M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver,
+			"Please upgrade your Nvim to use Live Preview"
+		)
 	else
 		vim.health.ok("Nvim " .. M.nvim_ver .. " is compatible with Live Preview")
 	end
 
 	if require("livepreview").config.port then
 		vim.health.start("Checkhealth server and process")
-		vim.health.info("This Nvim process's PID is " .. vim.uv.os_getpid())
+		vim.health.ok("This Nvim process's PID is " .. vim.uv.os_getpid())
 		checkhealth_port(require("livepreview").config.port)
 	end
 
