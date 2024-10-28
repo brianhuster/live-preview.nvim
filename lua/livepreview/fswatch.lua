@@ -63,9 +63,11 @@ end
 ---@param callback function(filename: string, events: { change: boolean, rename: boolean })
 function Watcher:start(callback)
 	for _, subdir in ipairs(get_subdirs(self.directory)) do
-		local fswatcher = Watcher:new(subdir)
-		table.insert(self.children, fswatcher)
-		fswatcher:start(callback)
+		if subdir ~= ".git" then
+			local fswatcher = Watcher:new(subdir)
+			table.insert(self.children, fswatcher)
+			fswatcher:start(callback)
+		end
 	end
 	self.watcher:start(self.directory, { recursive = false }, function(err, filename, events)
 		if err then
@@ -82,7 +84,7 @@ function Watcher:start(callback)
 			end
 
 			--- Check if a directory is created
-			local path = filename and vim.fs.joinpath(self.directory, filename)
+			local path = filename and filename ~= ".git" and vim.fs.joinpath(self.directory, filename)
 			local filestat = path and uv.fs_stat(path)
 			if filestat and filestat.type == "directory" then
 				local fswatcher = Watcher:new(path)

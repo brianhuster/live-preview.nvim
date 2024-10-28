@@ -26,8 +26,6 @@ function M.spec()
 	return vim.json.decode(body)
 end
 
-return M.spec
-
 --- Check if the version is compatible with the range
 --- @param ver string: version to check. Example: "0.10.1"
 --- @param range string: range to check against. Example: ">=0.10.0"
