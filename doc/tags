@@ -12,6 +12,7 @@ livepreview.health	livepreview.txt	/*livepreview.health*
 livepreview.health.check()	livepreview.txt	/*livepreview.health.check()*
 livepreview.health.is_nvim_compatible()	livepreview.txt	/*livepreview.health.is_nvim_compatible()*
 livepreview.health.spec()	livepreview.txt	/*livepreview.health.spec()*
+livepreview.health.supported_nvim_ver_range	livepreview.txt	/*livepreview.health.supported_nvim_ver_range*
 livepreview.preview_file()	livepreview.txt	/*livepreview.preview_file()*
 livepreview.server	livepreview.txt	/*livepreview.server*
 livepreview.server.Server:new()	livepreview.txt	/*livepreview.server.Server:new()*
