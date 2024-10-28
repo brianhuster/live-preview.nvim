@@ -9,7 +9,7 @@ local await_term_cmd = require("livepreview.utils").await_term_cmd
 
 local M = {}
 
---- Returns the metadata of live-preview.nvim as a table.
+--- Returns the metadata (pkg.json) of live-preview.nvim as a table.
 ---@return table|nil
 function M.spec()
 	local read_file = require("livepreview.utils").uv_read_file
@@ -25,7 +25,9 @@ end
 
 ---@type string
 M.supported_nvim_ver_range = M.spec().engines.nvim
+---@type table
 local nvim_ver_table = vim.version()
+---@type string
 M.nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
 
 --- Check if the version is compatible with the range
@@ -110,7 +112,7 @@ function M.check()
 	vim.health.start("Check compatibility")
 	if not M.is_nvim_compatible() then
 		vim.health.error("Live Preview requires Nvim " ..
-		M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver)
+			M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver)
 	else
 		vim.health.ok("Nvim " .. M.nvim_ver .. " is compatible with Live Preview")
 	end
