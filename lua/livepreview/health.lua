@@ -100,28 +100,40 @@ local function checkhealth_port(port)
 			local process_name = getProcessName(pid)
 			vim.health.warn(
 				string.format([[The port %d is being used by another process: %s (PID: %s).]], port, process_name, pid),
-				string.format(
-					[["While Live Preview can automatically kill processes that use the port when you run `:%s`, it can not kill other Neovim processes. In that case, you should manually close the server run inside that Neovim."]],
-					require("livepreview").config.commands.start or "LivePreview")
-			)
+				"Though live-preview.nvim can automatically kill processes that use the port when you start a Live Preview server, it can not kill other Neovim processes. If another Neovim process is using the port, you should manually close the server run inside that Neovim, or just close that Neovim.")
 		end
 	end
 end
 
 local function check_config()
-	vim.health.info(vim.inspect(require("livepreview").config))
+	local config = require("livepreview").config
+	if not config or #config == 0 then
+		vim.health.warn("Setup function not called",
+			"Please add `require('livepreview').setup()` to your Lua config or `lua require('livepreview').setup()` to your Vimscript config for Nvim")
+		return
+	else
+		vim.health.info(vim.inspect(config))
+	end
 end
 
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()
 	vim.health.start("Check compatibility")
 	if not M.is_nvim_compatible() then
-		vim.health.error("Live Preview requires Nvim " ..
+		vim.health.error("|live-preview.nvim| requires Nvim " ..
 			M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver,
-			"Please upgrade your Nvim to use Live Preview"
+			"Please upgrade your Nvim"
 		)
 	else
 		vim.health.ok("Nvim " .. M.nvim_ver .. " is compatible with Live Preview")
+	end
+
+	if vim.uv.os_uname().version:match("Windows") then
+		if not vim.fn.executable("pwsh") then
+			vim.health.warn("PowerShell not available")
+		else
+			vim.health.ok("PowerShell is available")
+		end
 	end
 
 	if require("livepreview").config.port then
