@@ -435,5 +435,13 @@ is_nvim_compatible()                 *livepreview.health.is_nvim_compatible()*
     Return: ~
         (`boolean`) true if compatible, false otherwise
 
+spec()                                             *livepreview.health.spec()*
+    Returns the metadata of live-preview.nvim as a table.
+
+    Return: ~
+        (`table?`)
+
+supported_nvim_ver_range         *livepreview.health.supported_nvim_ver_range*
+
 
  vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
