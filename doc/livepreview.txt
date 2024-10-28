@@ -435,8 +435,10 @@ is_nvim_compatible()                 *livepreview.health.is_nvim_compatible()*
     Return: ~
         (`boolean`) true if compatible, false otherwise
 
+nvim_ver                                         *livepreview.health.nvim_ver*
+
 spec()                                             *livepreview.health.spec()*
-    Returns the metadata of live-preview.nvim as a table.
+    Returns the metadata (pkg.json) of live-preview.nvim as a table.
 
     Return: ~
         (`table?`)
