@@ -6,9 +6,6 @@
 
 local await_term_cmd = require("livepreview.utils").await_term_cmd
 ---@type string
-local supported_nvim_ver_range = spec().engines.nvim
-local nvim_ver_table = vim.version()
-local nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
 
 local M = {}
 
@@ -26,6 +23,11 @@ function M.spec()
 	return vim.json.decode(body)
 end
 
+---@type string
+M.supported_nvim_ver_range = M.spec().engines.nvim
+local nvim_ver_table = vim.version()
+M.nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
+
 --- Check if the version is compatible with the range
 --- @param ver string: version to check. Example: "0.10.1"
 --- @param range string: range to check against. Example: ">=0.10.0"
@@ -38,7 +40,7 @@ end
 --- Check if the current Nvim version is compatible with Live Preview
 --- @return boolean: true if compatible, false otherwise
 function M.is_nvim_compatible()
-	return is_compatible(nvim_ver, supported_nvim_ver_range)
+	return is_compatible(M.nvim_ver, M.supported_nvim_ver_range)
 end
 
 local function checkhealth_port(port)
@@ -107,9 +109,10 @@ end
 function M.check()
 	vim.health.start("Check compatibility")
 	if not M.is_nvim_compatible() then
-		vim.health.error("Live Preview requires Nvim " .. supported_nvim_ver_range .. ", but you are using " .. nvim_ver)
+		vim.health.error("Live Preview requires Nvim " ..
+		M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver)
 	else
-		vim.health.ok("Nvim " .. nvim_ver .. " is compatible with Live Preview")
+		vim.health.ok("Nvim " .. M.nvim_ver .. " is compatible with Live Preview")
 	end
 
 	if require("livepreview").config.port then
@@ -122,6 +125,4 @@ function M.check()
 	check_config()
 end
 
-M.supported_nvim_ver_range = supported_nvim_ver_range
-M.nvim_ver = nvim_ver
 return M
