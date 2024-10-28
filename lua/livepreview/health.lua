@@ -4,7 +4,6 @@
 --- :checkhealth livepreview
 --- ```
 
-local spec = require("livepreview.spec")
 local await_term_cmd = require("livepreview.utils").await_term_cmd
 ---@type string
 local supported_nvim_ver_range = spec().engines.nvim
@@ -12,6 +11,22 @@ local nvim_ver_table = vim.version()
 local nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.minor, nvim_ver_table.patch)
 
 local M = {}
+
+--- Returns the metadata of live-preview.nvim as a table.
+---@return table|nil
+function M.spec()
+	local read_file = require("livepreview.utils").uv_read_file
+	local get_plugin_path = require("livepreview.utils").get_plugin_path
+
+	local path_to_packspe = vim.fs.joinpath(get_plugin_path(), "pkg.json")
+	local body = read_file(path_to_packspe)
+	if not body then
+		return nil
+	end
+	return vim.json.decode(body)
+end
+
+return M.spec
 
 --- Check if the version is compatible with the range
 --- @param ver string: version to check. Example: "0.10.1"
