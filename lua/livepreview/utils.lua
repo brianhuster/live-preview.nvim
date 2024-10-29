@@ -8,9 +8,7 @@
 local M = {}
 
 local uv = vim.uv
-if not bit then
-	bit = require("bit")
-end
+local bit = require("bit")
 
 --- Check if file name has a supported filetype (html, markdown, asciidoc). Warning: this function will call a Vimscript function
 ---@param file_name string
@@ -181,7 +179,7 @@ function M.await_term_cmd(cmd)
 	if uv.os_uname().version:match("Windows") then
 		shell = "pwsh"
 	end
-	results = vim.system({ shell, "-c", cmd }, { text = true }):wait()
+	local results = vim.system({ shell, "-c", cmd }, { text = true }):wait()
 	return results
 end
 
@@ -222,8 +220,8 @@ function M.sha1(val)
 	local H4 = 0xC3D2E1F0
 
 	-- For each block
-	for M = 0, string.len(padded_message) - 1, 64 do
-		local block = string.sub(padded_message, M + 1)
+	for block_start = 0, string.len(padded_message) - 1, 64 do
+		local block = string.sub(padded_message, block_start + 1)
 		local words = {}
 		-- Initialize 16 first words
 		local i = 0

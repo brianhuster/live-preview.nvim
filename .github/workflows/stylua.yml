@@ -8,6 +8,9 @@ on:
     branches:
       - '*'
 
+permissions:
+  contents: write
+
 jobs:
   stylua:
     name: stylua
@@ -24,5 +27,5 @@ jobs:
       uses: ./.github/actions/commit-and-push
       with:
         commit-message: 'Format Lua files with stylua'
-        files: '**/*.lua'
+        files: '.'
         github_token: ${{ secrets.GITHUB_TOKEN }} 
