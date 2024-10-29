@@ -59,15 +59,23 @@ function M.preview_file(filepath, port)
 end
 
 --- Setup live preview
---- @param opts {commands: {start: string, stop: string}, port: number, browser: string}
----  	- commands: {start: string, stop: string} - commands to start and stop live preview
----  		(default: {start = "LivePreview", stop = "StopPreview"})
----  	- port: number - port to run the server on (default: 5500)
----  	- browser: string - browser to open the preview in (default: "default").
----  	The "default" value will open the preview in system default browser.
----  	- dynamic_root: boolean - whether to use dynamic root for the server (default: false).
----  	Using dynamic root will always make the server root the parent directory of the file being previewed.
----  	- sync_scroll: boolean - whether to sync scroll between the preview and the file (default: false). This is experimental and may not work as expected.
+--- @param opts {commands: {start: string, stop: string}, port: number, browser: string, sync_scroll: boolean, telescope: {autoload: boolean}}|nil
+--- Default options:
+--- ```lua
+--- {
+--- 	commands = {
+--- 		start = "LivePreview",
+--- 		stop = "StopPreview",
+--- 	},
+--- 	port = 5500,
+--- 	browser = "default",
+--- 	dynamic_root = false,
+--- 	sync_scroll = false,
+--- 	telescope = {
+--- 		autoload = false,
+--- 	}
+--- }
+--- ```
 function M.setup(opts)
 	local default_options = {
 		commands = {
