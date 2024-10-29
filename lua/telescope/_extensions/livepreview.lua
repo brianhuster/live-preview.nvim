@@ -52,6 +52,5 @@ return require("telescope").register_extension({
 	end,
 	exports = {
 		open = open,
-		stop = lp.stop_preview,
 	},
 })
