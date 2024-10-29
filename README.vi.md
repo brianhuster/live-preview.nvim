@@ -152,7 +152,7 @@ Gõ lệnh `:help livepreview` để xem bằng tiếng Anh.
 
 Để dùng tính năng này, bạn cần cài đặt [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim).
 
-Sau đó, đặt `telescope` thành `true` trong [bảng cấu hình](#tùy-chỉnh) của live-preview.nvim
+Sau đó, đặt `telescope.autoload` thành `true` trong [bảng cấu hình](#tùy-chỉnh) của live-preview.nvim
 
 Cách khác, bạn có thể thêm đoạn mã sau vào tệp cấu hình Neovim của mình:
 
