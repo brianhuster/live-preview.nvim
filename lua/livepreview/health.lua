@@ -121,7 +121,7 @@ end
 
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()
-	vim.health.start("Check requirements")
+	vim.health.start("Check dependencies")
 	if not M.is_nvim_compatible() then
 		vim.health.error(
 			"|live-preview.nvim| requires Nvim " .. M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver,
@@ -130,7 +130,7 @@ function M.check()
 	else
 		vim.health.ok("Nvim " .. M.nvim_ver .. " is compatible with Live Preview")
 	end
-
+	-- Check if sh or pwsh is available
 	local shell = vim.uv.os_uname().sysname:match("Windows") and "powershell" or "sh"
 	if not vim.fn.executable(shell) then
 		vim.health.error(
@@ -139,6 +139,15 @@ function M.check()
 		)
 	else
 		vim.health.ok(string.format("`%s` is available", shell))
+	end
+	-- Check if telescope (optional) is available
+	local telescope = require("telescope")
+	if not telescope then
+		vim.health.warn(
+			"`telescope.nvim` (optional) is not installed. You can still use live-preview.nvim without it, but live-preview.nvim's integration with Telescope will not work."
+		)
+	else
+		vim.health.ok("`telescope.nvim` is installed")
 	end
 
 	if require("livepreview").config.port then
