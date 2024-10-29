@@ -118,7 +118,7 @@ end
 
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()
-	vim.health.start("Check compatibility")
+	vim.health.start("Check requirements")
 	if not M.is_nvim_compatible() then
 		vim.health.error("|live-preview.nvim| requires Nvim " ..
 			M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver,
@@ -128,12 +128,12 @@ function M.check()
 		vim.health.ok("Nvim " .. M.nvim_ver .. " is compatible with Live Preview")
 	end
 
-	if vim.uv.os_uname().version:match("Windows") then
-		if not vim.fn.executable("pwsh") then
-			vim.health.warn("PowerShell not available")
-		else
-			vim.health.ok("PowerShell is available")
-		end
+	local shell = vim.uv.os_uname().sysname:match("Windows") and "powershell" or "sh"
+	if not vim.fn.executable(shell) then
+		vim.health.error(string.format("`%s` is not available", shell),
+			"Please make sure it is installed and available in your PATH")
+	else
+		vim.health.ok(string.format("`%s` is available", shell))
 	end
 
 	if require("livepreview").config.port then
