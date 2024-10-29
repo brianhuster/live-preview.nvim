@@ -100,7 +100,7 @@ local function checkhealth_port(port)
 			local process_name = getProcessName(pid)
 			vim.health.warn(
 				string.format([[The port %d is being used by another process: %s (PID: %s).]], port, process_name, pid),
-				"Though live-preview.nvim can automatically kill processes that use the port when you start a Live Preview server, it can not kill other Neovim processes. If another Neovim process is using the port, you should manually close the server run inside that Neovim, or just close that Neovim.")
+				"Though live-preview.nvim can automatically kill processes that use the port when you start a Live Preview server, it can not kill other Nvim processes. If another Nvim process is using the port, you should manually close the server run inside that Nvim, or just close that Nvim.")
 		end
 	end
 end
