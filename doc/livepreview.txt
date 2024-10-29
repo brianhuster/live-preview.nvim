@@ -352,6 +352,8 @@ term_cmd({cmd}, {callback})                     *livepreview.utils.term_cmd()*
                     • stdout: the standard output of the command
                     • stderr: the standard error of the command
 
+term_cmd_async()                                            *term_cmd_async()*
+
 uv_read_file({file_path})                   *livepreview.utils.uv_read_file()*
     Read a file using libuv
 
