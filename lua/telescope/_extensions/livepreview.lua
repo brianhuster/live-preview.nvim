@@ -21,6 +21,10 @@ local function open()
 		end
 	end
 
+	for _, file in ipairs(subdir_files) do
+		table.insert(files, file)
+	end
+
 	pickers
 		.new({}, {
 			prompt_title = "Live Preview",
