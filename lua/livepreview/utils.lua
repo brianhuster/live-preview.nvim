@@ -220,8 +220,8 @@ function M.sha1(val)
 	local H4 = 0xC3D2E1F0
 
 	-- For each block
-	for M = 0, string.len(padded_message) - 1, 64 do
-		local block = string.sub(padded_message, M + 1)
+	for block_start = 0, string.len(padded_message) - 1, 64 do
+		local block = string.sub(padded_message, block_start + 1)
 		local words = {}
 		-- Initialize 16 first words
 		local i = 0
