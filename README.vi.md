@@ -1,43 +1,36 @@
-# live-preview.nvim
+# live-preview.nvim 🚀
 
 Một plugin Neovim cho phép bạn xem kết quả tệp [Markdown](https://vi.wikipedia.org/wiki/Markdown), [HTML](https://vi.wikipedia.org/wiki/HTML) (nhúng kèm CSS, JS) và [AsciiDoc](https://asciidoc.org/) trong trình duyệt web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại trừ chính Lua được tích hợp sẵn trong Neovim.
 
-## Tính năng
-Hỗ trợ các tệp Markdown, HTML (kèm CSS, JS) và AsciiDoc
+## Tính năng ✨
+- Hỗ trợ các tệp Markdown, HTML (kèm CSS, JS) và AsciiDoc 📄
+- Hỗ trợ Katex để hiển thị các phương trình toán học trong tệp Markdown và AsciiDoc 🧮
+- Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown 🖼️
+- Tô sáng cú pháp code trong tệp Markdown và AsciiDoc 🖍️
+- Hỗ trợ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim. (Bạn cần kích hoạt `sync_scroll` trong [Tùy chỉnh](#tùy-chỉnh). Tính năng này nên được sử dụng cùng với [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim)) 🔄
+- Tích hợp với [Telescope](https://github.com/nvim-telescope/telescope.nvim) 🔭
 
-Hỗ trợ Katex để hiển thị các phương trình toán học trong tệp Markdown và AsciiDoc
-
-Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown
-
-Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
-
-Hỗ trợ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim. (Bạn cần kích hoạt `sync_scroll` trong [Tùy chỉnh](#tùy-chỉnh). Tính năng này nên được sử dụng cùng với [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim))
-
-Tích hợp với [Telescope](https://github.com/nvim-telescope/telescope.nvim)
-
-### Cập nhật
-
+### Cập nhật 🆕
 Xem [RELEASE.md](RELEASE.md)
 
 **⚠️ Chú ý:** Bạn nên xóa bộ nhớ đệm của trình duyệt sau khi cập nhật để plugin hoạt động đúng.
 
-## Video demo
+## Video demo 🎥
 
 https://github.com/user-attachments/assets/e9a64709-8758-44d8-9e3c-9c15e0bf2a0e
 
-## Yêu cầu
+## Yêu cầu 📋
 
-- Neovim >=0.10.0
-    (khuyến nghị: >=0.10.1)
-- Một trình duyệt web
-- PowerShell (chỉ nếu bạn sử dụng Windows)
+- Neovim >=0.10.0 (khuyến nghị: >=0.10.1)
+- Một trình duyệt web 🌐
+- PowerShell (chỉ nếu bạn sử dụng Windows) 🪟
 
-## Cài đặt
+## Cài đặt 🛠️
 
 Bạn có thể cài đặt plugin này bằng một trình quản lý plugin. Dưới đây là một số ví dụ 
 
 <details>
-<summary>Với lazy.nvim</summary>
+<summary>Với lazy.nvim 💤</summary>
 
 ```lua
 require("lazy").setup({
@@ -52,7 +45,7 @@ require("lazy").setup({
 </details>
 
 <details>
-<summary>mini.deps</summary>
+<summary>mini.deps 📦</summary>
 
 ```lua
 MiniDeps.add({
@@ -69,7 +62,7 @@ require('autosave').setup() -- Not required, but recomended for autosaving
 </details>
 
 <details>
-<summary>vim-plug</summary>
+<summary>vim-plug 🔌</summary>
 
 ```vim
 Plug 'brianhuster/live-preview.nvim'
@@ -203,3 +196,5 @@ Dưới đây là một số tính năng không nằm trong kế hoạch của l
 <a href="https://paypal.me/brianphambinhan">
     <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="Paypal" style="height: 69px;">
 </a>
+
+
