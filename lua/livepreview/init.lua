@@ -80,7 +80,7 @@ function M.setup(opts)
 		sync_scroll = false,
 		telescope = {
 			autoload = false,
-		}
+		},
 	}
 
 	M.config = vim.tbl_deep_extend("force", default_options, opts or {})
