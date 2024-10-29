@@ -61,7 +61,6 @@ local function open()
 	end)
 
 	co()
->>>>>>> e741904 (update)
 end
 
 return require("telescope").register_extension({
