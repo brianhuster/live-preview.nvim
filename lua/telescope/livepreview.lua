@@ -1,6 +1,6 @@
-local livepreview = require('livepreview')
-local telescope = require('telescope')
-local actions = require('telescope.actions')
+local livepreview = require("livepreview")
+local telescope = require("telescope")
+local actions = require("telescope.actions")
 
 local M = {}
 
@@ -11,7 +11,7 @@ M.setup = function(opts)
 			mappings = {
 				i = {
 					["<CR>"] = function(prompt_bufnr)
-						local entry = require('telescope.actions.state').get_selected_entry()
+						local entry = require("telescope.actions.state").get_selected_entry()
 						actions.close(prompt_bufnr)
 						local filepath = entry.path
 						if livepreview.utils.supported_filetype(filepath) then
@@ -24,13 +24,13 @@ M.setup = function(opts)
 			},
 		},
 	})
-	vim.keymap.set('n', opts.keymap and opts.keymap.start or '<leader>lp', function()
-		require('telescope.builtin').find_files({
+	vim.keymap.set("n", opts.keymap and opts.keymap.start or "<leader>lp", function()
+		require("telescope.builtin").find_files({
 			prompt_title = "Live Preview",
 			cwd = vim.fn.getcwd(),
 			attach_mappings = function(_, map)
-				map('i', '<CR>', function(prompt_bufnr)
-					local entry = require('telescope.actions.state').get_selected_entry()
+				map("i", "<CR>", function(prompt_bufnr)
+					local entry = require("telescope.actions.state").get_selected_entry()
 					actions.close(prompt_bufnr)
 					local filepath = entry.path
 					if livepreview.utils.supported_filetype(filepath) then
@@ -44,6 +44,5 @@ M.setup = function(opts)
 		})
 	end, { noremap = true, silent = true })
 end
-
 
 return M
