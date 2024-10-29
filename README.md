@@ -113,6 +113,7 @@ You can customize the plugin by passing a table to the `opts` variable (if you u
     browser = 'default', -- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
     dynamic_root = false, -- If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:lua print(vim.uv.cwd())`).
     sync_scroll = false, -- If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
+    telescope = false, -- If true, the plugin will automatically load the `Telescope livepreview` extension.
 }
 ```
 
@@ -128,6 +129,7 @@ let g:livepreview_config = {
     \ 'browser': 'default', " Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
     \ 'dynamic_root': v:false " If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:pwd`).
     \ 'sync_scroll': v:false " If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
+    \ 'telescope': v:false " If true, the plugin will automatically load the `Telescope livepreview` extension.
 \ }
 ```
 
@@ -151,11 +153,16 @@ Use the command `:help livepreview` to see the help documentation.
 
 ### Integrating with Telescope 🔭
 
-To use this feature, you need to load the extension with
+To use this feature, you need to install [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim).
+
+Then set `telescope` to `true` in the [configuration table](#setup) of live-preview.nvim
+
+Alternatively, you can load the extension in your Neovim configuration file:
 ```lua
 require('telescope').load_extension('live_preview')
 ```
-And then use the command `:Telescope livepreview` to open live-preview.nvim's Telescope interface.
+
+Now you can use the command `:Telescope livepreview` to open live-preview.nvim's Telescope interface.
 
 ## Contributing 🤝
 

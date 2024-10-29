@@ -110,6 +110,7 @@ Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opt
     browser = 'default', -- Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành. 
     dynamic_root = false, -- Nếu true, thư mục gốc của server sẽ là thư mục mẹ của file được preview. Nếu false, plugin sẽ chạy máy chủ live-preview từ thư mục làm việc hiện tại (Bạn có thể xem thư mục làm việc hiện tại bằng lệnh `:pwd`).
     sync_scroll = false, -- Nếu true, plugin sẽ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim.
+    telescope = false -- Nếu true, plugin sẽ tự động load extension `Telescope livepreview`
 }
 ```
 
@@ -125,6 +126,7 @@ let g:livepreview_config = {
     \ 'browser': 'default', " Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành.
     \ 'dynamic_root': v:false, " Nếu v:true, thư mục gốc của server sẽ là thư mục mẹ của file được preview. Nếu v:false, plugin sẽ chạy máy chủ live-preview từ thư mục làm việc hiện tại (Bạn có thể xem thư mục làm việc hiện tại bằng lệnh `:pwd`).
     \ 'sync_scroll': v:false, " Nếu v:true, plugin sẽ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim.
+    \ 'telescope': v:false " Nếu v:true, plugin sẽ tự động load extension `Telescope livepreview`
 \ }
 ```
 
@@ -148,13 +150,17 @@ Gõ lệnh `:help livepreview` để xem bằng tiếng Anh.
 
 ### Sử dụng với Telescope
 
-Để dùng tính năng này, bạn cần load extension với 
+Để dùng tính năng này, bạn cần cài đặt [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim).
+
+Sau đó, đặt `telescope` thành `true` trong [bảng cấu hình](#tùy-chỉnh) của live-preview.nvim
+
+Cách khác, bạn có thể thêm đoạn mã sau vào tệp cấu hình Neovim của mình:
 
 ```lua
 require('telescope').load_extension('livepreview')
 ```
 
-Sau đó, bạn có thể dùng lệnh `:Telescope livepreview` để mở giao diện Telescope của live-preview.nvim
+Đến đây, bạn có thể dùng lệnh `:Telescope livepreview` để mở giao diện Telescope của live-preview.nvim
 
 ## Đóng góp
 
