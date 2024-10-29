@@ -110,7 +110,7 @@ function M.setup(opts)
 	end, {})
 
 	if M.config.telescope then
-		local telescope = require('telescope')
+		local telescope = require("telescope")
 		if not telescope then
 			vim.notify_once("telescope.nvim is not installed", vim.log.levels.WARN)
 		else
