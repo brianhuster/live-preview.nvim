@@ -8,6 +8,9 @@ on:
     branches:
       - '*'
 
+permissions:
+  contents: write
+
 jobs:
   stylua:
     name: stylua

@@ -8,9 +8,7 @@
 local M = {}
 
 local uv = vim.uv
-if not bit then
-	bit = require("bit")
-end
+local bit = require("bit")
 
 --- Check if file name has a supported filetype (html, markdown, asciidoc). Warning: this function will call a Vimscript function
 ---@param file_name string
