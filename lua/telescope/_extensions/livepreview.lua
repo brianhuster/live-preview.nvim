@@ -47,10 +47,6 @@ local function open()
 end
 
 return require("telescope").register_extension({
-	setup = function(opts)
-		lp.setup(opts)
-	end,
-	exports = {
-		open = open,
-	},
+	setup = function() end,
+	exports = open
 })
