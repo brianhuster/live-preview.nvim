@@ -7,7 +7,7 @@ local lp = require("livepreview")
 lp.utils = require("livepreview.utils")
 
 local function open()
-	local _, _, result, _ = lp.utils.await_term_cmd("find . -type f")
+	local result = lp.utils.await_term_cmd("find . -type f").stdout
 
 	local files = {}
 	local subdir_files = {}
