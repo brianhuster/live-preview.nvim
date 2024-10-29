@@ -107,7 +107,7 @@ end
 
 local function check_config()
 	local config = require("livepreview").config
-	if not config or #config == 0 then
+	if not config or not config.commands then
 		vim.health.warn("Setup function not called",
 			"Please add `require('livepreview').setup()` to your Lua config or `lua require('livepreview').setup()` to your Vimscript config for Nvim")
 		return
