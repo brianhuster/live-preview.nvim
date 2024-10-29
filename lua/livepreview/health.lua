@@ -100,7 +100,8 @@ local function checkhealth_port(port)
 			local process_name = getProcessName(pid)
 			vim.health.warn(
 				string.format([[The port %d is being used by another process: %s (PID: %s).]], port, process_name, pid),
-				"Though live-preview.nvim can automatically kill processes that use the port when you start a Live Preview server, it can not kill other Nvim processes. If another Nvim process is using the port, you should manually close the server run inside that Nvim, or just close that Nvim.")
+				"Though live-preview.nvim can automatically kill processes that use the port when you start a Live Preview server, it can not kill other Nvim processes. If another Nvim process is using the port, you should manually close the server run inside that Nvim, or just close that Nvim."
+			)
 		end
 	end
 end
@@ -108,8 +109,10 @@ end
 local function check_config()
 	local config = require("livepreview").config
 	if not config or not config.commands then
-		vim.health.warn("Setup function not called",
-			"Please add `require('livepreview').setup()` to your Lua config or `lua require('livepreview').setup()` to your Vimscript config for Nvim")
+		vim.health.warn(
+			"Setup function not called",
+			"Please add `require('livepreview').setup()` to your Lua config or `lua require('livepreview').setup()` to your Vimscript config for Nvim"
+		)
 		return
 	else
 		vim.health.info(vim.inspect(config))
@@ -120,8 +123,8 @@ end
 function M.check()
 	vim.health.start("Check requirements")
 	if not M.is_nvim_compatible() then
-		vim.health.error("|live-preview.nvim| requires Nvim " ..
-			M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver,
+		vim.health.error(
+			"|live-preview.nvim| requires Nvim " .. M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver,
 			"Please upgrade your Nvim"
 		)
 	else
@@ -130,8 +133,10 @@ function M.check()
 
 	local shell = vim.uv.os_uname().sysname:match("Windows") and "powershell" or "sh"
 	if not vim.fn.executable(shell) then
-		vim.health.error(string.format("`%s` is not available", shell),
-			"Please make sure it is installed and available in your PATH")
+		vim.health.error(
+			string.format("`%s` is not available", shell),
+			"Please make sure it is installed and available in your PATH"
+		)
 	else
 		vim.health.ok(string.format("`%s` is available", shell))
 	end
