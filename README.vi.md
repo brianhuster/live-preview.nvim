@@ -13,6 +13,8 @@ Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
 
 Hỗ trợ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim. (Bạn cần kích hoạt `sync_scroll` trong [Tùy chỉnh](#tùy-chỉnh). Tính năng này nên được sử dụng cùng với [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim))
 
+Tích hợp với [Telescope](https://github.com/nvim-telescope/telescope.nvim)
+
 ### Cập nhật
 
 Xem [RELEASE.md](RELEASE.md)
@@ -55,7 +57,10 @@ require("lazy").setup({
 ```lua
 MiniDeps.add({
     source = 'brianhuster/live-preview.nvim',
-    depends = { 'brianhuster/autosave.nvim' }, -- Not required, but recomended for autosaving
+    depends = { 
+        'brianhuster/autosave.nvim', -- Không bắt buộc, nhưng nên có để tự động lưu
+        'nvim-telescope/telescope.nvim' -- Not required, but recommended for integrating with Telescope
+    }, 
 })
 require('livepreview').setup()
 require('autosave').setup() -- Not required, but recomended for autosaving
@@ -71,6 +76,7 @@ Plug 'brianhuster/live-preview.nvim'
 let g:livepreview_config = {} " Cấu hình tùy chọn
 lua require('livepreview').setup(vim.g.livepreview_config) " Bắt buộc để kích hoạt plugin
 
+Plug 'nvim-telescope/telescope.nvim' " Not required, but recommended for integrating with Telescope
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 lua require('autosave').setup() " Not required, but recomended for autosaving
 ```
@@ -146,6 +152,16 @@ Lệnh này sẽ mở tệp Markdown hoặc HTML hiện tại trong trình duy�
 `:StopPreview`
 
 Gõ lệnh `:help livepreview` để xem bằng tiếng Anh.
+
+### Sử dụng với Telescope
+
+Để dùng tính năng này, bạn cần load extension với 
+
+```lua
+require('telescope').load_extension('livepreview')
+```
+
+Sau đó, bạn có thể dùng lệnh `:Telescope livepreview` để mở giao diện Telescope của live-preview.nvim
 
 ## Đóng góp
 
