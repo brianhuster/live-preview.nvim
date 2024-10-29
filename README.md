@@ -5,15 +5,17 @@ A plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/
 _You can read this README in [Tiếng Việt](README.vi.md), [日本語](README.ja.md)_
 
 ## Features
-Supports markdown, HTML (with reference to CSS, JS), and AsciiDoc files
+* Supports markdown, HTML (with reference to CSS, JS), and AsciiDoc files
 
-Support Katex for rendering math equations in markdown and AsciiDoc files
+* Support Katex for rendering math equations in markdown and AsciiDoc files
 
-Supports mermaid for rendering diagrams in markdown files
+* Supports mermaid for rendering diagrams in markdown files
 
-Syntax highlighting for code blocks in Markdown and AsciiDoc
+* Syntax highlighting for code blocks in Markdown and AsciiDoc
 
-Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in [setup](#setup). This feature should be used with [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim))
+* Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in [setup](#setup). This feature should be used with [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim))
+
+* Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 
 ### Updates
 
@@ -42,7 +44,10 @@ You can install this plugin using a plugin manager. Most plugin managers are sup
 require("lazy").setup({
     {
         'brianhuster/live-preview.nvim',
-        dependencies = {'brianhuster/autosave.nvim'}, -- Not required, but recomended for autosaving and sync scrolling
+        dependencies = {
+            'brianhuster/autosave.nvim'  -- Not required, but recomended for autosaving and sync scrolling
+            'nvim-telescope/telescope.nvim' -- Not required, but recommended for integrating with Telescope
+        },
         opts = {},
    }
 })
@@ -51,14 +56,17 @@ require("lazy").setup({
 </details>
 
 <details>
-<summary>mini.deps</summary>
+<summary>mini.deps<local pickers = require "telescope.pickers"
+local finders = require "telescope.finders"
+local conf = require("telescope.config").values/summary>
 
 ```lua
 MiniDeps.add({
     source = 'brianhuster/live-preview.nvim',
     depends = { 
-        'brianhuster/autosave.nvim' 
-    }, -- Not required, but recomended for autosaving and sync scrolling
+        'brianhuster/autosave.nvim'  -- Not required, but recomended for autosaving and sync scrolling
+        'nvim-telescope/telescope.nvim' -- Not required, but recommended for integrating with Telescope
+    }, 
 })
 require('livepreview').setup()
 require('autosave').setup() -- Only required if you want use autosave
@@ -72,6 +80,8 @@ require('autosave').setup() -- Only required if you want use autosave
 ```vim
 Plug 'brianhuster/live-preview.nvim'
 lua require('autosave').setup() " Only required if you want use autosave
+
+Plug 'nvim-telescope/telescope.nvim' " Not required, but recommended for integrating with Telescope
 
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 let g:livepreview_config = {} " Optional configuration. 
@@ -149,6 +159,14 @@ To stop the live preview server, use the command:
 These commands can be changed based on your customization in the `setup` function in your Neovim configuration file. 
 
 Use the command `:help livepreview` to see the help documentation.
+
+### Integrating with Telescope
+
+To use this feature, you need to load the extension with
+```lua
+require('telescope').load_extension('live_preview')
+```
+And then use the command `:Telescope livepreview` to open live-preview.nvim's Telescope interface.
 
 ## Contributing
 

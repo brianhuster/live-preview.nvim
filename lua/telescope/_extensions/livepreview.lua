@@ -24,6 +24,7 @@ local function open()
 				results = files,
 			}),
 			sorter = conf.generic_sorter({}),
+			previewer = conf.file_previewer({}),
 			attach_mappings = function(_, map)
 				actions.select_default:replace(function(prompt_bufnr)
 					local entry = action_state.get_selected_entry()
@@ -37,7 +38,7 @@ local function open()
 							lp.config.browser
 						)
 					else
-						print("Selected file is not supported for live preview")
+						print("Selected file is not supported for live-preview.nvim")
 					end
 				end)
 				return true
@@ -48,5 +49,7 @@ end
 
 return require("telescope").register_extension({
 	setup = function() end,
-	exports = open
+	exports = {
+		livepreview = open,
+	}
 })
