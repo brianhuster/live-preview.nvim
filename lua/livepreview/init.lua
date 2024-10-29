@@ -78,7 +78,9 @@ function M.setup(opts)
 		browser = "default",
 		dynamic_root = false,
 		sync_scroll = false,
-		telescope = false,
+		telescope = {
+			autoload = false,
+		}
 	}
 
 	M.config = vim.tbl_deep_extend("force", default_options, opts or {})
@@ -109,7 +111,7 @@ function M.setup(opts)
 		print("Live preview stopped")
 	end, {})
 
-	if M.config.telescope then
+	if M.config.telescope.autoload then
 		local telescope = require("telescope")
 		if not telescope then
 			vim.notify_once("telescope.nvim is not installed", vim.log.levels.WARN)
