@@ -8,7 +8,7 @@ lp.utils = require("livepreview.utils")
 
 local function open()
 	local co = coroutine.wrap(function()
-		local code, signal, stdout, stderr = M.term_cmd_async("find . -type f")()
+		local code, signal, stdout, stderr = lp.utils.term_cmd_async("find . -type f")()
 
 		if code ~= 0 then
 			print("Error: ", stderr)
