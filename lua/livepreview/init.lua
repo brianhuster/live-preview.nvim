@@ -39,18 +39,14 @@ function M.preview_file(filepath, port)
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
-			if not process.name:match("vim") and process.pid ~= vim.uv.os_getpid() then
+			if M.config.autokill and not process.name:match("vim") and process.pid ~= vim.uv.os_getpid() then
 				utils.kill(process.pid)
 			else
 				vim.print(
 					string.format(
-						"Port %d is being used by another process `%s` (PID %d)",
-						port,
-						process.name,
-						process.pid
-					),
-					vim.log.levels.WARN
-				)
+						"Port %d is being used by another process `%s` (PID %d). Run `:lua vim.uv.kill(%d)` to kill it.",
+						port, process.name, process.pid),
+					vim.log.levels.WARN)
 			end
 		end
 	end
@@ -85,6 +81,7 @@ end
 --- 		stop = "StopPreview",
 --- 	},
 --- 	port = 5500,
+--- 	autokill = false,
 --- 	browser = "default",
 --- 	dynamic_root = false,
 --- 	sync_scroll = false,
@@ -99,6 +96,7 @@ function M.setup(opts)
 			start = "LivePreview",
 			stop = "StopPreview",
 		},
+		autokill = false,
 		port = 5500,
 		browser = "default",
 		dynamic_root = false,
