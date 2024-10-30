@@ -173,7 +173,7 @@ end
 
 --- Execute a shell command and wait for the exit
 ---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
----@return table: a table with fields code, stdout, stderr, signal
+---@return {code: number, signal: number, stdout: string, stderr: string}: a table with fields code, stdout, stderr, signal
 function M.await_term_cmd(cmd)
 	local shell = "sh"
 	if uv.os_uname().version:match("Windows") then
@@ -290,7 +290,7 @@ end
 
 --- Get a list of processes listening on a port
 --- @param port number
---- @return table<string, number>[]: a table with the processes listening on the port (except for the current process), including name and PID
+--- @return {name : string, pid : number}[]: a table with the processes listening on the port (except for the current process), including name and PID
 function M.processes_listening_on_port(port)
 	local cmd
 	if vim.uv.os_uname().version:match("Windows") then

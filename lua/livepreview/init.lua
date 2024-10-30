@@ -39,23 +39,8 @@ function M.preview_file(filepath, port)
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
-			if process.pid ~= vim.uv.os_getpid() then
-				vim.ui.input(
-					string.format(
-						"Port %d is being used by another process %s (PID: %d). Continue will kill it (y/n)",
-						port,
-						process.name,
-						process.pid
-					),
-					function(input)
-						if input and vim.trim(input) then
-							if vim.trim(input):lower() == "y" then
-								vim.uv.kill(process.pid)
-							end
-						end
-					end
-				)
-				return
+			if not process.name:match("vim") and process.pid ~= vim.uv.os_getpid() then
+				utils.kill(process.pid)
 			end
 		end
 	end
