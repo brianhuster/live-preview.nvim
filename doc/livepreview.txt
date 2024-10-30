@@ -328,8 +328,8 @@ processes_listening_on_port({port})
       • {port}  (`number`)
 
     Return: ~
-        (`table<string, number>`) a table with the processes listening on the
-        port (except for the current process), including name and PID
+        (`table<string, number>[]`) a table with the processes listening on
+        the port (except for the current process), including name and PID
 
 sha1({val})                                         *livepreview.utils.sha1()*
     Compute the SHA1 hash of a string.
