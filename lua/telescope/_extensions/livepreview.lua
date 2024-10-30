@@ -1,4 +1,3 @@
-local uv = vim.uv
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local conf = require("telescope.config").values
@@ -24,16 +23,12 @@ function M.livepreview()
 					local entry = action_state.get_selected_entry()
 					actions.close(prompt_bufnr)
 					local filepath = entry.value
-					if lp.utils.supported_filetype(filepath) then
-						lp.preview_file(filepath, lp.config.port)
-						vim.cmd("edit " .. filepath)
-						lp.utils.open_browser(
-							string.format("http://localhost:%d/%s", lp.config.port, filepath),
-							lp.config.browser
-						)
-					else
-						print("Selected file is not supported for live-preview.nvim")
-					end
+					lp.preview_file(filepath, lp.config.port)
+					vim.cmd("edit " .. filepath)
+					lp.utils.open_browser(
+						string.format("http://localhost:%d/%s", lp.config.port, filepath),
+						lp.config.browser
+					)
 				end)
 				return true
 			end,
