@@ -250,16 +250,6 @@ await_term_cmd({cmd})                     *livepreview.utils.await_term_cmd()*
     Return: ~
         (`table`) a table with fields code, stdout, stderr, signal
 
-                        *livepreview.utils.find_supported_files_recursively()*
-find_supported_files_recursively({directory})
-    Find supported files in a directory and its subdirectories
-
-    Parameters: ~
-      • {directory}  (`string`)
-
-    Return: ~
-        (`table`) a table with the paths of the supported files
-
                                            *livepreview.utils.get_base_path()*
 get_base_path({full_path}, {parent_path})
     Extract base path from a file path Example: ```lua
