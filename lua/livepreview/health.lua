@@ -52,7 +52,7 @@ local function checkhealth_port(port)
 		vim.health.warn("Server is not running at port " .. port)
 		return
 	else
-		for _, process in processes do
+		for _, process in ipairs(processes) do
 			if tonumber(process.pid) == vim.uv.os_getpid() then
 				vim.health.ok("Server is healthy on port " .. port)
 				local serverObj = require("livepreview").serverObj

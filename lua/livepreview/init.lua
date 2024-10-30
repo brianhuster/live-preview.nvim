@@ -42,14 +42,14 @@ function M.preview_file(filepath, port)
 			if process.pid ~= vim.uv.os_getpid() then
 				vim.ui.input(
 					string.format(
-						"Port %d is being used by another process %s (PID : %d). Continue will kill that process (y/n)",
+						"Port %d is being used by another process %s (PID: %d). Continue will kill it (y/n)",
 						port,
 						process.name,
 						process.pid
 					),
 					function(input)
 						if input and vim.trim(input) then
-							if input:lower() == "y" then
+							if vim.trim(input):lower() == "y" then
 								vim.uv.kill(process.pid)
 							end
 						end
