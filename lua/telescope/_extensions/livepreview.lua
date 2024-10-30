@@ -8,8 +8,37 @@ lp.utils = require("livepreview.utils")
 
 local M = {}
 
+--- Find supported files in a directory and its subdirectories
+--- @param directory string
+--- @return table: a table with the paths of the supported files
+local function list_supported_files(directory)
+	local files = {}
+	local function scan_dir(dir)
+		local handle = uv.fs_scandir(dir)
+		if not handle then
+			return
+		end
+		while true do
+			local name, type = uv.fs_scandir_next(handle)
+			if not name then
+				break
+			end
+			local filepath = dir .. "/" .. name
+			if type == "directory" then
+				scan_dir(filepath)
+			else
+				if M.supported_filetype(filepath) then
+					table.insert(files, filepath)
+				end
+			end
+		end
+	end
+	scan_dir(directory)
+	return files
+end
+
 function M.livepreview()
-	local files = lp.utils.find_supported_files_recursively(".")
+	local files = list_supported_files(".")
 	pickers
 		.new({}, {
 			prompt_title = "Live Preview",
