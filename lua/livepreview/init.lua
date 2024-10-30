@@ -43,9 +43,14 @@ function M.preview_file(filepath, port)
 				utils.kill(process.pid)
 			else
 				vim.print(
-					string.format("Port %d is being used by another process `%s` (PID %d)",
-						port, process.name, process.pid),
-					vim.log.levels.WARN)
+					string.format(
+						"Port %d is being used by another process `%s` (PID %d)",
+						port,
+						process.name,
+						process.pid
+					),
+					vim.log.levels.WARN
+				)
 			end
 		end
 	end
