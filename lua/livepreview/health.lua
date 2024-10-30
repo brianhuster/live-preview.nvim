@@ -67,7 +67,7 @@ local function checkhealth_port(port)
 						process.name,
 						process.pid
 					),
-					"Though live-preview.nvim can automatically kill processes that use the port when you start a Live Preview server, it can not kill other Nvim processes. If another Nvim process is using the port, you should manually close the server run inside that Nvim, or just close that Nvim."
+					string.format([[You can run `:lua vim.uv.kill(%d)` to kill it.]], process.pid)
 				)
 			end
 		end

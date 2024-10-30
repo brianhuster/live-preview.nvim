@@ -1,6 +1,6 @@
 ### New features
 
-- Integrate with telescope.nvim
+#### Integrate with telescope.nvim
 
 To use this feature, make sure you have installed [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 
@@ -13,3 +13,6 @@ require('telescope').load_extension('livepreview')
 ```
 
 Now you can run `:Telescope livepreview` to open live-preview.nvim's Telescope picker.
+
+#### New configuration options
+`autokill` (default: `false` or `v:false`): If true, the plugin will automatically kill other processes running on the same port (except for Neovim) when starting the server.

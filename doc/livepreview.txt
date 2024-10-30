@@ -28,6 +28,7 @@ setup({opts})                                            *livepreview.setup()*
                     		stop = "StopPreview",
                     	},
                     	port = 5500,
+                    	autokill = false,
                     	browser = "default",
                     	dynamic_root = false,
                     	sync_scroll = false,
