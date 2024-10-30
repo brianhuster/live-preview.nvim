@@ -248,7 +248,8 @@ await_term_cmd({cmd})                     *livepreview.utils.await_term_cmd()*
                pwsh depending on the OS
 
     Return: ~
-        (`table`) a table with fields code, stdout, stderr, signal
+        (`{code: number, signal: number, stdout: string, stderr: string}`) a
+        table with fields code, stdout, stderr, signal
 
                                            *livepreview.utils.get_base_path()*
 get_base_path({full_path}, {parent_path})
@@ -328,8 +329,9 @@ processes_listening_on_port({port})
       • {port}  (`number`)
 
     Return: ~
-        (`table<string, number>[]`) a table with the processes listening on
-        the port (except for the current process), including name and PID
+        (`{name : string, pid : number}[]`) a table with the processes
+        listening on the port (except for the current process), including name
+        and PID
 
 sha1({val})                                         *livepreview.utils.sha1()*
     Compute the SHA1 hash of a string.
