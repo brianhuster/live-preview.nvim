@@ -65,7 +65,9 @@ local function checkhealth_port(port)
 						[[The port %d is being used by another process `%s` (PID: %d).]],
 						port,
 						process.name,
-						process.pid))
+						process.pid
+					)
+				)
 			end
 		end
 	end
