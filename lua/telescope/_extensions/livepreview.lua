@@ -7,34 +7,10 @@ local action_state = require("telescope.actions.state")
 local lp = require("livepreview")
 lp.utils = require("livepreview.utils")
 
-local function find_files(directory)
-	local files = {}
-	local function scan_dir(dir)
-		local handle = uv.fs_scandir(dir)
-		if not handle then
-			return
-		end
-		while true do
-			local name, type = uv.fs_scandir_next(handle)
-			if not name then
-				break
-			end
-			local filepath = dir .. "/" .. name
-			if type == "directory" then
-				scan_dir(filepath)
-			else
-				if lp.utils.supported_filetype(filepath) then
-					table.insert(files, filepath)
-				end
-			end
-		end
-	end
-	scan_dir(directory)
-	return files
-end
+local M = {}
 
-local function open()
-	local files = find_files(".")
+function M.livepreview()
+	local files = lp.utils.find_supported_files_recursively(".")
 	pickers
 		.new({}, {
 			prompt_title = "Live Preview",
@@ -67,7 +43,5 @@ end
 
 return require("telescope").register_extension({
 	setup = function() end,
-	exports = {
-		livepreview = open,
-	},
+	exports = M
 })
