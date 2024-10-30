@@ -28,7 +28,7 @@ local function list_supported_files(directory)
 			if type == "directory" then
 				scan_dir(filepath)
 			else
-				if M.supported_filetype(filepath) then
+				if lp.utils.supported_filetype(filepath) then
 					table.insert(files, filepath)
 				end
 			end
@@ -48,7 +48,7 @@ function M.livepreview()
 			}),
 			sorter = conf.generic_sorter({}),
 			previewer = conf.file_previewer({}),
-			attach_mappings = function(_, map)
+			attach_mappings = function(_, _)
 				actions.select_default:replace(function(prompt_bufnr)
 					local entry = action_state.get_selected_entry()
 					actions.close(prompt_bufnr)
