@@ -64,7 +64,7 @@ require('autosave').setup() -- Only required if you want use autosave
 </details>
 
 <details>
-<summary>vim-plug 🔌
+<summary>vim-plug 🔌</summary>
 
 ```vim
 Plug 'brianhuster/live-preview.nvim'
