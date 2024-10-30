@@ -290,7 +290,7 @@ end
 
 --- Get a list of processes listening on a port
 --- @param port number
---- @return table<string, number>: a table with the processes listening on the port (except for the current process), including name and PID
+--- @return table<string, number>[]: a table with the processes listening on the port (except for the current process), including name and PID
 function M.processes_listening_on_port(port)
 	local cmd
 	if vim.uv.os_uname().version:match("Windows") then
