@@ -67,7 +67,7 @@ local function checkhealth_port(port)
 						process.name,
 						process.pid
 					),
-					string.format("You can run `:lua vim.uv.kill(%d)` to kill it.", process.pid),
+					string.format([[You can run `:lua vim.uv.kill(%d)` to kill it.]], process.pid)
 				)
 			end
 		end
