@@ -324,7 +324,7 @@ function M.kill_port(port)
 	local pids = vim.split(cmd_stdout, "\n")
 	for _, pid in ipairs(pids) do
 		local pid_number = tonumber(pid)
-		if pid_number then
+		if pid_number and pid_number ~= vim.uv.os_getpid() then
 			vim.uv.kill(pid_number, 9) -- 9 is the signal number for SIGKILL
 		end
 	end
