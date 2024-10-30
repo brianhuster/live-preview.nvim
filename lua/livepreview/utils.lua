@@ -173,7 +173,7 @@ end
 
 --- Execute a shell command and wait for the exit
 ---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
----@return table: a table with fields code, stdout, stderr, signal
+---@return {code: number, signal: number, stdout: string, stderr: string}: a table with fields code, stdout, stderr, signal
 function M.await_term_cmd(cmd)
 	local shell = "sh"
 	if uv.os_uname().version:match("Windows") then
@@ -288,46 +288,57 @@ function M.open_browser(path, browser)
 	end
 end
 
---- Kill a process which is not Neovim running on a port
+--- Get a list of processes listening on a port
 --- @param port number
-function M.kill_port(port)
+--- @return {name : string, pid : number}[]: a table with the processes listening on the port (except for the current process), including name and PID
+function M.processes_listening_on_port(port)
 	local cmd
 	if vim.uv.os_uname().version:match("Windows") then
 		cmd = string.format(
 			[[
-            Get-NetTCPConnection -LocalPort %d | Where-Object { $_.State -eq 'Listen' } | ForEach-Object {
-                $pid = $_.OwningProcess
-                $process = Get-Process -Id $pid -ErrorAction SilentlyContinue
-                if ($process -and ($process.Name -notmatch 'vim')) {
-                    $process.Id
-                }
-            }
-        ]],
+			Get-NetTCPConnection -LocalPort %d | Where-Object { $_.State -eq 'Listen' } | ForEach-Object {
+				$pid = $_.OwningProcess
+				$process = Get-Process -Id $pid -ErrorAction SilentlyContinue
+				if ($process) {
+					$process.Name + " " + $pid
+				}
+			}
+		]],
 			port
 		)
 	else
-		cmd = string.format("lsof -i:%d | grep LISTEN | grep -v -e 'vim' | awk '{print $2}'", port)
+		cmd = string.format("lsof -i:%d | grep LISTEN | awk '{print $1, $2}'", port)
 	end
 	local cmd_result = M.await_term_cmd(cmd)
 	if not cmd_result then
-		print("Error killing port " .. port)
-		return
+		print("Error getting processes listening on port " .. port)
+		return {}
 	end
 	if cmd_result.code ~= 0 then
-		print("Error killing port " .. port .. ": " .. cmd_result.stderr)
-		return
+		print("Error getting processes listening on port " .. port .. ": " .. cmd_result.stderr)
+		return {}
 	end
 	local cmd_stdout = cmd_result.stdout
 	if not cmd_stdout or cmd_stdout == "" then
-		return
+		return {}
 	end
-	local pids = vim.split(cmd_stdout, "\n")
-	for _, pid in ipairs(pids) do
-		local pid_number = tonumber(pid)
-		if pid_number and pid_number ~= vim.uv.os_getpid() then
-			vim.uv.kill(pid_number, 9) -- 9 is the signal number for SIGKILL
+	local processes = {}
+	local lines = vim.split(cmd_stdout, "\n")
+	for _, line in ipairs(lines) do
+		local parts = vim.split(line, " ")
+		local name = parts[1]
+		local pid = tonumber(parts[2])
+		if name and pid then
+			table.insert(processes, { name = name, pid = pid })
 		end
 	end
+	return processes
+end
+
+--- Kill a process by PID
+--- @param pid number
+function M.kill(pid)
+	vim.uv.kill(pid, 9) -- 9 is the signal number for SIGKILL
 end
 
 return M

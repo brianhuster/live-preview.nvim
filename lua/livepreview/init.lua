@@ -36,7 +36,14 @@ end
 ---@param filepath string: path to the file
 ---@param port number: port to run the server on
 function M.preview_file(filepath, port)
-	utils.kill_port(port)
+	local processes = utils.processes_listening_on_port(port)
+	if #processes > 0 then
+		for _, process in ipairs(processes) do
+			if not process.name:match("vim") and process.pid ~= vim.uv.os_getpid() then
+				utils.kill(process.pid)
+			end
+		end
+	end
 	if M.serverObj then
 		M.serverObj:stop()
 	end

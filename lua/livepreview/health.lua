@@ -4,8 +4,7 @@
 --- :checkhealth livepreview
 --- ```
 
-local await_term_cmd = require("livepreview.utils").await_term_cmd
----@type string
+local utils = require("livepreview.utils")
 
 local M = {}
 
@@ -48,60 +47,29 @@ end
 --- Checkhealth server and port
 --- @param port number: port to check
 local function checkhealth_port(port)
-	local cmd
-	if vim.uv.os_uname().version:match("Windows") then
-		cmd = string.format(
-			[[
-			Get-NetTCPConnection -LocalPort %d | Where-Object { $_.State -eq 'Listen' } | ForEach-Object {
-				$pid = $_.OwningProcess
-				$process = Get-Process -Id $pid -ErrorAction SilentlyContinue
-				$process.Id
-			}
-		]],
-			port
-		)
-	else
-		cmd = string.format("lsof -i:%d | grep LISTEN | awk '{print $2}'", port)
-	end
-	local cmd_result = await_term_cmd(cmd)
-	local pid = vim.split(cmd_result.stdout, "\n")[1]
-
-	local function getProcessName(processID)
-		local command
-		if vim.uv.os_uname().version:match("Windows") then
-			command = string.format(
-				[[
-				Get-Process -Id %d | Select-Object -ExpandProperty Name
-			]],
-				processID
-			)
-		else
-			command = string.format("ps -p %d -o comm=", processID)
-		end
-		local result = await_term_cmd(command)
-		local name = result.stdout
-		if not name or #name == 0 then
-			return ""
-		else
-			return vim.split(name, "\n")[1]
-		end
-	end
-	if not pid or #pid == 0 then
+	local processes = utils.processes_listening_on_port(port)
+	if not processes or #processes == 0 then
 		vim.health.warn("Server is not running at port " .. port)
 		return
 	else
-		if tonumber(pid) == vim.uv.os_getpid() then
-			vim.health.ok("Server is healthy on port " .. port)
-			local serverObj = require("livepreview").serverObj
-			if serverObj and serverObj.webroot then
-				vim.health.ok("Server root: " .. serverObj.webroot)
+		for _, process in ipairs(processes) do
+			if tonumber(process.pid) == vim.uv.os_getpid() then
+				vim.health.ok("Server is healthy on port " .. port)
+				local serverObj = require("livepreview").serverObj
+				if serverObj and serverObj.webroot then
+					vim.health.ok("Server root: " .. serverObj.webroot)
+				end
+			else
+				vim.health.warn(
+					string.format(
+						[[The port %d is being used by another process `%s` (PID: %d).]],
+						port,
+						process.name,
+						process.pid
+					),
+					"Though live-preview.nvim can automatically kill processes that use the port when you start a Live Preview server, it can not kill other Nvim processes. If another Nvim process is using the port, you should manually close the server run inside that Nvim, or just close that Nvim."
+				)
 			end
-		else
-			local process_name = getProcessName(pid)
-			vim.health.warn(
-				string.format([[The port %d is being used by another process: %s (PID: %s).]], port, process_name, pid),
-				"Though live-preview.nvim can automatically kill processes that use the port when you start a Live Preview server, it can not kill other Nvim processes. If another Nvim process is using the port, you should manually close the server run inside that Nvim, or just close that Nvim."
-			)
 		end
 	end
 end

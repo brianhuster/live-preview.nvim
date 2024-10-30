@@ -40,8 +40,9 @@ livepreview.utils.get_parent_path()	livepreview.txt	/*livepreview.utils.get_pare
 livepreview.utils.get_path_lua_file()	livepreview.txt	/*livepreview.utils.get_path_lua_file()*
 livepreview.utils.get_plugin_path()	livepreview.txt	/*livepreview.utils.get_plugin_path()*
 livepreview.utils.joinpath()	livepreview.txt	/*livepreview.utils.joinpath()*
-livepreview.utils.kill_port()	livepreview.txt	/*livepreview.utils.kill_port()*
+livepreview.utils.kill()	livepreview.txt	/*livepreview.utils.kill()*
 livepreview.utils.open_browser()	livepreview.txt	/*livepreview.utils.open_browser()*
+livepreview.utils.processes_listening_on_port()	livepreview.txt	/*livepreview.utils.processes_listening_on_port()*
 livepreview.utils.sha1()	livepreview.txt	/*livepreview.utils.sha1()*
 livepreview.utils.supported_filetype()	livepreview.txt	/*livepreview.utils.supported_filetype()*
 livepreview.utils.term_cmd()	livepreview.txt	/*livepreview.utils.term_cmd()*
