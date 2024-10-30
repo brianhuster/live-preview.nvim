@@ -298,7 +298,7 @@ function M.kill_port(port)
             Get-NetTCPConnection -LocalPort %d | Where-Object { $_.State -eq 'Listen' } | ForEach-Object {
                 $pid = $_.OwningProcess
                 $process = Get-Process -Id $pid -ErrorAction SilentlyContinue
-                if ($process -and ($process.Name -notmatch 'neovim|nvim')) {
+                if ($process -and ($process.Name -notmatch 'vim')) {
                     $process.Id
                 }
             }
@@ -306,7 +306,7 @@ function M.kill_port(port)
 			port
 		)
 	else
-		cmd = string.format("lsof -i:%d | grep LISTEN | grep -v -e 'neovim' -e 'nvim' | awk '{print $2}'", port)
+		cmd = string.format("lsof -i:%d | grep LISTEN | grep -v -e 'vim' | awk '{print $2}'", port)
 	end
 	local cmd_result = M.await_term_cmd(cmd)
 	if not cmd_result then
