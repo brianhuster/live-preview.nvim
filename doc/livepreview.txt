@@ -303,11 +303,11 @@ joinpath({...})                                 *livepreview.utils.joinpath()*
         "folder", "../file.txt") -- returns "home/user/file.txt" >
 <
 
-kill_port({port})                              *livepreview.utils.kill_port()*
-    Kill a process which is not Neovim running on a port
+kill({pid})                                         *livepreview.utils.kill()*
+    Kill a process by PID
 
     Parameters: ~
-      • {port}  (`number`)
+      • {pid}  (`number`)
 
 open_browser({path}, {browser})             *livepreview.utils.open_browser()*
     Open URL in the browser
@@ -319,6 +319,17 @@ open_browser({path}, {browser})             *livepreview.utils.open_browser()*
     Parameters: ~
       • {path}     (`string`)
       • {browser}  (`string?`)
+
+                             *livepreview.utils.processes_listening_on_port()*
+processes_listening_on_port({port})
+    Get a list of processes listening on a port
+
+    Parameters: ~
+      • {port}  (`number`)
+
+    Return: ~
+        (`table<string, number>`) a table with the processes listening on the
+        port (except for the current process), including name and PID
 
 sha1({val})                                         *livepreview.utils.sha1()*
     Compute the SHA1 hash of a string.
