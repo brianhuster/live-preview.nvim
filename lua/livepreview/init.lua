@@ -36,7 +36,25 @@ end
 ---@param filepath string: path to the file
 ---@param port number: port to run the server on
 function M.preview_file(filepath, port)
-	utils.kill_port(port)
+	local processes = utils.processes_listening_on_port(port)
+	if #processes > 0 then
+		for _, process in processes do
+			if process.pid ~= vim.uv.os_getpid() then
+				vim.ui.input(string.format(
+					"Port %d is being used by another process %s (PID : %d). Continue will kill that process (y/n)",
+					port,
+					process.name,
+					process.pid), function(input)
+					if input and vim.trim(input) then
+						if input:lower() == "y" then
+							vim.uv.kill(process.pid)
+						end
+					end
+				end)
+				return
+			end
+		end
+	end
 	if M.serverObj then
 		M.serverObj:stop()
 	end
