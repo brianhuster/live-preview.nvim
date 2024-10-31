@@ -1,5 +1,7 @@
 # live-preview.nvim 🚀
 
+[![LuaRocks](https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple)](https://luarocks.org/modules/brianhuster/live-preview.nvim)
+
 Một plugin Neovim cho phép bạn xem kết quả tệp [Markdown](https://vi.wikipedia.org/wiki/Markdown), [HTML](https://vi.wikipedia.org/wiki/HTML) (nhúng kèm CSS, JS) và [AsciiDoc](https://asciidoc.org/) trong trình duyệt web với cập nhật trực tiếp, cho phép bạn không cần tải lại trình duyệt mỗi khi có thay đổi trong file. Không như một số plugin tương tự yêu cầu runtime ngoài như Node hoặc Python, plugin này không yêu cầu bất kỳ runtime ngoài nào, ngoại trừ chính Lua được tích hợp sẵn trong Neovim.
 
 ## Tính năng ✨
@@ -55,23 +57,27 @@ MiniDeps.add({
         'nvim-telescope/telescope.nvim' -- Not required, but recommended for integrating with Telescope
     }, 
 })
-require('livepreview').setup()
-require('autosave').setup() -- Not required, but recomended for autosaving
 ```
 
 </details>
+<details>
+<summary>rocks.nvim 🪨</summary>
+
+```vim
+:Rocks install live-preview.nvim
+```
+</details>
+
+<details>
 
 <details>
 <summary>vim-plug 🔌</summary>
 
 ```vim
 Plug 'brianhuster/live-preview.nvim'
-let g:livepreview_config = {} " Cấu hình tùy chọn
-lua require('livepreview').setup(vim.g.livepreview_config) " Bắt buộc để kích hoạt plugin
 
 Plug 'nvim-telescope/telescope.nvim' " Not required, but recommended for integrating with Telescope
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
-lua require('autosave').setup() " Not required, but recomended for autosaving
 ```
 
 </details>
@@ -91,7 +97,6 @@ git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/n
 git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
 ```
 
-Bạn phải thêm dòng `require('livepreview').setup()` (Lua) hoặc `lua require('livepreview').setup()` (Vimscript) vào tệp cấu hình Neovim của bạn để kích hoạt plugin.
 </details>
 
 ## Tùy chỉnh
@@ -130,6 +135,7 @@ let g:livepreview_config = {
     \ 'sync_scroll': v:false, " Nếu v:true, plugin sẽ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim.
     \ 'telescope': v:false " Nếu v:true, plugin sẽ tự động load extension `Telescope livepreview`
 \ }
+lua require('livepreview').setup(g:livepreview_config)
 ```
 
 **⚠️ Chú ý:** Đảm bảo rằng bạn cấu hình `g:livepreview_config` trước khi gọi `lua require('livepreview').setup()`.

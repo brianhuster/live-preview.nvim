@@ -100,6 +100,15 @@ end
 --- }
 --- ```
 function M.setup(opts)
+	if M.config.commands then
+		if M.config.commands.start then
+			vim.api.nvim_del_user_command(M.config.commands.start)
+		end
+		if M.config.commands.stop then
+			vim.api.nvim_del_user_command(M.config.commands.stop)
+		end
+	end
+
 	local default_options = {
 		commands = {
 			start = "LivePreview",

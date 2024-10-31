@@ -25,3 +25,12 @@ Now you can run `:Telescope livepreview` to open live-preview.nvim's Telescope p
 ### File path as optional argument for the command to start server
 
 You can now pass a file path as an argument to the command `:LivePreview` (or whatever you configure) to open that file in the browser. For example, `:LivePreview Documents/file.md`.
+
+### Availability on Luarocks 🪨
+
+
+Now you can use [rocks.nvim](https://github.com/nvim-neorocks/rocks.nvim) to install live-preview.nvim with a single command:
+
+```vim
+:Rocks install live-preview.nvim
+```
