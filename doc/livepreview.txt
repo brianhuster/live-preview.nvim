@@ -9,12 +9,15 @@ To work with API from this plugin, require it in your Lua code: >lua
 <
 
 
-preview_file({filepath}, {port})                  *livepreview.preview_file()*
-    Start live preview
+live_start({filepath}, {port})                      *livepreview.live_start()*
+    Start live-preview server
 
     Parameters: ~
       • {filepath}  (`string`) path to the file
       • {port}      (`number`) port to run the server on
+
+live_stop()                                          *livepreview.live_stop()*
+    Stop live-preview server
 
 setup({opts})                                            *livepreview.setup()*
     Setup live preview
@@ -37,9 +40,6 @@ setup({opts})                                            *livepreview.setup()*
                     	}
                     }
 <
-
-stop_preview()                                    *livepreview.stop_preview()*
-    Stop live preview
 
 
 ==============================================================================
