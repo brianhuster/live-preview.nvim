@@ -121,6 +121,9 @@ function M.setup(opts)
 		local filepath
 		if cmd_opts.args ~= "" then
 			filepath = cmd_opts.args
+			if vim.fn.isabsolutepath(filepath) == 0 then
+				filepath = utils.joinpath(vim.uv.cwd(), filepath)
+			end
 		else
 			filepath = vim.api.nvim_buf_get_name(0)
 			if not utils.supported_filetype(filepath) then
