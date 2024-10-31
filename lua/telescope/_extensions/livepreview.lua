@@ -53,7 +53,7 @@ function M.livepreview()
 					local entry = action_state.get_selected_entry()
 					actions.close(prompt_bufnr)
 					local filepath = entry.value
-					lp.preview_file(filepath, lp.config.port)
+					lp.live_start(filepath, lp.config.port)
 					vim.cmd("edit " .. filepath)
 					lp.utils.open_browser(
 						string.format("http://localhost:%d/%s", lp.config.port, filepath),
