@@ -142,7 +142,7 @@ function M.setup(opts)
 
 		M.live_start(filepath, M.config.port)
 	end, {
-		nargs = '?',
+		nargs = "?",
 		complete = "file",
 	})
 
