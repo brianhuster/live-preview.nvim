@@ -1,5 +1,7 @@
 # live-preview.nvim 🚀
 
+[![LuaRocks](https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple)](https://luarocks.org/modules/brianhuster/live-preview.nvim)
+
 A plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/wiki/Markdown), [HTML](https://en.wikipedia.org/wiki/HTML) (along with CSS, JavaScript) and [AsciiDoc](https://asciidoc.org/) files in a web browser with live updates. No external dependencies or runtime like NodeJS or Python are required, since the backend is fully written in Lua and Neovim's built-in functions.
 
 _You can read this README in [Tiếng Việt](README.vi.md)_
@@ -57,10 +59,16 @@ MiniDeps.add({
         'nvim-telescope/telescope.nvim' -- Not required, but recommended for integrating with Telescope
     }, 
 })
-require('livepreview').setup()
-require('autosave').setup() -- Only required if you want use autosave
 ```
 
+</details>
+
+<details>
+<summary>rocks.nvim 🪨</summary>
+
+```vim
+:Rocks install live-preview.nvim
+```
 </details>
 
 <details>
@@ -68,13 +76,10 @@ require('autosave').setup() -- Only required if you want use autosave
 
 ```vim
 Plug 'brianhuster/live-preview.nvim'
-lua require('autosave').setup() " Only required if you want use autosave
 
 Plug 'nvim-telescope/telescope.nvim' " Not required, but recommended for integrating with Telescope
 
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
-let g:livepreview_config = {} " Optional configuration. 
-lua require('livepreview').setup(vim.g.livepreview_config) " Required to enable the plugin
 ```
 
 </details>
@@ -94,7 +99,6 @@ git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/n
 git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
 ```
 
-You must add the line `require('livepreview').setup()` (Lua) or `lua require('livepreview').setup()` (Vimscript) to your Neovim configuration file to enable the plugin.
 </details>
 
 ## Setup ⚙️
@@ -137,6 +141,7 @@ let g:livepreview_config = {
     \   'autoload' : v:false " If true, the plugin will automatically load the `Telescope livepreview` extension.
     \ },
 \ }
+lua require('livepreview').setup(vim.g.livepreview_config)
 ```
 
 ## Usage 🚀
