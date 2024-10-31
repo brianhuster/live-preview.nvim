@@ -27,15 +27,17 @@ local function find_buf()
 	return nil
 end
 
---- Stop live preview
-function M.stop_preview()
-	M.serverObj:stop()
+--- Stop live-preview server
+function M.live_stop()
+	if M.serverObj then
+		M.serverObj:stop()
+	end
 end
 
---- Start live preview
+--- Start live-preview server
 ---@param filepath string: path to the file
 ---@param port number: port to run the server on
-function M.preview_file(filepath, port)
+function M.live_start(filepath, port)
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
@@ -130,11 +132,11 @@ function M.setup(opts)
 			M.config.browser
 		)
 
-		M.preview_file(filepath, M.config.port)
+		M.live_start(filepath, M.config.port)
 	end, {})
 
 	vim.api.nvim_create_user_command(M.config.commands.stop, function()
-		M.stop_preview()
+		M.live_stop()
 		print("Live preview stopped")
 	end, {})
 
@@ -146,6 +148,18 @@ function M.setup(opts)
 			telescope.load_extension("livepreview")
 		end
 	end
+end
+
+---@deprecated
+---Use |livepreview.live_stop()| instead
+function M.stop_preview()
+	M.live_stop()
+end
+
+---@deprecated
+---Use |livepreview.live_start()| instead
+function M.preview_file(filepath, port)
+	M.live_start(filepath, port)
 end
 
 return M

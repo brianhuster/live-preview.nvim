@@ -19,3 +19,9 @@ vim.filetype.add({
 		[".*/live%-preview%.nvim/.*template.lua"] = "luatemplate",
 	},
 })
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+	callback = function()
+		require("livepreview").live_stop()
+	end,
+})

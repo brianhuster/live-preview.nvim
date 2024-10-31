@@ -1,6 +1,11 @@
-### New features
+## 🗑️ Deprecated API
+* `require('livepreview').preview_file()`. Use `require('livepreview').live_start()` instead.
+* `require('livepreview').stop_preview()`. Use `require('livepreview').live_stop()` instead.
 
-#### Integrate with telescope.nvim
+
+## ✨ New features
+
+### 🔍 Integration with telescope.nvim
 
 To use this feature, make sure you have installed [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 
@@ -14,5 +19,7 @@ require('telescope').load_extension('livepreview')
 
 Now you can run `:Telescope livepreview` to open live-preview.nvim's Telescope picker.
 
-#### New configuration options
+### ⚙️ New configuration options
 `autokill` (default: `false` or `v:false`): If true, the plugin will automatically kill other processes running on the same port (except for Neovim) when starting the server.
+
+
