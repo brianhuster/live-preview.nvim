@@ -49,6 +49,7 @@ function M.live_start(filepath, port)
 						"Port %d is being used by another process `%s` (PID %d). Run `:lua vim.uv.kill(%d)` to kill it.",
 						port,
 						process.name,
+						process.pid,
 						process.pid
 					),
 					vim.log.levels.WARN
