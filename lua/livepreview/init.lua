@@ -41,7 +41,7 @@ function M.live_start(filepath, port)
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
-			if M.config.autokill and not process.name:match("vim") and process.pid ~= vim.uv.os_getpid() then
+			if M.config.autokill and process.pid ~= vim.uv.os_getpid() and not process.name:match("vim") then
 				utils.kill(process.pid)
 			else
 				vim.print(
