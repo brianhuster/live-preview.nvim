@@ -20,8 +20,8 @@ vim.filetype.add({
 	},
 })
 
-vim.api.nvim_create_autocmd('VimLeavePre', {
+vim.api.nvim_create_autocmd("VimLeavePre", {
 	callback = function()
-		require('livepreview').live_stop()
-	end
+		require("livepreview").live_stop()
+	end,
 })
