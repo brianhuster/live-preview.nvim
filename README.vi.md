@@ -144,6 +144,8 @@ let g:livepreview_config = {
 
 Lệnh này sẽ mở tệp Markdown hoặc HTML hiện tại trong trình duyệt web tại địa chỉ "http://localhost:5500/tên-file" và cập nhật trực tiếp mỗi khi bạn chỉnh sửa file.
 
+Bạn có thể thêm 1 đường dẫn file làm tham số cho lệnh `:LivePreview` (ví dụ `:LivePreview Documents/file.md`)
+
 Để tắt máy chủ live-preview, dùng lệnh:
 
 `:StopPreview`

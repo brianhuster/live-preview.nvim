@@ -117,13 +117,21 @@ function M.setup(opts)
 
 	M.config = vim.tbl_deep_extend("force", default_options, opts or {})
 
-	vim.api.nvim_create_user_command(M.config.commands.start, function()
-		local filepath = vim.fn.expand("%:p")
-		if not utils.supported_filetype(filepath) then
-			filepath = find_buf()
-			if not filepath then
-				print("live-preview.nvim only supports html, markdown, and asciidoc files")
-				return
+	vim.api.nvim_create_user_command(M.config.commands.start, function(cmd_opts)
+		local filepath
+		if cmd_opts.args ~= "" then
+			filepath = cmd_opts.args
+			if vim.fn.isabsolutepath(filepath) == 0 then
+				filepath = utils.joinpath(vim.uv.cwd(), filepath)
+			end
+		else
+			filepath = vim.api.nvim_buf_get_name(0)
+			if not utils.supported_filetype(filepath) then
+				filepath = find_buf()
+				if not filepath then
+					print("live-preview.nvim only supports html, markdown, and asciidoc files")
+					return
+				end
 			end
 		end
 		utils.open_browser(
@@ -136,7 +144,10 @@ function M.setup(opts)
 		)
 
 		M.live_start(filepath, M.config.port)
-	end, {})
+	end, {
+		nargs = "?",
+		complete = "file",
+	})
 
 	vim.api.nvim_create_user_command(M.config.commands.stop, function()
 		M.live_stop()
@@ -145,10 +156,10 @@ function M.setup(opts)
 
 	if M.config.telescope.autoload then
 		local telescope = require("telescope")
-		if not telescope then
-			vim.notify_once("telescope.nvim is not installed", vim.log.levels.WARN)
-		else
+		if telescope then
 			telescope.load_extension("livepreview")
+		else
+			vim.notify_once("telescope.nvim is not installed", vim.log.levels.WARN)
 		end
 	end
 end
@@ -156,12 +167,14 @@ end
 ---@deprecated
 ---Use |livepreview.live_stop()| instead
 function M.stop_preview()
+	vim.deprecate("stop_preview()", "live_stop()", "v1.0.0", "live-preview.nvim")
 	M.live_stop()
 end
 
 ---@deprecated
 ---Use |livepreview.live_start()| instead
 function M.preview_file(filepath, port)
+	vim.deprecate("preview_file()", "live_start()", "v1.0.0", "live-preview.nvim")
 	M.live_start(filepath, port)
 end
 

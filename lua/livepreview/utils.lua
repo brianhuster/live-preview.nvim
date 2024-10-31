@@ -131,15 +131,7 @@ function M.joinpath(...)
 	local stack = {}
 
 	for _, part in ipairs(parts) do
-		for segment in string.gmatch(part, "[^/\\]+") do
-			if segment == ".." then
-				if #stack > 0 then
-					table.remove(stack)
-				end
-			elseif segment ~= "." then
-				table.insert(stack, segment)
-			end
-		end
+		table.insert(stack, vim.fs.normalize(part))
 	end
 
 	return vim.fs.joinpath(unpack(stack))
