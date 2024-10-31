@@ -149,6 +149,8 @@ To start the live preview, use the command:
 
 This command will open the current Markdown or HTML file in your default web browser and update it live as you write changes to your file.
 
+You can also parse a file path as argument, for example `:LivePreview test/doc.md`
+
 To stop the live preview server, use the command:
 
 `:StopPreview`

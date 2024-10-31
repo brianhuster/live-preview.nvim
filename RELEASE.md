@@ -22,4 +22,6 @@ Now you can run `:Telescope livepreview` to open live-preview.nvim's Telescope p
 ### ⚙️ New configuration options
 `autokill` (default: `false` or `v:false`): If true, the plugin will automatically kill other processes running on the same port (except for Neovim) when starting the server.
 
+### File path as optional argument for the command to start server
 
+You can now pass a file path as an argument to the command `:LivePreview` (or whatever you configure) to open that file in the browser. For example, `:LivePreview Documents/file.md`.
