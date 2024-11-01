@@ -3,18 +3,23 @@
 ==============================================================================
 Table of Contents                              *livepreview-table-of-contents*
 
-  - Features                                           |livepreview-features-|
-  - Demo video                                       |livepreview-demo-video-|
-  - Requirements                                    |livepreview-requirements|
-  - Installation                                    |livepreview-installation|
-  - Setup                                                  |livepreview-setup|
-  - Usage                                                 |livepreview-usage-|
-  - Contributing                                   |livepreview-contributing-|
-  - TODO                                                   |livepreview-todo-|
-  - Non goals                                         |livepreview-non-goals-|
-  - Acknowledgements                           |livepreview-acknowledgements-|
-1. Links                                                   |livepreview-links|
-live-preview.nvim <https://luarocks.org/modules/brianhuster/live-preview.nvim>
+1.                                                              |livepreview-|
+  - Features                                          |livepreview--features-|
+  - Demo video                                      |livepreview--demo-video-|
+  - Requirements                                   |livepreview--requirements|
+  - Installation                                   |livepreview--installation|
+  - Setup                                                 |livepreview--setup|
+  - Usage                                                |livepreview--usage-|
+  - Contributing                                  |livepreview--contributing-|
+  - TODO                                                  |livepreview--todo-|
+  - Non goals                                        |livepreview--non-goals-|
+  - Acknowledgements                          |livepreview--acknowledgements-|
+2. Links                                                   |livepreview-links|
+live-preview.nvim 
+==============================================================================
+1.                                                              *livepreview-*
+
+<https://luarocks.org/modules/brianhuster/live-preview.nvim>
 
 Aplugin for Neovim that allows you to view Markdown
 <https://en.wikipedia.org/wiki/Markdown>, HTML
@@ -26,7 +31,7 @@ is fully written in Lua and Neovim’s built-in functions.
 _You can read this README in Tiếng Việt_
 
 
-FEATURES                                               *livepreview-features-*
+FEATURES                                              *livepreview--features-*
 
 - Supportsmarkdown, HTML (with reference to CSS, JS), and AsciiDoc files 
 - SupportKatex for rendering math equations in markdown and AsciiDoc files 
@@ -44,20 +49,20 @@ SeeRELEASE.md <RELEASE.md>
 to ensure the plugin works correctly.
 
 
-DEMO VIDEO                                           *livepreview-demo-video-*
+DEMO VIDEO                                          *livepreview--demo-video-*
 
 
 https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
 
-REQUIREMENTS                                        *livepreview-requirements*
+REQUIREMENTS                                       *livepreview--requirements*
 
 - Neovim>=0.10.0 (recommended: >=0.10.1)
 - A modern web browser 
 - PowerShell(only if you use Windows) 
 
 
-INSTALLATION                                        *livepreview-installation*
+INSTALLATION                                       *livepreview--installation*
 
 Youcan install this plugin using a plugin manager. Most plugin managers are
 supported. Below are some examples
@@ -120,7 +125,7 @@ Nativepackage (without a plugin manager)  ~
 <
 
 
-SETUP                                                      *livepreview-setup*
+SETUP                                                     *livepreview--setup*
 
 Youcan customize the plugin by passing a table to the `opts` variable (if you
 use lazy.nvim) or the function `require('livepreview').setup()`. Here is the
@@ -168,7 +173,7 @@ IN VIMSCRIPT ~
 <
 
 
-USAGE                                                     *livepreview-usage-*
+USAGE                                                    *livepreview--usage-*
 
 
 FORDEFAULT CONFIGURATION ~
@@ -211,14 +216,14 @@ Now you can use the command `:Telescope livepreview` to open
 live-preview.nvim’s Telescope interface.
 
 
-CONTRIBUTING                                       *livepreview-contributing-*
+CONTRIBUTING                                      *livepreview--contributing-*
 
 Sincethis is a young project, there should be a lot of rooms for improvements.
 If you would like to contribute to this project, please feel free to open an
 issue or a pull request.
 
 
-TODO                                                       *livepreview-todo-*
+TODO                                                      *livepreview--todo-*
 
 - Support for KaTex math in Markdown and AsciiDoc
 - Support for Mermaid diagrams in Markdown and AsciiDoc
@@ -227,13 +232,13 @@ TODO                                                       *livepreview-todo-*
 - Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
 
 
-NON GOALS                                             *livepreview-non-goals-*
+NON GOALS                                            *livepreview--non-goals-*
 
 Theseare not in roadmap of live-preview.nvim right now, but pull requests are
 welcome - Allow users to add custom css and js files in configuration
 
 
-ACKNOWLEDGEMENTS                               *livepreview-acknowledgements-*
+ACKNOWLEDGEMENTS                              *livepreview--acknowledgements-*
 
 - LiveServer <https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer> and Live Preview <https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server> for the idea inspiration
 - glacambre/firenvim <https://github.com/glacambre/firenvim> for the sha1 function reference
@@ -253,7 +258,7 @@ now. If you find this project helpful, please consider supporting me :>
 
 
 ==============================================================================
-1. Links                                                   *livepreview-links*
+2. Links                                                   *livepreview-links*
 
 1. *LuaRocks*: https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple
 
