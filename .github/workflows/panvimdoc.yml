@@ -1,0 +1,32 @@
+name: panvimdoc
+
+on:
+  push:
+    branches:
+      - '*'
+    paths:
+      - README.md 
+      - .github/workflows/panvimdoc.yml 
+
+permissions:
+  contents: write
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    name: pandoc to vimdoc
+    steps:
+      - uses: actions/checkout@v2
+      - uses: kdheepak/panvimdoc@main
+        with:
+          vimdoc: 'livepreview'
+          version: "NVIM >=0.10.0"
+          demojify: true
+
+      - name: Commit and push documentation
+        uses: ./.github/actions/commit-and-push
+        with:
+          commit-message: 'Update Vimdoc based on README'
+          files: 'doc/*'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+

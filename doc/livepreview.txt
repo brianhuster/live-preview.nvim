@@ -1,465 +1,267 @@
+*livepreview.txt*        For NVIM >=0.10.0       Last change: 2024 November 01
 
 ==============================================================================
-Lua module : require("livepreview")                              *livepreview*
+Table of Contents                              *livepreview-table-of-contents*
 
-Live preview for markdown, asciidoc, and html files.
-
-To work with API from this plugin, require it in your Lua code: >lua
-    local livepreview = require('livepreview')
-<
-
-
-live_start({filepath}, {port})                      *livepreview.live_start()*
-    Start live-preview server
-
-    Parameters: ~
-      • {filepath}  (`string`) path to the file
-      • {port}      (`number`) port to run the server on
-
-live_stop()                                          *livepreview.live_stop()*
-    Stop live-preview server
-
-setup({opts})                                            *livepreview.setup()*
-    Setup live preview
-
-    Parameters: ~
-      • {opts}  (`{commands: {start: string, stop: string}, port: number, browser: string, sync_scroll: boolean, telescope: {autoload: boolean}}?`)
-                Default options: >lua
-                    {
-                    	commands = {
-                    		start = "LivePreview",
-                    		stop = "StopPreview",
-                    	},
-                    	port = 5500,
-                    	autokill = false,
-                    	browser = "default",
-                    	dynamic_root = false,
-                    	sync_scroll = false,
-                    	telescope = {
-                    		autoload = false,
-                    	}
-                    }
-<
-
-
+1.                                                              |livepreview-|
+  - Features                                          |livepreview--features-|
+  - Demo video                                      |livepreview--demo-video-|
+  - Requirements                                   |livepreview--requirements|
+  - Installation                                   |livepreview--installation|
+  - Setup                                                 |livepreview--setup|
+  - Usage                                                |livepreview--usage-|
+  - Contributing                                  |livepreview--contributing-|
+  - TODO                                                  |livepreview--todo-|
+  - Non goals                                        |livepreview--non-goals-|
+  - Acknowledgements                          |livepreview--acknowledgements-|
+2. Links                                                   |livepreview-links|
+live-preview.nvim 
 ==============================================================================
-Live Preview Module : SERVER                              *livepreview.server*
+1.                                                              *livepreview-*
 
-Server module for live-preview.nvim To require this module, do >lua
-    local server = require('livepreview.server')
+<https://luarocks.org/modules/brianhuster/live-preview.nvim>
+
+Aplugin for Neovim that allows you to view Markdown
+<https://en.wikipedia.org/wiki/Markdown>, HTML
+<https://en.wikipedia.org/wiki/HTML> (along with CSS, JavaScript) and AsciiDoc
+<https://asciidoc.org/> files in a web browser with live updates. No external
+dependencies or runtime like NodeJS or Python are required, since the backend
+is fully written in Lua and Neovim’s built-in functions.
+
+_You can read this README in Tiếng Việt_
+
+
+FEATURES                                              *livepreview--features-*
+
+- Supportsmarkdown, HTML (with reference to CSS, JS), and AsciiDoc files 
+- SupportKatex for rendering math equations in markdown and AsciiDoc files 
+- Supportsmermaid for rendering diagrams in markdown files 
+- Syntaxhighlighting for code blocks in Markdown and AsciiDoc 
+- Supportssync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in |livepreview-setup|. This feature should be used with brianhuster/autosave.nvim <https://github.com/brianhuster/autosave.nvim>) 
+- Integrationwith telescope.nvim <https://github.com/nvim-telescope/telescope.nvim> 
+
+
+UPDATES ~
+
+SeeRELEASE.md <RELEASE.md>
+
+**Important Notice:** You should clear the cache of the browser after updating
+to ensure the plugin works correctly.
+
+
+DEMO VIDEO                                          *livepreview--demo-video-*
+
+
+https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
+
+
+REQUIREMENTS                                       *livepreview--requirements*
+
+- Neovim>=0.10.0 (recommended: >=0.10.1)
+- A modern web browser 
+- PowerShell(only if you use Windows) 
+
+
+INSTALLATION                                       *livepreview--installation*
+
+Youcan install this plugin using a plugin manager. Most plugin managers are
+supported. Below are some examples
+
+Using lazy.nvim (recommended)  ~
+
+>lua
+    require("lazy").setup({
+        {
+            'brianhuster/live-preview.nvim',
+            dependencies = {
+                'brianhuster/autosave.nvim'  -- Not required, but recomended for autosaving and sync scrolling
+                'nvim-telescope/telescope.nvim' -- Not required, but recommended for integrating with Telescope
+            },
+            opts = {},
+       }
+    })
+<
+
+mini.deps ~
+
+>lua
+    MiniDeps.add({
+        source = 'brianhuster/live-preview.nvim',
+        depends = { 
+            'brianhuster/autosave.nvim'  -- Not required, but recomended for autosaving and sync scrolling
+            'nvim-telescope/telescope.nvim' -- Not required, but recommended for integrating with Telescope
+        }, 
+    })
+<
+
+rocks.nvim ~
+
+>vim
+    :Rocks install live-preview.nvim
+<
+
+vim-plug ~
+
+>vim
+    Plug 'brianhuster/live-preview.nvim'
+    
+    Plug 'nvim-telescope/telescope.nvim' " Not required, but recommended for integrating with Telescope
+    
+    Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
+<
+
+Nativepackage (without a plugin manager)  ~
+
+- **Linux,MacOS, Unix-based** 
+
+>sh
+    git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
+<
+
+- **Windows(Powershell) **
+
+>powershell
+    git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
 <
 
 
-*Server*
-    To call this class, do >lua
-        local Server = require('livepreview.server').Server
-<
+SETUP                                                     *livepreview--setup*
 
-    Fields: ~
-      • {new}        (`fun(self: Server, webroot: string?, config: table?)`)
-                     Constructor
-      • {routes}     (`fun(self: Server, path: string): string`) Handle routes
-      • {watch_dir}  (`fun(self: Server, func: function)`) Watch a directory
-                     for changes and send a message "reload" to a WebSocket
-                     client
-      • {start}      (`fun(self: Server, ip: string, port: number, func: function?)`)
-                     Start the server
-      • {stop}       (`fun(self: Server)`) Stop the server
+Youcan customize the plugin by passing a table to the `opts` variable (if you
+use lazy.nvim) or the function `require('livepreview').setup()`. Here is the
+default configuration:
 
 
-Server:new({webroot}, {config})              *livepreview.server.Server:new()*
-    Constructor
+IN LUA ~
 
-    Parameters: ~
-      • {webroot}  (`string?`) path to the webroot
-      • {config}   (`table?`) configuration
-
-Server:routes({path})                     *livepreview.server.Server:routes()*
-    Handle routes
-
-    Parameters: ~
-      • {path}  (`string`) path from the http request
-
-    Return: ~
-        (`string`) path to the file
-
-Server:start({ip}, {port}, {func})         *livepreview.server.Server:start()*
-    Start the server
-
-    Parameters: ~
-      • {ip}    (`string`) IP address to bind to
-      • {port}  (`number`) port to bind to
-      • {func}  (`function?`) Function to call when there is a change in the
-                watched directory
-                • client uv_tcp_t: The uv_tcp client passed to func
-
-Server:stop()                               *livepreview.server.Server:stop()*
-    Stop the server
-
-Server:watch_dir({func})               *livepreview.server.Server:watch_dir()*
-    Watch a directory for changes and send a message "reload" to a WebSocket
-    client
-
-    Parameters: ~
-      • {func}  (`function`) function to call when a change is detected
-
-
-==============================================================================
-Live Preview Module : HANDLER                            *livepreview.handler*
-
-HTTP handler module for server in live-preview.nvim To require this module, do >lua
-    local handler = require('livepreview.server.handler')
+>lua
+    {
+        commands = {
+            start = 'LivePreview', -- Command to start the live preview server and open the default browser.
+            stop = 'StopPreview', -- Command to stop the live preview. 
+        },
+        port = 5500, -- Port to run the live preview server on.
+        autokill = false, -- If true, the plugin will autokill other processes running on the same port (except for Neovim) when starting the server.
+        browser = 'default', -- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
+        dynamic_root = false, -- If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:lua print(vim.uv.cwd())`).
+        sync_scroll = false, -- If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
+        telescope = {
+            false, -- If true, the plugin will automatically load the `Telescope livepreview` extension.
+        },
+    }
 <
 
 
-client({client}, {callback})             *livepreview.server.handler.client()*
-    Handle a client connection, read the request and send a response
+IN VIMSCRIPT ~
 
-    Parameters: ~
-      • {client}    (`uv_tcp_t`) client connection
-      • {callback}  (`function`)
-                    • `err`: Error message, if any (nil if no error)
-                    • `data`: Request from the client
-
-    Return: ~
-        (`string`) request from the client
-
-request({request})                      *livepreview.server.handler.request()*
-    Handle an HTTP request If the request is a websocket upgrade request, it
-    will call websocket handshake Otherwise, if it is a GET request, return
-    the path from it
-
-    Parameters: ~
-      • {request}  (`string`) HTTP request
-
-    Return: ~
-        (`{path: string, if_none_match: string}?`) path to the file and
-        If-None-Match header
-
-                             *livepreview.server.handler.send_http_response()*
-send_http_response({client}, {status}, {content_type}, {body}, {headers})
-    Send an HTTP response
-
-    Parameters: ~
-      • {client}        (`uv_tcp_t`) client connection
-      • {status}        (`string`) for example "200 OK", "404 Not Found", etc.
-      • {content_type}  (`string`) MIME type of the response
-      • {body}          (`string`) body of the response
-      • {headers}       (`table?`) (optional) additional headers to include in
-                        the response
-
-                                     *livepreview.server.handler.serve_file()*
-serve_file({client}, {file_path})
-    Serve a file to the client
-
-    Parameters: ~
-      • {client}     (`uv_tcp_t`) client connection
-      • {file_path}  (`string`) path to the file
-
-
-==============================================================================
-Live Preview Module : WEBSOCKET                        *livepreview.websocket*
-
-WebSocket server implementation To require this module, do >lua
-    local websocket = require('livepreview.server.websocket')
+>vim
+    let g:livepreview_config = {
+        \ 'commands': {
+            \ 'start': 'LivePreview', " Command to start the live preview server and open the default browser.
+            \ 'stop': 'StopPreview', " Command to stop the live preview. 
+        \ },
+        \ 'autokill': v:false, " If true, the plugin will autokill other processes running on the same port (except for Neovim) when starting the server.
+        \ 'port': 5500, " Port to run the live preview server on.
+        \ 'browser': 'default', " Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
+        \ 'dynamic_root': v:false " If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:pwd`).
+        \ 'sync_scroll': v:false " If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
+        \ 'telescope': {
+        \   'autoload' : v:false " If true, the plugin will automatically load the `Telescope livepreview` extension.
+        \ },
+    \ }
+    lua require('livepreview').setup(vim.g.livepreview_config)
 <
 
 
-                                    *livepreview.server.websocket.handshake()*
-handshake({client}, {request})
-    Handle a WebSocket handshake request
-
-    Parameters: ~
-      • {client}   (`uv_tcp_t`) client
-      • {request}  (`string`) client request
-
-send({client}, {message})                *livepreview.server.websocket.send()*
-    Send a message to a WebSocket client
-
-    Parameters: ~
-      • {client}   (`uv_tcp_t`) client
-      • {message}  (`string`) message to send
-
-                                    *livepreview.server.websocket.send_json()*
-send_json({client}, {message})
-    Send a JSON message to a WebSocket client
-
-    Parameters: ~
-      • {client}   (`uv_tcp_t`) client
-      • {message}  (`table`) message to send
+USAGE                                                    *livepreview--usage-*
 
 
-==============================================================================
-Live Preview Module : CONTENT_TYPE                  *livepreview.content_type*
+FORDEFAULT CONFIGURATION ~
 
-Content type module for the server To require this module, do >lua
-    local content_type = require('livepreview.server.utils.content_type')
+To start the live preview, use the command:
+
+`:LivePreview`
+
+This command will open the current Markdown or HTML file in your default web
+browser and update it live as you write changes to your file.
+
+You can also parse a file path as argument, for example `:LivePreview
+test/doc.md`
+
+To stop the live preview server, use the command:
+
+`:StopPreview`
+
+These commands can be changed based on your customization in the `setup`
+function in your Neovim configuration file.
+
+Use the command `:help livepreview` to see the help documentation.
+
+
+INTEGRATING WITH TELESCOPE  ~
+
+Touse this feature, you need to install nvim-telescope/telescope.nvim
+<https://github.com/nvim-telescope/telescope.nvim>.
+
+Then set `telescope.autoload` to `true` in the
+|livepreview-configuration-table| of live-preview.nvim
+
+Alternatively, you can load the extension in your Neovim configuration file:
+
+>lua
+    require('telescope').load_extension('live_preview')
 <
 
-
-get({file_path})                 *livepreview.server.utils.content_type.get()*
-    Get the content type of a file
-
-    Parameters: ~
-      • {file_path}  (`string`) path to the file
-
-    Return: ~
-        (`string?`) content type
-
-mime                              *livepreview.server.utils.content_type.mime*
-    Table of file extensions and their corresponding MIME types
-
-    Example: >lua
-        mime["html"] -- Output : "text/html"
-<
+Now you can use the command `:Telescope livepreview` to open
+live-preview.nvim’s Telescope interface.
 
 
-==============================================================================
-Live Preview Module : ETAG                                  *livepreview.etag*
+CONTRIBUTING                                      *livepreview--contributing-*
 
-ETag module To require this module, do >lua
-    local etag = require('livepreview.server.utils.etag')
-<
-
-
-generate({file_path})               *livepreview.server.utils.etag.generate()*
-    Generate an ETag for a file The Etag is generated based on the
-    modification time of the file
-
-    Parameters: ~
-      • {file_path}  (`string`) path to the file
-
-    Return: ~
-        (`string?`) ETag
+Sincethis is a young project, there should be a lot of rooms for improvements.
+If you would like to contribute to this project, please feel free to open an
+issue or a pull request.
 
 
-==============================================================================
-Live Preview Module : UTILS                                *livepreview.utils*
+TODO                                                      *livepreview--todo-*
 
-Utility functions for live-preview.nvim To require this module, do >lua
-    local utils = require('livepreview.utils')
-<
+- Support for KaTex math in Markdown and AsciiDoc
+- Support for Mermaid diagrams in Markdown and AsciiDoc
+- Syntax highlighting for code blocks in Markdown and AsciiDoc
+- Autoscroll in the browser as you scroll in the Markdown files in Neovim
+- Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
 
 
-await_term_cmd({cmd})                     *livepreview.utils.await_term_cmd()*
-    Execute a shell command and wait for the exit
+NON GOALS                                            *livepreview--non-goals-*
 
-    Parameters: ~
-      • {cmd}  (`string`) terminal command to execute. Term_cmd will use sh or
-               pwsh depending on the OS
+Theseare not in roadmap of live-preview.nvim right now, but pull requests are
+welcome - Allow users to add custom css and js files in configuration
 
-    Return: ~
-        (`{code: number, signal: number, stdout: string, stderr: string}`) a
-        table with fields code, stdout, stderr, signal
 
-                                           *livepreview.utils.get_base_path()*
-get_base_path({full_path}, {parent_path})
-    Extract base path from a file path Example: ```lua
-    get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua",
-    "/home/user/.config/nvim/") >
-        will return "lua/livepreview/utils.lua"
-<
+ACKNOWLEDGEMENTS                              *livepreview--acknowledgements-*
 
-    Parameters: ~
-      • {full_path}    (`string`)
-      • {parent_path}  (`string`)
+- LiveServer <https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer> and Live Preview <https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server> for the idea inspiration
+- glacambre/firenvim <https://github.com/glacambre/firenvim> for the sha1 function reference
+- sindresorhus/github-markdown-css <https://github.com/sindresorhus/github-markdown-css> CSS style for Markdown files
+- markdown-it/markdown-it <https://github.com/markdown-it/markdown-it> for parsing Markdown files
+- asciidoctor/asciidoctor.js <https://github.com/asciidoctor/asciidoctor.js> for parsing AsciiDoc files
+- KaTeX <https://github.com/KaTeX/KaTeX> for rendering math equations
+- mermaid-js/mermaid <https://github.com/mermaid-js/mermaid> for rendering diagrams
+- digitalmoksha/markdown-it-inject-linenumbers <https://github.com/digitalmoksha/markdown-it-inject-linenumbers> A markdown-it plugin for injecting line numbers into html output
 
-    Return: ~
-        (`string`)
 
-                                         *livepreview.utils.get_parent_path()*
-get_parent_path({full_path}, {subpath})
-    Get the parent path of a subpath
+BUY ME A COFFEE  ~
 
-    Example: ```lua
-    get_parent_path("/home/user/.config/nvim/lua/livepreview/utils.lua",
-    "/lua/livepreview/utils.lua") >
-        will return "/home/user/.config/nvim"
-<
+Maintainingthis project takes time and effort, especially as I am a student
+now. If you find this project helpful, please consider supporting me :>
 
-    Parameters: ~
-      • {full_path}  (`string`)
-      • {subpath}    (`string`)
-
-    Return: ~
-        (`string?`)
-
-get_path_lua_file()                    *livepreview.utils.get_path_lua_file()*
-    Get path of the Lua file where the function is called
-
-    Return: ~
-        (`string?`)
-
-get_plugin_path()                        *livepreview.utils.get_plugin_path()*
-    Get the path where live-preview.nvim is installed
-
-joinpath({...})                                 *livepreview.utils.joinpath()*
-    Join paths using the correct separator for the OS
-
-    Parameters: ~
-      • {...}  (`string`) paths to join
-
-    Return: ~
-        (`string`) the joined path example: ```lua joinpath("home", "user",
-        "file.txt") -- returns "home/user/file.txt" joinpath("home", "user",
-        "folder", "../file.txt") -- returns "home/user/file.txt" >
-<
-
-kill({pid})                                         *livepreview.utils.kill()*
-    Kill a process by PID
-
-    Parameters: ~
-      • {pid}  (`number`)
-
-open_browser({path}, {browser})             *livepreview.utils.open_browser()*
-    Open URL in the browser
-
-    Example: ```lua open_browser("https://neovim.io/", "firefox")
-    open_browser("https://neovim.io/", "flatpak run com.microsoft.Edge") >
-<
-
-    Parameters: ~
-      • {path}     (`string`)
-      • {browser}  (`string?`)
-
-                             *livepreview.utils.processes_listening_on_port()*
-processes_listening_on_port({port})
-    Get a list of processes listening on a port
-
-    Parameters: ~
-      • {port}  (`number`)
-
-    Return: ~
-        (`{name : string, pid : number}[]`) a table with the processes
-        listening on the port (except for the current process), including name
-        and PID
-
-sha1({val})                                         *livepreview.utils.sha1()*
-    Compute the SHA1 hash of a string.
-
-    Copyright (C) 2007 *Free Software Foundation, Inc*.
-
-    Parameters: ~
-      • {val}  (`string`)
-
-    Return: ~
-        (`string`) SHA1 hash
-
-                                      *livepreview.utils.supported_filetype()*
-supported_filetype({file_name})
-    Check if file name has a supported filetype (html, markdown, asciidoc).
-    Warning: this function will call a Vimscript function
-
-    Parameters: ~
-      • {file_name}  (`string`)
-
-    Return: ~
-        (`filetype`) string
-
-term_cmd({cmd}, {callback})                     *livepreview.utils.term_cmd()*
-    Execute a shell commands
-
-    Parameters: ~
-      • {cmd}       (`string`) terminal command to execute. Term_cmd will use
-                    sh or pwsh depending on the OS
-      • {callback}  (`function?`) function to call when the command finishes.
-                    • code: the exit code of the command
-                    • signal: the signal that killed the process
-                    • stdout: the standard output of the command
-                    • stderr: the standard error of the command
-
-uv_read_file({file_path})                   *livepreview.utils.uv_read_file()*
-    Read a file using libuv
-
-    Parameters: ~
-      • {file_path}  (`string`)
-
-uv_write_file({file_path})                 *livepreview.utils.uv_write_file()*
-    Write a file using libuv
-
-    Parameters: ~
-      • {file_path}  (`string`)
 
 
 ==============================================================================
-Live Preview Module : FSWATCH                            *livepreview.fswatch*
+2. Links                                                   *livepreview-links*
 
-Non-native file system watcher.
+1. *LuaRocks*: https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple
 
-This is made because |luv| (|vim.uv|) doesn't support recursive directory
-watching in other OSes than Windows and OSX
+Generated by panvimdoc <https://github.com/kdheepak/panvimdoc>
 
-This module has only been tested on Linux. For Windows and OSX, it is
-recommended to use |uv_fs_event_t| with flag { recursive = true }
-
-To use this module, do: >lua
-    local fswatch = require('livepreview.fswatch')
-<
-
-
-*Watcher*
-    To call this class, do: >lua
-        Watcher = require('livepreview.fswatch').Watcher
-<
-
-    Fields: ~
-      • {directory}  (`string`)
-      • {watcher}    (`uv_fs_event_t`)
-      • {children}   (`Watcher[]`)
-      • {new}        (`fun(self: Watcher, directory: string): Watcher`) Create
-                     a new Watcher for a directory.
-      • {start}      (`fun(self: Watcher, callback: function)`) Start watching
-                     a directory and its subdirectories.
-      • {close}      (`fun(self: Watcher)`) Close the watcher and all its
-                     children.
-
-
-Watcher:close()                          *livepreview.fswatch.Watcher:close()*
-    Close the watcher and all its children.
-
-Watcher:new({directory})                   *livepreview.fswatch.Watcher:new()*
-    Create a new Watcher for a directory.
-
-    Parameters: ~
-      • {directory}  (`string`)
-
-    Return: ~
-        (`Watcher`)
-
-Watcher:start({callback})                *livepreview.fswatch.Watcher:start()*
-    Start watching a directory and its subdirectories.
-
-    Parameters: ~
-      • {callback}  (`function`)
-
-
-==============================================================================
-Live Preview Module : HEALTH                              *livepreview.health*
-
-To run health check for Live Preview, do >vim
-    :checkhealth livepreview
-<
-
-
-check()                                           *livepreview.health.check()*
-    Run checkhealth for Live Preview. This can also be called using
-    `:checkhealth livepreview`
-
-is_nvim_compatible()                 *livepreview.health.is_nvim_compatible()*
-    Check if the current Nvim version is compatible with Live Preview
-
-    Return: ~
-        (`boolean`) true if compatible, false otherwise
-
-nvim_ver                                         *livepreview.health.nvim_ver*
-
-spec()                                             *livepreview.health.spec()*
-    Returns the metadata (pkg.json) of live-preview.nvim as a table.
-
-    Return: ~
-        (`table?`)
-
-supported_nvim_ver_range         *livepreview.health.supported_nvim_ver_range*
-
-
- vim:tw=78:ts=8:sw=4:sts=4:et:ft=help:norl:
+vim:tw=78:ts=8:noet:ft=help:norl:

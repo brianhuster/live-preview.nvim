@@ -1,5 +1,5 @@
 ---@brief
---- Live preview for markdown, asciidoc, and html files.
+--- This document is about API from live-preview.nvim, a plugin for live previewing markdown, asciidoc, and html files.
 ---
 --- To work with API from this plugin, require it in your Lua code:
 --- ```lua

@@ -119,7 +119,7 @@ end
 --- @type table<string,nvim.gen_vimdoc.Config>
 local config = {
 	lua = {
-		filename = "livepreview.txt",
+		filename = "livepreview-api.txt",
 		section_order = {
 			"init.lua",
 			"server.lua",
@@ -156,7 +156,7 @@ local config = {
 		end,
 		helptag_fmt = function(name)
 			if name:lower() == "init" then
-				return "livepreview"
+				return "livepreview-api"
 			end
 			return string.format("livepreview.%s", name:lower())
 		end,
