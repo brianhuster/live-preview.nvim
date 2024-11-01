@@ -1,6 +1,18 @@
 Server	livepreview-api.txt	/*Server*
 Watcher	livepreview-api.txt	/*Watcher*
 livepreview-api	livepreview-api.txt	/*livepreview-api*
+livepreview-links	livepreview.txt	/*livepreview-links*
+livepreview-live-preview.nvim-🚀	livepreview.txt	/*livepreview-live-preview.nvim-🚀*
+livepreview-live-preview.nvim-🚀-contributing-🤝	livepreview.txt	/*livepreview-live-preview.nvim-🚀-contributing-🤝*
+livepreview-live-preview.nvim-🚀-demo-video-🎥	livepreview.txt	/*livepreview-live-preview.nvim-🚀-demo-video-🎥*
+livepreview-live-preview.nvim-🚀-features-✨	livepreview.txt	/*livepreview-live-preview.nvim-🚀-features-✨*
+livepreview-live-preview.nvim-🚀-installation-🛠️	livepreview.txt	/*livepreview-live-preview.nvim-🚀-installation-🛠️*
+livepreview-live-preview.nvim-🚀-non-goals-🚫	livepreview.txt	/*livepreview-live-preview.nvim-🚀-non-goals-🚫*
+livepreview-live-preview.nvim-🚀-requirements-📋	livepreview.txt	/*livepreview-live-preview.nvim-🚀-requirements-📋*
+livepreview-live-preview.nvim-🚀-setup-⚙️	livepreview.txt	/*livepreview-live-preview.nvim-🚀-setup-⚙️*
+livepreview-live-preview.nvim-🚀-todo-✅	livepreview.txt	/*livepreview-live-preview.nvim-🚀-todo-✅*
+livepreview-live-preview.nvim-🚀-usage-🚀	livepreview.txt	/*livepreview-live-preview.nvim-🚀-usage-🚀*
+livepreview-table-of-contents	livepreview.txt	/*livepreview-table-of-contents*
 livepreview.content_type	livepreview-api.txt	/*livepreview.content_type*
 livepreview.etag	livepreview-api.txt	/*livepreview.etag*
 livepreview.fswatch	livepreview-api.txt	/*livepreview.fswatch*
@@ -33,6 +45,7 @@ livepreview.server.websocket.handshake()	livepreview-api.txt	/*livepreview.serve
 livepreview.server.websocket.send()	livepreview-api.txt	/*livepreview.server.websocket.send()*
 livepreview.server.websocket.send_json()	livepreview-api.txt	/*livepreview.server.websocket.send_json()*
 livepreview.setup()	livepreview-api.txt	/*livepreview.setup()*
+livepreview.txt	livepreview.txt	/*livepreview.txt*
 livepreview.utils	livepreview-api.txt	/*livepreview.utils*
 livepreview.utils.await_term_cmd()	livepreview-api.txt	/*livepreview.utils.await_term_cmd()*
 livepreview.utils.get_base_path()	livepreview-api.txt	/*livepreview.utils.get_base_path()*
