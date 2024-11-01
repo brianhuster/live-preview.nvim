@@ -1,6 +1,6 @@
 
 ==============================================================================
-Lua module : require("livepreview")                              *livepreview*
+Lua module : require("livepreview")                          *livepreview-api*
 
 Live preview for markdown, asciidoc, and html files.
 
