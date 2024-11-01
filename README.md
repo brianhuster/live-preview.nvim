@@ -1,4 +1,4 @@
-# live-preview.nvim 🚀
+<h1> live-preview.nvim 🚀 </h1>
 
 [![LuaRocks](https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple)](https://luarocks.org/modules/brianhuster/live-preview.nvim)
 

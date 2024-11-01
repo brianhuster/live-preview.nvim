@@ -20,6 +20,9 @@ jobs:
       - uses: kdheepak/panvimdoc@main
         with:
           vimdoc: 'livepreview'
+          version: "NVIM >=0.10.0"
+          demojify: true
+
       - name: Commit and push documentation
         uses: ./.github/actions/commit-and-push
         with:
