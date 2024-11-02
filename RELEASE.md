@@ -31,7 +31,6 @@ You can now pass a file path as an argument to the command `:LivePreview` (or wh
 
 ### Availability on Luarocks 🪨
 
-
 Now you can use [rocks.nvim](https://github.com/nvim-neorocks/rocks.nvim) to install live-preview.nvim with a single command:
 
 ```vim
