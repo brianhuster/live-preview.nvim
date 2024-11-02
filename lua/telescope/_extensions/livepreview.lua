@@ -60,8 +60,7 @@ function M.livepreview()
 						string.format(
 							"http://localhost:%d/%s",
 							config.port,
-							config.dynamic_root and vim.fs.dirname(filepath) or filepath
-						),
+							config.dynamic_root and vim.fs.basename(filepath) or filepath),
 						lp.config.browser
 					)
 				end)

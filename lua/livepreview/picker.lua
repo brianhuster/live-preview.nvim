@@ -1,4 +1,3 @@
-local uv = vim.uv
 local lp = require("livepreview")
 lp.utils = require("livepreview.utils")
 local fzf = require("fzf-lua")
@@ -10,7 +9,11 @@ function M.fzflua()
 	local files = lp.utils.list_supported_files(".")
 	fzf.fzf_exec(files, {
 		prompt = "Live Preview> ",
+<<<<<<< HEAD
 		previewer = vim.fn.executable("bat") == 1 and "bat" or "cat",
+=======
+		previewer = 'builtin',
+>>>>>>> 6d9241b (fix)
 		actions = {
 			["default"] = function(selected)
 				local filepath = selected[1]
@@ -28,8 +31,6 @@ function M.fzflua()
 		},
 	})
 end
-
-M.fzflua()
 
 function M.pick()
 	if pcall(require, "telescope._extensions.livepreview") then
