@@ -164,11 +164,11 @@ function M.setup(opts)
 	end, {})
 
 	if M.config.telescope.autoload then
-		local telescope = require("telescope")
-		if telescope then
+		local success, telescope = pcall(require, "telescope")
+		if success and telescope then
 			telescope.load_extension("livepreview")
 		else
-			vim.notify_once("telescope.nvim is not installed", vim.log.levels.WARN)
+			vim.notify_once("live-preview.nvim : telescope.nvim is not installed", vim.log.levels.WARN)
 		end
 	end
 end
