@@ -21,7 +21,7 @@ jobs:
         with:
           vimdoc: 'livepreview'
           version: "live-preview.nvim v0.6"
-          demojify: true
+          # demojify: true
           description: '*livepreview*'
 
       - name: Commit and push documentation
