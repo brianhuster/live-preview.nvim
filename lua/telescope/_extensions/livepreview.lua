@@ -39,6 +39,7 @@ local function list_supported_files(directory)
 end
 
 function M.livepreview()
+	local config = require("livepreview").config
 	local files = list_supported_files(".")
 	pickers
 		.new({}, {
@@ -56,7 +57,11 @@ function M.livepreview()
 					lp.live_start(filepath, lp.config.port)
 					vim.cmd("edit " .. filepath)
 					lp.utils.open_browser(
-						string.format("http://localhost:%d/%s", lp.config.port, filepath),
+						string.format(
+							"http://localhost:%d/%s",
+							config.port,
+							config.dynamic_root and vim.fs.dirname(filepath) or filepath
+						),
 						lp.config.browser
 					)
 				end)

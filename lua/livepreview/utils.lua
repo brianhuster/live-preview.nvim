@@ -23,6 +23,35 @@ function M.supported_filetype(file_name)
 	end
 end
 
+--- Find supported files in a directory and its subdirectories
+--- @param directory string
+--- @return table: a table with the paths of the supported files
+function M.list_supported_files(directory)
+	local files = {}
+	local function scan_dir(dir)
+		local handle = uv.fs_scandir(dir)
+		if not handle then
+			return
+		end
+		while true do
+			local name, type = uv.fs_scandir_next(handle)
+			if not name then
+				break
+			end
+			local filepath = dir .. "/" .. name
+			if type == "directory" then
+				scan_dir(filepath)
+			else
+				if M.supported_filetype(filepath) then
+					table.insert(files, filepath)
+				end
+			end
+		end
+	end
+	scan_dir(directory)
+	return files
+end
+
 --- Get the path where live-preview.nvim is installed
 function M.get_plugin_path()
 	local full_path = M.get_path_lua_file()
