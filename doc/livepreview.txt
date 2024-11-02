@@ -14,7 +14,8 @@ Table of Contents                              *livepreview-table-of-contents*
   - For default configuration    |livepreview-usage-for-default-configuration|
   - Integration with Telescope  |livepreview-usage-integration-with-telescope|
   - API                                                |livepreview-usage-api|
-7. License                                               |livepreview-license|
+7. Change log                                         |livepreview-change-log|
+8. License                                               |livepreview-license|
 
 ==============================================================================
 1. Introduction                                     *livepreview-introduction*
@@ -208,7 +209,13 @@ For API documentation, please refer to |livepreview-api|
 
 
 ==============================================================================
-7. License                                               *livepreview-license*
+7. Change log                                         *livepreview-change-log*
+
+See |livepreview-changelog|
+
+
+==============================================================================
+8. License                                               *livepreview-license*
 
 This project is licensed under GPL-3.0.
 
