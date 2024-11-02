@@ -1,4 +1,4 @@
-*livepreview.txt*        For NVIM >=0.10.0       Last change: 2024 November 01
+*livepreview.txt*   For live-preview.nvim v0.6   Last change: 2024 November 02
 
 ==============================================================================
 Table of Contents                              *livepreview-table-of-contents*

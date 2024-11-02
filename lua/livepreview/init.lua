@@ -147,7 +147,7 @@ function M.setup(opts)
 			string.format(
 				"http://localhost:%d/%s",
 				M.config.port,
-				vim.fs.basename(filepath) and M.config.dynamic_root or utils.get_base_path(filepath, vim.uv.cwd())
+				M.config.dynamic_root and vim.fs.basename(filepath) or utils.get_base_path(filepath, vim.uv.cwd())
 			),
 			M.config.browser
 		)

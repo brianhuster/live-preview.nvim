@@ -20,7 +20,7 @@ jobs:
       - uses: kdheepak/panvimdoc@main
         with:
           vimdoc: 'livepreview'
-          version: "NVIM >=0.10.0"
+          version: "live-preview.nvim v0.6"
           demojify: true
 
       - name: Commit and push documentation
