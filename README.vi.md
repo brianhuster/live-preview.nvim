@@ -170,6 +170,34 @@ Cách khác, bạn có thể thêm đoạn mã sau vào tệp cấu hình Neovim
 require('telescope').load_extension('livepreview')
 ```
 
+### Sử dụng với fzf-lua và mini.pick
+
+Right now, support for fzf-lua and mini.pick is experimental, so we don't provide an user command for it (we plan to do that in v1.0). However, you can use the following command to try fzf-lua and mini.pick (make sure you have installed fzf-lua or mini.pick)
+
+Hỗ trợ cho fzf-lua và mini.pick đang trong giai đoạn thử nghiệm, nên chúng tôi không cung cấp lệnh người dùng cho tính năng này (chúng tôi dự định làm điều đó vào phiên bản v1.0). Tuy nhiên, bạn có thể sử dụng lệnh sau để thử live-preview.nvim với fzf-lua hoặc mini.pick (đảm bảo bạn đã cài đặt fzf-lua hoặc mini.pick)
+
+```vim
+:lua require('livepreview').picker.fzflua()
+```
+or
+
+```vim
+:lua require('livepreview').picker.minipick()
+```
+Bạn cũng có thể tạo lệnh cho 2 tính năng này, dưới đây là ví dụ với Vimscript và Lua
+
+```vim
+command! -nargs=0 LivePreviewFzf lua require('livepreview').picker.fzflua()
+```
+
+```lua
+vim.api.nvim_create_user_command('
+    LivePreviewFzf', 
+    function () require('livepreview').picker.fzflua() end, 
+    { nargs = 0, }
+)
+```
+
 Đến đây, bạn có thể dùng lệnh `:Telescope livepreview` để mở giao diện Telescope của live-preview.nvim
 
 ## Đóng góp
