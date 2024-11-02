@@ -171,6 +171,10 @@ Now you can use the command `:Telescope livepreview` to open live-preview.nvim's
 
 For API documentation, please refer to |livepreview-api|
 
+# Change log
+
+See |livepreview-changelog|
+
 # License
 
 This project is licensed under GPL-3.0. 

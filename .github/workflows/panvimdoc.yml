@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - '*'
-    paths:
-      - doc/livepreview.md
-      - .github/workflows/panvimdoc.yml 
 
 permissions:
   contents: write
@@ -22,6 +19,12 @@ jobs:
           vimdoc: 'livepreview'
           pandoc: 'doc/livepreview.md'
           description: '*livepreview*'
+      - uses: kdheepak/panvimdoc@main
+        with:
+          vimdoc: 'livepreview-changelog'
+          pandoc: 'doc/livepreview-changelog.md'
+          description: '*livepreview-changelog*'
+
 
       - name: Commit and push documentation
         uses: ./.github/actions/commit-and-push
