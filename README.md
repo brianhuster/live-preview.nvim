@@ -182,6 +182,32 @@ require('telescope').load_extension('live_preview')
 
 Now you can use the command `:Telescope livepreview` to open live-preview.nvim's Telescope interface.
 
+## Integration with fzf-lua and mini.pick
+
+Right now, support for fzf-lua and mini.pick is experimental, so we don't provide an user command for it (we plan to do that in v1.0). However, you can use the following command to try fzf-lua or mini.pick (make sure you have installed fzf-lua or mini.pick)
+
+```vim
+:lua require('livepreview').picker.fzflua()
+```
+or
+
+```vim
+:lua require('livepreview').picker.minipick()
+```
+You can also use `command!` or `vim.api.nvim_create_user_command` to create a custom command for this. For example
+
+```vim
+command! -nargs=0 LivePreviewFzf lua require('livepreview').picker.fzflua()
+```
+
+```lua
+vim.api.nvim_create_user_command('
+    LivePreviewFzf', 
+    function () require('livepreview').picker.fzflua() end, 
+    { nargs = 0, }
+)
+```
+
 # Contributing 🤝
  
 Since this is a young project, there should be a lot of rooms for improvements. If you would like to contribute to this project, please feel free to open an issue or a pull request.
@@ -192,6 +218,8 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 - [x] Syntax highlighting for code blocks in Markdown and AsciiDoc
 - [x] Autoscroll in the browser as you scroll in the Markdown files in Neovim
 - [ ] Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
+- [x] Integration with Telescope
+- [ ] Integration with [fzf-lua](https://github.com/ibhagwan/fzf-lua) and [mini.pick](https://github.com/echasnovski/mini.pick)
 
 # Non goals 🚫
  
