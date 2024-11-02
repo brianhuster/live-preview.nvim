@@ -3,31 +3,31 @@
 ==============================================================================
 Table of Contents                              *livepreview-table-of-contents*
 
-1. Introduction                                    |livepreview-introduction-|
-2. Features                                            |livepreview-features-|
-  - Updates                                    |livepreview-features--updates|
-3. Demo video                                        |livepreview-demo-video-|
-4. Requirements                                     |livepreview-requirements|
-5. Installation                                     |livepreview-installation|
-6. Setup                                                   |livepreview-setup|
-  - In Lua                                          |livepreview-setup-in-lua|
-  - In Vimscript                              |livepreview-setup-in-vimscript|
-7. Usage                                                  |livepreview-usage-|
-  - Fordefault configuration     |livepreview-usage--fordefault-configuration|
-  - Integration with Telescope |livepreview-usage--integration-with-telescope-|
-8. Contributing                                    |livepreview-contributing-|
-9. TODO                                                    |livepreview-todo-|
-10. Non goals                                         |livepreview-non-goals-|
-11. Acknowledgements                           |livepreview-acknowledgements-|
-12. Buy me a coffee                             |livepreview-buy-me-a-coffee-|
+1. Introduction 📖                           |livepreview-introduction-📖|
+2. Features ✨                                     |livepreview-features-✨|
+  - Updates 🆕                       |livepreview-features-✨-updates-🆕|
+3. Demo video 🎥                               |livepreview-demo-video-🎥|
+4. Requirements 📋                           |livepreview-requirements-📋|
+5. Installation 🛠️                     |livepreview-installation-🛠️|
+6. Setup ⚙️                                     |livepreview-setup-⚙️|
+  - In Lua                                   |livepreview-setup-⚙️-in-lua|
+  - In Vimscript                       |livepreview-setup-⚙️-in-vimscript|
+7. Usage 🚀                                         |livepreview-usage-🚀|
+  - For default configuration|livepreview-usage-🚀-for-default-configuration|
+  - Integration with Telescope 🔭|livepreview-usage-🚀-integration-with-telescope-🔭|
+8. Contributing 🤝                           |livepreview-contributing-🤝|
+9. TODO ✅                                             |livepreview-todo-✅|
+10. Non goals 🚫                                |livepreview-non-goals-🚫|
+11. Acknowledgements 🙏                  |livepreview-acknowledgements-🙏|
+12. Buy me a coffee ☕                      |livepreview-buy-me-a-coffee-☕|
 13. Links                                                  |livepreview-links|
 
 ==============================================================================
-1. Introduction                                    *livepreview-introduction-*
+1. Introduction 📖                           *livepreview-introduction-📖*
 
-[]( <https://luarocks.org/modules/brianhuster/live-preview.nvim>
+<https://luarocks.org/modules/brianhuster/live-preview.nvim>
 
-live-preview.nvimis a plugin for Neovim that allows you to view Markdown
+live-preview.nvim is a plugin for Neovim that allows you to view Markdown
 <https://en.wikipedia.org/wiki/Markdown>, HTML
 <https://en.wikipedia.org/wiki/HTML> (along with CSS, JavaScript) and AsciiDoc
 <https://asciidoc.org/> files in a web browser with live updates. No external
@@ -38,46 +38,46 @@ _You can read this README in Tiếng Việt_
 
 
 ==============================================================================
-2. Features                                            *livepreview-features-*
+2. Features ✨                                     *livepreview-features-✨*
 
-- Supportsmarkdown, HTML (with reference to CSS, JS), and AsciiDoc files 
-- SupportKatex for rendering math equations in markdown and AsciiDoc files 
-- Supportsmermaid for rendering diagrams in markdown files 
-- Syntaxhighlighting for code blocks in Markdown and AsciiDoc 
-- Supportssync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in |livepreview-setup|. This feature should be used with brianhuster/autosave.nvim <https://github.com/brianhuster/autosave.nvim>) 
-- Integrationwith telescope.nvim <https://github.com/nvim-telescope/telescope.nvim> 
+- Supports markdown, HTML (with reference to CSS, JS), and AsciiDoc files 📄
+- Support Katex for rendering math equations in markdown and AsciiDoc files 🧮
+- Supports mermaid for rendering diagrams in markdown files 🖼️
+- Syntax highlighting for code blocks in Markdown and AsciiDoc 🖍️
+- Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in |livepreview-setup|. This feature should be used with brianhuster/autosave.nvim <https://github.com/brianhuster/autosave.nvim>) 🔄
+- Integration with telescope.nvim <https://github.com/nvim-telescope/telescope.nvim> 🔭
 
 
-UPDATES                                        *livepreview-features--updates*
+UPDATES 🆕                           *livepreview-features-✨-updates-🆕*
 
-SeeRELEASE.md <RELEASE.md>
+See RELEASE.md <RELEASE.md>
 
-**Important Notice:** You should clear the cache of the browser after updating
-to ensure the plugin works correctly.
+**⚠️ Important Notice:** You should clear the cache of the browser after
+updating to ensure the plugin works correctly.
 
 
 ==============================================================================
-3. Demo video                                        *livepreview-demo-video-*
+3. Demo video 🎥                               *livepreview-demo-video-🎥*
 
 
 https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
 
 ==============================================================================
-4. Requirements                                     *livepreview-requirements*
+4. Requirements 📋                           *livepreview-requirements-📋*
 
-- Neovim>=0.10.0 (recommended: >=0.10.1)
-- A modern web browser 
-- PowerShell(only if you use Windows) 
+- Neovim >=0.10.0 (recommended: >=0.10.1)
+- A modern web browser 🌐
+- PowerShell (only if you use Windows) 🪟
 
 
 ==============================================================================
-5. Installation                                     *livepreview-installation*
+5. Installation 🛠️                     *livepreview-installation-🛠️*
 
-Youcan install this plugin using a plugin manager. Most plugin managers are
+You can install this plugin using a plugin manager. Most plugin managers are
 supported. Below are some examples
 
-Using lazy.nvim (recommended)  ~
+Using lazy.nvim (recommended) 💤 ~
 
 >lua
     require("lazy").setup({
@@ -92,7 +92,7 @@ Using lazy.nvim (recommended)  ~
     })
 <
 
-mini.deps ~
+mini.deps 📦 ~
 
 >lua
     MiniDeps.add({
@@ -104,13 +104,13 @@ mini.deps ~
     })
 <
 
-rocks.nvim ~
+rocks.nvim 🪨 ~
 
 >vim
     :Rocks install live-preview.nvim
 <
 
-vim-plug ~
+vim-plug 🔌 ~
 
 >vim
     Plug 'brianhuster/live-preview.nvim'
@@ -120,15 +120,15 @@ vim-plug ~
     Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 <
 
-Nativepackage (without a plugin manager)  ~
+Native package (without a plugin manager) 📦 ~
 
-- **Linux,MacOS, Unix-based** 
+- **Linux, MacOS, Unix-based** 🐧🍎
 
 >sh
     git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
 <
 
-- **Windows(Powershell) **
+- **Windows (Powershell) 🪟**
 
 >powershell
     git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
@@ -136,14 +136,14 @@ Nativepackage (without a plugin manager)  ~
 
 
 ==============================================================================
-6. Setup                                                   *livepreview-setup*
+6. Setup ⚙️                                     *livepreview-setup-⚙️*
 
-Youcan customize the plugin by passing a table to the `opts` variable (if you
+You can customize the plugin by passing a table to the `opts` variable (if you
 use lazy.nvim) or the function `require('livepreview').setup()`. Here is the
 default configuration:
 
 
-IN LUA                                              *livepreview-setup-in-lua*
+IN LUA                                       *livepreview-setup-⚙️-in-lua*
 
 >lua
     {
@@ -163,7 +163,7 @@ IN LUA                                              *livepreview-setup-in-lua*
 <
 
 
-IN VIMSCRIPT                                  *livepreview-setup-in-vimscript*
+IN VIMSCRIPT                           *livepreview-setup-⚙️-in-vimscript*
 
 >vim
     let g:livepreview_config = {
@@ -185,10 +185,10 @@ IN VIMSCRIPT                                  *livepreview-setup-in-vimscript*
 
 
 ==============================================================================
-7. Usage                                                  *livepreview-usage-*
+7. Usage 🚀                                         *livepreview-usage-🚀*
 
 
-FORDEFAULT CONFIGURATION         *livepreview-usage--fordefault-configuration*
+FOR DEFAULT CONFIGURATION   *livepreview-usage-🚀-for-default-configuration*
 
 To start the live preview, use the command:
 
@@ -210,9 +210,9 @@ function in your Neovim configuration file.
 Use the command `:help livepreview` to see the help documentation.
 
 
-INTEGRATION WITH TELESCOPE    *livepreview-usage--integration-with-telescope-*
+INTEGRATION WITH TELESCOPE 🔭*livepreview-usage-🚀-integration-with-telescope-🔭*
 
-Touse this feature, you need to install nvim-telescope/telescope.nvim
+To use this feature, you need to install nvim-telescope/telescope.nvim
 <https://github.com/nvim-telescope/telescope.nvim>.
 
 Then set `telescope.autoload` to `true` in the
@@ -229,47 +229,47 @@ live-preview.nvim’s Telescope interface.
 
 
 ==============================================================================
-8. Contributing                                    *livepreview-contributing-*
+8. Contributing 🤝                           *livepreview-contributing-🤝*
 
-Sincethis is a young project, there should be a lot of rooms for improvements.
+Since this is a young project, there should be a lot of rooms for improvements.
 If you would like to contribute to this project, please feel free to open an
 issue or a pull request.
 
 
 ==============================================================================
-9. TODO                                                    *livepreview-todo-*
+9. TODO ✅                                             *livepreview-todo-✅*
 
-- Support for KaTex math in Markdown and AsciiDoc
-- Support for Mermaid diagrams in Markdown and AsciiDoc
-- Syntax highlighting for code blocks in Markdown and AsciiDoc
-- Autoscroll in the browser as you scroll in the Markdown files in Neovim
-- Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
+- ☒ Support for KaTex math in Markdown and AsciiDoc
+- ☒ Support for Mermaid diagrams in Markdown and AsciiDoc
+- ☒ Syntax highlighting for code blocks in Markdown and AsciiDoc
+- ☒ Autoscroll in the browser as you scroll in the Markdown files in Neovim
+- ☐ Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
 
 
 ==============================================================================
-10. Non goals                                         *livepreview-non-goals-*
+10. Non goals 🚫                                *livepreview-non-goals-🚫*
 
-Theseare not in roadmap of live-preview.nvim right now, but pull requests are
+These are not in roadmap of live-preview.nvim right now, but pull requests are
 welcome - Allow users to add custom css and js files in configuration
 
 
 ==============================================================================
-11. Acknowledgements                           *livepreview-acknowledgements-*
+11. Acknowledgements 🙏                  *livepreview-acknowledgements-🙏*
 
-- LiveServer <https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer> and Live Preview <https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server> for the idea inspiration
+- Live Server <https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer> and Live Preview <https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server> for the idea inspiration
 - glacambre/firenvim <https://github.com/glacambre/firenvim> for the sha1 function reference
 - sindresorhus/github-markdown-css <https://github.com/sindresorhus/github-markdown-css> CSS style for Markdown files
 - markdown-it/markdown-it <https://github.com/markdown-it/markdown-it> for parsing Markdown files
 - asciidoctor/asciidoctor.js <https://github.com/asciidoctor/asciidoctor.js> for parsing AsciiDoc files
 - KaTeX <https://github.com/KaTeX/KaTeX> for rendering math equations
 - mermaid-js/mermaid <https://github.com/mermaid-js/mermaid> for rendering diagrams
-- digitalmoksha/markdown-it-inject-linenumbers <https://github.com/digitalmoksha/markdown-it-inject-linenumbers> A markdown-it plugin for injecting line numbers into html output
+- digitalmoksha/markdown-it-inject-linenumbers <https://github.com/digitalmoksha/markdown-it-inject-linenumbers> : A markdown-it plugin for injecting line numbers into html output
 
 
 ==============================================================================
-12. Buy me a coffee                             *livepreview-buy-me-a-coffee-*
+12. Buy me a coffee ☕                      *livepreview-buy-me-a-coffee-☕*
 
-Maintainingthis project takes time and effort, especially as I am a student
+Maintaining this project takes time and effort, especially as I am a student
 now. If you find this project helpful, please consider supporting me :>
 
 
@@ -277,8 +277,7 @@ now. If you find this project helpful, please consider supporting me :>
 ==============================================================================
 13. Links                                                  *livepreview-links*
 
-1. *GitHub*: https://img.shields.io/github/license/brianhuster/live-preview.nvim?color=blue
-2. *LuaRocks*: https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple
+1. *LuaRocks*: https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple
 
 Generated by panvimdoc <https://github.com/kdheepak/panvimdoc>
 
