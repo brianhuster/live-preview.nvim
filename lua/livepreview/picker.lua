@@ -12,7 +12,8 @@ local handle_pick = function(pick_value)
 		string.format(
 			"http://localhost:%d/%s",
 			lp.config.port,
-			lp.config.dynamic_root and vim.fn.fnamemodify(filepath, ":t") or filepath),
+			lp.config.dynamic_root and vim.fn.fnamemodify(filepath, ":t") or filepath
+		),
 		config.browser
 	)
 end
@@ -51,7 +52,7 @@ function M.fzflua()
 	local files = lp.utils.list_supported_files(".")
 	fzf.fzf_exec(files, {
 		prompt = "Live Preview> ",
-		previewer = 'builtin',
+		previewer = "builtin",
 		actions = {
 			["default"] = function(selected)
 				local filepath = selected[1]
@@ -67,7 +68,7 @@ function M.minipick()
 
 	local source = {
 		items = files,
-		name = 'Live Preview',
+		name = "Live Preview",
 		preview = MiniPick.default_preview,
 		choose = function(item)
 			handle_pick(item)
