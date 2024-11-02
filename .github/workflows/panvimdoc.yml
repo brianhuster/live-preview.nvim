@@ -5,7 +5,7 @@ on:
     branches:
       - '*'
     paths:
-      - README.md 
+      - doc/livepreview.md
       - .github/workflows/panvimdoc.yml 
 
 permissions:
@@ -20,8 +20,7 @@ jobs:
       - uses: kdheepak/panvimdoc@main
         with:
           vimdoc: 'livepreview'
-          version: "live-preview.nvim v0.6"
-          # demojify: true
+          pandoc: 'doc/livepreview.md'
           description: '*livepreview*'
 
       - name: Commit and push documentation
