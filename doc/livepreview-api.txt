@@ -312,6 +312,16 @@ kill({pid})                                         *livepreview.utils.kill()*
     Parameters: ~
       • {pid}  (`number`)
 
+                                    *livepreview.utils.list_supported_files()*
+list_supported_files({directory})
+    Find supported files in a directory and its subdirectories
+
+    Parameters: ~
+      • {directory}  (`string`)
+
+    Return: ~
+        (`table`) a table with the paths of the supported files
+
 open_browser({path}, {browser})             *livepreview.utils.open_browser()*
     Open URL in the browser
 

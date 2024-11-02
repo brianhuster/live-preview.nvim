@@ -63,6 +63,7 @@ livepreview.utils.get_path_lua_file()	livepreview-api.txt	/*livepreview.utils.ge
 livepreview.utils.get_plugin_path()	livepreview-api.txt	/*livepreview.utils.get_plugin_path()*
 livepreview.utils.joinpath()	livepreview-api.txt	/*livepreview.utils.joinpath()*
 livepreview.utils.kill()	livepreview-api.txt	/*livepreview.utils.kill()*
+livepreview.utils.list_supported_files()	livepreview-api.txt	/*livepreview.utils.list_supported_files()*
 livepreview.utils.open_browser()	livepreview-api.txt	/*livepreview.utils.open_browser()*
 livepreview.utils.processes_listening_on_port()	livepreview-api.txt	/*livepreview.utils.processes_listening_on_port()*
 livepreview.utils.sha1()	livepreview-api.txt	/*livepreview.utils.sha1()*
