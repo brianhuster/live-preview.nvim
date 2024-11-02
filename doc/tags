@@ -4,7 +4,6 @@ livepreview	livepreview.txt	/*livepreview*
 livepreview-api	livepreview-api.txt	/*livepreview-api*
 livepreview-change-log	livepreview.txt	/*livepreview-change-log*
 livepreview-changelog	livepreview-changelog.txt	/*livepreview-changelog*
-livepreview-changelog-table-of-contents	livepreview-changelog.txt	/*livepreview-changelog-table-of-contents*
 livepreview-changelog-v0.6	livepreview-changelog.txt	/*livepreview-changelog-v0.6*
 livepreview-changelog-v0.6-fix-bug	livepreview-changelog.txt	/*livepreview-changelog-v0.6-fix-bug*
 livepreview-changelog-v0.6-✨-new-features	livepreview-changelog.txt	/*livepreview-changelog-v0.6-✨-new-features*
