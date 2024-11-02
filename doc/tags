@@ -2,6 +2,14 @@ Server	livepreview-api.txt	/*Server*
 Watcher	livepreview-api.txt	/*Watcher*
 livepreview	livepreview.txt	/*livepreview*
 livepreview-api	livepreview-api.txt	/*livepreview-api*
+livepreview-change-log	livepreview.txt	/*livepreview-change-log*
+livepreview-changelog	livepreview-changelog.txt	/*livepreview-changelog*
+livepreview-changelog-table-of-contents	livepreview-changelog.txt	/*livepreview-changelog-table-of-contents*
+livepreview-changelog-v0.6	livepreview-changelog.txt	/*livepreview-changelog-v0.6*
+livepreview-changelog-v0.6-fix-bug	livepreview-changelog.txt	/*livepreview-changelog-v0.6-fix-bug*
+livepreview-changelog-v0.6-✨-new-features	livepreview-changelog.txt	/*livepreview-changelog-v0.6-✨-new-features*
+livepreview-changelog-v0.6-🗑️-deprecated-api	livepreview-changelog.txt	/*livepreview-changelog-v0.6-🗑️-deprecated-api*
+livepreview-changelog.txt	livepreview-changelog.txt	/*livepreview-changelog.txt*
 livepreview-features	livepreview.txt	/*livepreview-features*
 livepreview-installation	livepreview.txt	/*livepreview-installation*
 livepreview-introduction	livepreview.txt	/*livepreview-introduction*
