@@ -1,14 +1,6 @@
 *livepreview-changelog.txt*                            *livepreview-changelog*
 
 ==============================================================================
-Table of Contents                    *livepreview-changelog-table-of-contents*
-
-1. v0.6                                           |livepreview-changelog-v0.6|
-  - Fix bug                               |livepreview-changelog-v0.6-fix-bug|
-  - 🗑️ Deprecated API |livepreview-changelog-v0.6-🗑️-deprecated-api|
-  - ✨ New features             |livepreview-changelog-v0.6-✨-new-features|
-
-==============================================================================
 1. v0.6                                           *livepreview-changelog-v0.6*
 
 
