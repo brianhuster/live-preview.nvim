@@ -1,3 +1,6 @@
+## Fix bug
+* Fix bug with `dynamic_root = true` option not working [#211](https://github.com/brianhuster/live-preview.nvim/issues/211)
+
 ## 🗑️ Deprecated API
 * `require('livepreview').preview_file()`. Use `require('livepreview').live_start()` instead.
 * `require('livepreview').stop_preview()`. Use `require('livepreview').live_stop()` instead.
