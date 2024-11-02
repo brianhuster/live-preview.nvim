@@ -13,6 +13,7 @@ Table of Contents                              *livepreview-table-of-contents*
 6. Usage                                                   |livepreview-usage|
   - For default configuration    |livepreview-usage-for-default-configuration|
   - Integration with Telescope  |livepreview-usage-integration-with-telescope|
+  - Integration with fzf-lua and mini.pick|livepreview-usage-integration-with-fzf-lua-and-mini.pick|
   - API                                                |livepreview-usage-api|
 7. Change log                                         |livepreview-change-log|
 8. License                                               |livepreview-license|
@@ -201,6 +202,39 @@ Alternatively, you can load the extension in your Neovim configuration file:
 
 Now you can use the command `:Telescope livepreview` to open
 live-preview.nvim’s Telescope interface.
+
+
+INTEGRATION WITH FZF-LUA AND MINI.PICK*livepreview-usage-integration-with-fzf-lua-and-mini.pick*
+
+Right now, support for fzf-lua and mini.pick is experimental, so we don’t
+provide an user command for it (we plan to do that in v1.0). However, you can
+use the following command to try fzf-lua or mini.pick (make sure you have
+installed fzf-lua or mini.pick)
+
+>vim
+    :lua require('livepreview').picker.fzflua()
+<
+
+or
+
+>vim
+    :lua require('livepreview').picker.minipick()
+<
+
+You can also use `command!` or `vim.api.nvim_create_user_command` to create a
+custom command for this. For example
+
+>vim
+    command! -nargs=0 LivePreviewFzf lua require('livepreview').picker.fzflua()
+<
+
+>lua
+    vim.api.nvim_create_user_command('
+        LivePreviewFzf', 
+        function () require('livepreview').picker.fzflua() end, 
+        { nargs = 0, }
+    )
+<
 
 
 API                                                    *livepreview-usage-api*
