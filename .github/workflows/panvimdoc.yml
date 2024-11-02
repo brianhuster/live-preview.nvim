@@ -24,7 +24,7 @@ jobs:
           vimdoc: 'livepreview-changelog'
           pandoc: 'doc/livepreview-changelog.md'
           description: '*livepreview-changelog*'
-
+          toc: false
 
       - name: Commit and push documentation
         uses: ./.github/actions/commit-and-push
