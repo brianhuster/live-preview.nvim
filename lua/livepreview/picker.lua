@@ -10,7 +10,7 @@ function M.fzflua()
 	local files = lp.utils.list_supported_files(".")
 	fzf.fzf_exec(files, {
 		prompt = "Live Preview> ",
-		previewer = vim.fn.executable('bat') == 1 and 'bat' or 'cat',
+		previewer = vim.fn.executable("bat") == 1 and "bat" or "cat",
 		actions = {
 			["default"] = function(selected)
 				local filepath = selected[1]
@@ -20,7 +20,8 @@ function M.fzflua()
 					string.format(
 						"http://localhost:%d/%s",
 						config.port,
-						config.dynamic_root and vim.fs.dirname(filepath) or filepath),
+						config.dynamic_root and vim.fs.dirname(filepath) or filepath
+					),
 					lp.config.browser
 				)
 			end,
