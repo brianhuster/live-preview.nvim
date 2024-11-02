@@ -62,9 +62,7 @@ function M.live_start(filepath, port)
 	if M.serverObj then
 		M.serverObj:stop()
 	end
-	M.serverObj = server.Server:new(
-		M.config.dynamic_root and vim.fs.dirname(filepath) or nil,
-		M.config)
+	M.serverObj = server.Server:new(M.config.dynamic_root and vim.fs.dirname(filepath) or nil, M.config)
 	vim.wait(50, function()
 		M.serverObj:start("127.0.0.1", port, function(client)
 			if utils.supported_filetype(filepath) == "html" then
