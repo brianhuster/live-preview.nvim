@@ -109,8 +109,8 @@ function M.check()
 		vim.health.ok(string.format("`%s` is available", shell))
 	end
 	-- Check if telescope (optional) is available
-	local telescope = require("telescope") or nil
-	if not telescope then
+	local success, telescope = pcall(require, "telescope")
+	if not success or not telescope then
 		vim.health.warn(
 			"`telescope.nvim` (optional) is not installed. You can still use live-preview.nvim without it, but live-preview.nvim's integration with Telescope will not work."
 		)
