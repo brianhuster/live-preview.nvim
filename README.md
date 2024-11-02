@@ -1,6 +1,5 @@
 # Introduction 📖
-
-[![GitHub](https://img.shields.io/github/license/brianhuster/live-preview.nvim?color=blue)](
+ 
 [![LuaRocks](https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple)](https://luarocks.org/modules/brianhuster/live-preview.nvim)
 
 live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/wiki/Markdown), [HTML](https://en.wikipedia.org/wiki/HTML) (along with CSS, JavaScript) and [AsciiDoc](https://asciidoc.org/) files in a web browser with live updates. No external dependencies or runtime like NodeJS or Python are required, since the backend is fully written in Lua and Neovim's built-in functions.
@@ -8,6 +7,7 @@ live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](http
 _You can read this README in [Tiếng Việt](README.vi.md)_
 
 # Features ✨
+ 
 * Supports markdown, HTML (with reference to CSS, JS), and AsciiDoc files 📄
 * Support Katex for rendering math equations in markdown and AsciiDoc files 🧮
 * Supports mermaid for rendering diagrams in markdown files 🖼️
@@ -16,19 +16,23 @@ _You can read this README in [Tiếng Việt](README.vi.md)_
 * Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭
 
 ## Updates 🆕
+ 
 See [RELEASE.md](RELEASE.md) 
 
 **⚠️ Important Notice:** You should clear the cache of the browser after updating to ensure the plugin works correctly.
 
 # Demo video 🎥
+ 
 https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
 # Requirements 📋
+ 
 - Neovim >=0.10.0 (recommended: >=0.10.1)
 - A modern web browser 🌐
 - PowerShell (only if you use Windows) 🪟
 
 # Installation 🛠️
+ 
 You can install this plugin using a plugin manager. Most plugin managers are supported. Below are some examples
 
 <details>
@@ -103,7 +107,7 @@ git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppD
 </details>
 
 # Setup ⚙️
-
+ 
 You can customize the plugin by passing a table to the `opts` variable (if you use lazy.nvim) or the function `require('livepreview').setup()`. Here is the default configuration:
 
 ## In Lua
@@ -126,7 +130,7 @@ You can customize the plugin by passing a table to the `opts` variable (if you u
 ```
 
 ## In Vimscript
-
+ 
 ```vim
 let g:livepreview_config = {
     \ 'commands': {
@@ -146,9 +150,9 @@ lua require('livepreview').setup(vim.g.livepreview_config)
 ```
 
 # Usage 🚀
-
+ 
 ## For default configuration 
-
+ 
 To start the live preview, use the command:
 
 `:LivePreview`
@@ -166,7 +170,7 @@ These commands can be changed based on your customization in the `setup` functio
 Use the command `:help livepreview` to see the help documentation.
 
 ## Integration with Telescope 🔭
-
+ 
 To use this feature, you need to install [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim).
 
 Then set `telescope.autoload` to `true` in the [configuration table](#setup) of live-preview.nvim
@@ -179,7 +183,7 @@ require('telescope').load_extension('live_preview')
 Now you can use the command `:Telescope livepreview` to open live-preview.nvim's Telescope interface.
 
 # Contributing 🤝
-
+ 
 Since this is a young project, there should be a lot of rooms for improvements. If you would like to contribute to this project, please feel free to open an issue or a pull request.
 
 # TODO ✅
@@ -190,11 +194,12 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 - [ ] Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
 
 # Non goals 🚫
-
+ 
 These are not in roadmap of live-preview.nvim right now, but pull requests are welcome
 - Allow users to add custom css and js files in configuration
 
 # Acknowledgements 🙏
+ 
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) and [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) for the idea inspiration
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) for the sha1 function reference
 * [sindresorhus/github-markdown-css](https://github.com/sindresorhus/github-markdown-css) CSS style for Markdown files
@@ -205,6 +210,7 @@ These are not in roadmap of live-preview.nvim right now, but pull requests are w
 * [digitalmoksha/markdown-it-inject-linenumbers](https://github.com/digitalmoksha/markdown-it-inject-linenumbers) : A markdown-it plugin for injecting line numbers into html output
 
 # Buy me a coffee ☕
+ 
 Maintaining this project takes time and effort, especially as I am a student now. If you find this project helpful, please consider supporting me :>
 
 <a href="https://paypal.me/brianphambinhan">
