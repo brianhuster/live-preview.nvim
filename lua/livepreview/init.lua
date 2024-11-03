@@ -10,6 +10,7 @@ local M = {}
 
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
+local config = require('livepreview.config')
 
 M.serverObj = nil
 
@@ -41,7 +42,7 @@ function M.live_start(filepath, port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
 			if process.pid ~= vim.uv.os_getpid() then
-				if require("livepreview.config").config.autokill and not process.name:match("vim") then
+				if config.config.autokill and not process.name:match("vim") then
 					utils.kill(process.pid)
 				else
 					vim.print(
@@ -61,7 +62,7 @@ function M.live_start(filepath, port)
 	if M.serverObj then
 		M.serverObj:stop()
 	end
-	M.serverObj = server.Server:new(M.config.dynamic_root and vim.fs.dirname(filepath) or nil)
+	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
 	vim.wait(50, function()
 		M.serverObj:start("127.0.0.1", port, function(client)
 			if utils.supported_filetype(filepath) == "html" then
@@ -99,7 +100,6 @@ end
 --- }
 --- ```
 function M.setup(opts)
-	local config = require("livepreview.config")
 	if config.config.commands then
 		if config.config.commands.start then
 			vim.api.nvim_del_user_command(config.config.commands.start)
