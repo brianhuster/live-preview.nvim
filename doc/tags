@@ -8,6 +8,11 @@ livepreview-changelog-v0.6	livepreview-changelog.txt	/*livepreview-changelog-v0.
 livepreview-changelog-v0.6-fix-bug	livepreview-changelog.txt	/*livepreview-changelog-v0.6-fix-bug*
 livepreview-changelog-v0.6-✨-new-features	livepreview-changelog.txt	/*livepreview-changelog-v0.6-✨-new-features*
 livepreview-changelog-v0.6-🗑️-deprecated-api	livepreview-changelog.txt	/*livepreview-changelog-v0.6-🗑️-deprecated-api*
+livepreview-changelog-v0.7	livepreview-changelog.txt	/*livepreview-changelog-v0.7*
+livepreview-changelog-v0.7-new-features	livepreview-changelog.txt	/*livepreview-changelog-v0.7-new-features*
+livepreview-changelog-v0.8	livepreview-changelog.txt	/*livepreview-changelog-v0.8*
+livepreview-changelog-v0.8-breaking-changes	livepreview-changelog.txt	/*livepreview-changelog-v0.8-breaking-changes*
+livepreview-changelog-v0.8-new-features	livepreview-changelog.txt	/*livepreview-changelog-v0.8-new-features*
 livepreview-changelog.txt	livepreview-changelog.txt	/*livepreview-changelog.txt*
 livepreview-features	livepreview.txt	/*livepreview-features*
 livepreview-installation	livepreview.txt	/*livepreview-installation*
@@ -18,10 +23,8 @@ livepreview-setup	livepreview.txt	/*livepreview-setup*
 livepreview-setup-in-lua	livepreview.txt	/*livepreview-setup-in-lua*
 livepreview-setup-in-vimscript	livepreview.txt	/*livepreview-setup-in-vimscript*
 livepreview-table-of-contents	livepreview.txt	/*livepreview-table-of-contents*
-livepreview-usage	livepreview.txt	/*livepreview-usage*
-livepreview-usage-api	livepreview.txt	/*livepreview-usage-api*
-livepreview-usage-for-default-configuration	livepreview.txt	/*livepreview-usage-for-default-configuration*
-livepreview-usage-integration-with-telescope	livepreview.txt	/*livepreview-usage-integration-with-telescope*
+livepreview-usage-🚀	livepreview.txt	/*livepreview-usage-🚀*
+livepreview-usage-🚀-api	livepreview.txt	/*livepreview-usage-🚀-api*
 livepreview.content_type	livepreview-api.txt	/*livepreview.content_type*
 livepreview.etag	livepreview-api.txt	/*livepreview.etag*
 livepreview.fswatch	livepreview-api.txt	/*livepreview.fswatch*
