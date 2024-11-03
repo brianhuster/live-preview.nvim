@@ -114,99 +114,57 @@ You can customize the plugin by passing a table to the `opts` variable (if you u
 
 ```lua
 {
-    commands = {
-        start = 'LivePreview', -- Command to start the live preview server and open the default browser.
-        stop = 'StopPreview', -- Command to stop the live preview. 
-    },
+    cmd = "LivePreview", -- Main command of live-preview.nvim
     port = 5500, -- Port to run the live preview server on.
     autokill = false, -- If true, the plugin will autokill other processes running on the same port (except for Neovim) when starting the server.
     browser = 'default', -- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
     dynamic_root = false, -- If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:lua print(vim.uv.cwd())`).
     sync_scroll = false, -- If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
-    telescope = {
-        false, -- If true, the plugin will automatically load the `Telescope livepreview` extension.
-    },
+    picker = nil, -- Picker to use for opening files. 3 choices are available: 'telescope', 'fzf-lua', 'mini.pick'. If nil, the plugin look for the first available picker when you call the `pick` command.
 }
 ```
 
 ## In Vimscript
  
 ```vim
-let g:livepreview_config = {
-    \ 'commands': {
-        \ 'start': 'LivePreview', " Command to start the live preview server and open the default browser.
-        \ 'stop': 'StopPreview', " Command to stop the live preview. 
-    \ },
-    \ 'autokill': v:false, " If true, the plugin will autokill other processes running on the same port (except for Neovim) when starting the server.
-    \ 'port': 5500, " Port to run the live preview server on.
-    \ 'browser': 'default', " Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
-    \ 'dynamic_root': v:false " If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:pwd`).
-    \ 'sync_scroll': v:false " If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
-    \ 'telescope': {
-    \   'autoload' : v:false " If true, the plugin will automatically load the `Telescope livepreview` extension.
-    \ },
-\ }
-lua require('livepreview').setup(vim.g.livepreview_config)
+call v:lua.require('livepreview').setup({
+    \ "cmd": "LivePreview", " Main command of live-preview.nvim
+    \ "port": 5500, " Port to run the live preview server on.
+    \ "autokill": v:false, " If true, the plugin will autokill other processes running on the same port (except for Neovim) when starting the server.
+    \ "browser": 'default', " Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
+    \ "dynamic_root": v:false, " If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:lua print(vim.uv.cwd())`).
+    \ "sync_scroll": v:false, " If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
+    \ "picker": v:false, " Picker to use for opening files. 3 choices are available: 'telescope', 'fzf-lua', 'mini.pick'. If v:false, the plugin look for the first available picker when you call the `pick` command.
+\ })
 ```
 
 # Usage 🚀
  
-## For default configuration 
+## For default configuration (`opt.cmd = "LivePreview"`)
  
-To start the live preview, use the command:
+* To start the live preview, use the command:
 
-`:LivePreview`
+`:LivePreview start`
 
 This command will open the current Markdown or HTML file in your default web browser and update it live as you write changes to your file.
 
-You can also parse a file path as argument, for example `:LivePreview test/doc.md`
+You can also parse a file path as argument, for example `:LivePreview start test/doc.md`
 
-To stop the live preview server, use the command:
+* To stop the live preview server, use the command:
 
-`:StopPreview`
+`:StopPreview close`
 
-These commands can be changed based on your customization in the `setup` function in your Neovim configuration file. 
+* To open a picker and select a file to preview, use the command:
+
+`:LivePreview pick`
+
+* To see document about each subcommand, use the command:
+
+`:LivePreview help`
+
+This requires a picker to be installed (Telescope, fzf-lua or mini.pick). If you have multiple pickers installed, you can specify the picker to use by passing the picker name to the configuration table (see [setup](#setup))
 
 Use the command `:help livepreview` to see the help documentation.
-
-## Integration with Telescope 🔭
- 
-To use this feature, you need to install [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim).
-
-Then set `telescope.autoload` to `true` in the [configuration table](#setup) of live-preview.nvim
-
-Alternatively, you can load the extension in your Neovim configuration file:
-```lua
-require('telescope').load_extension('live_preview')
-```
-
-Now you can use the command `:Telescope livepreview` to open live-preview.nvim's Telescope interface.
-
-## Integration with fzf-lua and mini.pick
-
-Right now, support for fzf-lua and mini.pick is experimental, so we don't provide an user command for it (we plan to do that in v1.0). However, you can use the following command to try fzf-lua or mini.pick (make sure you have installed fzf-lua or mini.pick)
-
-```vim
-:lua require('livepreview').picker.fzflua()
-```
-or
-
-```vim
-:lua require('livepreview').picker.minipick()
-```
-You can also use `command!` or `vim.api.nvim_create_user_command` to create a custom command for this. For example
-
-```vim
-command! -nargs=0 LivePreviewFzf lua require('livepreview').picker.fzflua()
-```
-
-```lua
-vim.api.nvim_create_user_command('
-    LivePreviewFzf', 
-    function () require('livepreview').picker.fzflua() end, 
-    { nargs = 0, }
-)
-```
 
 # Contributing 🤝
  

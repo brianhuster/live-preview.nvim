@@ -1,6 +1,8 @@
 ---@brief
 --- This document is about API from live-preview.nvim, a plugin for live previewing markdown, asciidoc, and html files.
 ---
+--- Note : these API are under development and may introduce breaking changes in the future.
+---
 --- To work with API from this plugin, require it in your Lua code:
 --- ```lua
 --- local livepreview = require('livepreview')
@@ -11,6 +13,7 @@ local M = {}
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
 local config = require("livepreview.config")
+local picker = require('livepreview.picker')
 
 M.serverObj = nil
 
@@ -82,88 +85,122 @@ end
 
 --- Setup live preview
 --- @param opts {commands: {start: string, stop: string}, port: number, browser: string, sync_scroll: boolean, telescope: {autoload: boolean}}|nil
---- Default options:
---- ```lua
---- {
---- 	commands = {
---- 		start = "LivePreview",
---- 		stop = "StopPreview",
---- 	},
---- 	port = 5500,
---- 	autokill = false,
---- 	browser = "default",
---- 	dynamic_root = false,
---- 	sync_scroll = false,
---- 	telescope = {
---- 		autoload = false,
---- 	}
---- }
---- ```
+---
+--- For default options, see |livepreview-setup-in-lua|
 function M.setup(opts)
-	if config.config.commands then
-		if config.config.commands.start then
-			vim.api.nvim_del_user_command(config.config.commands.start)
-		end
-		if config.config.commands.stop then
-			vim.api.nvim_del_user_command(config.config.commands.stop)
-		end
+	if config.config.cmd then
+		vim.api.nvim_del_user_command(config.config.cmd)
 	end
 
 	local default_options = {
-		commands = {
-			start = "LivePreview",
-			stop = "StopPreview",
-		},
+		cmd = "LivePreview",
+		picker = nil,
 		autokill = false,
 		port = 5500,
 		browser = "default",
 		dynamic_root = false,
 		sync_scroll = false,
-		telescope = {
-			autoload = false,
-		},
 	}
 
-	config.set(vim.tbl_deep_extend("force", default_options, opts or {}))
-
-	vim.api.nvim_create_user_command(config.config.commands.start, function(cmd_opts)
-		local filepath
-		if cmd_opts.args ~= "" then
-			filepath = cmd_opts.args
-			if vim.fn.isabsolutepath(filepath) == 0 then
-				filepath = utils.joinpath(vim.uv.cwd(), filepath)
-			end
-		else
-			filepath = vim.api.nvim_buf_get_name(0)
-			if not utils.supported_filetype(filepath) then
-				filepath = find_buf()
-				if not filepath then
-					print("live-preview.nvim only supports html, markdown, and asciidoc files")
-					return
-				end
-			end
-		end
+	local pick_callback = function(pick_value)
+		local filepath = pick_value
+		M.live_start(filepath, config.config.port)
+		vim.cmd.edit(filepath)
 		utils.open_browser(
 			string.format(
 				"http://localhost:%d/%s",
 				config.config.port,
-				config.config.dynamic_root and vim.fs.basename(filepath) or utils.get_base_path(filepath, vim.uv.cwd())
+				config.config.dynamic_root and vim.fs.basename(filepath) or filepath
 			),
 			config.config.browser
 		)
+	end
 
-		M.live_start(filepath, config.config.port)
+	config.set(vim.tbl_deep_extend("force", default_options, opts or {}))
+
+	vim.api.nvim_create_user_command(config.config.cmd, function(cmd_opts)
+		local subcommand = cmd_opts.fargs[1]
+		if subcommand == "start" then
+			local filepath
+			if cmd_opts.fargs[2] ~= nil then
+				filepath = cmd_opts.fargs[2]
+				if vim.fn.isabsolutepath(filepath) == 0 then
+					filepath = utils.joinpath(vim.uv.cwd(), filepath)
+				end
+			else
+				filepath = vim.api.nvim_buf_get_name(0)
+				if not utils.supported_filetype(filepath) then
+					filepath = find_buf()
+					if not filepath then
+						print("live-preview.nvim only supports html, markdown, and asciidoc files")
+						return
+					end
+				end
+			end
+			utils.open_browser(
+				string.format(
+					"http://localhost:%d/%s",
+					config.config.port,
+					config.config.dynamic_root and vim.fs.basename(filepath) or
+					utils.get_base_path(filepath, vim.uv.cwd())
+				),
+				config.config.browser
+			)
+			M.live_start(filepath, config.config.port)
+		elseif subcommand == "close" then
+			M.live_stop()
+			print("Live preview stopped")
+		elseif subcommand == "pick" then
+			local pickers = {
+				["telescope"] = picker.telescope,
+				["fzf-lua"] = picker.fzflua,
+				["mini.pick"] = picker.minipick,
+			}
+			if config.config.picker then
+				local result = pcall(pickers[config.config.picker], pick_callback)
+				if not result then
+					vim.notify('Error : picker opt invalid', vim.log.levels.ERROR)
+				end
+			else
+				picker.pick(pick_callback)
+			end
+		else
+			print("live-preview.nvim commands:")
+			print(string.format(
+				[[  :%s start [filepath] - Start live preview. If no filepath is given, preview the current buffer.]],
+				config.config.cmd))
+			print(string.format(
+				[[  :%s close - Stop live preview]],
+				config.config.cmd))
+			print(string.format(
+				[[  :%s pick - Select a file to preview (using a picker like telescope.nvim, fzf-lua or mini.pick)]],
+				config.config.cmd))
+			print(string.format("  :%s help - Show this help", config.config.cmd))
+		end
 	end, {
-		nargs = "?",
-		complete = "file",
+		nargs = "*",
+		complete = function(ArgLead, CmdLine, CursorPos)
+			local subcommands = { "start", "close", "pick", "help" }
+			local subcommand = vim.split(CmdLine, " ")[2]
+			if subcommand == "" then
+				return subcommands
+			elseif subcommand == ArgLead then
+				local suggestions = {}
+				for _, cmd in ipairs(subcommands) do
+					if vim.startswith(cmd, ArgLead) then
+						table.insert(suggestions, cmd)
+					end
+				end
+				return suggestions
+			else
+				if subcommand == "start" then
+					return vim.fn.getcompletion(ArgLead, "file")
+				end
+			end
+		end,
 	})
 
-	vim.api.nvim_create_user_command(config.config.commands.stop, function()
-		M.live_stop()
-		print("Live preview stopped")
-	end, {})
-
-	if config.config.telescope.autoload then
+	if config.config.telescope and config.config.telescope.autoload then
 		local success, telescope = pcall(require, "telescope")
 		if success and telescope then
 			telescope.load_extension("livepreview")
@@ -171,20 +208,6 @@ function M.setup(opts)
 			vim.notify_once("live-preview.nvim : telescope.nvim is not installed", vim.log.levels.WARN)
 		end
 	end
-end
-
----@deprecated
----Use |livepreview.live_stop()| instead
-function M.stop_preview()
-	vim.deprecate("stop_preview()", "live_stop()", "v1.0.0", "live-preview.nvim")
-	M.live_stop()
-end
-
----@deprecated
----Use |livepreview.live_start()| instead
-function M.preview_file(filepath, port)
-	vim.deprecate("preview_file()", "live_start()", "v1.0.0", "live-preview.nvim")
-	M.live_start(filepath, port)
 end
 
 return M

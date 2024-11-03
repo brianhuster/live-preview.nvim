@@ -107,98 +107,55 @@ Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opt
 
 ```lua
 {
-    commands = {
-        start = 'LivePreview', -- Lệnh khởi động máy chủ live-preview.
-        stop = 'StopPreview', -- Lệnh để dừng máy chủ live-preview.
-    },
-    autokill = false, -- Nếu true, plugin sẽ tự động đóng các tiến trình đang dùng trên cổng (trừ Neovim) khi khởi động máy chủ live-preview.
-    port = 5500, -- Cổng để chạy máy chủ live-preview 
-    browser = 'default', -- Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành. 
-    dynamic_root = false, -- Nếu true, thư mục gốc của server sẽ là thư mục mẹ của file được preview. Nếu false, plugin sẽ chạy máy chủ live-preview từ thư mục làm việc hiện tại (Bạn có thể xem thư mục làm việc hiện tại bằng lệnh `:pwd`).
-    sync_scroll = false, -- Nếu true, plugin sẽ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim.
-    telescope = false -- Nếu true, plugin sẽ tự động load extension `Telescope livepreview`
+    cmd = "LivePreview", -- Main command of live-preview.nvim
+    port = 5500, -- Port to run the live preview server on.
+    autokill = false, -- If true, the plugin will autokill other processes running on the same port (except for Neovim) when starting the server.
+    browser = 'default', -- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
+    dynamic_root = false, -- If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:lua print(vim.uv.cwd())`).
+    sync_scroll = false, -- If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
+    picker = nil, -- Picker to use for opening files. 3 choices are available: 'telescope', 'fzf-lua', 'mini.pick'. If nil, the plugin look for the first available picker when you call the `pick` command.
 }
 ```
 
-### Trong Vimscript
-
+## In Vimscript
+ 
 ```vim
-let g:livepreview_config = {
-    \ 'commands': {
-    \     'start': 'LivePreview', " Lệnh khởi động máy chủ live-preview.
-    \     'stop': 'StopPreview', " Lệnh để dừng máy chủ live-preview.
-    \ },
-    \ 'autokill': v:false, " Nếu v:true, plugin sẽ tự động đóng các tiến trình đang dùng trên cổng (trừ Neovim) khi khởi động máy chủ live-preview.
-    \ 'port': 5500, " Cổng để chạy máy chủ live-preview
-    \ 'browser': 'default', " Lệnh để mở trình duyệt (ví dụ 'firefox', 'flatpak run com.vivaldi.Vivaldi'. Giá trị 'default' là trình duyệt mặc định của hệ điều hành.
-    \ 'dynamic_root': v:false, " Nếu v:true, thư mục gốc của server sẽ là thư mục mẹ của file được preview. Nếu v:false, plugin sẽ chạy máy chủ live-preview từ thư mục làm việc hiện tại (Bạn có thể xem thư mục làm việc hiện tại bằng lệnh `:pwd`).
-    \ 'sync_scroll': v:false, " Nếu v:true, plugin sẽ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim.
-    \ 'telescope': v:false " Nếu v:true, plugin sẽ tự động load extension `Telescope livepreview`
-\ }
-lua require('livepreview').setup(g:livepreview_config)
-```
+call v:lua.require('livepreview').setup({
+    \ "cmd": "LivePreview", " Main command of live-preview.nvim
+    \ "port": 5500, " Port to run the live preview server on.
+    \ "autokill": v:false, " If true, the plugin will autokill other processes running on the same port (except for Neovim) when starting the server.
+    \ "browser": 'default', " Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
+    \ "dynamic_root": v:false, " If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:lua print(vim.uv.cwd())`).
+    \ "sync_scroll": v:false, " If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
+    \ "picker": v:false, " Picker to use for opening files. 3 choices are available: 'telescope', 'fzf-lua', 'mini.pick'. If v:false, the plugin look for the first available picker when you call the `pick` command.
+\ })
 
-**⚠️ Chú ý:** Đảm bảo rằng bạn cấu hình `g:livepreview_config` trước khi gọi `lua require('livepreview').setup()`.
+## Cách dùng 
 
-## Cách dùng
+> Hướng dẫn dưới đây áp dụng cho cấu hình mặc định (opts.cmd = "LivePreview")
 
-> Hướng dẫn dưới đây sử dụng cấu hình mặc định
+* Để mở server live-preview và xem file trong trình duyệt, sử dụng lệnh:
 
-Để khởi động máy chủ live-preview, dùng lệnh:
+`:LivePreview start`
 
-`:LivePreview`
+Lệnh này sẽ mở tệp Markdown, HTML hoặc AsciiDoc hiện tại trong trình duyệt web mặc định của bạn và cập nhật nó trực tiếp khi bạn thực hiện các thay đổi trong tệp.
 
-Lệnh này sẽ mở tệp Markdown hoặc HTML hiện tại trong trình duyệt web tại địa chỉ "http://localhost:5500/tên-file" và cập nhật trực tiếp mỗi khi bạn chỉnh sửa file.
+Bạn cũng có thể truyền đường dẫn tệp làm tham số, ví dụ `:LivePreview start test/doc.md`
 
-Bạn có thể thêm 1 đường dẫn file làm tham số cho lệnh `:LivePreview` (ví dụ `:LivePreview Documents/file.md`)
+* Để dừng máy chủ xem trước trực tiếp, sử dụng lệnh:
 
-Để tắt máy chủ live-preview, dùng lệnh:
+`:StopPreview close`
 
-`:StopPreview`
+* Để mở trình chọn (Telescope, fzf-lua hoặc mini.pick) và chọn một tệp để xem trước, sử dụng lệnh:
 
+`:LivePreview pick`
+
+* Để xem tài liệu về từng lệnh phụ, sử dụng lệnh:
+
+`:LivePreview help`
+
+Điều này yêu cầu phải cài đặt một trình chọn (Telescope, fzf-lua hoặc mini.pick). Nếu bạn có nhiều trình chọn được cài đặt, bạn có thể chỉ định trình chọn để sử dụng bằng cách truyền tên trình chọn vào bảng cấu hình (xem phần [setup](#setup))
 Gõ lệnh `:help livepreview` để xem bằng tiếng Anh.
-
-### Sử dụng với Telescope
-
-Để dùng tính năng này, bạn cần cài đặt [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim).
-
-Sau đó, đặt `telescope.autoload` thành `true` trong [bảng cấu hình](#tùy-chỉnh) của live-preview.nvim
-
-Cách khác, bạn có thể thêm đoạn mã sau vào tệp cấu hình Neovim của mình:
-
-```lua
-require('telescope').load_extension('livepreview')
-```
-
-### Sử dụng với fzf-lua và mini.pick
-
-Right now, support for fzf-lua and mini.pick is experimental, so we don't provide an user command for it (we plan to do that in v1.0). However, you can use the following command to try fzf-lua and mini.pick (make sure you have installed fzf-lua or mini.pick)
-
-Hỗ trợ cho fzf-lua và mini.pick đang trong giai đoạn thử nghiệm, nên chúng tôi không cung cấp lệnh người dùng cho tính năng này (chúng tôi dự định làm điều đó vào phiên bản v1.0). Tuy nhiên, bạn có thể sử dụng lệnh sau để thử live-preview.nvim với fzf-lua hoặc mini.pick (đảm bảo bạn đã cài đặt fzf-lua hoặc mini.pick)
-
-```vim
-:lua require('livepreview').picker.fzflua()
-```
-or
-
-```vim
-:lua require('livepreview').picker.minipick()
-```
-Bạn cũng có thể tạo lệnh cho 2 tính năng này, dưới đây là ví dụ với Vimscript và Lua
-
-```vim
-command! -nargs=0 LivePreviewFzf lua require('livepreview').picker.fzflua()
-```
-
-```lua
-vim.api.nvim_create_user_command('
-    LivePreviewFzf', 
-    function () require('livepreview').picker.fzflua() end, 
-    { nargs = 0, }
-)
-```
-
-Đến đây, bạn có thể dùng lệnh `:Telescope livepreview` để mở giao diện Telescope của live-preview.nvim
 
 ## Đóng góp
 
