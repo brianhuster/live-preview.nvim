@@ -5,6 +5,9 @@ Lua module : require("livepreview")                          *livepreview-api*
 This document is about API from live-preview.nvim, a plugin for live
 previewing markdown, asciidoc, and html files.
 
+Note : these API are under development and may introduce breaking changes in
+the future.
+
 To work with API from this plugin, require it in your Lua code: >lua
     local livepreview = require('livepreview')
 <
@@ -25,22 +28,7 @@ setup({opts})                                            *livepreview.setup()*
 
     Parameters: ~
       • {opts}  (`{commands: {start: string, stop: string}, port: number, browser: string, sync_scroll: boolean, telescope: {autoload: boolean}}?`)
-                Default options: >lua
-                    {
-                    	commands = {
-                    		start = "LivePreview",
-                    		stop = "StopPreview",
-                    	},
-                    	port = 5500,
-                    	autokill = false,
-                    	browser = "default",
-                    	dynamic_root = false,
-                    	sync_scroll = false,
-                    	telescope = {
-                    		autoload = false,
-                    	}
-                    }
-<
+                For default options, see |livepreview-setup-in-lua|
 
 
 ==============================================================================
