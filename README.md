@@ -13,7 +13,7 @@ _You can read this README in [Tiếng Việt](README.vi.md)_
 * Supports mermaid for rendering diagrams in markdown files 🖼️
 * Syntax highlighting for code blocks in Markdown and AsciiDoc 🖍️
 * Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in [setup](#setup). This feature should be used with [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim)) 🔄
-* Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭
+* Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick) for opening files to preview 📂
 
 ## Updates 🆕
  
@@ -44,7 +44,11 @@ require("lazy").setup({
         'brianhuster/live-preview.nvim',
         dependencies = {
             'brianhuster/autosave.nvim'  -- Not required, but recomended for autosaving and sync scrolling
-            'nvim-telescope/telescope.nvim' -- Not required, but recommended for integrating with Telescope
+
+            -- You can choose one of the following pickers
+            'nvim-telescope/telescope.nvim',
+            'ibhagwan/fzf-lua',
+            'echasnovski/mini.pick',
         },
         opts = {},
    }
@@ -61,7 +65,11 @@ MiniDeps.add({
     source = 'brianhuster/live-preview.nvim',
     depends = { 
         'brianhuster/autosave.nvim'  -- Not required, but recomended for autosaving and sync scrolling
-        'nvim-telescope/telescope.nvim' -- Not required, but recommended for integrating with Telescope
+
+        -- You can choose one of the following pickers
+        'nvim-telescope/telescope.nvim',
+        'ibhagwan/fzf-lua',
+        'echasnovski/mini.pick',
     }, 
 })
 ```
@@ -81,10 +89,12 @@ MiniDeps.add({
 
 ```vim
 Plug 'brianhuster/live-preview.nvim'
-
-Plug 'nvim-telescope/telescope.nvim' " Not required, but recommended for integrating with Telescope
-
 Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
+
+" You can choose one of the following pickers
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'ibhagwan/fzf-lua'
+Plug 'echasnovski/mini.pick'
 ```
 
 </details>

@@ -108,14 +108,20 @@ function M.check()
 	else
 		vim.health.ok(string.format("`%s` is available", shell))
 	end
-	-- Check if telescope (optional) is available
-	local success, telescope = pcall(require, "telescope")
-	if not success or not telescope then
-		vim.health.warn(
-			"`telescope.nvim` (optional) is not installed. You can still use live-preview.nvim without it, but live-preview.nvim's integration with Telescope will not work."
-		)
-	else
-		vim.health.ok("`telescope.nvim` is installed")
+
+	--- Check dependant plugins
+	local dependencies = {
+		"telescope",
+		"fzf-lua",
+		"mini.pick",
+	}
+	for _, dep in ipairs(dependencies) do
+		local ok, _ = pcall(require, dep)
+		if not ok then
+			vim.health.warn(string.format("`%s` (optional) is not installed", dep))
+		else
+			vim.health.ok(string.format("`%s` is installed", dep))
+		end
 	end
 
 	if require("livepreview.config").config.port then

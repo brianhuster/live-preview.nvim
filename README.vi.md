@@ -150,6 +150,8 @@ Bạn cũng có thể truyền đường dẫn tệp làm tham số, ví dụ `:
 
 `:LivePreview pick`
 
+> Bạn cũng cần cài đặt một trong 3 plugin (Telescope, fzf-lua hoặc mini.pick) để sử dụng lệnh này.
+
 * Để xem tài liệu về từng lệnh phụ, sử dụng lệnh:
 
 `:LivePreview help`
