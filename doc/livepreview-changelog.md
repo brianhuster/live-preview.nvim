@@ -1,3 +1,9 @@
+# v0.7
+
+## New features
+
+* Add support for Github emoji in markdown files
+
 # v0.6
 
 ## Fix bug
