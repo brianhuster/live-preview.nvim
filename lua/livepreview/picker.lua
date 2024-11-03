@@ -4,15 +4,15 @@ lp.utils = require("livepreview.utils")
 local M = {}
 
 local handle_pick = function(pick_value)
-	local config = require("livepreview").config
+	local config = require("livepreview.config").config
 	local filepath = pick_value
-	lp.live_start(filepath, lp.config.port)
+	lp.live_start(filepath, config.port)
 	vim.cmd("edit " .. filepath)
 	lp.utils.open_browser(
 		string.format(
 			"http://localhost:%d/%s",
-			lp.config.port,
-			lp.config.dynamic_root and vim.fn.fnamemodify(filepath, ":t") or filepath
+			config.port,
+			config.dynamic_root and vim.fn.fnamemodify(filepath, ":t") or filepath
 		),
 		config.browser
 	)

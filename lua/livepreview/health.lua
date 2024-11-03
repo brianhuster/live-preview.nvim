@@ -75,7 +75,7 @@ local function checkhealth_port(port)
 end
 
 local function check_config()
-	local config = require("livepreview").config
+	local config = require("livepreview.config").config
 	if not config or not config.commands then
 		vim.health.warn(
 			"Setup function not called",
@@ -118,10 +118,10 @@ function M.check()
 		vim.health.ok("`telescope.nvim` is installed")
 	end
 
-	if require("livepreview").config.port then
+	if require("livepreview.config").config.port then
 		vim.health.start("Checkhealth server and process")
 		vim.health.ok("This Nvim process's PID is " .. vim.uv.os_getpid())
-		checkhealth_port(require("livepreview").config.port)
+		checkhealth_port(require("livepreview.config").config.port)
 	end
 
 	vim.health.start("Check your live-preview.nvim config")
