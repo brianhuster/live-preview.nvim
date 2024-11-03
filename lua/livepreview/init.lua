@@ -13,7 +13,7 @@ local M = {}
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
 local config = require("livepreview.config")
-local picker = require('livepreview.picker')
+local picker = require("livepreview.picker")
 
 M.serverObj = nil
 
@@ -141,8 +141,8 @@ function M.setup(opts)
 				string.format(
 					"http://localhost:%d/%s",
 					config.config.port,
-					config.config.dynamic_root and vim.fs.basename(filepath) or
-					utils.get_base_path(filepath, vim.uv.cwd())
+					config.config.dynamic_root and vim.fs.basename(filepath)
+						or utils.get_base_path(filepath, vim.uv.cwd())
 				),
 				config.config.browser
 			)
@@ -159,22 +159,26 @@ function M.setup(opts)
 			if config.config.picker then
 				local result = pcall(pickers[config.config.picker], pick_callback)
 				if not result then
-					vim.notify('Error : picker opt invalid', vim.log.levels.ERROR)
+					vim.notify("Error : picker opt invalid", vim.log.levels.ERROR)
 				end
 			else
 				picker.pick(pick_callback)
 			end
 		else
 			print("live-preview.nvim commands:")
-			print(string.format(
-				[[  :%s start [filepath] - Start live preview. If no filepath is given, preview the current buffer.]],
-				config.config.cmd))
-			print(string.format(
-				[[  :%s close - Stop live preview]],
-				config.config.cmd))
-			print(string.format(
-				[[  :%s pick - Select a file to preview (using a picker like telescope.nvim, fzf-lua or mini.pick)]],
-				config.config.cmd))
+			print(
+				string.format(
+					[[  :%s start [filepath] - Start live preview. If no filepath is given, preview the current buffer.]],
+					config.config.cmd
+				)
+			)
+			print(string.format([[  :%s close - Stop live preview]], config.config.cmd))
+			print(
+				string.format(
+					[[  :%s pick - Select a file to preview (using a picker like telescope.nvim, fzf-lua or mini.pick)]],
+					config.config.cmd
+				)
+			)
 			print(string.format("  :%s help - Show this help", config.config.cmd))
 		end
 	end, {
