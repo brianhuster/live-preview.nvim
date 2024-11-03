@@ -41,7 +41,7 @@ function M.live_start(filepath, port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
 			if process.pid ~= vim.uv.os_getpid() then
-				if require('livepreview.config').config.autokill and not process.name:match("vim") then
+				if require("livepreview.config").config.autokill and not process.name:match("vim") then
 					utils.kill(process.pid)
 				else
 					vim.print(
@@ -99,7 +99,7 @@ end
 --- }
 --- ```
 function M.setup(opts)
-	local config = require('livepreview.config')
+	local config = require("livepreview.config")
 	if config.config.commands then
 		if config.config.commands.start then
 			vim.api.nvim_del_user_command(config.config.commands.start)

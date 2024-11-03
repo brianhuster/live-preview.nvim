@@ -74,7 +74,7 @@ end
 function Server:new(webroot)
 	self.server = uv.new_tcp()
 	self.webroot = webroot or uv.cwd()
-	local config = require('livepreview.config').config
+	local config = require("livepreview.config").config
 	if config.sync_scroll then
 		send_scroll_autocmd()
 	end
