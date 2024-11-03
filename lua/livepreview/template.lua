@@ -34,6 +34,7 @@ end
 M.md2html = function(md)
 	local script = [[
 		<script defer src="/live-preview.nvim/static/markdown/line-numbers.js"></script>
+		<script defer src="/live-preview.nvim/static/markdown/markdown-it-emoji.min.js"></script>
 		<script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script>
 		<script defer src='/live-preview.nvim/static/markdown/main.js'></script>
 	]]

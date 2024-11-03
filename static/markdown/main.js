@@ -12,6 +12,8 @@ const md = window.markdownit({
 });
 md.use(livepreview_injectLinenumbersPlugin);
 
+md.use(markdownitEmoji);
+
 const livepreview_render = (text) => {
 	const html = md.render(text);
 	console.log(html);
