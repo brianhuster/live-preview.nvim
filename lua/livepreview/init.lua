@@ -10,7 +10,7 @@ local M = {}
 
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
-local config = require('livepreview.config')
+local config = require("livepreview.config")
 
 M.serverObj = nil
 
