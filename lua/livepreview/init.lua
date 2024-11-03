@@ -11,7 +11,6 @@ local M = {}
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
 
-M.config = {}
 M.serverObj = nil
 
 -- find html/md/adoc buffer
@@ -42,7 +41,7 @@ function M.live_start(filepath, port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
 			if process.pid ~= vim.uv.os_getpid() then
-				if M.config.autokill and not process.name:match("vim") then
+				if require('livepreview.config').config.autokill and not process.name:match("vim") then
 					utils.kill(process.pid)
 				else
 					vim.print(
@@ -62,7 +61,7 @@ function M.live_start(filepath, port)
 	if M.serverObj then
 		M.serverObj:stop()
 	end
-	M.serverObj = server.Server:new(M.config.dynamic_root and vim.fs.dirname(filepath) or nil, M.config)
+	M.serverObj = server.Server:new(M.config.dynamic_root and vim.fs.dirname(filepath) or nil)
 	vim.wait(50, function()
 		M.serverObj:start("127.0.0.1", port, function(client)
 			if utils.supported_filetype(filepath) == "html" then
@@ -100,12 +99,13 @@ end
 --- }
 --- ```
 function M.setup(opts)
-	if M.config.commands then
-		if M.config.commands.start then
-			vim.api.nvim_del_user_command(M.config.commands.start)
+	local config = require('livepreview.config')
+	if config.config.commands then
+		if config.config.commands.start then
+			vim.api.nvim_del_user_command(config.config.commands.start)
 		end
-		if M.config.commands.stop then
-			vim.api.nvim_del_user_command(M.config.commands.stop)
+		if config.config.commands.stop then
+			vim.api.nvim_del_user_command(config.config.commands.stop)
 		end
 	end
 
@@ -124,9 +124,9 @@ function M.setup(opts)
 		},
 	}
 
-	M.config = vim.tbl_deep_extend("force", default_options, opts or {})
+	config.set(vim.tbl_deep_extend("force", default_options, opts or {}))
 
-	vim.api.nvim_create_user_command(M.config.commands.start, function(cmd_opts)
+	vim.api.nvim_create_user_command(config.config.commands.start, function(cmd_opts)
 		local filepath
 		if cmd_opts.args ~= "" then
 			filepath = cmd_opts.args
@@ -146,24 +146,24 @@ function M.setup(opts)
 		utils.open_browser(
 			string.format(
 				"http://localhost:%d/%s",
-				M.config.port,
-				M.config.dynamic_root and vim.fs.basename(filepath) or utils.get_base_path(filepath, vim.uv.cwd())
+				config.config.port,
+				config.config.dynamic_root and vim.fs.basename(filepath) or utils.get_base_path(filepath, vim.uv.cwd())
 			),
-			M.config.browser
+			config.config.browser
 		)
 
-		M.live_start(filepath, M.config.port)
+		M.live_start(filepath, config.config.port)
 	end, {
 		nargs = "?",
 		complete = "file",
 	})
 
-	vim.api.nvim_create_user_command(M.config.commands.stop, function()
+	vim.api.nvim_create_user_command(config.config.commands.stop, function()
 		M.live_stop()
 		print("Live preview stopped")
 	end, {})
 
-	if M.config.telescope.autoload then
+	if config.config.telescope.autoload then
 		local success, telescope = pcall(require, "telescope")
 		if success and telescope then
 			telescope.load_extension("livepreview")

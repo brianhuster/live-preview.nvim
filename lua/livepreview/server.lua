@@ -71,12 +71,11 @@ end
 
 --- Constructor
 --- @param webroot string|nil: path to the webroot
---- @param config table|nil: configuration
-function Server:new(webroot, config)
+function Server:new(webroot)
 	self.server = uv.new_tcp()
 	self.webroot = webroot or uv.cwd()
-	self.config = config or {}
-	if self.config.sync_scroll then
+	local config = require('livepreview.config').config
+	if config.sync_scroll then
 		send_scroll_autocmd()
 	end
 	return self
