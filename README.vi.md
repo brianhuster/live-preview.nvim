@@ -127,7 +127,7 @@ call v:lua.require('livepreview').setup({
     \ 'browser': 'default', 
     \ 'dynamic_root': v:false, 
     \ 'sync_scroll': v:false, 
-    \ 'picker': 'mini.pick', 
+    \ 'picker': v:false, 
 \ })
 ```
 

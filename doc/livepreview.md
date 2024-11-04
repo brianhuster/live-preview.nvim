@@ -120,7 +120,7 @@ You can customize the plugin by passing a table to the `opts` variable (if you u
     \ 'browser': 'default', 
     \ 'dynamic_root': v:false, 
     \ 'sync_scroll': v:false, 
-    \ 'picker': 'mini.pick', 
+    \ 'picker': v:false, 
 \ })
 ```
 
