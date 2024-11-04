@@ -142,7 +142,7 @@ function M.setup(opts)
 					"http://localhost:%d/%s",
 					config.config.port,
 					config.config.dynamic_root and vim.fs.basename(filepath)
-						or utils.get_base_path(filepath, vim.uv.cwd())
+					or utils.get_base_path(filepath, vim.uv.cwd())
 				),
 				config.config.browser
 			)
@@ -203,15 +203,6 @@ function M.setup(opts)
 			end
 		end,
 	})
-
-	if config.config.telescope and config.config.telescope.autoload then
-		local success, telescope = pcall(require, "telescope")
-		if success and telescope then
-			telescope.load_extension("livepreview")
-		else
-			vim.notify_once("live-preview.nvim : telescope.nvim is not installed", vim.log.levels.WARN)
-		end
-	end
 end
 
 return M
