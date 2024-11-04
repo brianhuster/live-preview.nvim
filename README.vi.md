@@ -121,14 +121,15 @@ Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opt
  
 ```vim
 call v:lua.require('livepreview').setup({
-    \ "cmd": "LivePreview", " Main command of live-preview.nvim
-    \ "port": 5500, " Port to run the live preview server on.
-    \ "autokill": v:false, " If true, the plugin will autokill other processes running on the same port (except for Neovim) when starting the server.
-    \ "browser": 'default', " Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
-    \ "dynamic_root": v:false, " If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:lua print(vim.uv.cwd())`).
-    \ "sync_scroll": v:false, " If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
-    \ "picker": v:false, " Picker to use for opening files. 3 choices are available: 'telescope', 'fzf-lua', 'mini.pick'. If v:false, the plugin look for the first available picker when you call the `pick` command.
+    \ 'cmd': 'LivePreview', 
+    \ 'port': 5500, 
+    \ 'autokill': v:false, 
+    \ 'browser': 'default', 
+    \ 'dynamic_root': v:false, 
+    \ 'sync_scroll': v:false, 
+    \ 'picker': 'mini.pick', 
 \ })
+```
 
 ## Cách dùng 
 
