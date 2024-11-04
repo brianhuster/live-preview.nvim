@@ -221,6 +221,79 @@ generate({file_path})               *livepreview.server.utils.etag.generate()*
 
 
 ==============================================================================
+Live Preview Module : FSWATCH                            *livepreview.fswatch*
+
+Non-native file system watcher.
+
+This is made because |luv| (|vim.uv|) doesn't support recursive directory
+watching in other OSes than Windows and OSX
+
+This module has only been tested on Linux. For Windows and OSX, it is
+recommended to use |uv_fs_event_t| with flag { recursive = true }
+
+To use this module, do: >lua
+    local fswatch = require('livepreview.fswatch')
+<
+
+
+*Watcher*
+    To call this class, do: >lua
+        Watcher = require('livepreview.fswatch').Watcher
+<
+
+    Fields: ~
+      • {directory}  (`string`)
+      • {watcher}    (`uv_fs_event_t`)
+      • {children}   (`Watcher[]`)
+      • {new}        (`fun(self: Watcher, directory: string): Watcher`) Create
+                     a new Watcher for a directory.
+      • {start}      (`fun(self: Watcher, callback: function)`) Start watching
+                     a directory and its subdirectories.
+      • {close}      (`fun(self: Watcher)`) Close the watcher and all its
+                     children.
+
+
+Watcher:close()                          *livepreview.fswatch.Watcher:close()*
+    Close the watcher and all its children.
+
+Watcher:new({directory})                   *livepreview.fswatch.Watcher:new()*
+    Create a new Watcher for a directory.
+
+    Parameters: ~
+      • {directory}  (`string`)
+
+    Return: ~
+        (`Watcher`)
+
+Watcher:start({callback})                *livepreview.fswatch.Watcher:start()*
+    Start watching a directory and its subdirectories.
+
+    Parameters: ~
+      • {callback}  (`function`)
+
+
+==============================================================================
+Live Preview Module : PICKER                              *livepreview.picker*
+
+Picker module for live-preview.nvim To use this module, require it in your Lua
+code: >lua
+    local picker = require('livepreview.picker')
+<
+
+Open a telescope.nvim picker to select a file
+
+Open a fzf-lua picker to select a file
+
+Open a mini.pick picker to select a file
+
+Open a picker to select a file.
+
+This function will try to use telescope.nvim, fzf-lua, or mini.pick to open a
+picker to select a file.
+
+
+
+==============================================================================
 Live Preview Module : UTILS                                *livepreview.utils*
 
 Utility functions for live-preview.nvim To require this module, do >lua
@@ -376,58 +449,6 @@ uv_write_file({file_path})                 *livepreview.utils.uv_write_file()*
 
     Parameters: ~
       • {file_path}  (`string`)
-
-
-==============================================================================
-Live Preview Module : FSWATCH                            *livepreview.fswatch*
-
-Non-native file system watcher.
-
-This is made because |luv| (|vim.uv|) doesn't support recursive directory
-watching in other OSes than Windows and OSX
-
-This module has only been tested on Linux. For Windows and OSX, it is
-recommended to use |uv_fs_event_t| with flag { recursive = true }
-
-To use this module, do: >lua
-    local fswatch = require('livepreview.fswatch')
-<
-
-
-*Watcher*
-    To call this class, do: >lua
-        Watcher = require('livepreview.fswatch').Watcher
-<
-
-    Fields: ~
-      • {directory}  (`string`)
-      • {watcher}    (`uv_fs_event_t`)
-      • {children}   (`Watcher[]`)
-      • {new}        (`fun(self: Watcher, directory: string): Watcher`) Create
-                     a new Watcher for a directory.
-      • {start}      (`fun(self: Watcher, callback: function)`) Start watching
-                     a directory and its subdirectories.
-      • {close}      (`fun(self: Watcher)`) Close the watcher and all its
-                     children.
-
-
-Watcher:close()                          *livepreview.fswatch.Watcher:close()*
-    Close the watcher and all its children.
-
-Watcher:new({directory})                   *livepreview.fswatch.Watcher:new()*
-    Create a new Watcher for a directory.
-
-    Parameters: ~
-      • {directory}  (`string`)
-
-    Return: ~
-        (`Watcher`)
-
-Watcher:start({callback})                *livepreview.fswatch.Watcher:start()*
-    Start watching a directory and its subdirectories.
-
-    Parameters: ~
-      • {callback}  (`function`)
 
 
 ==============================================================================
