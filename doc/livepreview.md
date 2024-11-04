@@ -124,7 +124,7 @@ You can customize the plugin by passing a table to the `opts` variable (if you u
 \ })
 ```
 
-# Usage 🚀
+# Usage
  
 ## For default configuration (`opt.cmd = "LivePreview"`)
  
