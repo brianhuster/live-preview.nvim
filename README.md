@@ -178,13 +178,12 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 - [x] Syntax highlighting for code blocks in Markdown and AsciiDoc
 - [x] Autoscroll in the browser as you scroll in the Markdown files in Neovim
 - [ ] Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
-- [x] Integration with Telescope
-- [ ] Integration with [fzf-lua](https://github.com/ibhagwan/fzf-lua) and [mini.pick](https://github.com/echasnovski/mini.pick)
+- [x] * Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick)
 
 # Non goals 🚫
  
 These are not in roadmap of live-preview.nvim right now, but pull requests are welcome
-- Allow users to add custom css and js files in configuration
+- Allow users to add custom css and js files in configuration [issue #50](https://github.com/brianhuster/live-preview.nvim/issues/50), [issue #51](https://github.com/brianhuster/live-preview.nvim/issues/51)
 
 # Acknowledgements 🙏
  
