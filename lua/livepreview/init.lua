@@ -142,7 +142,7 @@ function M.setup(opts)
 					"http://localhost:%d/%s",
 					config.config.port,
 					config.config.dynamic_root and vim.fs.basename(filepath)
-						or utils.get_base_path(filepath, vim.uv.cwd())
+					or utils.get_base_path(filepath, vim.uv.cwd())
 				),
 				config.config.browser
 			)
@@ -157,9 +157,13 @@ function M.setup(opts)
 				["mini.pick"] = picker.minipick,
 			}
 			if config.config.picker then
-				local result = pcall(pickers[config.config.picker], pick_callback)
-				if not result then
+				if not pickers[config.config.picker] then
 					vim.notify("Error : picker opt invalid", vim.log.levels.ERROR)
+				else
+					local status, err = pickers[config.config.picker](pick_callback)
+					if not status then
+						vim.notify("Error calling picker " .. config.config.picker .. " " .. err, vim.log.levels.ERROR)
+					end
 				end
 			else
 				picker.pick(pick_callback)
