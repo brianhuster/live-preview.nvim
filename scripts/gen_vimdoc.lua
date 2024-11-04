@@ -127,8 +127,9 @@ local config = {
 			"websocket.lua",
 			"content_type.lua",
 			"etag.lua",
-			"utils.lua",
 			"fswatch.lua",
+			"picker.lua",
+			"utils.lua",
 			"health.lua",
 		},
 		files = {
@@ -138,8 +139,9 @@ local config = {
 			"lua/livepreview/server/websocket.lua",
 			"lua/livepreview/server/utils/content_type.lua",
 			"lua/livepreview/server/utils/etag.lua",
-			"lua/livepreview/utils.lua",
 			"lua/livepreview/fswatch.lua",
+			"lua/livepreview/picker.lua",
+			"lua/livepreview/utils.lua",
 			"lua/livepreview/health.lua",
 		},
 		fn_xform = function(fun)

@@ -1,7 +1,15 @@
+---@brief Picker module for live-preview.nvim
+--- To use this module, require it in your Lua code:
+--- ```lua
+--- local picker = require('livepreview.picker')
+--- ```
+
 local utils = require("livepreview.utils")
 
 local M = {}
 
+---@brief Open a telescope.nvim picker to select a file
+---@param callback function: Callback function to run after selecting a file
 function M.telescope(callback)
 	local pickers = require("telescope.pickers")
 	local finders = require("telescope.finders")
@@ -31,6 +39,8 @@ function M.telescope(callback)
 		:find()
 end
 
+---@brief Open a fzf-lua picker to select a file
+---@param callback function: Callback function to run after selecting a file
 function M.fzflua(callback)
 	local fzf = require("fzf-lua")
 	local files = utils.list_supported_files(".")
@@ -46,6 +56,8 @@ function M.fzflua(callback)
 	})
 end
 
+---@brief Open a mini.pick picker to select a file
+---@param callback function: Callback function to run after selecting a file
 function M.minipick(callback)
 	local MiniPick = require("mini.pick")
 	local files = utils.list_supported_files(".")
@@ -64,6 +76,10 @@ function M.minipick(callback)
 	})
 end
 
+---@brief Open a picker to select a file.
+---
+---This function will try to use telescope.nvim, fzf-lua, or mini.pick to open a picker to select a file.
+---@param callback function: Callback function to run after selecting a file
 function M.pick(callback)
 	if pcall(require, "telescope._extensions.livepreview") then
 		M.telescope(callback)
