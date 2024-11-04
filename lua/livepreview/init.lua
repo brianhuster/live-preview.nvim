@@ -162,8 +162,10 @@ function M.setup(opts)
 				else
 					local status, err = pcall(pickers[config.config.picker], pick_callback)
 					if not status then
-						vim.notify("live-preview.nvim : error calling picker " .. config.config.picker,
-							vim.log.levels.ERROR)
+						vim.notify(
+							"live-preview.nvim : error calling picker " .. config.config.picker,
+							vim.log.levels.ERROR
+						)
 						vim.notify(err, vim.log.levels.ERROR)
 					end
 				end
