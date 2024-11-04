@@ -85,16 +85,8 @@ Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 <details>
 <summary>Cài đặt thủ công (không dùng trình quản lý plugin)</summary>
 
-- **Linux, MacOS, dựa trên Unix**
-
 ```sh
-git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
-```
-
-- **Windows (Powershell)**
-
-```powershell
-git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
+git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.local/share/nvim/site/pack/brianhuster/start/live-preview.nvim
 ```
 
 </details>
