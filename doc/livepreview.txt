@@ -10,9 +10,9 @@ Table of Contents                              *livepreview-table-of-contents*
 5. Setup                                                   |livepreview-setup|
   - In Lua                                          |livepreview-setup-in-lua|
   - In Vimscript                              |livepreview-setup-in-vimscript|
-6. Usage 🚀                                         |livepreview-usage-🚀|
-  - For default configuration (opt.cmd = "LivePreview")|livepreview-usage-🚀-for-default-configuration-(opt.cmd-=-"livepreview")|
-  - API                                           |livepreview-usage-🚀-api|
+6. Usage                                                   |livepreview-usage|
+  - For default configuration (opt.cmd = "LivePreview")|livepreview-usage-for-default-configuration-(opt.cmd-=-"livepreview")|
+  - API                                                |livepreview-usage-api|
 7. Change log                                         |livepreview-change-log|
 8. License                                               |livepreview-license|
 
@@ -142,16 +142,16 @@ IN VIMSCRIPT                                  *livepreview-setup-in-vimscript*
         \ 'browser': 'default', 
         \ 'dynamic_root': v:false, 
         \ 'sync_scroll': v:false, 
-        \ 'picker': 'mini.pick', 
+        \ 'picker': v:false, 
     \ })
 <
 
 
 ==============================================================================
-6. Usage 🚀                                         *livepreview-usage-🚀*
+6. Usage                                                   *livepreview-usage*
 
 
-FOR DEFAULT CONFIGURATION (OPT.CMD = "LIVEPREVIEW")*livepreview-usage-🚀-for-default-configuration-(opt.cmd-=-"livepreview")*
+FOR DEFAULT CONFIGURATION (OPT.CMD = "LIVEPREVIEW")*livepreview-usage-for-default-configuration-(opt.cmd-=-"livepreview")*
 
 - To start the live preview, use the command:
 
@@ -182,7 +182,7 @@ passing the picker name to the configuration table (see |livepreview-setup|)
 Use the command `:help livepreview` to see the help documentation.
 
 
-API                                               *livepreview-usage-🚀-api*
+API                                                    *livepreview-usage-api*
 
 For API documentation, please refer to |livepreview-api|
 
