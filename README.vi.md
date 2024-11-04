@@ -10,7 +10,8 @@ Một plugin Neovim cho phép bạn xem kết quả tệp [Markdown](https://vi.
 - Hỗ trợ mermaid để hiển thị các biểu đồ trong tệp Markdown 🖼️
 - Tô sáng cú pháp code trong tệp Markdown và AsciiDoc 🖍️
 - Hỗ trợ cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim. (Bạn cần kích hoạt `sync_scroll` trong [Tùy chỉnh](#tùy-chỉnh). Tính năng này nên được sử dụng cùng với [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim)) 🔄
-- Tích hợp với [Telescope](https://github.com/nvim-telescope/telescope.nvim) 🔭
+- Tích hợp với [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick) for opening files to preview 📂
+
 
 ### Cập nhật 🆕
 Xem [RELEASE.md](RELEASE.md)
@@ -85,16 +86,8 @@ Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 <details>
 <summary>Cài đặt thủ công (không dùng trình quản lý plugin)</summary>
 
-- **Linux, MacOS, dựa trên Unix**
-
 ```sh
-git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
-```
-
-- **Windows (Powershell)**
-
-```powershell
-git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
+git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.local/share/nvim/site/pack/brianhuster/start/live-preview.nvim
 ```
 
 </details>
@@ -171,12 +164,14 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 - [x] Tô sáng cú pháp code trong tệp Markdown và AsciiDoc
 - [x] Tự động cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim
 - [ ] Tự động cuộn trang web khi bạn cuộn trong tệp AsciiDoc trong Neovim
+- [x] Tích hợp với [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick) 
+
 
 ## Không phải mục tiêu
 
 Dưới đây là một số tính năng không nằm trong kế hoạch của live-preview.nvim, tuy nhiên chúng tôi luôn hoan nghênh pull request
 
-- Thêm file css và js vào config
+- Thêm file css và js vào config [issue #50](https://github.com/brianhuster/live-preview.nvim/issues/50), [issue #51](https://github.com/brianhuster/live-preview.nvim/issues/51)
 
 ## Cảm ơn
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) vì ý tưởng

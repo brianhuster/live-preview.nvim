@@ -102,16 +102,8 @@ Plug 'echasnovski/mini.pick'
 <details>
 <summary>Native package (without a plugin manager) 📦</summary>
 
-- **Linux, MacOS, Unix-based** 🐧🍎
-
 ```sh
-git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.config/nvim/pack/brianhuster/start/live-preview.nvim
-```
-
-- **Windows (Powershell) 🪟**
-
-```powershell
-git clone --depth 1 https://github.com/brianhuster/live-preview.nvim "$HOME/AppData/Local/nvim/pack/brianhuster/start/live-preview.nvim"
+git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.local/share/nvim/site/pack/brianhuster/start/live-preview.nvim
 ```
 
 </details>
@@ -127,7 +119,7 @@ You can customize the plugin by passing a table to the `opts` variable (if you u
     cmd = "LivePreview", -- Main command of live-preview.nvim
     port = 5500, -- Port to run the live preview server on.
     autokill = false, -- If true, the plugin will autokill other processes running on the same port (except for Neovim) when starting the server.
-    browser = 'default', -- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
+    browser = 'default', -~/.co- Terminal command to open the browser for live-previewing (eg. 'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the default browser.
     dynamic_root = false, -- If true, the plugin will set the root directory to the previewed file's directory. If false, the root directory will be the current working directory (`:lua print(vim.uv.cwd())`).
     sync_scroll = false, -- If true, the plugin will sync the scrolling in the browser as you scroll in the Markdown files in Neovim.
     picker = nil, -- Picker to use for opening files. 3 choices are available: 'telescope', 'fzf-lua', 'mini.pick'. If nil, the plugin look for the first available picker when you call the `pick` command.
@@ -186,13 +178,12 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 - [x] Syntax highlighting for code blocks in Markdown and AsciiDoc
 - [x] Autoscroll in the browser as you scroll in the Markdown files in Neovim
 - [ ] Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
-- [x] Integration with Telescope
-- [ ] Integration with [fzf-lua](https://github.com/ibhagwan/fzf-lua) and [mini.pick](https://github.com/echasnovski/mini.pick)
+- [x] * Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick)
 
 # Non goals 🚫
  
 These are not in roadmap of live-preview.nvim right now, but pull requests are welcome
-- Allow users to add custom css and js files in configuration
+- Allow users to add custom css and js files in configuration [issue #50](https://github.com/brianhuster/live-preview.nvim/issues/50), [issue #51](https://github.com/brianhuster/live-preview.nvim/issues/51)
 
 # Acknowledgements 🙏
  
