@@ -23,8 +23,8 @@ livepreview-setup	livepreview.txt	/*livepreview-setup*
 livepreview-setup-in-lua	livepreview.txt	/*livepreview-setup-in-lua*
 livepreview-setup-in-vimscript	livepreview.txt	/*livepreview-setup-in-vimscript*
 livepreview-table-of-contents	livepreview.txt	/*livepreview-table-of-contents*
-livepreview-usage-🚀	livepreview.txt	/*livepreview-usage-🚀*
-livepreview-usage-🚀-api	livepreview.txt	/*livepreview-usage-🚀-api*
+livepreview-usage	livepreview.txt	/*livepreview-usage*
+livepreview-usage-api	livepreview.txt	/*livepreview-usage-api*
 livepreview.content_type	livepreview-api.txt	/*livepreview.content_type*
 livepreview.etag	livepreview-api.txt	/*livepreview.etag*
 livepreview.fswatch	livepreview-api.txt	/*livepreview.fswatch*
