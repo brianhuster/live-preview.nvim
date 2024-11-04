@@ -183,7 +183,7 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 # Non goals 🚫
  
 These are not in roadmap of live-preview.nvim right now, but pull requests are welcome
-- Allow users to add custom css and js files in configuration [issue #50](https://github.com/brianhuster/live-preview.nvim/issues/50), [issue #51](https://github.com/brianhuster/live-preview.nvim/issues/51)
+- Allow users to add custom css and js files in configuration [issue #49](https://github.com/brianhuster/live-preview.nvim/issues/49), [issue #50](https://github.com/brianhuster/live-preview.nvim/issues/50)
 
 # Acknowledgements 🙏
  

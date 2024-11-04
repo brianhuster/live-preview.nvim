@@ -171,7 +171,7 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 
 Dưới đây là một số tính năng không nằm trong kế hoạch của live-preview.nvim, tuy nhiên chúng tôi luôn hoan nghênh pull request
 
-- Thêm file css và js vào config [issue #50](https://github.com/brianhuster/live-preview.nvim/issues/50), [issue #51](https://github.com/brianhuster/live-preview.nvim/issues/51)
+- Thêm file css và js vào config [issue #49](https://github.com/brianhuster/live-preview.nvim/issues/49), [issue #50](https://github.com/brianhuster/live-preview.nvim/issues/50)
 
 ## Cảm ơn
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) và [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) vì ý tưởng
