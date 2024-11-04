@@ -138,7 +138,7 @@ You can also parse a file path as argument, for example `:LivePreview start test
 
 * To stop the live preview server, use the command:
 
-`:StopPreview close`
+`:LivePreview close`
 
 * To open a picker and select a file to preview, use the command:
 

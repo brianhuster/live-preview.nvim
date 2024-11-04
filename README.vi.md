@@ -145,7 +145,7 @@ Bạn cũng có thể truyền đường dẫn tệp làm tham số, ví dụ `:
 
 * Để dừng máy chủ xem trước trực tiếp, sử dụng lệnh:
 
-`:StopPreview close`
+`:LivePreview close`
 
 * Để mở trình chọn (Telescope, fzf-lua hoặc mini.pick) và chọn một tệp để xem trước, sử dụng lệnh:
 

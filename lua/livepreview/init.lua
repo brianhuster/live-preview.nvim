@@ -157,9 +157,17 @@ function M.setup(opts)
 				["mini.pick"] = picker.minipick,
 			}
 			if config.config.picker then
-				local result = pcall(pickers[config.config.picker], pick_callback)
-				if not result then
+				if not pickers[config.config.picker] then
 					vim.notify("Error : picker opt invalid", vim.log.levels.ERROR)
+				else
+					local status, err = pcall(pickers[config.config.picker], pick_callback)
+					if not status then
+						vim.notify(
+							"live-preview.nvim : error calling picker " .. config.config.picker,
+							vim.log.levels.ERROR
+						)
+						vim.notify(err, vim.log.levels.ERROR)
+					end
 				end
 			else
 				picker.pick(pick_callback)
