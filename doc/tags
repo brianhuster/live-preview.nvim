@@ -40,6 +40,7 @@ livepreview.health.spec()	livepreview-api.txt	/*livepreview.health.spec()*
 livepreview.health.supported_nvim_ver_range	livepreview-api.txt	/*livepreview.health.supported_nvim_ver_range*
 livepreview.live_start()	livepreview-api.txt	/*livepreview.live_start()*
 livepreview.live_stop()	livepreview-api.txt	/*livepreview.live_stop()*
+livepreview.picker	livepreview-api.txt	/*livepreview.picker*
 livepreview.server	livepreview-api.txt	/*livepreview.server*
 livepreview.server.Server:new()	livepreview-api.txt	/*livepreview.server.Server:new()*
 livepreview.server.Server:routes()	livepreview-api.txt	/*livepreview.server.Server:routes()*
