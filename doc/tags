@@ -28,9 +28,6 @@ livepreview-usage-api	livepreview.txt	/*livepreview-usage-api*
 livepreview.content_type	livepreview-api.txt	/*livepreview.content_type*
 livepreview.etag	livepreview-api.txt	/*livepreview.etag*
 livepreview.fswatch	livepreview-api.txt	/*livepreview.fswatch*
-livepreview.fswatch.Watcher:close()	livepreview-api.txt	/*livepreview.fswatch.Watcher:close()*
-livepreview.fswatch.Watcher:new()	livepreview-api.txt	/*livepreview.fswatch.Watcher:new()*
-livepreview.fswatch.Watcher:start()	livepreview-api.txt	/*livepreview.fswatch.Watcher:start()*
 livepreview.handler	livepreview-api.txt	/*livepreview.handler*
 livepreview.health	livepreview-api.txt	/*livepreview.health*
 livepreview.health.check()	livepreview-api.txt	/*livepreview.health.check()*
@@ -47,6 +44,9 @@ livepreview.server.Server:routes()	livepreview-api.txt	/*livepreview.server.Serv
 livepreview.server.Server:start()	livepreview-api.txt	/*livepreview.server.Server:start()*
 livepreview.server.Server:stop()	livepreview-api.txt	/*livepreview.server.Server:stop()*
 livepreview.server.Server:watch_dir()	livepreview-api.txt	/*livepreview.server.Server:watch_dir()*
+livepreview.server.fswatch.Watcher:close()	livepreview-api.txt	/*livepreview.server.fswatch.Watcher:close()*
+livepreview.server.fswatch.Watcher:new()	livepreview-api.txt	/*livepreview.server.fswatch.Watcher:new()*
+livepreview.server.fswatch.Watcher:start()	livepreview-api.txt	/*livepreview.server.fswatch.Watcher:start()*
 livepreview.server.handler.client()	livepreview-api.txt	/*livepreview.server.handler.client()*
 livepreview.server.handler.request()	livepreview-api.txt	/*livepreview.server.handler.request()*
 livepreview.server.handler.send_http_response()	livepreview-api.txt	/*livepreview.server.handler.send_http_response()*

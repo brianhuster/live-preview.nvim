@@ -177,6 +177,58 @@ send_json({client}, {message})
 
 
 ==============================================================================
+Live Preview Module : FSWATCH                            *livepreview.fswatch*
+
+Non-native file system watcher.
+
+This is made because |luv| (|vim.uv|) doesn't support recursive directory
+watching in other OSes than Windows and OSX
+
+This module has only been tested on Linux. For Windows and OSX, it is
+recommended to use |uv_fs_event_t| with flag { recursive = true }
+
+To use this module, do: >lua
+    local fswatch = require('livepreview.fswatch')
+<
+
+
+*Watcher*
+    To call this class, do: >lua
+        Watcher = require('livepreview.fswatch').Watcher
+<
+
+    Fields: ~
+      • {directory}  (`string`)
+      • {watcher}    (`uv_fs_event_t`)
+      • {children}   (`Watcher[]`)
+      • {new}        (`fun(self: Watcher, directory: string): Watcher`) Create
+                     a new Watcher for a directory.
+      • {start}      (`fun(self: Watcher, callback: function)`) Start watching
+                     a directory and its subdirectories.
+      • {close}      (`fun(self: Watcher)`) Close the watcher and all its
+                     children.
+
+
+Watcher:close()                   *livepreview.server.fswatch.Watcher:close()*
+    Close the watcher and all its children.
+
+Watcher:new({directory})            *livepreview.server.fswatch.Watcher:new()*
+    Create a new Watcher for a directory.
+
+    Parameters: ~
+      • {directory}  (`string`)
+
+    Return: ~
+        (`Watcher`)
+
+Watcher:start({callback})         *livepreview.server.fswatch.Watcher:start()*
+    Start watching a directory and its subdirectories.
+
+    Parameters: ~
+      • {callback}  (`function`)
+
+
+==============================================================================
 Live Preview Module : CONTENT_TYPE                  *livepreview.content_type*
 
 Content type module for the server To require this module, do >lua
@@ -218,58 +270,6 @@ generate({file_path})               *livepreview.server.utils.etag.generate()*
 
     Return: ~
         (`string?`) ETag
-
-
-==============================================================================
-Live Preview Module : FSWATCH                            *livepreview.fswatch*
-
-Non-native file system watcher.
-
-This is made because |luv| (|vim.uv|) doesn't support recursive directory
-watching in other OSes than Windows and OSX
-
-This module has only been tested on Linux. For Windows and OSX, it is
-recommended to use |uv_fs_event_t| with flag { recursive = true }
-
-To use this module, do: >lua
-    local fswatch = require('livepreview.fswatch')
-<
-
-
-*Watcher*
-    To call this class, do: >lua
-        Watcher = require('livepreview.fswatch').Watcher
-<
-
-    Fields: ~
-      • {directory}  (`string`)
-      • {watcher}    (`uv_fs_event_t`)
-      • {children}   (`Watcher[]`)
-      • {new}        (`fun(self: Watcher, directory: string): Watcher`) Create
-                     a new Watcher for a directory.
-      • {start}      (`fun(self: Watcher, callback: function)`) Start watching
-                     a directory and its subdirectories.
-      • {close}      (`fun(self: Watcher)`) Close the watcher and all its
-                     children.
-
-
-Watcher:close()                          *livepreview.fswatch.Watcher:close()*
-    Close the watcher and all its children.
-
-Watcher:new({directory})                   *livepreview.fswatch.Watcher:new()*
-    Create a new Watcher for a directory.
-
-    Parameters: ~
-      • {directory}  (`string`)
-
-    Return: ~
-        (`Watcher`)
-
-Watcher:start({callback})                *livepreview.fswatch.Watcher:start()*
-    Start watching a directory and its subdirectories.
-
-    Parameters: ~
-      • {callback}  (`function`)
 
 
 ==============================================================================
