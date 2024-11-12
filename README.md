@@ -27,7 +27,7 @@ https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
 # Requirements 📋
  
-- Neovim >=0.10.0 (recommended: >=0.10.1)
+- Neovim >=0.10.0 (recommended: >=0.10.1 compiled with LuaJIT) 📟
 - A modern web browser 🌐
 - PowerShell (only if you use Windows) 🪟
 
@@ -179,11 +179,12 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 - [x] Autoscroll in the browser as you scroll in the Markdown files in Neovim
 - [ ] Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
 - [x] Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick)
+- [ ] Support TUI web browsers like [carbonyl](https://github.com/fathyb/carbonyl), [browsh](https://github.com/browsh-org/browsh)
 
 # Non goals 🚫
  
 These are not in roadmap of live-preview.nvim right now, but pull requests are welcome
-- Allow users to add custom css and js files in configuration [issue #49](https://github.com/brianhuster/live-preview.nvim/issues/49), [issue #50](https://github.com/brianhuster/live-preview.nvim/issues/50)
+- Allow users to add custom css and js files in configuration [#49](https://github.com/brianhuster/live-preview.nvim/issues/49), [#50](https://github.com/brianhuster/live-preview.nvim/issues/50)
 
 # Acknowledgements 🙏
  

@@ -24,7 +24,7 @@ https://github.com/user-attachments/assets/e9a64709-8758-44d8-9e3c-9c15e0bf2a0e
 
 ## Yêu cầu 📋
 
-- Neovim >=0.10.0 (khuyến nghị: >=0.10.1)
+- Neovim >=0.10.0 (khuyến nghị: >=0.10.1 được biên dịch cùng LuaJIT) 📟
 - Một trình duyệt web 🌐
 - PowerShell (chỉ nếu bạn sử dụng Windows) 🪟
 
@@ -93,7 +93,7 @@ git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.local/sh
 </details>
 
 ## Tùy chỉnh
-
+https://github.com/microsoft/vscode-livepreview
 Bạn có thể tùy chỉnh plugin bằng cách đưa 1 bảng vào biến `opts` (với lazy.nvim) hoặc hàm `require('livepreview`).setup()`. Dưới đây là cấu hình mặc định
 
 ### Trong Lua
@@ -165,6 +165,7 @@ Vì đây là một dự án khá mới, hẳn sẽ có nhiều điều cần c�
 - [x] Tự động cuộn trang web khi bạn cuộn trong tệp Markdown trong Neovim
 - [ ] Tự động cuộn trang web khi bạn cuộn trong tệp AsciiDoc trong Neovim
 - [x] Tích hợp với [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick) 
+- [ ] Hỗ trợ trình duyệt web terminal như [carbonyl](https://github.com/fathyb/carbonyl), [browsh](https://github.com/browsh-org/browsh)
 
 
 ## Không phải mục tiêu
@@ -182,7 +183,6 @@ Dưới đây là một số tính năng không nằm trong kế hoạch của l
 * [KaTeX](https://github.com/KaTeX/KaTeX) cho hiển thị phương trình toán học
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) cho hiển thị biểu đồ
 * [digitalmoksha/markdown-it-inject-linenumbers](https://github.com/digitalmoksha/markdown-it-inject-linenumbers) : một plugin markdown-it để chèn số dòng vào đầu ra HTML
-
 
 ### Ủng hộ
 
