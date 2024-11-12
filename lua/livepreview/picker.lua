@@ -81,7 +81,7 @@ end
 ---This function will try to use telescope.nvim, fzf-lua, or mini.pick to open a picker to select a file.
 ---@param callback function: Callback function to run after selecting a file
 function M.pick(callback)
-	if pcall(require, "telescope._extensions.livepreview") then
+	if pcall(require, "telescope") then
 		M.telescope(callback)
 	elseif pcall(require, "fzf-lua") then
 		M.fzflua(callback)
