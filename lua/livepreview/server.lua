@@ -9,7 +9,7 @@ local handler = require("livepreview.server.handler")
 local get_plugin_path = require("livepreview.utils").get_plugin_path
 local websocket = require("livepreview.server.websocket")
 local supported_filetype = require("livepreview.utils").supported_filetype
-local fswatch = require("livepreview.fswatch")
+local fswatch = require("livepreview.server.fswatch")
 
 ---@class Server
 ---To call this class, do
@@ -197,4 +197,5 @@ M.Server = Server
 M.handler = require("livepreview.server.handler")
 M.utils = require("livepreview.server.utils")
 M.websocket = require("livepreview.server.websocket")
+M.fswatch = require("livepreview.server.fswatch")
 return M
