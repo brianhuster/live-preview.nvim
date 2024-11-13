@@ -124,7 +124,7 @@ function M.setup(opts)
 			local filepath
 			if cmd_opts.fargs[2] ~= nil then
 				filepath = cmd_opts.fargs[2]
-				if vim.fn.isabsolutepath(filepath) == 0 then
+				if not utils.is_absolute(filepath) then
 					filepath = utils.joinpath(vim.uv.cwd(), filepath)
 				end
 			else
@@ -137,12 +137,13 @@ function M.setup(opts)
 					end
 				end
 			end
+			filepath = vim.fs.normalize(filepath)
 			utils.open_browser(
 				string.format(
 					"http://localhost:%d/%s",
 					config.config.port,
 					config.config.dynamic_root and vim.fs.basename(filepath)
-						or utils.get_base_path(filepath, vim.uv.cwd())
+						or utils.get_base_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
 				),
 				config.config.browser
 			)
