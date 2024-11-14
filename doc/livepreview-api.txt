@@ -353,6 +353,15 @@ get_path_lua_file()                    *livepreview.utils.get_path_lua_file()*
 get_plugin_path()                        *livepreview.utils.get_plugin_path()*
     Get the path where live-preview.nvim is installed
 
+is_absolute({path})                          *livepreview.utils.is_absolute()*
+    Check if a path is absolute
+
+    Parameters: ~
+      • {path}  (`string`)
+
+    Return: ~
+        (`boolean`)
+
 joinpath({...})                                 *livepreview.utils.joinpath()*
     Join paths using the correct separator for the OS
 
