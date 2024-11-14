@@ -362,4 +362,11 @@ function M.kill(pid)
 	vim.uv.kill(pid, 9) -- 9 is the signal number for SIGKILL
 end
 
+--- Check if a path is absolute
+--- @param path string
+--- @return boolean
+function M.is_absolute(path)
+	return path:sub(1, 1) == "/" or path:sub(2, 2) == ":"
+end
+
 return M
