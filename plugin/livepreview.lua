@@ -11,8 +11,6 @@ if not health.is_nvim_compatible() then
 	)
 end
 
-package.loaded["live-preview"] = require("livepreview")
-
 vim.filetype.add({
 	pattern = {
 		[".*/live%-preview%.nvim/doc/.+%.txt"] = "help",
