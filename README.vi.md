@@ -70,8 +70,6 @@ MiniDeps.add({
 </details>
 
 <details>
-
-<details>
 <summary>vim-plug 🔌</summary>
 
 ```vim
