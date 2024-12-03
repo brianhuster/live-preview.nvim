@@ -70,8 +70,12 @@ body:
         require("lazy.minit").repro({
             spec = {
             {
-                -- Add anything you need here (configuration, other plugins, etc)
-                "ColinKennedy/nvim-best-practices-plugin-template",
+                "brianhuster/live-preview.nvim",
+                config = function()
+                    require("live-preview").setup({
+                        -- Add your configuration here
+                    })
+                end,
             },
         })
       render: lua
