@@ -5,7 +5,7 @@
 --- ```
 
 local websocket = require("livepreview.server.websocket")
-local read_file = require("livepreview.utils").uv_read_file
+local read_file = require("livepreview.utils").read_file
 local supported_filetype = require("livepreview.utils").supported_filetype
 local toHTML = require("livepreview.template").toHTML
 local handle_body = require("livepreview.template").handle_body

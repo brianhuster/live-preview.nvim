@@ -12,7 +12,7 @@ local bit = require("bit")
 
 --- Check if file name has a supported filetype (html, markdown, asciidoc). Warning: this function will call a Vimscript function
 ---@param file_name string
----@return filetype string|nil
+---@return string|nil
 function M.supported_filetype(file_name)
 	if file_name:match("%.html$") then
 		return "html"
@@ -54,80 +54,19 @@ end
 
 --- Get the path where live-preview.nvim is installed
 function M.get_plugin_path()
-	local full_path = M.get_path_lua_file()
-	if not full_path then
-		return nil
-	end
+	local full_path = vim.fn.expand('<sfile>')
 	local subpath = "/lua/livepreview/utils.lua"
-	return M.get_parent_path(full_path, subpath)
+	return full_path and full_path:sub(1, -1 - #subpath)
 end
 
---- Read a file using libuv
+--- Read a file
 ---@param file_path string
-function M.uv_read_file(file_path)
-	local fd = uv.fs_open(file_path, "r", 438) -- 438 is decimal for 0666
-	if not fd then
-		print("Error opening file: " .. file_path)
-		return nil
-	end
-
-	local stat = uv.fs_fstat(fd)
-	if not stat then
-		print("Error getting file info: " .. file_path)
-		return nil
-	end
-
-	local data = uv.fs_read(fd, stat.size, 0)
-	if not data then
-		print("Error reading file: " .. file_path)
-		return nil
-	end
-
-	uv.fs_close(fd)
-	return data
-end
-
---- Write a file using libuv
---- @param file_path string
-function M.uv_write_file(file_path, data)
-	local fd = uv.fs_open(file_path, "w", 438) -- 438 is decimal for 0666
-	if not fd then
-		print("Error opening file: " .. file_path)
-		return
-	end
-
-	uv.fs_write(fd, data, 0)
-	uv.fs_close(fd)
-end
-
---- Get path of the Lua file where the function is called
----@return string | nil
-function M.get_path_lua_file()
-	local info = debug.getinfo(2, "S")
-	if not info then
-		print("Cannot get info")
-		return nil
-	end
-	local source = info.source
-	if source:sub(1, 1) == "@" then
-		return source:sub(2)
-	end
-end
-
---- Get the parent path of a subpath
----
---- Example: ```lua
---- get_parent_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/lua/livepreview/utils.lua")
---- ```
---- will return "/home/user/.config/nvim"
---- @param full_path string
---- @param subpath string
---- @return string | nil
-function M.get_parent_path(full_path, subpath)
-	local escaped_subpath = subpath:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
-	local pattern = "(.*)" .. escaped_subpath
-	local parent_path = full_path:match(pattern)
-	return parent_path
+function M.read_file(file_path)
+	local f = io.open(file_path, "r")
+	if not f then return nil end
+	local content = f:read("*a")
+	f:close()
+	return content
 end
 
 --- Extract base path from a file path
@@ -136,17 +75,7 @@ end
 --- ```
 --- will return "lua/livepreview/utils.lua"
 --- @param full_path string
---- @param parent_path string
---- @return string
-function M.get_base_path(full_path, parent_path)
-	if parent_path:sub(-1) ~= "/" then
-		parent_path = parent_path .. "/"
-	end
-
-	if full_path:sub(1, #parent_path) == parent_path then
-		return full_path:sub(#parent_path + 1)
-	end
-end
+--- @param pa
 
 --- Join paths using the correct separator for the OS
 --- @param ... string: paths to join
