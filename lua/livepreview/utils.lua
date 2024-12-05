@@ -54,7 +54,7 @@ end
 
 --- Get the path where live-preview.nvim is installed
 function M.get_plugin_path()
-	local full_path = vim.fn.expand('<sfile>')
+	local full_path = vim.fn.expand("<sfile>")
 	local subpath = "/lua/livepreview/utils.lua"
 	return full_path and full_path:sub(1, -1 - #subpath)
 end
@@ -63,7 +63,9 @@ end
 ---@param file_path string
 function M.read_file(file_path)
 	local f = io.open(file_path, "r")
-	if not f then return nil end
+	if not f then
+		return nil
+	end
 	local content = f:read("*a")
 	f:close()
 	return content

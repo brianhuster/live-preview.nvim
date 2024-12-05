@@ -6,7 +6,9 @@ local packspec = vim.json.decode(read_file_sync("pkg.json"))
 
 local function write_file_sync(file, content)
 	local f = io.open(file, "w")
-	if not f then return false end
+	if not f then
+		return false
+	end
 	f:write(content)
 	f:close()
 	return true
