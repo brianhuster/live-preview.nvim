@@ -22,8 +22,6 @@ function M.spec()
 	return vim.json.decode(body)
 end
 
-vim.print(M.spec())
-
 ---@type string
 M.supported_nvim_ver_range = M.spec().engines.nvim
 ---@type table

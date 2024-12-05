@@ -54,10 +54,17 @@ end
 
 --- Get the path where live-preview.nvim is installed
 function M.get_plugin_path()
-	local full_path = vim.fn.expand("<sfile>")
+	local full_path
+	local info = debug.getinfo(2, "S")
+	local source = info and info.source
+	if source and source:sub(1, 1) == "@" then
+		full_path = source:sub(2)
+	end
 	local subpath = "/lua/livepreview/utils.lua"
 	return full_path and full_path:sub(1, -1 - #subpath)
 end
+
+print(M.get_plugin_path())
 
 --- Read a file
 ---@param file_path string
@@ -73,7 +80,7 @@ end
 
 --- Extract base path from a file path
 --- Example: ```lua
---- get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim/")
+--- get_relative_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim/")
 --- ```
 --- will return "lua/livepreview/utils.lua"
 --- @param full_path string
