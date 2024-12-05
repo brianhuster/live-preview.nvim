@@ -8,6 +8,7 @@
 local M = {}
 
 local uv = vim.uv
+local fs = vim.fs
 local bit = require("bit")
 
 --- Check if file name has a supported filetype (html, markdown, asciidoc). Warning: this function will call a Vimscript function
@@ -56,16 +57,18 @@ end
 --- @return string
 function M.get_plugin_path()
 	local full_path
-	local info = debug.getinfo(2, "S")
+	local info = debug.getinfo(1, "S")
+	vim.print(info)
 	local source = info and info.source
+	vim.print(source)
 	if source and source:sub(1, 1) == "@" then
 		full_path = source:sub(2)
+		vim.print(full_path)
 	end
-	local subpath = "/lua/livepreview/utils.lua"
-	return full_path and full_path:sub(1, -1 - #subpath)
+	local subpath = "lua/livepreview/utils.lua"
+	local plugin_path = full_path and full_path:sub(1, -1 - #subpath)
+	return plugin_path and fs.normalize(plugin_path)
 end
-
-print(M.get_plugin_path())
 
 --- Read a file
 ---@param file_path string
@@ -109,10 +112,10 @@ function M.joinpath(...)
 	local stack = {}
 
 	for _, part in ipairs(parts) do
-		table.insert(stack, vim.fs.normalize(part))
+		table.insert(stack, fs.normalize(part))
 	end
 
-	return vim.fs.joinpath(unpack(stack))
+	return fs.joinpath(unpack(stack))
 end
 
 --- Execute a shell commands
