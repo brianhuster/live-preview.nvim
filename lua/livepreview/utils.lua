@@ -64,8 +64,6 @@ function M.get_plugin_path()
 	return full_path and full_path:sub(1, -1 - #subpath)
 end
 
-print(M.get_plugin_path())
-
 --- Read a file
 ---@param file_path string
 function M.read_file(file_path)
