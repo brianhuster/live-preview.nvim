@@ -53,6 +53,7 @@ function M.list_supported_files(directory)
 end
 
 --- Get the path where live-preview.nvim is installed
+--- @return string
 function M.get_plugin_path()
 	local full_path
 	local info = debug.getinfo(2, "S")
@@ -63,6 +64,8 @@ function M.get_plugin_path()
 	local subpath = "/lua/livepreview/utils.lua"
 	return full_path and full_path:sub(1, -1 - #subpath)
 end
+
+print(M.get_plugin_path())
 
 --- Read a file
 ---@param file_path string
