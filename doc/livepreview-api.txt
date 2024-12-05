@@ -315,6 +315,21 @@ await_term_cmd({cmd})                     *livepreview.utils.await_term_cmd()*
 get_plugin_path()                        *livepreview.utils.get_plugin_path()*
     Get the path where live-preview.nvim is installed
 
+                                       *livepreview.utils.get_relative_path()*
+get_relative_path({full_path}, {parent_path})
+    Extract base path from a file path Example: ```lua
+    get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua",
+    "/home/user/.config/nvim/") >
+        will return "lua/livepreview/utils.lua"
+<
+
+    Parameters: ~
+      • {full_path}    (`string`)
+      • {parent_path}  (`string`)
+
+    Return: ~
+        (`string`)
+
 is_absolute({path})                          *livepreview.utils.is_absolute()*
     Check if a path is absolute
 
