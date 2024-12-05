@@ -11,7 +11,7 @@ local uv = vim.uv
 local fs = vim.fs
 local bit = require("bit")
 
---- Check if file name has a supported filetype (html, markdown, asciidoc). Warning: this function will call a Vimscript function
+--- Check if file name has a supported filetype (html, markdown, asciidoc).
 ---@param file_name string
 ---@return string|nil
 function M.supported_filetype(file_name)
@@ -56,15 +56,9 @@ end
 --- Get the path where live-preview.nvim is installed
 --- @return string
 function M.get_plugin_path()
-	local full_path
 	local info = debug.getinfo(1, "S")
-	vim.print(info)
 	local source = info and info.source
-	vim.print(source)
-	if source and source:sub(1, 1) == "@" then
-		full_path = source:sub(2)
-		vim.print(full_path)
-	end
+	local full_path = source and source:sub(1, 1) == '@'
 	local subpath = "lua/livepreview/utils.lua"
 	local plugin_path = full_path and full_path:sub(1, -1 - #subpath)
 	return plugin_path and fs.normalize(plugin_path)
@@ -72,6 +66,7 @@ end
 
 --- Read a file
 ---@param file_path string
+---@return string|nil
 function M.read_file(file_path)
 	local f = io.open(file_path, "r")
 	if not f then
@@ -98,24 +93,6 @@ function M.get_relative_path(full_path, parent_path)
 	if full_path:sub(1, #parent_path) == parent_path then
 		return full_path:sub(#parent_path + 1)
 	end
-end
-
---- Join paths using the correct separator for the OS
---- @param ... string: paths to join
---- @return string: the joined path
---- example: ```lua
---- joinpath("home", "user", "file.txt") -- returns "home/user/file.txt"
---- joinpath("home", "user", "folder", "../file.txt") -- returns "home/user/file.txt"
---- ```
-function M.joinpath(...)
-	local parts = { ... }
-	local stack = {}
-
-	for _, part in ipairs(parts) do
-		table.insert(stack, fs.normalize(part))
-	end
-
-	return fs.joinpath(unpack(stack))
 end
 
 --- Execute a shell commands
@@ -317,7 +294,7 @@ end
 --- Check if a path is absolute
 --- @param path string
 --- @return boolean
-function M.is_absolute(path)
+function M.is_absolute_path(path)
 	return path:sub(1, 1) == "/" or path:sub(2, 2) == ":"
 end
 

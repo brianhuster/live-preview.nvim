@@ -47,3 +47,13 @@ assert(utils.is_absolute_path("/home/user/.config/nvim/lua/livepreview/utils.lua
 assert(utils.is_absolute_path("C:\\Users\\user\\AppData\\Local\\nvim\\lua\\livepreview\\utils.lua"),
 	'should returns true in Windows')
 assert(not utils.is_absolute_path("lua/livepreview/utils.lua"), 'should returns false')
+
+------------------------------------------------------------------------------------------------------------------------------
+print()
+local health = require('livepreview.health')
+
+print('Test module livepreview.health')
+
+print()
+print('spec()')
+assert(type(health.spec()) == 'table', 'should returns a table')

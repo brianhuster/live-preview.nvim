@@ -124,7 +124,7 @@ function M.setup(opts)
 			local filepath
 			if cmd_opts.fargs[2] ~= nil then
 				filepath = cmd_opts.fargs[2]
-				if not utils.is_absolute(filepath) then
+				if not utils.is_absolute_path(filepath) then
 					filepath = utils.joinpath(vim.uv.cwd(), filepath)
 				end
 			else
