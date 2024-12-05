@@ -58,7 +58,7 @@ end
 function M.get_plugin_path()
 	local info = debug.getinfo(1, "S")
 	local source = info and info.source
-	local full_path = source and source:sub(1, 1) == '@' and source:sub(2)
+	local full_path = source and source:sub(1, 1) == "@" and source:sub(2)
 	local subpath = "lua/livepreview/utils.lua"
 	local plugin_path = full_path and full_path:sub(1, -1 - #subpath)
 	return plugin_path and fs.normalize(plugin_path)
