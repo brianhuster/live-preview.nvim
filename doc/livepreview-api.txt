@@ -333,7 +333,7 @@ get_relative_path({full_path}, {parent_path})
     Return: ~
         (`string`)
 
-is_absolute({path})                          *livepreview.utils.is_absolute()*
+is_absolute_path({path})                *livepreview.utils.is_absolute_path()*
     Check if a path is absolute
 
     Parameters: ~
@@ -341,18 +341,6 @@ is_absolute({path})                          *livepreview.utils.is_absolute()*
 
     Return: ~
         (`boolean`)
-
-joinpath({...})                                 *livepreview.utils.joinpath()*
-    Join paths using the correct separator for the OS
-
-    Parameters: ~
-      • {...}  (`string`) paths to join
-
-    Return: ~
-        (`string`) the joined path example: ```lua joinpath("home", "user",
-        "file.txt") -- returns "home/user/file.txt" joinpath("home", "user",
-        "folder", "../file.txt") -- returns "home/user/file.txt" >
-<
 
 kill({pid})                                         *livepreview.utils.kill()*
     Kill a process by PID
@@ -399,6 +387,9 @@ read_file({file_path})                         *livepreview.utils.read_file()*
     Parameters: ~
       • {file_path}  (`string`)
 
+    Return: ~
+        (`string?`)
+
 sha1({val})                                         *livepreview.utils.sha1()*
     Compute the SHA1 hash of a string.
 
@@ -413,7 +404,6 @@ sha1({val})                                         *livepreview.utils.sha1()*
                                       *livepreview.utils.supported_filetype()*
 supported_filetype({file_name})
     Check if file name has a supported filetype (html, markdown, asciidoc).
-    Warning: this function will call a Vimscript function
 
     Parameters: ~
       • {file_name}  (`string`)
