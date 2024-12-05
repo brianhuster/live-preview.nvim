@@ -77,7 +77,17 @@ end
 --- ```
 --- will return "lua/livepreview/utils.lua"
 --- @param full_path string
---- @param pa
+--- @param parent_path string
+--- @return string
+function M.get_relative_path(full_path, parent_path)
+	if parent_path:sub(-1) ~= "/" then
+		parent_path = parent_path .. "/"
+	end
+
+	if full_path:sub(1, #parent_path) == parent_path then
+		return full_path:sub(#parent_path + 1)
+	end
+end
 
 --- Join paths using the correct separator for the OS
 --- @param ... string: paths to join
