@@ -9,18 +9,26 @@
 
 BREAKING CHANGES                 *livepreview-changelog-v0.8-breaking-changes*
 
-- Now the plugin has only one command `opts.cmd` (default: `LivePreview`) instead of two (`opts.commands.start` and `opts.commands.stop`).
+- Now the plugin has only one command `opts.cmd` (default: `LivePreview`) instead
+  of two (`opts.commands.start` and `opts.commands.stop`).
 - The command `opts.cmd` has 4 subcommands: `start`, `close`, `pick`, and `help`.
 - Takes `opts.cmd = "LivePreview"` as example, to compare with the previous version:
-    - `:LivePreview start` is equivalent to `opts.commands.start` (default: `:LivePreview`) of previous version.
-    - `:StopPreview close` is equivalent to `opts.commands.stop` (default: `:StopPreview`) of previous version.
+    - `:LivePreview start` is equivalent to previous `opts.commands.start`
+      (default to `:LivePreview`) of previous version.
+    - `:StopPreview close` is equivalent to `opts.commands.stop`
+      (default to `:StopPreview`) of previous version.
 
 
 NEW FEATURES                         *livepreview-changelog-v0.8-new-features*
 
 - New configuration options:
-    - `opts.picker`: Picker to use for opening files. 3 choices are available: `telescope`, `fzf-lua`, `mini.pick`. If `nil`, the plugin look for the first available picker when you call the `pick` command.
-- `LivePreview pick`: Open a picker and select a file to preview. This command works with the pickers `telescope`, `fzf-lua`, and `mini.pick`, as specified in `opts.picker`. If `opts.picker` is `nil`, the plugin will look for the first available picker when you call the `pick` command.
+    - `opts.picker`: Picker to use for opening files. 3 choices are available:
+      `telescope`, `fzf-lua`, `mini.pick`. If `nil`, the plugin look for the first
+      available picker when you call the `pick` command.
+- `LivePreview pick`: Open a picker and select a file to preview. This command
+  works with the pickers `telescope`, `fzf-lua`, and `mini.pick`, as specified in
+  `opts.picker`. If `opts.picker` is `nil`, the plugin will look for the first
+  available picker when you call the `pick` command.
 - `LivePreview help`: Show document about each subcommand.
 
 
@@ -39,13 +47,16 @@ NEW FEATURES                         *livepreview-changelog-v0.7-new-features*
 
 FIX BUG                                   *livepreview-changelog-v0.6-fix-bug*
 
-- Fix bug with `dynamic_root = true` option not working #211 <https://github.com/brianhuster/live-preview.nvim/issues/211>
+- Fix bug with `dynamic_root = true` option not working #211
+  <https://github.com/brianhuster/live-preview.nvim/issues/211>
 
 
 🗑️ DEPRECATED API     *livepreview-changelog-v0.6-🗑️-deprecated-api*
 
-- `require('livepreview').preview_file()`. Use `require('livepreview').live_start()` instead.
-- `require('livepreview').stop_preview()`. Use `require('livepreview').live_stop()` instead.
+- `require('livepreview').preview_file()`. 
+  Use `require('livepreview').live_start()` instead.
+- `require('livepreview').stop_preview()`.
+  Use `require('livepreview').live_stop()` instead.
 
 
 ✨ NEW FEATURES                 *livepreview-changelog-v0.6-✨-new-features*

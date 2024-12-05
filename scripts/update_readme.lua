@@ -1,9 +1,18 @@
 #!/usr/bin/env -S nvim -l
 local uv = vim.uv
-local read_file_sync = require("livepreview").utils.uv_read_file
-local write_file_sync = require("livepreview").utils.uv_write_file
+local read_file_sync = require("livepreview").utils.read_file
 
-local packspec = vim.fn.json_decode(read_file_sync("pkg.json"))
+local packspec = vim.json.decode(read_file_sync("pkg.json"))
+
+local function write_file_sync(file, content)
+	local f = io.open(file, "w")
+	if not f then
+		return false
+	end
+	f:write(content)
+	f:close()
+	return true
+end
 
 local function update_readme(file)
 	local readme = read_file_sync(file)

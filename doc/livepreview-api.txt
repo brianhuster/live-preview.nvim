@@ -312,10 +312,16 @@ await_term_cmd({cmd})                     *livepreview.utils.await_term_cmd()*
         (`{code: number, signal: number, stdout: string, stderr: string}`) a
         table with fields code, stdout, stderr, signal
 
-                                           *livepreview.utils.get_base_path()*
-get_base_path({full_path}, {parent_path})
+get_plugin_path()                        *livepreview.utils.get_plugin_path()*
+    Get the path where live-preview.nvim is installed
+
+    Return: ~
+        (`string`)
+
+                                       *livepreview.utils.get_relative_path()*
+get_relative_path({full_path}, {parent_path})
     Extract base path from a file path Example: ```lua
-    get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua",
+    get_relative_path("/home/user/.config/nvim/lua/livepreview/utils.lua",
     "/home/user/.config/nvim/") >
         will return "lua/livepreview/utils.lua"
 <
@@ -327,33 +333,7 @@ get_base_path({full_path}, {parent_path})
     Return: ~
         (`string`)
 
-                                         *livepreview.utils.get_parent_path()*
-get_parent_path({full_path}, {subpath})
-    Get the parent path of a subpath
-
-    Example: ```lua
-    get_parent_path("/home/user/.config/nvim/lua/livepreview/utils.lua",
-    "/lua/livepreview/utils.lua") >
-        will return "/home/user/.config/nvim"
-<
-
-    Parameters: ~
-      • {full_path}  (`string`)
-      • {subpath}    (`string`)
-
-    Return: ~
-        (`string?`)
-
-get_path_lua_file()                    *livepreview.utils.get_path_lua_file()*
-    Get path of the Lua file where the function is called
-
-    Return: ~
-        (`string?`)
-
-get_plugin_path()                        *livepreview.utils.get_plugin_path()*
-    Get the path where live-preview.nvim is installed
-
-is_absolute({path})                          *livepreview.utils.is_absolute()*
+is_absolute_path({path})                *livepreview.utils.is_absolute_path()*
     Check if a path is absolute
 
     Parameters: ~
@@ -361,18 +341,6 @@ is_absolute({path})                          *livepreview.utils.is_absolute()*
 
     Return: ~
         (`boolean`)
-
-joinpath({...})                                 *livepreview.utils.joinpath()*
-    Join paths using the correct separator for the OS
-
-    Parameters: ~
-      • {...}  (`string`) paths to join
-
-    Return: ~
-        (`string`) the joined path example: ```lua joinpath("home", "user",
-        "file.txt") -- returns "home/user/file.txt" joinpath("home", "user",
-        "folder", "../file.txt") -- returns "home/user/file.txt" >
-<
 
 kill({pid})                                         *livepreview.utils.kill()*
     Kill a process by PID
@@ -413,6 +381,15 @@ processes_listening_on_port({port})
         listening on the port (except for the current process), including name
         and PID
 
+read_file({file_path})                         *livepreview.utils.read_file()*
+    Read a file
+
+    Parameters: ~
+      • {file_path}  (`string`)
+
+    Return: ~
+        (`string?`)
+
 sha1({val})                                         *livepreview.utils.sha1()*
     Compute the SHA1 hash of a string.
 
@@ -427,13 +404,12 @@ sha1({val})                                         *livepreview.utils.sha1()*
                                       *livepreview.utils.supported_filetype()*
 supported_filetype({file_name})
     Check if file name has a supported filetype (html, markdown, asciidoc).
-    Warning: this function will call a Vimscript function
 
     Parameters: ~
       • {file_name}  (`string`)
 
     Return: ~
-        (`filetype`) string
+        (`string?`)
 
 term_cmd({cmd}, {callback})                     *livepreview.utils.term_cmd()*
     Execute a shell commands
@@ -446,18 +422,6 @@ term_cmd({cmd}, {callback})                     *livepreview.utils.term_cmd()*
                     • signal: the signal that killed the process
                     • stdout: the standard output of the command
                     • stderr: the standard error of the command
-
-uv_read_file({file_path})                   *livepreview.utils.uv_read_file()*
-    Read a file using libuv
-
-    Parameters: ~
-      • {file_path}  (`string`)
-
-uv_write_file({file_path})                 *livepreview.utils.uv_write_file()*
-    Write a file using libuv
-
-    Parameters: ~
-      • {file_path}  (`string`)
 
 
 ==============================================================================

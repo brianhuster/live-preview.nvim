@@ -17,9 +17,7 @@ update_readme:
 
 .PHONY: test
 test: 
-	@nvim --headless \
-		-c "luafile scripts/gen_api_spec.lua" \
-		-c "PlenaryBustedDirectory tests/" -c "qa!"
+	@nvim -c "nvim -c 'lua vim.opt.rtp:append(vim.uv.cwd())' -l tests/utils_spec.lua"
 
 .PHONY: test_html
 test_html:

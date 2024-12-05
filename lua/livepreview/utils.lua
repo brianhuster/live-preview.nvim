@@ -8,11 +8,12 @@
 local M = {}
 
 local uv = vim.uv
+local fs = vim.fs
 local bit = require("bit")
 
---- Check if file name has a supported filetype (html, markdown, asciidoc). Warning: this function will call a Vimscript function
+--- Check if file name has a supported filetype (html, markdown, asciidoc).
 ---@param file_name string
----@return filetype string|nil
+---@return string|nil
 function M.supported_filetype(file_name)
 	if file_name:match("%.html$") then
 		return "html"
@@ -53,92 +54,38 @@ function M.list_supported_files(directory)
 end
 
 --- Get the path where live-preview.nvim is installed
+--- @return string
 function M.get_plugin_path()
-	local full_path = M.get_path_lua_file()
-	if not full_path then
-		return nil
-	end
-	local subpath = "/lua/livepreview/utils.lua"
-	return M.get_parent_path(full_path, subpath)
+	local info = debug.getinfo(1, "S")
+	local source = info and info.source
+	local full_path = source and source:sub(1, 1) == "@" and source:sub(2)
+	local subpath = "lua/livepreview/utils.lua"
+	local plugin_path = full_path and full_path:sub(1, -1 - #subpath)
+	return plugin_path and fs.normalize(plugin_path)
 end
 
---- Read a file using libuv
+--- Read a file
 ---@param file_path string
-function M.uv_read_file(file_path)
-	local fd = uv.fs_open(file_path, "r", 438) -- 438 is decimal for 0666
-	if not fd then
-		print("Error opening file: " .. file_path)
+---@return string|nil
+function M.read_file(file_path)
+	local f = io.open(file_path, "r")
+	if not f then
 		return nil
 	end
-
-	local stat = uv.fs_fstat(fd)
-	if not stat then
-		print("Error getting file info: " .. file_path)
-		return nil
-	end
-
-	local data = uv.fs_read(fd, stat.size, 0)
-	if not data then
-		print("Error reading file: " .. file_path)
-		return nil
-	end
-
-	uv.fs_close(fd)
-	return data
-end
-
---- Write a file using libuv
---- @param file_path string
-function M.uv_write_file(file_path, data)
-	local fd = uv.fs_open(file_path, "w", 438) -- 438 is decimal for 0666
-	if not fd then
-		print("Error opening file: " .. file_path)
-		return
-	end
-
-	uv.fs_write(fd, data, 0)
-	uv.fs_close(fd)
-end
-
---- Get path of the Lua file where the function is called
----@return string | nil
-function M.get_path_lua_file()
-	local info = debug.getinfo(2, "S")
-	if not info then
-		print("Cannot get info")
-		return nil
-	end
-	local source = info.source
-	if source:sub(1, 1) == "@" then
-		return source:sub(2)
-	end
-end
-
---- Get the parent path of a subpath
----
---- Example: ```lua
---- get_parent_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/lua/livepreview/utils.lua")
---- ```
---- will return "/home/user/.config/nvim"
---- @param full_path string
---- @param subpath string
---- @return string | nil
-function M.get_parent_path(full_path, subpath)
-	local escaped_subpath = subpath:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
-	local pattern = "(.*)" .. escaped_subpath
-	local parent_path = full_path:match(pattern)
-	return parent_path
+	local content = f:read("*a")
+	f:close()
+	return content
 end
 
 --- Extract base path from a file path
 --- Example: ```lua
---- get_base_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim/")
+--- get_relative_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim/")
 --- ```
 --- will return "lua/livepreview/utils.lua"
 --- @param full_path string
 --- @param parent_path string
 --- @return string
-function M.get_base_path(full_path, parent_path)
+function M.get_relative_path(full_path, parent_path)
 	if parent_path:sub(-1) ~= "/" then
 		parent_path = parent_path .. "/"
 	end
@@ -146,24 +93,6 @@ function M.get_base_path(full_path, parent_path)
 	if full_path:sub(1, #parent_path) == parent_path then
 		return full_path:sub(#parent_path + 1)
 	end
-end
-
---- Join paths using the correct separator for the OS
---- @param ... string: paths to join
---- @return string: the joined path
---- example: ```lua
---- joinpath("home", "user", "file.txt") -- returns "home/user/file.txt"
---- joinpath("home", "user", "folder", "../file.txt") -- returns "home/user/file.txt"
---- ```
-function M.joinpath(...)
-	local parts = { ... }
-	local stack = {}
-
-	for _, part in ipairs(parts) do
-		table.insert(stack, vim.fs.normalize(part))
-	end
-
-	return vim.fs.joinpath(unpack(stack))
 end
 
 --- Execute a shell commands
@@ -365,7 +294,7 @@ end
 --- Check if a path is absolute
 --- @param path string
 --- @return boolean
-function M.is_absolute(path)
+function M.is_absolute_path(path)
 	return path:sub(1, 1) == "/" or path:sub(2, 2) == ":"
 end
 
