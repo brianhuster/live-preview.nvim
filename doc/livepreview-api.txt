@@ -356,7 +356,8 @@ list_supported_files({directory})
       • {directory}  (`string`)
 
     Return: ~
-        (`table`) a table with the paths of the supported files
+        (`table`) List of relative paths (compared to `directory`) of the
+        supported files
 
 open_browser({path}, {browser})             *livepreview.utils.open_browser()*
     Open URL in the browser

@@ -85,17 +85,15 @@ end
 --- @param path string: path from the http request
 --- @return string: path to the file
 function Server:routes(path)
-	local file_path
 	if path == "/" then
 		path = "/index.html"
 	end
-	if path:match("^/live%-preview%.nvim/") then
-		file_path = vim.fs.joinpath(get_plugin_path(), path:sub(20)) -- 19 is the length of '/live-preview.nvim/'
+	local plugin_req = "/live-preview.nvim/"
+	if path:sub(1, #plugin_req) == plugin_req then
+		return vim.fs.joinpath(get_plugin_path(), path:sub(#plugin_req + 1))
 	else
-		file_path = vim.fs.joinpath(self.webroot, path)
+		return vim.fs.joinpath(self.webroot, path)
 	end
-
-	return file_path
 end
 
 --- Watch a directory for changes and send a message "reload" to a WebSocket client

@@ -11,6 +11,24 @@ local uv = vim.uv
 local fs = vim.fs
 local bit = require("bit")
 
+--- Extract base path from a file path
+--- Example: ```lua
+--- get_relative_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim/")
+--- ```
+--- will return "lua/livepreview/utils.lua"
+--- @param full_path string
+--- @param parent_path string
+--- @return string
+function M.get_relative_path(full_path, parent_path)
+	if parent_path:sub(-1) ~= "/" then
+		parent_path = parent_path .. "/"
+	end
+
+	if full_path:sub(1, #parent_path) == parent_path then
+		return full_path:sub(#parent_path + 1)
+	end
+end
+
 --- Check if file name has a supported filetype (html, markdown, asciidoc).
 ---@param file_name string
 ---@return string|nil
@@ -26,30 +44,15 @@ end
 
 --- Find supported files in a directory and its subdirectories
 --- @param directory string
---- @return table: a table with the paths of the supported files
+--- @return table: List of relative paths (compared to `directory`) of the supported files
 function M.list_supported_files(directory)
-	local files = {}
-	local function scan_dir(dir)
-		local handle = uv.fs_scandir(dir)
-		if not handle then
-			return
-		end
-		while true do
-			local name, type = uv.fs_scandir_next(handle)
-			if not name then
-				break
-			end
-			local filepath = dir .. "/" .. name
-			if type == "directory" then
-				scan_dir(filepath)
-			else
-				if M.supported_filetype(filepath) then
-					table.insert(files, filepath)
-				end
-			end
-		end
+	directory = vim.fn.fnamemodify(directory, ":p")
+	local files = vim.fs.find(function(name, _)
+		return not not M.supported_filetype(name)
+	end, { limit = math.huge, type = "file" })
+	for i, file in ipairs(files) do
+		files[i] = M.get_relative_path(file, directory)
 	end
-	scan_dir(directory)
 	return files
 end
 
@@ -75,24 +78,6 @@ function M.read_file(file_path)
 	local content = f:read("*a")
 	f:close()
 	return content
-end
-
---- Extract base path from a file path
---- Example: ```lua
---- get_relative_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim/")
---- ```
---- will return "lua/livepreview/utils.lua"
---- @param full_path string
---- @param parent_path string
---- @return string
-function M.get_relative_path(full_path, parent_path)
-	if parent_path:sub(-1) ~= "/" then
-		parent_path = parent_path .. "/"
-	end
-
-	if full_path:sub(1, #parent_path) == parent_path then
-		return full_path:sub(#parent_path + 1)
-	end
 end
 
 --- Execute a shell commands
