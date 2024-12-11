@@ -85,7 +85,9 @@ end
 --- @param path string: path from the http request
 --- @return string: path to the file
 function Server:routes(path)
-	if path == "/" then path = "/index.html" end
+	if path == "/" then
+		path = "/index.html"
+	end
 	local plugin_req = "/live-preview.nvim/"
 	if path:sub(1, #plugin_req) == plugin_req then
 		return vim.fs.joinpath(get_plugin_path(), path:sub(#plugin_req + 1))
