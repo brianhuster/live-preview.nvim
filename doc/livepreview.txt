@@ -1,10 +1,11 @@
-*livepreview.txt*                                                *livepreview*
+*livepreview.txt*             For Nvim 0.10+       
 
 
                                       Type |gO| to see the table of contents.
 
 ==============================================================================
-1. Introduction                                     *livepreview-introduction*
+1. Introduction                                     
+								*livepreview*
 
 live-preview.nvim is a plugin for Neovim that allows you to view Markdown, HTML
 (along with CSS, JavaScript) and AsciiDoc files in a web browser with live
@@ -30,7 +31,6 @@ default configuration (in Lua): >lua
         sync_scroll = false, 
         picker = nil, 
     }
-<
 
 Explaination of each option:
 - `cmd`: Main command of live-preview.nvim
@@ -52,49 +52,40 @@ instruction on how to call Lua function in Vimscript
 Use `:checkhealth livepreview` to see your configuration inside Neovim
 
 ==============================================================================
-3. Usage                                                   *livepreview-usage*
+3. Usage                                                   
+							    *livepreview-usage*
 
 							    *:LivePreview*
 This instruction assumes that you are using default configuration
 (`opts.cmd = "LivePreview"`). If you have changed the command name, replace
 with the command name in your config
 
-- To start the live preview, use the command:
-
-`:LivePreview start`
-
+- To start the live preview, use the command: >vim
+    :LivePreview start
+<
 This command will open the current Markdown or HTML file in your default web
 browser and update it live as you write changes to your file.
 
 You can also parse a file path as argument, for example `:LivePreview start
 test/doc.md`
 
-- To stop the live preview server, use the command:
-
-`:LivePreview close`
-
-- To open a picker and select a file to preview, use the command:
-
-`:LivePreview pick`
-
-- To see document about each subcommand, use the command:
-
-`:LivePreview help`
-
+- To stop the live preview server, use the command: >vim
+    :LivePreview close
+<
+- To open a picker and select a file to preview, use the command: >vim
+    :LivePreview pick
+<
+- To see document about each subcommand, use the command: >vim
+    :LivePreview help
+<
 This requires a picker to be installed (Telescope, fzf-lua or mini.pick). If
 you have multiple pickers installed, you can specify the picker to use by
-passing the picker name to the configuration table (see |livepreview-setup|)
-
-API                                                    *livepreview-usage-api*
-
-For API documentation, please refer to |livepreview-api|
-
+passing the picker name to the configuration table (see |livepreview-config|)
 
 ==============================================================================
-4. Change log                                         *livepreview-change-log*
-
+4. Change log                                         
+							*livepreview-change-log*
 See |livepreview-changelog|
-
 
 ==============================================================================
 5. License                                               *livepreview-license*
