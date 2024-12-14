@@ -25,16 +25,16 @@ jobs:
           git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
           ln -s $(pwd) ~/.local/share/nvim/site/pack/vendor/start
 
-      - name: Generating docs
-        run: |
-          make gendoc 
-
-      - name: Commit and push documentation
-        uses: ./.github/actions/commit-and-push
-        with:
-          commit-message: 'Update Vimdoc based on Lua source'
-          files: 'doc/*'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Generating docs
+      #   run: |
+      #     make gendoc 
+      #
+      # - name: Commit and push documentation
+      #   uses: ./.github/actions/commit-and-push
+      #   with:
+      #     commit-message: 'Update Vimdoc based on Lua source'
+      #     files: 'doc/*'
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update README
         run: |
