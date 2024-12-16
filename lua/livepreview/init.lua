@@ -31,7 +31,7 @@ local function find_buf()
 end
 
 --- Stop live-preview server
-function M.stop()
+function M.close()
 	if M.serverObj then
 		M.serverObj:stop()
 	end
@@ -118,6 +118,17 @@ function M.pick()
 	end
 end
 
+function M.help()
+	local function print_help(text)
+		print(text:format(config.config.cmd))
+	end
+	print("live-preview.nvim commands:")
+	print_help([[  :%s start [filepath] - Start live preview. If no filepath is given, preview the current buffer.]])
+	print_help([[  :%s close - Stop live preview]])
+	print_help([[  :%s pick - Select a file to preview (using a picker like telescope.nvim, fzf-lua or mini.pick)]])
+	print_help("  :%s help - Show this help")
+end
+
 --- Setup live preview
 --- @param opts {commands: {start: string, stop: string}, port: number, browser: string, sync_scroll: boolean, telescope: {autoload: boolean}}|nil
 function M.setup(opts)
@@ -168,26 +179,12 @@ function M.setup(opts)
 			)
 			M.start(filepath, config.config.port)
 		elseif subcommand == "close" then
-			M.stop()
+			M.close()
 			print("Live preview stopped")
 		elseif subcommand == "pick" then
 			M.pick()
 		else
-			print("live-preview.nvim commands:")
-			print(
-				string.format(
-					[[  :%s start [filepath] - Start live preview. If no filepath is given, preview the current buffer.]],
-					config.config.cmd
-				)
-			)
-			print(string.format([[  :%s close - Stop live preview]], config.config.cmd))
-			print(
-				string.format(
-					[[  :%s pick - Select a file to preview (using a picker like telescope.nvim, fzf-lua or mini.pick)]],
-					config.config.cmd
-				)
-			)
-			print(string.format("  :%s help - Show this help", config.config.cmd))
+			M.help()
 		end
 	end, {
 		nargs = "*",
