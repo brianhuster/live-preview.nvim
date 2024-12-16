@@ -20,24 +20,35 @@ body:
           required: true
         - label: I have searched the [existing issues](https://github.com/brianhuster/live-preview.nvim/issues) and [closed issues](https://github.com/brianhuster/live-preview.nvim/issues?q=is%3Aissue+is%3Aclosed) issues
           required: true
+
   - type: input
     attributes:
       label: "Neovim version (nvim -v)"
       placeholder: "0.10.0"
     validations:
       required: true
+
   - type: input
     attributes:
       label: "Operating system/version"
       placeholder: "Ubuntu 24.04.1"
     validations:
       required: true
+
+  - type: input
+    attributes:
+      label: "Browser/version"
+      placeholder: "Chrome 99.0.4844.51"
+    validations:
+      required: true
+
   - type: textarea
     attributes:
       label: Describe the bug
       description: A clear and concise description of what the bug is. Please include any related errors you see in Neovim.
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: Steps To Reproduce
@@ -48,17 +59,22 @@ body:
         3.
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: Expected Behavior
       description: A concise description of what you expected to happen.
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: Health
       description: Attach the output of `:checkhealth livepreview` here
-      render: log
+      render: help
+    validations:
+      required: true
+
   - type: textarea
     attributes:
       label: Repro
@@ -68,18 +84,15 @@ body:
         load(vim.fn.system("curl -s https://raw.githubusercontent.com/folke/lazy.nvim/main/bootstrap.lua"))()
 
         require("lazy.minit").repro({
-            spec = {
-            {
+            spec = {{
                 "brianhuster/live-preview.nvim",
                 config = function()
                     require("live-preview").setup({
                         -- Add your configuration here
                     })
                 end,
-                },
-            },
+            }},
         })
       render: lua
     validations:
-      required: false
-
+      required: true
