@@ -83,10 +83,46 @@ function M.start(filepath, port)
 	end, 98)
 end
 
+function M.pick()
+	local pick_callback = function(pick_value)
+		local filepath = pick_value
+		M.start(filepath, config.config.port)
+		vim.cmd.edit(filepath)
+		utils.open_browser(
+			string.format(
+				"http://localhost:%d/%s",
+				config.config.port,
+				config.config.dynamic_root and vim.fs.basename(filepath) or filepath
+			),
+			config.config.browser
+		)
+	end
+
+	local pickers = {
+		["telescope"] = picker.telescope,
+		["fzf-lua"] = picker.fzflua,
+		["mini.pick"] = picker.minipick,
+	}
+	if config.config.picker then
+		if not pickers[config.config.picker] then
+			vim.notify("Error : picker opt invalid", vim.log.levels.ERROR)
+			return
+		end
+		local status, err = pcall(pickers[config.config.picker], pick_callback)
+		if not status then
+			vim.notify(
+				"live-preview.nvim : error calling picker " .. config.config.picker,
+				vim.log.levels.ERROR
+			)
+			vim.notify(err, vim.log.levels.ERROR)
+		end
+	else
+		picker.pick(pick_callback)
+	end
+end
+
 --- Setup live preview
 --- @param opts {commands: {start: string, stop: string}, port: number, browser: string, sync_scroll: boolean, telescope: {autoload: boolean}}|nil
----
---- For default options, see |livepreview-setup-in-lua|
 function M.setup(opts)
 	if config.config.cmd then
 		vim.api.nvim_del_user_command(config.config.cmd)
@@ -101,20 +137,6 @@ function M.setup(opts)
 		dynamic_root = false,
 		sync_scroll = false,
 	}
-
-	local pick_callback = function(pick_value)
-		local filepath = pick_value
-		M.start(filepath, config.config.port)
-		vim.cmd.edit(filepath)
-		utils.open_browser(
-			string.format(
-				"http://localhost:%d/%s",
-				config.config.port,
-				config.config.dynamic_root and vim.fs.basename(filepath) or filepath
-			),
-			config.config.browser
-		)
-	end
 
 	config.set(vim.tbl_deep_extend("force", default_options, opts or {}))
 
@@ -143,7 +165,7 @@ function M.setup(opts)
 					"http://localhost:%d/%s",
 					config.config.port,
 					config.config.dynamic_root and vim.fs.basename(filepath)
-						or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
+					or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
 				),
 				config.config.browser
 			)
@@ -152,27 +174,7 @@ function M.setup(opts)
 			M.stop()
 			print("Live preview stopped")
 		elseif subcommand == "pick" then
-			local pickers = {
-				["telescope"] = picker.telescope,
-				["fzf-lua"] = picker.fzflua,
-				["mini.pick"] = picker.minipick,
-			}
-			if config.config.picker then
-				if not pickers[config.config.picker] then
-					vim.notify("Error : picker opt invalid", vim.log.levels.ERROR)
-				else
-					local status, err = pcall(pickers[config.config.picker], pick_callback)
-					if not status then
-						vim.notify(
-							"live-preview.nvim : error calling picker " .. config.config.picker,
-							vim.log.levels.ERROR
-						)
-						vim.notify(err, vim.log.levels.ERROR)
-					end
-				end
-			else
-				picker.pick(pick_callback)
-			end
+			M.pick()
 		else
 			print("live-preview.nvim commands:")
 			print(
