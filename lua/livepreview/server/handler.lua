@@ -5,7 +5,7 @@
 --- ```
 
 local websocket = require("livepreview.server.websocket")
-local read_file = require("livepreview.utils").read_file
+local read_file = require("livepreview.utils").async_read_file
 local supported_filetype = require("livepreview.utils").supported_filetype
 local toHTML = require("livepreview.template").toHTML
 local handle_body = require("livepreview.template").handle_body
@@ -68,33 +68,34 @@ end
 --- @param client uv_tcp_t: client connection
 --- @param file_path string: path to the file
 function M.serve_file(client, file_path, if_none_match)
-	local body = read_file(file_path)
-	if not body then
-		M.send_http_response(client, "404 Not Found", "text/plain", "404 Not Found")
-		return
-	end
+	read_file(file_path, function(_, body)
+		if not body then
+			M.send_http_response(client, "404 Not Found", "text/plain", "404 Not Found")
+			return
+		end
 
-	local etag = generate_etag(file_path)
+		local etag = generate_etag(file_path)
 
-	if if_none_match and if_none_match == etag then
-		M.send_http_response(client, "304 Not Modified", get_content_type(file_path), "", {
+		if if_none_match and if_none_match == etag then
+			M.send_http_response(client, "304 Not Modified", get_content_type(file_path), "", {
+				["ETag"] = etag,
+			})
+			return
+		end
+
+		local filetype = supported_filetype(file_path)
+		if filetype then
+			if filetype ~= "html" then
+				body = toHTML(body, filetype)
+			else
+				body = handle_body(body)
+			end
+		end
+
+		M.send_http_response(client, "200 OK", get_content_type(file_path), body, {
 			["ETag"] = etag,
 		})
-		return
-	end
-
-	local filetype = supported_filetype(file_path)
-	if filetype then
-		if filetype ~= "html" then
-			body = toHTML(body, filetype)
-		else
-			body = handle_body(body)
-		end
-	end
-
-	M.send_http_response(client, "200 OK", get_content_type(file_path), body, {
-		["ETag"] = etag,
-	})
+	end)
 end
 
 --- Handle a client connection, read the request and send a response

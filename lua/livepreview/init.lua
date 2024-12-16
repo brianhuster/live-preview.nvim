@@ -31,7 +31,7 @@ local function find_buf()
 end
 
 --- Stop live-preview server
-function M.live_stop()
+function M.close()
 	if M.serverObj then
 		M.serverObj:stop()
 	end
@@ -40,7 +40,7 @@ end
 --- Start live-preview server
 ---@param filepath string: path to the file
 ---@param port number: port to run the server on
-function M.live_start(filepath, port)
+function M.start(filepath, port)
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
@@ -71,22 +71,67 @@ function M.live_start(filepath, port)
 			if utils.supported_filetype(filepath) == "html" then
 				server.websocket.send_json(client, { type = "reload" })
 			else
-				local content = utils.read_file(filepath)
-				local message = {
-					type = "update",
-					content = content,
-				}
-				server.websocket.send_json(client, message)
+				utils.async_read_file(filepath, function(_, data)
+					local message = {
+						type = "update",
+						content = data,
+					}
+					server.websocket.send_json(client, message)
+				end)
 			end
 		end)
 		return true
 	end, 98)
 end
 
+function M.pick()
+	local pick_callback = function(pick_value)
+		local filepath = pick_value
+		M.start(filepath, config.config.port)
+		vim.cmd.edit(filepath)
+		utils.open_browser(
+			string.format(
+				"http://localhost:%d/%s",
+				config.config.port,
+				config.config.dynamic_root and vim.fs.basename(filepath) or filepath
+			),
+			config.config.browser
+		)
+	end
+
+	local pickers = {
+		["telescope"] = picker.telescope,
+		["fzf-lua"] = picker.fzflua,
+		["mini.pick"] = picker.minipick,
+	}
+	if config.config.picker then
+		if not pickers[config.config.picker] then
+			vim.notify("Error : picker opt invalid", vim.log.levels.ERROR)
+			return
+		end
+		local status, err = pcall(pickers[config.config.picker], pick_callback)
+		if not status then
+			vim.notify("live-preview.nvim : error calling picker " .. config.config.picker, vim.log.levels.ERROR)
+			vim.notify(err, vim.log.levels.ERROR)
+		end
+	else
+		picker.pick(pick_callback)
+	end
+end
+
+function M.help()
+	local function print_help(text)
+		print(text:format(config.config.cmd))
+	end
+	print("live-preview.nvim commands:")
+	print_help([[  :%s start [filepath] - Start live preview. If no filepath is given, preview the current buffer.]])
+	print_help([[  :%s close - Stop live preview]])
+	print_help([[  :%s pick - Select a file to preview (using a picker like telescope.nvim, fzf-lua or mini.pick)]])
+	print_help("  :%s help - Show this help")
+end
+
 --- Setup live preview
 --- @param opts {commands: {start: string, stop: string}, port: number, browser: string, sync_scroll: boolean, telescope: {autoload: boolean}}|nil
----
---- For default options, see |livepreview-setup-in-lua|
 function M.setup(opts)
 	if config.config.cmd then
 		vim.api.nvim_del_user_command(config.config.cmd)
@@ -101,20 +146,6 @@ function M.setup(opts)
 		dynamic_root = false,
 		sync_scroll = false,
 	}
-
-	local pick_callback = function(pick_value)
-		local filepath = pick_value
-		M.live_start(filepath, config.config.port)
-		vim.cmd.edit(filepath)
-		utils.open_browser(
-			string.format(
-				"http://localhost:%d/%s",
-				config.config.port,
-				config.config.dynamic_root and vim.fs.basename(filepath) or filepath
-			),
-			config.config.browser
-		)
-	end
 
 	config.set(vim.tbl_deep_extend("force", default_options, opts or {}))
 
@@ -147,48 +178,14 @@ function M.setup(opts)
 				),
 				config.config.browser
 			)
-			M.live_start(filepath, config.config.port)
+			M.start(filepath, config.config.port)
 		elseif subcommand == "close" then
-			M.live_stop()
+			M.close()
 			print("Live preview stopped")
 		elseif subcommand == "pick" then
-			local pickers = {
-				["telescope"] = picker.telescope,
-				["fzf-lua"] = picker.fzflua,
-				["mini.pick"] = picker.minipick,
-			}
-			if config.config.picker then
-				if not pickers[config.config.picker] then
-					vim.notify("Error : picker opt invalid", vim.log.levels.ERROR)
-				else
-					local status, err = pcall(pickers[config.config.picker], pick_callback)
-					if not status then
-						vim.notify(
-							"live-preview.nvim : error calling picker " .. config.config.picker,
-							vim.log.levels.ERROR
-						)
-						vim.notify(err, vim.log.levels.ERROR)
-					end
-				end
-			else
-				picker.pick(pick_callback)
-			end
+			M.pick()
 		else
-			print("live-preview.nvim commands:")
-			print(
-				string.format(
-					[[  :%s start [filepath] - Start live preview. If no filepath is given, preview the current buffer.]],
-					config.config.cmd
-				)
-			)
-			print(string.format([[  :%s close - Stop live preview]], config.config.cmd))
-			print(
-				string.format(
-					[[  :%s pick - Select a file to preview (using a picker like telescope.nvim, fzf-lua or mini.pick)]],
-					config.config.cmd
-				)
-			)
-			print(string.format("  :%s help - Show this help", config.config.cmd))
+			M.help()
 		end
 	end, {
 		nargs = "*",

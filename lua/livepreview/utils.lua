@@ -80,6 +80,31 @@ function M.read_file(file_path)
 	return content
 end
 
+--- Asynchronously read a file
+--- @param path string: path to the file
+--- @param callback function: function to call when the file is read
+function M.async_read_file(path, callback)
+	uv.fs_open(path, "r", 438, function(err, fd)
+		if err then
+			return callback(err)
+		end
+		uv.fs_fstat(fd, function(err, stat)
+			if err then
+				return callback(err)
+			end
+			uv.fs_read(fd, stat.size, 0, function(err, data)
+				assert(not err, err)
+				uv.fs_close(fd, function(err)
+					if err then
+						return callback(err)
+					end
+					return callback(err, data)
+				end)
+			end)
+		end)
+	end)
+end
+
 --- Execute a shell commands
 ---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
 ---@param callback function|nil: function to call when the command finishes.
