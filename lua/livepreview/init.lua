@@ -31,7 +31,7 @@ local function find_buf()
 end
 
 --- Stop live-preview server
-function M.live_stop()
+function M.stop()
 	if M.serverObj then
 		M.serverObj:stop()
 	end
@@ -40,7 +40,7 @@ end
 --- Start live-preview server
 ---@param filepath string: path to the file
 ---@param port number: port to run the server on
-function M.live_start(filepath, port)
+function M.start(filepath, port)
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
@@ -104,7 +104,7 @@ function M.setup(opts)
 
 	local pick_callback = function(pick_value)
 		local filepath = pick_value
-		M.live_start(filepath, config.config.port)
+		M.start(filepath, config.config.port)
 		vim.cmd.edit(filepath)
 		utils.open_browser(
 			string.format(
@@ -147,9 +147,9 @@ function M.setup(opts)
 				),
 				config.config.browser
 			)
-			M.live_start(filepath, config.config.port)
+			M.start(filepath, config.config.port)
 		elseif subcommand == "close" then
-			M.live_stop()
+			M.stop()
 			print("Live preview stopped")
 		elseif subcommand == "pick" then
 			local pickers = {

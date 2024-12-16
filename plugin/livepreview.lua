@@ -22,6 +22,6 @@ require("livepreview").setup()
 
 vim.api.nvim_create_autocmd("VimLeavePre", {
 	callback = function()
-		require("livepreview").live_stop()
+		require("livepreview").stop()
 	end,
 })

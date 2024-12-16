@@ -183,11 +183,9 @@ function Server:stop()
 		self.server:close(function()
 			print("Server closed")
 		end)
-		self.server = nil
 	end
 	if self._watcher then
 		self._watcher:close()
-		self._watcher = nil
 	end
 end
 
