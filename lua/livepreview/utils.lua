@@ -82,7 +82,8 @@ end
 
 --- Asynchronously read a file
 --- @param path string: path to the file
-function M.async_read_file(path)
+--- @param callback function: function to call when the file is read
+function M.async_read_file(path, callback)
 	uv.fs_open(path, "r", 438, function(err, fd)
 		assert(not err, err)
 		uv.fs_fstat(fd, function(err, stat)
