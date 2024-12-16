@@ -76,6 +76,7 @@ body:
                         -- Add your configuration here
                     })
                 end,
+                },
             },
         })
       render: lua
