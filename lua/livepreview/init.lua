@@ -71,12 +71,13 @@ function M.start(filepath, port)
 			if utils.supported_filetype(filepath) == "html" then
 				server.websocket.send_json(client, { type = "reload" })
 			else
-				local content = utils.read_file(filepath)
-				local message = {
-					type = "update",
-					content = content,
-				}
-				server.websocket.send_json(client, message)
+				utils.async_read_file(filepath, function(_, data)
+					local message = {
+						type = "update",
+						content = data,
+					}
+					server.websocket.send_json(client, message)
+				end)
 			end
 		end)
 		return true
@@ -173,7 +174,7 @@ function M.setup(opts)
 					"http://localhost:%d/%s",
 					config.config.port,
 					config.config.dynamic_root and vim.fs.basename(filepath)
-						or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
+					or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
 				),
 				config.config.browser
 			)

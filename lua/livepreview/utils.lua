@@ -85,14 +85,14 @@ end
 --- @param callback function: function to call when the file is read
 function M.async_read_file(path, callback)
 	uv.fs_open(path, "r", 438, function(err, fd)
-		assert(not err, err)
+		if err then return callback(err) end
 		uv.fs_fstat(fd, function(err, stat)
-			assert(not err, err)
+			if err then return callback(err) end
 			uv.fs_read(fd, stat.size, 0, function(err, data)
 				assert(not err, err)
 				uv.fs_close(fd, function(err)
-					assert(not err, err)
-					return callback(data)
+					if err then return callback(err) end
+					return callback(err, data)
 				end)
 			end)
 		end)
