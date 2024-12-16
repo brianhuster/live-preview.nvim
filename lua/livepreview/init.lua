@@ -110,10 +110,7 @@ function M.pick()
 		end
 		local status, err = pcall(pickers[config.config.picker], pick_callback)
 		if not status then
-			vim.notify(
-				"live-preview.nvim : error calling picker " .. config.config.picker,
-				vim.log.levels.ERROR
-			)
+			vim.notify("live-preview.nvim : error calling picker " .. config.config.picker, vim.log.levels.ERROR)
 			vim.notify(err, vim.log.levels.ERROR)
 		end
 	else
@@ -165,7 +162,7 @@ function M.setup(opts)
 					"http://localhost:%d/%s",
 					config.config.port,
 					config.config.dynamic_root and vim.fs.basename(filepath)
-					or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
+						or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
 				),
 				config.config.browser
 			)
