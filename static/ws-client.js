@@ -9,6 +9,8 @@ function getWebSocketUrl() {
 	return `${protocol}//${hostname}${port}`;
 }
 
+let livepreview_reload
+
 async function connectWebSocket() {
 	socket = new WebSocket(wsUrl);
 
@@ -19,6 +21,7 @@ async function connectWebSocket() {
 		connected = true;
 		console.log("Connected to server");
 		console.log("connected: ", connected);
+		livepreview_reload = 0;
 	};
 
 	socket.onmessage = (event) => {
@@ -26,7 +29,10 @@ async function connectWebSocket() {
 
 		if (message.type === "reload") {
 			console.log("Reload message received");
-			window.location.reload();
+			if (livepreview_reload === 0) {
+				window.location.reload();
+				livepreview_reload = 1;
+			}
 		} else if (message.type === "update") {
 			console.log("Update message received");
 			content = message.content;
