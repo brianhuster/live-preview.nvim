@@ -44,5 +44,5 @@ jobs:
         uses: ./.github/actions/commit-and-push
         with:
           commit-message: 'Update README based on pkg.json'
-          files: 'README.md README.*.md'
+          files: 'README.*md'
           github_token: ${{ secrets.GITHUB_TOKEN }}
