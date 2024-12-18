@@ -20,10 +20,6 @@ local function update_readme(file)
 	local updated_lines = {}
 
 	for _, line in ipairs(lines) do
-		if line:match("^# .*$") then
-			line = "# " .. packspec.name
-		end
-
 		if line:match("^- Neovim.*$") then
 			line = "- Neovim " .. packspec.engines.nvim
 		end

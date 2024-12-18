@@ -1,10 +1,10 @@
-# live-preview.nvim
+# Introduction 📖
 
 [![LuaRocks](https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple)](https://luarocks.org/modules/brianhuster/live-preview.nvim)
 
 live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/wiki/Markdown), [HTML](https://en.wikipedia.org/wiki/HTML) (along with CSS, JavaScript) and [AsciiDoc](https://asciidoc.org/) files in a web browser with live updates. No external dependencies or runtime like NodeJS or Python are required, since the backend is fully written in Lua and Neovim's built-in functions.
 
-# live-preview.nvim
+# Features :sparkles:
  
 * Supports markdown, HTML (with reference to CSS, JS), and AsciiDoc files 📄
 * Support Katex for rendering math equations in markdown and AsciiDoc files 🧮
@@ -13,17 +13,17 @@ live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](http
 * Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in [setup](#setup). This feature should be used with [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim)) 🔄
 * Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick) for opening files to preview 📂
 
-# live-preview.nvim
+# Updates 🆕
  
 See [RELEASE.md](RELEASE.md) 
 
 **⚠️ Important Notice:** You should clear the cache of the browser after updating to ensure the plugin works correctly.
 
-# live-preview.nvim
+# Demo video 🎥
  
 https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
-# live-preview.nvim
+# Installation :package:
 
 **Requirements** 
 
@@ -106,15 +106,15 @@ git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.local/sh
 
 </details>
 
-# live-preview.nvim
+# Configuration, usage, FAQ
 
 See [`:h livepreview`](./doc/livepreview.txt)
 
-# live-preview.nvim
+# Contributing 🤝
  
 Since this is a young project, there should be a lot of rooms for improvements. If you would like to contribute to this project, please feel free to open an issue or a pull request.
 
-# live-preview.nvim
+# TODO ✅
 - [x] Supports KaTex math in Markdown and AsciiDoc
 - [x] Supports Mermaid diagrams in Markdown and AsciiDoc
 - [x] Syntax highlighting for code blocks in Markdown and AsciiDoc
@@ -129,7 +129,7 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 These are not in roadmap of live-preview.nvim right now, but pull requests are welcome
 - Allow users to add custom css and js files in configuration [#49](https://github.com/brianhuster/live-preview.nvim/issues/49), [#50](https://github.com/brianhuster/live-preview.nvim/issues/50)
 
-# live-preview.nvim
+# Acknowledgements 🙏
  
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) and [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) for the idea inspiration
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) for the sha1 function reference
@@ -140,7 +140,7 @@ These are not in roadmap of live-preview.nvim right now, but pull requests are w
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) for rendering diagrams
 * [digitalmoksha/markdown-it-inject-linenumbers](https://github.com/digitalmoksha/markdown-it-inject-linenumbers) : A markdown-it plugin for injecting line numbers into html output
 
-# live-preview.nvim
+# Buy me a coffee ☕
  
 Maintaining this project takes time and effort, especially as I am a student now. If you find this project helpful, please consider supporting me :>
 
@@ -154,6 +154,6 @@ Maintaining this project takes time and effort, especially as I am a student now
     <img src="https://github.com/user-attachments/assets/3907d317-b62f-43f5-a231-3ec7eb4eaa1b" alt="Momo (Vietnam)" style="height: 85px;">
 </a>
 
-# live-preview.nvim
+# Alternatives
 
 See [Wiki](https://github.com/brianhuster/live-preview.nvim/wiki/Alternatives-to-live%E2%80%90preview.nvim) for alternatives to live-preview.nvim
