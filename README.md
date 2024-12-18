@@ -157,5 +157,5 @@ Maintaining this project takes time and effort, especially as I am a student now
 # Alternatives
 
 [iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
-- Only supports markdown, but supports many kinds of diagraphs
-- Require Nodejs
+- Only supports markdown, but supports many kinds of diagraphs inside markdown files
+- Require Nodejs, but the plugin is compatible with both Neovim and Vim
