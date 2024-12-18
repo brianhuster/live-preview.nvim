@@ -88,7 +88,23 @@ passing the picker name to the configuration table (see |livepreview-config|)
 See |livepreview-changelog|
 
 ==============================================================================
-5. License                                               *livepreview-license*
+5. FAQ												   
+							    *livepreview-faq*
+
+WHY DOESN'T THE RELATIVE LINK (`../`) WORK? ~
+
+Make sure the webroot of the server is the same as the root directory of 
+your project. To find the webroot of the server, run >vim
+    :checkhealth livepreview
+< 
+The result is shown in the section `Server and process` of the checkhealth 
+buffer.
+
+Also, don't set `dynamic_root` to `true` when unnecessary. You can also see
+live-preview.nvim config using `:checkhealth livepreview`
+
+==============================================================================
+6. License                                               *livepreview-license*
 
 This project is licensed under GPL-3.0.
 
