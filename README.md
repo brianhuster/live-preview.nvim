@@ -156,6 +156,17 @@ Maintaining this project takes time and effort, especially as I am a student now
 
 # Alternatives
 
-[iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
+<details>
+    <summary> 
+        <a href="https://github.com/iamcco/markdown-preview.nvim">iamcco/markdown-preview.nvim</a>
+    </summary>
 - Only supports markdown, but supports many kinds of diagraphs inside markdown files
-- Require Nodejs, but the plugin is compatible with both Neovim and Vim
+- Requires Nodejs, but the plugin is compatible with both Neovim and Vim
+</details>
+
+<details>
+    <summary> 
+        <a href="https://github.com/barrett-ruth/live-server.nvim">barrett-ruth/live-server.nvim</a>
+    </summary>
+- A very small Neovim plugin that supports previewing HTML (with css, js) files
+- Requires Nodejs and `live-server` executable
