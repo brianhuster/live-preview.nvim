@@ -1,6 +1,6 @@
 #!/usr/bin/env -S nvim -l
 local uv = vim.uv
-local read_file_sync = require("livepreview").utils.read_file
+local read_file_sync = require("livepreview.utils").read_file
 
 local packspec = vim.json.decode(read_file_sync("pkg.json"))
 
@@ -36,28 +36,31 @@ local function update_readme(file)
 	print(file .. " has been updated based on pkg.json")
 end
 
-local function readdir_sync(path)
-	local req = uv.fs_scandir(path)
-	local files = {}
-	while true do
-		local name, typ = uv.fs_scandir_next(req)
-		if not name then
-			break
-		end
-		table.insert(files, name)
+local function update_doc(file)
+	local doc = read_file_sync(file)
+	if not doc then
+		return
 	end
-	return files
+	local updated_doc = doc:gsub(
+		"%*livepreview%.txt%*%s+For Nvim [0-9%.]+",
+		"*livepreview.txt*             For Nvim " .. packspec.engines.nvim
+	)
+	write_file_sync(file, updated_doc)
+	print(file .. " has been updated based on pkg.json")
+end
+
+local function readdir_sync(path)
+	local fn = vim.fn
+	path = fn.fnamemodify(path, ":p")
+	return vim.split(fn.glob(path .. "/**"), "\n")
 end
 
 local files = readdir_sync(".")
 
-local readme_files = {}
 for _, file in ipairs(files) do
-	if file == "README.md" or file:match("^README%..*%.md$") then
-		table.insert(readme_files, file)
+	if file:match("README%.md") or file:match("^README%..*%.md$") then
+		update_readme(file)
+	elseif file:match("doc/livepreview.txt") then
+		update_doc(file)
 	end
-end
-
-for _, file in ipairs(readme_files) do
-	update_readme(file)
 end
