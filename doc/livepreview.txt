@@ -1,4 +1,4 @@
-*livepreview.txt*             For Nvim 0.10+       
+*livepreview.txt*             For Nvim >=0.10.1+       
 
 
                                       Type |gO| to see the table of contents.
