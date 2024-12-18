@@ -106,9 +106,9 @@ git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.local/sh
 
 </details>
 
-# Usage
+# Configuration, usage, FAQ
 
-For configuring and usage, please see [`:h livepreview`](./doc/livepreview.txt)
+See [`:h livepreview`](./doc/livepreview.txt)
 
 # Contributing 🤝
  
