@@ -38,9 +38,13 @@ end
 
 local function update_doc(file)
 	local doc = read_file_sync(file)
-	if not doc then return end
-	local updated_doc = doc:gsub("%*livepreview%.txt%*%s+For Nvim [0-9%.]+",
-		"*livepreview.txt*             For Nvim " .. packspec.engines.nvim)
+	if not doc then
+		return
+	end
+	local updated_doc = doc:gsub(
+		"%*livepreview%.txt%*%s+For Nvim [0-9%.]+",
+		"*livepreview.txt*             For Nvim " .. packspec.engines.nvim
+	)
 	write_file_sync(file, updated_doc)
 	print(file .. " has been updated based on pkg.json")
 end
