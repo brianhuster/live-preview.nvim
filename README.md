@@ -62,7 +62,7 @@ require("lazy").setup({
 MiniDeps.add({
     source = 'brianhuster/live-preview.nvim',
     depends = { 
-        'brianhuster/autosave.nvim'  -- Not required, but recomended for autosaving and sync scrolling
+        'brianhuster/autosave.nvim',  -- Not required, but recomended for autosaving and sync scrolling
 
         -- You can choose one of the following pickers
         'nvim-telescope/telescope.nvim',
