@@ -53,8 +53,8 @@ function M.request(client, request)
 		websocket.handshake(client, request)
 		return
 	end
-	local path = request:match("GET (.+) HTTP/1.1")
-	path = path or "/"
+	local path = request:match("GET ([^%s]+) HTTP/1.1")
+	path = path and path:gsub("%%20", " ") or "/"
 
 	local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
 

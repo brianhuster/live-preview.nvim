@@ -1,4 +1,4 @@
-# Introduction 📖
+# Introduction :wave:
 
 [![LuaRocks](https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple)](https://luarocks.org/modules/brianhuster/live-preview.nvim)
 
@@ -13,13 +13,13 @@ live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](http
 * Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in [setup](#setup). This feature should be used with [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim)) 🔄
 * Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick) for opening files to preview 📂
 
-# Updates 🆕
+# Updates :loudspeaker:
  
 See [RELEASE.md](RELEASE.md) 
 
 **⚠️ Important Notice:** You should clear the cache of the browser after updating to ensure the plugin works correctly.
 
-# Demo video 🎥
+# Demo video :movie_camera:
  
 https://github.com/user-attachments/assets/865112c1-8514-4920-a531-b2204194f749
 
