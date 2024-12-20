@@ -168,7 +168,7 @@ function M.setup(opts)
 					end
 				end
 			end
-			filepath = vim.fs.normalize(filepath)
+			filepath = vim.fs.normalize(filepath):gsub(" ", "%%20")
 			utils.open_browser(
 				string.format(
 					"http://localhost:%d/%s",
