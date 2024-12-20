@@ -110,24 +110,13 @@ git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.local/sh
 
 See [`:h livepreview`](./doc/livepreview.txt)
 
-# Contributing 🤝
+# Contributing :handshake:
  
 Since this is a young project, there should be a lot of rooms for improvements. If you would like to contribute to this project, please feel free to open an issue or a pull request.
 
-# TODO ✅
-- [x] Supports KaTex math in Markdown and AsciiDoc
-- [x] Supports Mermaid diagrams in Markdown and AsciiDoc
-- [x] Syntax highlighting for code blocks in Markdown and AsciiDoc
-- [x] Autoscroll in the browser as you scroll in the Markdown files in Neovim
-- [ ] Autoscroll in the browser as you scroll in the AsciiDoc files in Neovim
-- [ ] Supports SVG files [#244](https://github.com/brianhuster/live-preview.nvim/issues/244)
-- [x] Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick)
-- [ ] Support TUI web browsers like [carbonyl](https://github.com/fathyb/carbonyl), [browsh](https://github.com/browsh-org/browsh)
+# Roadmap :rocket:
 
-## Non goals 🚫
- 
-These are not in roadmap of live-preview.nvim right now, but pull requests are welcome
-- Allow users to add custom css and js files in configuration [#49](https://github.com/brianhuster/live-preview.nvim/issues/49), [#50](https://github.com/brianhuster/live-preview.nvim/issues/50)
+See [TODO](https://github.com/brianhuster/live-preview.nvim/milestone/1)
 
 # Acknowledgements 🙏
  
