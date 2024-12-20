@@ -1,5 +1,8 @@
 > Note: `opts` means the configuration table passed to the function `require('livepreview').setup(opts)`.
 
+## Fixed bugs
+[#254](https://github.com/brianhuster/live-preview.nvim/issues/254)
+
 ## Breaking changes
 - Now the plugin has only one command `opts.cmd` (default: `LivePreview`) instead of two (`opts.commands.start` and `opts.commands.stop`). 
 - The command `opts.cmd` has 4 subcommands: `start`, `close`, `pick`, and `help`.
