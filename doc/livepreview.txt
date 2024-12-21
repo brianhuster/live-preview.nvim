@@ -103,6 +103,22 @@ buffer.
 Also, don't set `dynamic_root` to `true` when unnecessary. You can also see
 live-preview.nvim config using `:checkhealth livepreview`
 
+
+HOW CAN I ADD DIAGRAMS TO ASCIIDOC? ~
+
+live-preview.nvim only supports `mermaid.js` for diagrams. You can add a `mermaid`
+diagram as a `[source,mermaid]` code block to your AsciiDoc file. Example: 
+>asciidoc
+    [source,mermaid]
+    ----
+    graph TD;
+	A-->B;
+	A-->C;
+	B-->D;
+	C-->D;
+    ----
+<
+
 ==============================================================================
 6. License                                               *livepreview-license*
 
