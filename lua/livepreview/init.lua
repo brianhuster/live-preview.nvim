@@ -137,17 +137,7 @@ function M.setup(opts)
 		vim.api.nvim_del_user_command(config.config.cmd)
 	end
 
-	local default_options = {
-		cmd = "LivePreview",
-		picker = nil,
-		autokill = false,
-		port = 5500,
-		browser = "default",
-		dynamic_root = false,
-		sync_scroll = false,
-	}
-
-	config.set(vim.tbl_deep_extend("force", default_options, opts or {}))
+	config.set(opts)
 
 	vim.api.nvim_create_user_command(config.config.cmd, function(cmd_opts)
 		local subcommand = cmd_opts.fargs[1]
@@ -174,7 +164,7 @@ function M.setup(opts)
 					"http://localhost:%d/%s",
 					config.config.port,
 					config.config.dynamic_root and vim.fs.basename(filepath)
-						or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
+					or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
 				),
 				config.config.browser
 			)
