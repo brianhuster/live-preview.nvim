@@ -55,11 +55,32 @@ M.adoc2html = function(adoc)
 	return html_template(adoc, stylesheet, script)
 end
 
+M.svg2html = function(svg)
+	return [[
+		<!DOCTYPE html>
+		<html lang="en">
+
+		<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Live preview</title>
+		</head>
+
+		<body>
+			<div class='markdown-body'>
+]] .. svg .. [[
+			</div>
+		</body>
+	]]
+end
+
 M.toHTML = function(text, filetype)
 	if filetype == "markdown" then
 		return M.md2html(text)
 	elseif filetype == "asciidoc" then
 		return M.adoc2html(text)
+	elseif filetype == "svg" then
+		return M.svg2html(text)
 	end
 end
 

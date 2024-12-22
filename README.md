@@ -2,11 +2,11 @@
 
 [![LuaRocks](https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple)](https://luarocks.org/modules/brianhuster/live-preview.nvim)
 
-live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/wiki/Markdown), [HTML](https://en.wikipedia.org/wiki/HTML) (along with CSS, JavaScript) and [AsciiDoc](https://asciidoc.org/) files in a web browser with live updates. No external dependencies or runtime like NodeJS or Python are required, since the backend is fully written in Lua and Neovim's built-in functions.
+live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/wiki/Markdown), [HTML](https://en.wikipedia.org/wiki/HTML) (along with CSS, JavaScript), [AsciiDoc](https://asciidoc.org/) and [svg](https://en.wikipedia.org/wiki/SVG) files in a web browser with live updates. No external dependencies or runtime like NodeJS or Python are required, since the backend is fully written in Lua and Neovim's built-in functions.
 
 # Features :sparkles:
  
-* Supports markdown, HTML (with reference to CSS, JS), and AsciiDoc files 📄
+* Supports markdown, HTML (with reference to CSS, JS), svg and AsciiDoc files 📄
 * Support Katex for rendering math equations in markdown and AsciiDoc files 🧮
 * Supports mermaid for rendering diagrams in markdown files 🖼️
 * Syntax highlighting for code blocks in Markdown and AsciiDoc 🖍️

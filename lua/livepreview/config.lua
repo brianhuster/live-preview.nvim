@@ -1,7 +1,6 @@
 local M = {}
 
 M.config = {
-	cmd = "LivePreview",
 	picker = nil,
 	autokill = false,
 	port = 5500,
