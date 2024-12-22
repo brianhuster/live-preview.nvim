@@ -49,7 +49,7 @@ end
 --- @return table: List of relative paths (compared to `directory`) of the supported files
 function M.list_supported_files(directory)
 	directory = vim.fn.fnamemodify(directory, ":p")
-	local files = vim.fs.find(function(name, _)
+	local files = fs.find(function(name, _)
 		return not not M.supported_filetype(name)
 	end, { limit = math.huge, type = "file" })
 	for i, file in ipairs(files) do
