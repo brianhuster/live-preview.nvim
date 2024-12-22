@@ -10,7 +10,7 @@
 
 local M = {}
 
-local cmd = 'LivePreview'
+local cmd = "LivePreview"
 local api = vim.api
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
