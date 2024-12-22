@@ -56,7 +56,10 @@ M.adoc2html = function(adoc)
 end
 
 M.svg2html = function(svg)
-	svg = svg:gsub("</svg>", "<script href='/live-preview.nvim/static/ws-client.js' type='application/ecmascript'></script></svg>")
+	svg = svg:gsub(
+		"</svg>",
+		"<script href='/live-preview.nvim/static/ws-client.js' type='application/ecmascript'></script></svg>"
+	)
 	return [[
 		<!DOCTYPE html>
 		<html lang="en">
