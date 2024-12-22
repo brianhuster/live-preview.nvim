@@ -61,13 +61,13 @@ M.svg2html = function(svg)
 		<html lang="en">
 
 		<head>
-			<script src='/live-preview.nvim/static/ws-client.js'></script>
 		</head>
 
 		<body>
 			<div class='markdown-body'>
 ]] .. svg .. [[
 			</div>
+			<script src='/live-preview.nvim/static/ws-client.js'></script>
 		</body>
 		</html>
 	]]
