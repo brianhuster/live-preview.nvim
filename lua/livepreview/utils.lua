@@ -39,6 +39,8 @@ function M.supported_filetype(file_name)
 		return "markdown"
 	elseif file_name:match("%.adoc$") or file_name:match("%.asciidoc$") then
 		return "asciidoc"
+	elseif file_name:match("%.svg$") then
+		return "svg"
 	end
 end
 
@@ -47,7 +49,7 @@ end
 --- @return table: List of relative paths (compared to `directory`) of the supported files
 function M.list_supported_files(directory)
 	directory = vim.fn.fnamemodify(directory, ":p")
-	local files = vim.fs.find(function(name, _)
+	local files = fs.find(function(name, _)
 		return not not M.supported_filetype(name)
 	end, { limit = math.huge, type = "file" })
 	for i, file in ipairs(files) do

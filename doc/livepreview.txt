@@ -1,4 +1,4 @@
-*livepreview.txt*             For Nvim >=0.10.1+       
+*livepreview.txt*             For Nvim >=0.10.1       
 
 
                                       Type |gO| to see the table of contents.
@@ -23,7 +23,6 @@ You can customize the plugin by passing a table to the `opts` variable (if you
 use lazy.nvim) or the function `require('livepreview').setup()`. Here is the
 default configuration (in Lua): >lua
     {
-        cmd = "LivePreview", 
         port = 5500, 
         autokill = false, 
         browser = 'default', 
@@ -33,7 +32,6 @@ default configuration (in Lua): >lua
     }
 
 Explaination of each option:
-- `cmd`: Main command of live-preview.nvim
 - `port`: Port to run the live preview server on.
 - autokill: If true, the plugin will autokill other processes running on the
   same port (except for Neovim) when starting the server.
@@ -56,10 +54,6 @@ Use `:checkhealth livepreview` to see your configuration inside Neovim
 							    *livepreview-usage*
 
 							    *:LivePreview*
-This instruction assumes that you are using default configuration
-(`opts.cmd = "LivePreview"`). If you have changed the command name, replace
-with the command name in your config
-
 - To start the live preview, use the command: >vim
     :LivePreview start
 <

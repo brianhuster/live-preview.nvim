@@ -1,13 +1,27 @@
-*livepreview-changelog.txt*                            *livepreview-changelog*
+*livepreview-changelog.txt*                            
+							*livepreview-changelog*
+
+                                      Type |gO| to see the table of contents.
 
 ==============================================================================
-1. v0.8                                           *livepreview-changelog-v0.8*
+v0.9                                           *livepreview-changelog-v0.9*
 
 
-  Note: `opts` means the configuration table passed to the function
-  `require('livepreview').setup(opts)`.
+BREAKING CHANGES
 
-BREAKING CHANGES                 *livepreview-changelog-v0.8-breaking-changes*
+Configuration no longer handles the `opts.cmd` option. The user command used by
+live-preview.nvim is always `LivePreview`.
+
+
+NEW FEATURES
+
+- Supports `svg` files.
+
+==============================================================================
+v0.8                                           *livepreview-changelog-v0.8*
+
+
+BREAKING CHANGES
 
 - Now the plugin has only one command `opts.cmd` (default: `LivePreview`) instead
   of two (`opts.commands.start` and `opts.commands.stop`).
@@ -19,7 +33,7 @@ BREAKING CHANGES                 *livepreview-changelog-v0.8-breaking-changes*
       (default to `:StopPreview`) of previous version.
 
 
-NEW FEATURES                         *livepreview-changelog-v0.8-new-features*
+NEW FEATURES
 
 - New configuration options:
     - `opts.picker`: Picker to use for opening files. 3 choices are available:
@@ -33,7 +47,7 @@ NEW FEATURES                         *livepreview-changelog-v0.8-new-features*
 
 
 ==============================================================================
-2. v0.7                                           *livepreview-changelog-v0.7*
+v0.7                                           *livepreview-changelog-v0.7*
 
 
 NEW FEATURES                         *livepreview-changelog-v0.7-new-features*
@@ -42,16 +56,16 @@ NEW FEATURES                         *livepreview-changelog-v0.7-new-features*
 
 
 ==============================================================================
-3. v0.6                                           *livepreview-changelog-v0.6*
+v0.6                                           	*livepreview-changelog-v0.6*
 
 
-FIX BUG                                   *livepreview-changelog-v0.6-fix-bug*
+1. FIX BUG
 
 - Fix bug with `dynamic_root = true` option not working #211
   <https://github.com/brianhuster/live-preview.nvim/issues/211>
 
 
-🗑️ DEPRECATED API     *livepreview-changelog-v0.6-🗑️-deprecated-api*
+2. DEPRECATED API
 
 - `require('livepreview').preview_file()`. 
   Use `require('livepreview').live_start()` instead.
@@ -59,7 +73,7 @@ FIX BUG                                   *livepreview-changelog-v0.6-fix-bug*
   Use `require('livepreview').live_stop()` instead.
 
 
-✨ NEW FEATURES                 *livepreview-changelog-v0.6-✨-new-features*
+3. NEW FEATURES
 
 
 🔍 INTEGRATION WITH TELESCOPE.NVIM ~

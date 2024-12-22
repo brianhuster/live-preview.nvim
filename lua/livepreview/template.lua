@@ -55,11 +55,34 @@ M.adoc2html = function(adoc)
 	return html_template(adoc, stylesheet, script)
 end
 
+M.svg2html = function(svg)
+	svg = svg:gsub(
+		"</svg>",
+		"<script href='/live-preview.nvim/static/ws-client.js' type='application/ecmascript'></script></svg>"
+	)
+	return [[
+		<!DOCTYPE html>
+		<html lang="en">
+
+		<head>
+		</head>
+
+		<body>
+			<div class='markdown-body'>
+]] .. svg .. [[
+			</div>
+		</body>
+		</html>
+	]]
+end
+
 M.toHTML = function(text, filetype)
 	if filetype == "markdown" then
 		return M.md2html(text)
 	elseif filetype == "asciidoc" then
 		return M.adoc2html(text)
+	elseif filetype == "svg" then
+		return M.svg2html(text)
 	end
 end
 

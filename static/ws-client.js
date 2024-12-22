@@ -47,7 +47,16 @@ async function connectWebSocket() {
 					livepreview_renderMermaid();
 				}
 			} else {
-				console.warn("Render function is not defined.");
+				// Check if viewing svg
+				if (window.location.pathname.endsWith(".svg")) {
+					const livepreview_render = (text) => {
+						document.querySelector('.markdown-body').innerHTML = text;
+					}
+					livepreview_render(content);
+				}
+				else {
+					console.error("livepreview_render function is not defined");
+				}
 			}
 		} else if (message.type === "scroll") {
 			console.log("Scroll message received");

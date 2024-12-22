@@ -10,6 +10,8 @@
 
 local M = {}
 
+local cmd = "LivePreview"
+local api = vim.api
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
 local config = require("livepreview.config")
@@ -19,9 +21,9 @@ M.serverObj = nil
 
 -- find html/md/adoc buffer
 local function find_buf()
-	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-		if vim.api.nvim_buf_is_loaded(buf) then
-			local buf_name = vim.api.nvim_buf_get_name(buf)
+	for _, buf in ipairs(api.nvim_list_bufs()) do
+		if api.nvim_buf_is_loaded(buf) then
+			local buf_name = api.nvim_buf_get_name(buf)
 			if utils.supported_filetype(buf_name) then
 				return buf_name
 			end
@@ -121,7 +123,7 @@ end
 
 function M.help()
 	local function print_help(text)
-		print(text:format(config.config.cmd))
+		print(text:format(cmd))
 	end
 	print("live-preview.nvim commands:")
 	print_help([[  :%s start [filepath] - Start live preview. If no filepath is given, preview the current buffer.]])
@@ -131,25 +133,11 @@ function M.help()
 end
 
 --- Setup live preview
---- @param opts {commands: {start: string, stop: string}, port: number, browser: string, sync_scroll: boolean, telescope: {autoload: boolean}}|nil
+--- @param opts {port: number, browser: string, sync_scroll: boolean, dynamic_root: boolean, autokill: boolean, picker: string?}|nil
 function M.setup(opts)
-	if config.config.cmd then
-		vim.api.nvim_del_user_command(config.config.cmd)
-	end
+	config.set(opts)
 
-	local default_options = {
-		cmd = "LivePreview",
-		picker = nil,
-		autokill = false,
-		port = 5500,
-		browser = "default",
-		dynamic_root = false,
-		sync_scroll = false,
-	}
-
-	config.set(vim.tbl_deep_extend("force", default_options, opts or {}))
-
-	vim.api.nvim_create_user_command(config.config.cmd, function(cmd_opts)
+	api.nvim_create_user_command(cmd, function(cmd_opts)
 		local subcommand = cmd_opts.fargs[1]
 		if subcommand == "start" then
 			local filepath
@@ -159,7 +147,7 @@ function M.setup(opts)
 					filepath = utils.joinpath(vim.uv.cwd(), filepath)
 				end
 			else
-				filepath = vim.api.nvim_buf_get_name(0)
+				filepath = api.nvim_buf_get_name(0)
 				if not utils.supported_filetype(filepath) then
 					filepath = find_buf()
 					if not filepath then
@@ -195,13 +183,9 @@ function M.setup(opts)
 			if subcommand == "" then
 				return subcommands
 			elseif subcommand == ArgLead then
-				local suggestions = {}
-				for _, cmd in ipairs(subcommands) do
-					if vim.startswith(cmd, ArgLead) then
-						table.insert(suggestions, cmd)
-					end
-				end
-				return suggestions
+				return vim.tbl_filter(function(subcmd)
+					return vim.startswith(subcmd, ArgLead)
+				end, subcommands)
 			else
 				if subcommand == "start" then
 					return vim.fn.getcompletion(ArgLead, "file")
