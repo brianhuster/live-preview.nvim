@@ -62,6 +62,7 @@ M.svg2html = function(svg)
 
 		<head>
 			<title>Live preview</title>
+			<script defer src='/live-preview.nvim/static/ws-client.js'></script>
 		</head>
 
 		<body>
@@ -69,6 +70,7 @@ M.svg2html = function(svg)
 ]] .. svg .. [[
 			</div>
 		</body>
+		</html>
 	]]
 end
 
