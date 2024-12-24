@@ -15,7 +15,7 @@ function getWebSocketUrl() {
  * @returns {boolean} - True if the browser should handle the message, false otherwise
  */
 const isRightPath = (filepath) => {
-	return filepath.includes(window.location.pathname.replace("%20", " "));
+	return filepath.includes(window.location.pathname.replace(/%20/g, " "));
 }
 
 let livepreview_reload

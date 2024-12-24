@@ -95,13 +95,8 @@ function M.async_read_file(path, callback)
 				return callback(err_fstat)
 			end
 			uv.fs_read(fd, stat.size, 0, function(err_read, data)
-				assert(not err_read, err_read)
-				uv.fs_close(fd, function(err_close)
-					if err_close then
-						return callback(err_close)
-					end
-					return callback(err_close, data)
-				end)
+				callback(err_read, data)
+				uv.fs_close(fd)
 			end)
 		end)
 	end)
