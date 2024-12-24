@@ -9,6 +9,15 @@ function getWebSocketUrl() {
 	return `${protocol}//${hostname}${port}`;
 }
 
+/** 
+ * Check if browser should handle websocket message from server
+ * @param {string} filepath - The path of the file
+ * @returns {boolean} - True if the browser should handle the message, false otherwise
+ */
+const isRightPath = (filepath) => {
+	return filepath.includes(window.location.pathname.replace("%20", " "));
+}
+
 let livepreview_reload
 
 async function connectWebSocket() {
@@ -35,33 +44,34 @@ async function connectWebSocket() {
 			}
 		} else if (message.type === "update") {
 			console.log("Update message received");
-			content = message.content;
-
-			// Check if the render function is defined before calling it
-			if (typeof livepreview_render !== "undefined") {
-				livepreview_render(content);
-				if (typeof livepreview_renderKatex !== "undefined") {
-					livepreview_renderKatex();
-				}
-				if (typeof livepreview_renderMermaid !== "undefined") {
-					livepreview_renderMermaid();
-				}
-			} else {
-				// Check if viewing svg
-				if (window.location.pathname.endsWith(".svg")) {
-					const livepreview_render = (text) => {
-						document.querySelector('.markdown-body').innerHTML = text;
-					}
+			let { filepath, content } = message;
+			if (isRightPath(filepath)) {
+				// Check if the render function is defined before calling it
+				if (typeof livepreview_render !== "undefined") {
 					livepreview_render(content);
-				}
-				else {
-					console.error("livepreview_render function is not defined");
+					if (typeof livepreview_renderKatex !== "undefined") {
+						livepreview_renderKatex();
+					}
+					if (typeof livepreview_renderMermaid !== "undefined") {
+						livepreview_renderMermaid();
+					}
+				} else {
+					// Check if viewing svg
+					if (window.location.pathname.endsWith(".svg")) {
+						const livepreview_render = (text) => {
+							document.querySelector('.markdown-body').innerHTML = text;
+						}
+						livepreview_render(content);
+					}
+					else {
+						console.error("livepreview_render function is not defined");
+					}
 				}
 			}
 		} else if (message.type === "scroll") {
 			console.log("Scroll message received");
 			const { filepath, cursor } = message;
-			if (filepath.includes(window.location.pathname)) {
+			if (isRightPath(filepath)) {
 				const line = document.querySelector(`[data-source-line="${cursor[0]}"]`);
 				if (line) {
 					line.scrollIntoView({ behavior: "smooth", block: "center" });

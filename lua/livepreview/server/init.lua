@@ -38,7 +38,7 @@ local function send_scroll()
 	if not need_scroll then
 		return
 	end
-	if not supported_filetype(filepath) or supported_filetype == "html" then
+	if not supported_filetype(filepath) or supported_filetype(filepath) == "html" then
 		return
 	end
 	local message = {
