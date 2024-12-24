@@ -146,3 +146,5 @@ Maintaining this project takes time and effort, especially as I am a student now
 # Alternatives
 
 See [Wiki](https://github.com/brianhuster/live-preview.nvim/wiki/Alternatives-to-live%E2%80%90preview.nvim) for alternatives to live-preview.nvim
+
+

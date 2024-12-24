@@ -73,11 +73,14 @@ function M.start(filepath, port)
 			if utils.supported_filetype(filepath) == "html" then
 				server.websocket.send_json(client, { type = "reload" })
 			else
-				utils.async_read_file(filepath, function(_, data)
+				filepath = filepath:gsub("%%20", " ")
+				utils.async_read_file(filepath, function(err, data)
 					local message = {
+						filepath = filepath,
 						type = "update",
 						content = data,
 					}
+					assert(not err, err)
 					server.websocket.send_json(client, message)
 				end)
 			end

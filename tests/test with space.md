@@ -2,7 +2,7 @@
 $E = mc^2$
 
 ```mermaid 
-graph TD
+graph TD;
     A-->B;
     A-->C;
     B-->D;
@@ -30,4 +30,4 @@ To install the project, run the following command:
 
 ```bash
 git clone https://github.com/your-username/your-project.git
-
+```

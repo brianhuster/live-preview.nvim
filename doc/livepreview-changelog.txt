@@ -12,6 +12,10 @@ BREAKING CHANGES
 Configuration no longer handles the `opts.cmd` option. The user command used by
 live-preview.nvim is always `LivePreview`.
 
+BUG FIXES
+
+- Files with spaces in their paths don't work properly #254 
+  <https://github.com/brianhuster/live-preview.nvim/issues/254>
 
 NEW FEATURES
 
@@ -23,14 +27,17 @@ v0.8                                           *livepreview-changelog-v0.8*
 
 BREAKING CHANGES
 
-- Now the plugin has only one command `opts.cmd` (default: `LivePreview`) instead
-  of two (`opts.commands.start` and `opts.commands.stop`).
-- The command `opts.cmd` has 4 subcommands: `start`, `close`, `pick`, and `help`.
-- Takes `opts.cmd = "LivePreview"` as example, to compare with the previous version:
+- Now the plugin has only one command `opts.cmd` (default: `LivePreview`)
+  instead of two (`opts.commands.start` and `opts.commands.stop`).
+- The command `opts.cmd` has 4 subcommands: `start`, `close`, `pick`, and
+  `help`.
+- Takes `opts.cmd = "LivePreview"` as example, to compare with the previous
+  version:
     - `:LivePreview start` is equivalent to previous `opts.commands.start`
       (default to `:LivePreview`) of previous version.
-    - `:StopPreview close` is equivalent to `opts.commands.stop`
-      (default to `:StopPreview`) of previous version.
+    - `:StopPreview close` is equivalent to `opts.commands.stop` (default to
+      `:StopPreview`) of previous version.
+- `:Telescope livepreview` is removed. Use `:LivePreview pick` instead.
 
 
 NEW FEATURES
@@ -64,17 +71,7 @@ v0.6                                           	*livepreview-changelog-v0.6*
 - Fix bug with `dynamic_root = true` option not working #211
   <https://github.com/brianhuster/live-preview.nvim/issues/211>
 
-
-2. DEPRECATED API
-
-- `require('livepreview').preview_file()`. 
-  Use `require('livepreview').live_start()` instead.
-- `require('livepreview').stop_preview()`.
-  Use `require('livepreview').live_stop()` instead.
-
-
-3. NEW FEATURES
-
+2. NEW FEATURES
 
 🔍 INTEGRATION WITH TELESCOPE.NVIM ~
 
