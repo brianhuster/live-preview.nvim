@@ -1,5 +1,5 @@
 local health = require("livepreview.health")
-local cmd = 'LivePreview'
+local cmd = "LivePreview"
 local api = vim.api
 
 if not health.is_nvim_compatible() then
@@ -21,7 +21,7 @@ vim.filetype.add({
 })
 
 api.nvim_create_autocmd("VimLeavePre", {
-	callback = require("livepreview").close
+	callback = require("livepreview").close,
 })
 
 api.nvim_create_user_command(cmd, function(cmd_opts)
@@ -57,7 +57,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 				"http://localhost:%d/%s",
 				config.config.port,
 				config.config.dynamic_root and vim.fs.basename(filepath)
-				or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
+					or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
 			),
 			config.config.browser
 		)
