@@ -8,5 +8,7 @@ Configuration no longer handles the `opts.cmd` option. The user command used by 
 
 ## New features
 - Supports `svg` files.
+- New configuration function `require('livepreview.config').set(opts)`. Using this is recommended to avoid loading the whole plugin on startup
+The old configuration function `require('livepreview').setup(opts)` is still kept for backwards compatibility, but you should use the new one.
 
 > Note: `opts` means the configuration table passed to the function `require('livepreview').setup(opts)`.

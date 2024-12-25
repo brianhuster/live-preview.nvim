@@ -108,7 +108,10 @@ nvim -c 'helptags ~/.local/share/nvim/site/pack/brianhuster/start/live-preview.n
 
 # Configuration, usage, FAQ
 
-You can configure this plugin by passing a table to the Lua function `require('live-preview.config').setup()`.
+You can configure this plugin by passing a table to the Lua function 
+```lua
+require('livepreview.config').set()
+```
 
 See [`:h livepreview`](./doc/livepreview.txt) for all configurations options, as well as usage and FAQ.
 

@@ -20,6 +20,10 @@ BUG FIXES
 NEW FEATURES
 
 - Supports `svg` files.
+- New configuration function `require('livepreview.config').set(opts)`. Using 
+  this is recommended to avoid loading the whole plugin on startup. The old 
+  configuration function `require('livepreview').setup(opts)` is still kept for 
+  backwards compatibility though.
 
 ==============================================================================
 v0.8                                           *livepreview-changelog-v0.8*
