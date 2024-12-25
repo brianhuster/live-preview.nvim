@@ -10,6 +10,7 @@ local M = {}
 local uv = vim.uv
 local fs = vim.fs
 local bit = require("bit")
+local api = vim.api
 
 --- Extract base path from a file path
 --- Example: ```lua
@@ -42,6 +43,20 @@ function M.supported_filetype(file_name)
 	elseif file_name:match("%.svg$") then
 		return "svg"
 	end
+end
+
+--- find a html/md/adoc/svg buffer in buffer list
+--- @return string|nil
+function M.find_supported_buf()
+	for _, buf in ipairs(api.nvim_list_bufs()) do
+		if api.nvim_buf_is_loaded(buf) then
+			local buf_name = api.nvim_buf_get_name(buf)
+			if M.supported_filetype(buf_name) then
+				return buf_name
+			end
+		end
+	end
+	return nil
 end
 
 --- Find supported files in a directory and its subdirectories

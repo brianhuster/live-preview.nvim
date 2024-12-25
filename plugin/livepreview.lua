@@ -1,9 +1,6 @@
 local health = require("livepreview.health")
-local cmd = "LivePreview"
-local utils = require("livepreview.utils")
+local cmd = 'LivePreview'
 local api = vim.api
-local config = require("livepreview.config")
-local lp = require("livepreview")
 
 if not health.is_nvim_compatible() then
 	vim.notify_once(
@@ -24,27 +21,16 @@ vim.filetype.add({
 })
 
 api.nvim_create_autocmd("VimLeavePre", {
-	callback = function()
-		require("livepreview").close()
-	end,
+	callback = require("livepreview").close
 })
 
---- find a html/md/adoc/svg buffer in buffer list
---- @return string|nil
-local function find_buf()
-	for _, buf in ipairs(api.nvim_list_bufs()) do
-		if api.nvim_buf_is_loaded(buf) then
-			local buf_name = api.nvim_buf_get_name(buf)
-			if utils.supported_filetype(buf_name) then
-				return buf_name
-			end
-		end
-	end
-	return nil
-end
-
 api.nvim_create_user_command(cmd, function(cmd_opts)
+	local utils = require("livepreview.utils")
+	local lp = require("livepreview")
+	local config = require("livepreview.config")
+
 	local subcommand = cmd_opts.fargs[1]
+
 	if subcommand == "start" then
 		local filepath
 		if cmd_opts.fargs[2] ~= nil then
@@ -55,7 +41,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 		else
 			filepath = api.nvim_buf_get_name(0)
 			if not utils.supported_filetype(filepath) then
-				filepath = find_buf()
+				filepath = utils.find_supported_buf()
 				if not filepath then
 					vim.notify(
 						"live-preview.nvim only supports markdown, asciidoc, svg and html files",
@@ -71,7 +57,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 				"http://localhost:%d/%s",
 				config.config.port,
 				config.config.dynamic_root and vim.fs.basename(filepath)
-					or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
+				or utils.get_relative_path(filepath, vim.fs.normalize(vim.uv.cwd() or ""))
 			),
 			config.config.browser
 		)
