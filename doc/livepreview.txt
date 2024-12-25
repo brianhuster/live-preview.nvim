@@ -19,17 +19,16 @@ Link to repo https://github.com/brianhuster/live-preview.nvim
 2. Configuration                                                   
 							    *livepreview-config*
 
-You can customize the plugin by passing a table to the `opts` variable (if you
-use lazy.nvim) or the function `require('livepreview').setup()`. Here is the
-default configuration (in Lua): >lua
-    {
+`live-preview.nvim` can be configured by passing a Lua table to the function
+`require('livepreview.config').set()`. Below is the default configuration: >lua
+    require('livepreview.config').set({
         port = 5500, 
         autokill = false, 
         browser = 'default', 
         dynamic_root = false, 
         sync_scroll = false, 
         picker = nil, 
-    }
+    })
 
 Explaination of each option:
 - `port`: Port to run the live preview server on.
@@ -112,6 +111,19 @@ diagram as a `[source,mermaid]` code block to your AsciiDoc file. Example:
 	C-->D;
     ----
 <
+
+==============================================================================
+6. BUY ME A COFFEE!                                     
+							    *livepreview-donate*
+
+ 
+Maintaining this project takes time and effort, especially as I am a student 
+now. If you find this project helpful, please consider supporting me
+
+PAYPAL <https://paypal.me/brianphambinhan>
+
+VIETQR (Việt Nam)
+<https://img.vietqr.io/image/mb-9704229209586831984-print.png?addInfo=Donate%20for%20livepreview%20plugin%20nvim&accountName=PHAM%20BINH%20AN>
 
 ==============================================================================
 6. License                                               *livepreview-license*

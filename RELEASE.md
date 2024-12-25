@@ -1,4 +1,4 @@
-> Note: `opts` means the configuration table passed to the function `require('livepreview').setup(opts)`.
+> Note: `opts` means the configuration table of `live-preview.nvim`.
 
 ## Bug fixes
 - Files with spaces in their names don't work properly [#254](https://github.com/brianhuster/live-preview.nvim/issues/254)

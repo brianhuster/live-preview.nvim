@@ -1,0 +1,2 @@
+--- @deprecated
+return require("livepreview")
