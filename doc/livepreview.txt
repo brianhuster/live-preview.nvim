@@ -59,8 +59,9 @@ Use `:checkhealth livepreview` to see your configuration inside Neovim
 This command will open the current Markdown or HTML file in your default web
 browser and update it live as you write changes to your file.
 
-You can also parse a file path as argument, for example `:LivePreview start
-test/doc.md`
+You can also parse a file path (either absolute or relative) as argument, for 
+example >vim
+    :LivePreview start test/doc.md
 
 - To stop the live preview server, use the command: >vim
     :LivePreview close
