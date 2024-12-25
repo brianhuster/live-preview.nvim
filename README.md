@@ -48,7 +48,6 @@ require("lazy").setup({
             'ibhagwan/fzf-lua',
             'echasnovski/mini.pick',
         },
-        opts = {},
    }
 })
 ```
@@ -102,13 +101,18 @@ Plug 'echasnovski/mini.pick'
 
 ```sh
 git clone --depth 1 https://github.com/brianhuster/live-preview.nvim ~/.local/share/nvim/site/pack/brianhuster/start/live-preview.nvim
+nvim -c 'helptags ~/.local/share/nvim/site/pack/brianhuster/start/live-preview.nvim/doc' -c 'q'
 ```
 
 </details>
 
 # Configuration, usage, FAQ
 
-See [`:h livepreview`](./doc/livepreview.txt)
+You can configure this plugin by passing a table to the Lua function `require('live-preview.config').setup()`.
+
+```lua
+
+See [`:h livepreview`](./doc/livepreview.txt) for all configurations options, as well as usage and FAQ.
 
 # Contributing :handshake:
  
@@ -139,12 +143,7 @@ Maintaining this project takes time and effort, especially as I am a student now
 <a href="https://img.vietqr.io/image/mb-9704229209586831984-print.png?addInfo=Donate%20for%20livepreview%20plugin%20nvim&accountName=PHAM%20BINH%20AN">
     <img src="https://github.com/user-attachments/assets/f28049dc-ce7c-4975-a85e-be36612fd061" alt="VietQR" style="height: 85px;">
 </a>
-<a href="https://me.momo.vn/brianphambinhan">
-    <img src="https://github.com/user-attachments/assets/3907d317-b62f-43f5-a231-3ec7eb4eaa1b" alt="Momo (Vietnam)" style="height: 85px;">
-</a>
 
 # Alternatives
 
 See [Wiki](https://github.com/brianhuster/live-preview.nvim/wiki/Alternatives-to-live%E2%80%90preview.nvim) for alternatives to live-preview.nvim
-
-
