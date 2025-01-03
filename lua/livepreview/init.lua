@@ -69,14 +69,14 @@ function M.start(filepath, port)
 		end
 
 		M.serverObj:start("127.0.0.1", port, {
-			on_events = utils.supported_filetype(filepath) == 'html' and {
+			on_events = utils.supported_filetype(filepath) == "html" and {
 				LivePreviewDirChanged = function(client)
 					server.websocket.send_json(client, { type = "reload" })
-				end
+				end,
 			} or {
 				TextChanged = onTextChanged,
 				TextChangedI = onTextChanged,
-			}
+			},
 		})
 
 		return true

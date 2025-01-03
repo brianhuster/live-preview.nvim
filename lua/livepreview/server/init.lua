@@ -57,7 +57,6 @@ local function send_scroll()
 	need_scroll = false
 end
 
-
 --- Constructor
 --- @param webroot string|nil: path to the webroot
 function Server:new(webroot)
@@ -169,31 +168,35 @@ function Server:start(ip, port, opts)
 		table.insert(connecting_clients, client)
 
 		--- Handle on_events
-		api.nvim_create_augroup('LivePreview', {
-			clear = true
+		api.nvim_create_augroup("LivePreview", {
+			clear = true,
 		})
 
 		if opts.on_events.LivePreviewDirChanged then
 			self:watch_dir(function()
-				api.nvim_exec_autocmds('User', {
-					group = 'LivePreview',
-					pattern = 'LivePreviewDirChanged',
+				api.nvim_exec_autocmds("User", {
+					group = "LivePreview",
+					pattern = "LivePreviewDirChanged",
 				})
 			end)
 		end
 
 		for k, v in pairs(opts.on_events) do
-			if k:match "^LivePreview*" then
-				api.nvim_create_autocmd('User', {
-					group = 'LivePreview',
+			if k:match("^LivePreview*") then
+				api.nvim_create_autocmd("User", {
+					group = "LivePreview",
 					pattern = k,
-					callback = function() v(client) end
+					callback = function()
+						v(client)
+					end,
 				})
 			else
 				api.nvim_create_autocmd(k, {
-					pattern = '*',
-					group = 'LivePreview',
-					callback = function() v(client) end
+					pattern = "*",
+					group = "LivePreview",
+					callback = function()
+						v(client)
+					end,
 				})
 			end
 		end
@@ -214,7 +217,7 @@ function Server:stop()
 	if self._watcher then
 		self._watcher:close()
 	end
-	api.nvim_del_augroup_by_name('LivePreview')
+	api.nvim_del_augroup_by_name("LivePreview")
 end
 
 M.Server = Server
