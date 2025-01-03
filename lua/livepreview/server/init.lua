@@ -62,6 +62,10 @@ end
 function Server:new(webroot)
 	self.server = uv.new_tcp()
 	self.webroot = webroot or uv.cwd()
+	api.nvim_create_augroup("LivePreview", {
+		clear = true,
+	})
+
 	local config = require("livepreview.config").config
 	if config.sync_scroll then
 		api.nvim_create_autocmd({
@@ -168,10 +172,6 @@ function Server:start(ip, port, opts)
 		table.insert(connecting_clients, client)
 
 		--- Handle on_events
-		api.nvim_create_augroup("LivePreview", {
-			clear = true,
-		})
-
 		local on_events = opts.on_events
 
 		if on_events then
