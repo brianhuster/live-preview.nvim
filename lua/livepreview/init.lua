@@ -14,7 +14,6 @@ local cmd = "LivePreview"
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
 local config = require("livepreview.config")
-local picker = require("livepreview.picker")
 
 M.serverObj = nil
 
@@ -85,6 +84,8 @@ function M.start(filepath, port)
 end
 
 function M.pick()
+	local picker = require("livepreview.picker")
+
 	local pick_callback = function(pick_value)
 		local filepath = pick_value
 		M.start(filepath, config.config.port)

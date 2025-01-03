@@ -101,14 +101,19 @@ function Server:routes(path)
 end
 
 --- Watch a directory for changes and send a message "reload" to a WebSocket client
---- @param func function: function to call when a change is detected
-function Server:watch_dir(func)
+function Server:watch_dir()
+	local callback = vim.schedule_wrap(function()
+		api.nvim_exec_autocmds("User", {
+			group = "LivePreview",
+			pattern = "LivePreviewDirChanged",
+		})
+	end)
 	local function on_change(err, filename, event)
 		if err then
 			print("Watch error: " .. err)
 			return
 		end
-		func()
+		callback()
 	end
 	local function watch(path, recursive)
 		local handle = uv.new_fs_event()
@@ -125,7 +130,7 @@ function Server:watch_dir(func)
 	else
 		local watcherObj = fswatch.Watcher:new(self.webroot)
 		watcherObj:start(function(filename, events)
-			func()
+			callback()
 		end)
 		self._watcher = watcherObj
 	end
@@ -177,12 +182,7 @@ function Server:start(ip, port, opts)
 		if on_events then
 			vim.schedule_wrap(function()
 				if on_events.LivePreviewDirChanged then
-					self:watch_dir(function()
-						api.nvim_exec_autocmds("User", {
-							group = "LivePreview",
-							pattern = "LivePreviewDirChanged",
-						})
-					end)
+					self:watch_dir()
 				end
 
 				for k, v in pairs(opts.on_events) do
