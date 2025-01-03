@@ -192,7 +192,9 @@ function Server:start(ip, port, opts)
 							group = "LivePreview",
 							pattern = k,
 							callback = function()
-								v(client)
+								for _, client in ipairs(connecting_clients) do
+									v(client)
+								end
 							end,
 						})
 					else
@@ -200,7 +202,9 @@ function Server:start(ip, port, opts)
 							pattern = "*",
 							group = "LivePreview",
 							callback = function()
-								v(client)
+								for _, client in ipairs(connecting_clients) do
+									v(client)
+								end
 							end,
 						})
 					end
