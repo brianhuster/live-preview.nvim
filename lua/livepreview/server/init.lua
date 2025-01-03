@@ -27,7 +27,7 @@ local cursor_line
 local operating_system = uv.os_uname().sysname
 
 ---@class ServerStartOptions
----@field on_events table<string, function(client:userdata):void>
+---@field on_events? table<string, function(client:userdata):void>
 
 --- Send a scroll message to a WebSocket client
 --- The message is a table with the following
@@ -172,33 +172,35 @@ function Server:start(ip, port, opts)
 			clear = true,
 		})
 
-		if opts.on_events.LivePreviewDirChanged then
-			self:watch_dir(function()
-				api.nvim_exec_autocmds("User", {
-					group = "LivePreview",
-					pattern = "LivePreviewDirChanged",
-				})
-			end)
-		end
+		local on_events = opts.on_events
 
-		for k, v in pairs(opts.on_events) do
-			if k:match("^LivePreview*") then
-				api.nvim_create_autocmd("User", {
-					group = "LivePreview",
-					pattern = k,
-					callback = function()
-						v(client)
-					end,
-				})
-			else
-				api.nvim_create_autocmd(k, {
-					pattern = "*",
-					group = "LivePreview",
-					callback = function()
-						v(client)
-					end,
-				})
-			end
+		if on_events then
+			vim.schedule_wrap(function()
+				if on_events.LivePreviewDirChanged then
+					self:watch_dir(function()
+						api.nvim_exec_autocmds('User', {
+							group = 'LivePreview',
+							pattern = 'LivePreviewDirChanged',
+						})
+					end)
+				end
+
+				for k, v in pairs(opts.on_events) do
+					if k:match "^LivePreview*" then
+						api.nvim_create_autocmd('User', {
+							group = 'LivePreview',
+							pattern = k,
+							callback = function() v(client) end
+						})
+					else
+						api.nvim_create_autocmd(k, {
+							pattern = '*',
+							group = 'LivePreview',
+							callback = function() v(client) end
+						})
+					end
+				end
+			end)
 		end
 	end)
 
