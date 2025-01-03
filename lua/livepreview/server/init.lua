@@ -180,7 +180,8 @@ function Server:start(ip, port, opts)
 		local on_events = opts.on_events
 
 		if on_events then
-			vim.schedule_wrap(function()
+			vim.schedule(function()
+				print("Watching directory for changes")
 				if on_events.LivePreviewDirChanged then
 					self:watch_dir()
 				end

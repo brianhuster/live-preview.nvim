@@ -55,13 +55,12 @@ function M.start(filepath, port)
 	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
 	vim.wait(50, function()
 		local function onTextChanged(client)
-			filepath = filepath:gsub("%%20", " ")
 			local bufname = vim.api.nvim_buf_get_name(0)
 			if not utils.supported_filetype(bufname) or utils.supported_filetype(bufname) == "html" then
 				return
 			end
 			local message = {
-				filepath = filepath,
+				filepath = bufname,
 				type = "update",
 				content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n"),
 			}

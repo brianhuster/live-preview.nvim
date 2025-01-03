@@ -6,7 +6,7 @@ M.config = {
 	port = 5500,
 	browser = "default",
 	dynamic_root = false,
-	sync_scroll = false,
+	sync_scroll = true,
 }
 
 --- Configure live-preview.nvim
