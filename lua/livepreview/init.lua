@@ -57,15 +57,16 @@ function M.start(filepath, port)
 	vim.wait(50, function()
 		local function onTextChanged(client)
 			filepath = filepath:gsub("%%20", " ")
-			utils.async_read_file(filepath, function(err, data)
-				local message = {
-					filepath = filepath,
-					type = "update",
-					content = data,
-				}
-				assert(not err, err)
-				server.websocket.send_json(client, message)
-			end)
+			local bufname = vim.api.nvim_buf_get_name(0)
+			if not utils.supported_filetype(bufname) or utils.supported_filetype(bufname) == "html" then
+				return
+			end
+			local message = {
+				filepath = filepath,
+				type = "update",
+				content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n"),
+			}
+			server.websocket.send_json(client, message)
 		end
 
 		M.serverObj:start("127.0.0.1", port, {
@@ -74,8 +75,8 @@ function M.start(filepath, port)
 					server.websocket.send_json(client, { type = "reload" })
 				end,
 			} or {
-				TextChanged = onTextChanged,
-				TextChangedI = onTextChanged,
+				TextChanged = vim.schedule_wrap(onTextChanged),
+				TextChangedI = vim.schedule_wrap(onTextChanged),
 			},
 		})
 
