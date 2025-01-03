@@ -4,7 +4,7 @@
                                       Type |gO| to see the table of contents.
 
 ==============================================================================
-1. Introduction                                     
+1. Introduction 
 								*livepreview*
 
 live-preview.nvim is a plugin for Neovim that allows you to view Markdown, HTML
@@ -22,13 +22,14 @@ Link to repo https://github.com/brianhuster/live-preview.nvim
 `live-preview.nvim` can be configured by passing a Lua table to the function
 `require('livepreview.config').set()`. Below is the default configuration: >lua
     require('livepreview.config').set({
-        port = 5500, 
-        autokill = false, 
-        browser = 'default', 
-        dynamic_root = false, 
-        sync_scroll = false, 
-        picker = nil, 
+	port = 5500, 
+	autokill = false, 
+	browser = 'default', 
+	dynamic_root = false, 
+	sync_scroll = true, /
+	picker = nil, 
     })
+<
 
 Explaination of each option:
 - `port`: Port to run the live preview server on.
@@ -37,7 +38,7 @@ Explaination of each option:
 - `browser`: Terminal command to open the browser for live-previewing (eg.
   'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the
   system's default browser.
-- sync_scroll: If true, the plugin will sync the scrolling in the browser as
+- `sync_scroll`: If true, the plugin will sync the scrolling in the browser as
   you scroll in the Markdown files in Neovim.
 - `picker`: Picker to use for opening files. 3 choices are available: |telescope|,
   |fzf-lua|, |mini.pick|. If nil, the plugin look for the first available picker
@@ -59,8 +60,9 @@ Use `:checkhealth livepreview` to see your configuration inside Neovim
 This command will open the current Markdown or HTML file in your default web
 browser and update it live as you write changes to your file.
 
-You can also parse a file path as argument, for example `:LivePreview start
-test/doc.md`
+You can also parse a file path (either absolute or relative) as argument, for 
+example >vim
+    :LivePreview start test/doc.md
 
 - To stop the live preview server, use the command: >vim
     :LivePreview close
@@ -74,6 +76,22 @@ test/doc.md`
 This requires a picker to be installed (Telescope, fzf-lua or mini.pick). If
 you have multiple pickers installed, you can specify the picker to use by
 passing the picker name to the configuration table (see |livepreview-config|)
+
+
+PREVENT LOADING ~
+							*g:loaded_livepreview*
+
+If for some reason you don't want to load `live-preview.nvim` on startup, you
+can add the following line to your Neovim configuration file: 
+>vim
+	let g:loaded_livepreview = 1  " If you use Vimscript
+< >lua
+	vim.g.loaded_livepreview = 1  -- If you use Lua
+<
+
+Then, when you need to load the plugin, you can run this command: >vim
+	:runtime! plugin/livepreview.lua
+<
 
 ==============================================================================
 4. Change log                                         

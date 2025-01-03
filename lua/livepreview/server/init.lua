@@ -10,6 +10,7 @@ local get_plugin_path = require("livepreview.utils").get_plugin_path
 local websocket = require("livepreview.server.websocket")
 local supported_filetype = require("livepreview.utils").supported_filetype
 local fswatch = require("livepreview.server.fswatch")
+local api = vim.api
 
 ---@class Server
 ---To call this class, do
@@ -25,13 +26,16 @@ local connecting_clients = {}
 local cursor_line
 local operating_system = uv.os_uname().sysname
 
+---@class ServerStartOptions
+---@field on_events? table<string, function(client:userdata):void>
+
 --- Send a scroll message to a WebSocket client
 --- The message is a table with the following
 --- - type: "scroll"
 --- - filepath: path to the file
 --- - line: top line of the window
 local function send_scroll()
-	local cursor = vim.api.nvim_win_get_cursor(0)
+	local cursor = api.nvim_win_get_cursor(0)
 	if cursor_line == cursor[1] then
 		return
 	end
@@ -44,7 +48,7 @@ local function send_scroll()
 	local message = {
 		type = "scroll",
 		filepath = filepath or "",
-		cursor = vim.api.nvim_win_get_cursor(0),
+		cursor = api.nvim_win_get_cursor(0),
 	}
 	for _, client in ipairs(connecting_clients) do
 		websocket.send_json(client, message)
@@ -53,30 +57,30 @@ local function send_scroll()
 	need_scroll = false
 end
 
-local function send_scroll_autocmd()
-	vim.api.nvim_create_autocmd({
-		"WinScrolled",
-		"CursorMoved",
-		"CursorMovedI",
-	}, {
-		callback = function()
-			need_scroll = true
-			filepath = vim.api.nvim_buf_get_name(0)
-			if #connecting_clients then
-				send_scroll()
-			end
-		end,
-	})
-end
-
 --- Constructor
 --- @param webroot string|nil: path to the webroot
 function Server:new(webroot)
 	self.server = uv.new_tcp()
 	self.webroot = webroot or uv.cwd()
+	api.nvim_create_augroup("LivePreview", {
+		clear = true,
+	})
+
 	local config = require("livepreview.config").config
 	if config.sync_scroll then
-		send_scroll_autocmd()
+		api.nvim_create_autocmd({
+			"WinScrolled",
+			"CursorMoved",
+			"CursorMovedI",
+		}, {
+			callback = function()
+				need_scroll = true
+				filepath = api.nvim_buf_get_name(0)
+				if #connecting_clients then
+					send_scroll()
+				end
+			end,
+		})
 	end
 	return self
 end
@@ -97,14 +101,19 @@ function Server:routes(path)
 end
 
 --- Watch a directory for changes and send a message "reload" to a WebSocket client
---- @param func function: function to call when a change is detected
-function Server:watch_dir(func)
+function Server:watch_dir()
+	local callback = vim.schedule_wrap(function()
+		api.nvim_exec_autocmds("User", {
+			group = "LivePreview",
+			pattern = "LivePreviewDirChanged",
+		})
+	end)
 	local function on_change(err, filename, event)
 		if err then
 			print("Watch error: " .. err)
 			return
 		end
-		func()
+		callback()
 	end
 	local function watch(path, recursive)
 		local handle = uv.new_fs_event()
@@ -121,7 +130,7 @@ function Server:watch_dir(func)
 	else
 		local watcherObj = fswatch.Watcher:new(self.webroot)
 		watcherObj:start(function(filename, events)
-			func()
+			callback()
 		end)
 		self._watcher = watcherObj
 	end
@@ -130,9 +139,9 @@ end
 --- Start the server
 --- @param ip string: IP address to bind to
 --- @param port number: port to bind to
---- @param func function|nil: Function to call when there is a change in the watched directory
---- 	- client uv_tcp_t: The uv_tcp client passed to func
-function Server:start(ip, port, func)
+--- @param opts ServerStartOptions: a table with the following fields
+--- 	- on_events (table<string, function(client:userdata):void>)
+function Server:start(ip, port, opts)
 	self.server:bind(ip, port)
 	self.server:listen(128, function(err)
 		if err then
@@ -140,6 +149,7 @@ function Server:start(ip, port, func)
 			return
 		end
 
+		--- Connect to client
 		local client = uv.new_tcp()
 		self.server:accept(client)
 		handler.client(client, function(error, request)
@@ -165,11 +175,42 @@ function Server:start(ip, port, func)
 			end
 		end)
 		table.insert(connecting_clients, client)
-		self:watch_dir(function()
-			if func then
-				func(client)
-			end
-		end)
+
+		--- Handle on_events
+		local on_events = opts.on_events
+
+		if on_events then
+			vim.schedule(function()
+				print("Watching directory for changes")
+				if on_events.LivePreviewDirChanged then
+					self:watch_dir()
+				end
+
+				for k, v in pairs(opts.on_events) do
+					if k:match("^LivePreview*") then
+						api.nvim_create_autocmd("User", {
+							group = "LivePreview",
+							pattern = k,
+							callback = function()
+								for _, client in ipairs(connecting_clients) do
+									v(client)
+								end
+							end,
+						})
+					else
+						api.nvim_create_autocmd(k, {
+							pattern = "*",
+							group = "LivePreview",
+							callback = function()
+								for _, client in ipairs(connecting_clients) do
+									v(client)
+								end
+							end,
+						})
+					end
+				end
+			end)
+		end
 	end)
 
 	print("Server listening on port " .. port)
@@ -187,6 +228,7 @@ function Server:stop()
 	if self._watcher then
 		self._watcher:close()
 	end
+	api.nvim_del_augroup_by_name("LivePreview")
 end
 
 M.Server = Server

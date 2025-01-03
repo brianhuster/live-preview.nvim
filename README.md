@@ -2,7 +2,7 @@
 
 [![LuaRocks](https://img.shields.io/luarocks/v/brianhuster/live-preview.nvim?logo=lua&color=purple)](https://luarocks.org/modules/brianhuster/live-preview.nvim)
 
-live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/wiki/Markdown), [HTML](https://en.wikipedia.org/wiki/HTML) (along with CSS, JavaScript), [AsciiDoc](https://asciidoc.org/) and [svg](https://en.wikipedia.org/wiki/SVG) files in a web browser with live updates. No external dependencies or runtime like NodeJS or Python are required, since the backend is fully written in Lua and Neovim's built-in functions.
+live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](https://en.wikipedia.org/wiki/Markdown), [HTML](https://en.wikipedia.org/wiki/HTML) (along with CSS, JavaScript), [AsciiDoc](https://asciidoc.org/) and [SVG](https://en.wikipedia.org/wiki/SVG) files in a web browser with live updates. No external dependencies or runtime like NodeJS or Python are required, since the backend is fully written in Lua and Neovim's built-in functions.
 
 # Features :sparkles:
  
@@ -37,19 +37,15 @@ You can install this plugin using a plugin manager. Most plugin managers are sup
 <summary>Using lazy.nvim (recommended) 💤</summary>
 
 ```lua
-require("lazy").setup({
-    {
-        'brianhuster/live-preview.nvim',
-        dependencies = {
-            'brianhuster/autosave.nvim',  -- Not required, but recomended for autosaving and sync scrolling
-
-            -- You can choose one of the following pickers
-            'nvim-telescope/telescope.nvim',
-            'ibhagwan/fzf-lua',
-            'echasnovski/mini.pick',
-        },
-   }
-})
+{
+    'brianhuster/live-preview.nvim',
+    dependencies = {
+        -- You can choose one of the following pickers
+        'nvim-telescope/telescope.nvim',
+        'ibhagwan/fzf-lua',
+        'echasnovski/mini.pick',
+    },
+}
 ```
 
 </details>
@@ -61,8 +57,6 @@ require("lazy").setup({
 MiniDeps.add({
     source = 'brianhuster/live-preview.nvim',
     depends = { 
-        'brianhuster/autosave.nvim',  -- Not required, but recomended for autosaving and sync scrolling
-
         -- You can choose one of the following pickers
         'nvim-telescope/telescope.nvim',
         'ibhagwan/fzf-lua',
@@ -86,7 +80,6 @@ MiniDeps.add({
 
 ```vim
 Plug 'brianhuster/live-preview.nvim'
-Plug 'brianhuster/autosave.nvim' " Not required, but recomended for autosaving
 
 " You can choose one of the following pickers
 Plug 'nvim-telescope/telescope.nvim'
@@ -105,6 +98,23 @@ nvim -c 'helptags ~/.local/share/nvim/site/pack/brianhuster/start/live-preview.n
 ```
 
 </details>
+
+You may need to run `helptags ALL` in Neovim to generate the help tags, if your plugin manager does not do it for you.
+
+### Note for HTML
+
+This plugin supports live-previewing Markdown, AsciiDoc and SVG files without the need to save the file. However, for HTML files, you need to save the file to see the changes. Hence, it is recommended to add the following lines to your config if you need to live-preview HTML files.
+
+```lua
+-- Automatically save the file when you leave insert mode, and in a few other situations
+vim.o.autowriteall = true  -- Or `:set autowriteall` in Vimscript
+
+-- Disable swap files
+vim.o.swapfile = false -- Or `:set noswapfile` in Vimscript
+```
+With these settings, whenever you leave insert mode, the file will be saved automatically, and the browser will update the changes.
+
+Alternatively, you can use plugins like [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim) to automatically save the file when you type (similar to `Autosave` in VSCode).
 
 # Configuration, usage, FAQ
 

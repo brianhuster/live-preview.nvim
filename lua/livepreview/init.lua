@@ -14,7 +14,6 @@ local cmd = "LivePreview"
 local server = require("livepreview.server")
 local utils = require("livepreview.utils")
 local config = require("livepreview.config")
-local picker = require("livepreview.picker")
 
 M.serverObj = nil
 
@@ -55,27 +54,37 @@ function M.start(filepath, port)
 	end
 	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
 	vim.wait(50, function()
-		M.serverObj:start("127.0.0.1", port, function(client)
-			if utils.supported_filetype(filepath) == "html" then
-				server.websocket.send_json(client, { type = "reload" })
-			else
-				filepath = filepath:gsub("%%20", " ")
-				utils.async_read_file(filepath, function(err, data)
-					local message = {
-						filepath = filepath,
-						type = "update",
-						content = data,
-					}
-					assert(not err, err)
-					server.websocket.send_json(client, message)
-				end)
+		local function onTextChanged(client)
+			local bufname = vim.api.nvim_buf_get_name(0)
+			if not utils.supported_filetype(bufname) or utils.supported_filetype(bufname) == "html" then
+				return
 			end
-		end)
+			local message = {
+				filepath = bufname,
+				type = "update",
+				content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n"),
+			}
+			server.websocket.send_json(client, message)
+		end
+
+		M.serverObj:start("127.0.0.1", port, {
+			on_events = utils.supported_filetype(filepath) == "html" and {
+				LivePreviewDirChanged = function(client)
+					server.websocket.send_json(client, { type = "reload" })
+				end,
+			} or {
+				TextChanged = vim.schedule_wrap(onTextChanged),
+				TextChangedI = vim.schedule_wrap(onTextChanged),
+			},
+		})
+
 		return true
 	end, 98)
 end
 
 function M.pick()
+	local picker = require("livepreview.picker")
+
 	local pick_callback = function(pick_value)
 		local filepath = pick_value
 		M.start(filepath, config.config.port)

@@ -1,3 +1,9 @@
+if vim.g.loaded_livepreview then
+	return
+end
+
+vim.g.loaded_livepreview = true
+
 local health = require("livepreview.health")
 local cmd = "LivePreview"
 local api = vim.api
@@ -12,13 +18,6 @@ if not health.is_nvim_compatible() then
 		vim.log.levels.ERROR
 	)
 end
-
-vim.filetype.add({
-	pattern = {
-		[".*/live%-preview%.nvim/doc/.+%.txt"] = "help",
-		[".*/live%-preview%.nvim/.*template.lua"] = "luatemplate",
-	},
-})
 
 api.nvim_create_autocmd("VimLeavePre", {
 	callback = function()
@@ -53,7 +52,9 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 				end
 			end
 		end
-		filepath = vim.fs.normalize(filepath):gsub(" ", "%%20")
+		filepath = vim.fs.normalize(filepath)
+		lp.start(filepath, config.config.port)
+		filepath = filepath:gsub(" ", "%%20")
 		utils.open_browser(
 			string.format(
 				"http://localhost:%d/%s",
@@ -63,7 +64,6 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 			),
 			config.config.browser
 		)
-		lp.start(filepath, config.config.port)
 	elseif subcommand == "close" then
 		lp.close()
 		print("Live preview stopped")
