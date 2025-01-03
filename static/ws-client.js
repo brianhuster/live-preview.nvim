@@ -53,9 +53,6 @@ async function connectWebSocket() {
 						livepreview_renderKatex();
 					}
 					if (typeof livepreview_renderMermaid !== "undefined") {
-	api.nvim_create_augroup("LivePreview", {
-		clear = true,
-	})
 						livepreview_renderMermaid();
 					}
 				} else {
