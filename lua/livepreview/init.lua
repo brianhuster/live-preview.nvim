@@ -55,22 +55,30 @@ function M.start(filepath, port)
 	end
 	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
 	vim.wait(50, function()
-		M.serverObj:start("127.0.0.1", port, function(client)
-			if utils.supported_filetype(filepath) == "html" then
-				server.websocket.send_json(client, { type = "reload" })
-			else
-				filepath = filepath:gsub("%%20", " ")
-				utils.async_read_file(filepath, function(err, data)
-					local message = {
-						filepath = filepath,
-						type = "update",
-						content = data,
-					}
-					assert(not err, err)
-					server.websocket.send_json(client, message)
-				end)
-			end
-		end)
+		local function onTextChanged(client)
+			filepath = filepath:gsub("%%20", " ")
+			utils.async_read_file(filepath, function(err, data)
+				local message = {
+					filepath = filepath,
+					type = "update",
+					content = data,
+				}
+				assert(not err, err)
+				server.websocket.send_json(client, message)
+			end)
+		end
+
+		M.serverObj:start("127.0.0.1", port, {
+			on_events = utils.supported_filetype(filepath) == 'html' and {
+				LivePreviewDirChanged = function(client)
+					server.websocket.send_json(client, { type = "reload" })
+				end
+			} or {
+				TextChanged = onTextChanged,
+				TextChangedI = onTextChanged,
+			}
+		})
+
 		return true
 	end, 98)
 end
