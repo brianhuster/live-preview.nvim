@@ -178,25 +178,29 @@ function Server:start(ip, port, opts)
 			vim.schedule_wrap(function()
 				if on_events.LivePreviewDirChanged then
 					self:watch_dir(function()
-						api.nvim_exec_autocmds('User', {
-							group = 'LivePreview',
-							pattern = 'LivePreviewDirChanged',
+						api.nvim_exec_autocmds("User", {
+							group = "LivePreview",
+							pattern = "LivePreviewDirChanged",
 						})
 					end)
 				end
 
 				for k, v in pairs(opts.on_events) do
-					if k:match "^LivePreview*" then
-						api.nvim_create_autocmd('User', {
-							group = 'LivePreview',
+					if k:match("^LivePreview*") then
+						api.nvim_create_autocmd("User", {
+							group = "LivePreview",
 							pattern = k,
-							callback = function() v(client) end
+							callback = function()
+								v(client)
+							end,
 						})
 					else
 						api.nvim_create_autocmd(k, {
-							pattern = '*',
-							group = 'LivePreview',
-							callback = function() v(client) end
+							pattern = "*",
+							group = "LivePreview",
+							callback = function()
+								v(client)
+							end,
 						})
 					end
 				end
