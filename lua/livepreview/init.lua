@@ -125,7 +125,8 @@ function M.help()
 	end
 	print("live-preview.nvim commands:")
 	print_help(
-	[[  :%s start [filepath] - Start live-preview server and open browser. If no filepath is given, preview the current buffer.]])
+		[[  :%s start [filepath] - Start live-preview server and open browser. If no filepath is given, preview the current buffer.]]
+	)
 	print_help([[  :%s close - Stop live-preview server]])
 	print_help([[  :%s pick - Select a file to preview (using a picker like telescope.nvim, fzf-lua or mini.pick)]])
 	print(":che[ckhealth] livepreview - Check the health of the plugin")

@@ -12,7 +12,8 @@ if not health.is_nvim_compatible() then
 	vim.notify_once(
 		("live-preview.nvim requires Nvim %s, but you are using Nvim %s"):format(
 			health.supported_nvim_ver_range,
-			health.nvim_ver),
+			health.nvim_ver
+		),
 		vim.log.levels.ERROR
 	)
 	return
@@ -58,8 +59,9 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 		utils.open_browser(
 			("http://localhost:%d/%s"):format(
 				Config.port,
-				Config.dynamic_root and fs.basename(filepath) or
-				utils.get_relative_path(filepath, fs.normalize(vim.uv.cwd() or ""))),
+				Config.dynamic_root and fs.basename(filepath)
+					or utils.get_relative_path(filepath, fs.normalize(vim.uv.cwd() or ""))
+			),
 			Config.browser
 		)
 	elseif subcommand == "close" then
