@@ -104,7 +104,6 @@ end
 function Server:watch_dir()
 	local callback = vim.schedule_wrap(function()
 		api.nvim_exec_autocmds("User", {
-			group = "LivePreview",
 			pattern = "LivePreviewDirChanged",
 		})
 	end)
@@ -181,7 +180,6 @@ function Server:start(ip, port, opts)
 
 		if on_events then
 			vim.schedule(function()
-				print("Watching directory for changes")
 				if on_events.LivePreviewDirChanged then
 					self:watch_dir()
 				end
