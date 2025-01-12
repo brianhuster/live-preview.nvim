@@ -98,11 +98,12 @@ function M.read_file(file_path)
 end
 
 --- Asynchronously read a file
+--- @async
 --- @param path string: path to the file
 --- @param callback function: function to call when the file is read
 function M.async_read_file(path, callback)
 	uv.fs_open(path, "r", 438, function(err_open, fd)
-		if err_open then
+		if err_open or not fd then
 			return callback(err_open)
 		end
 		uv.fs_fstat(fd, function(err_fstat, stat)
@@ -118,6 +119,7 @@ function M.async_read_file(path, callback)
 end
 
 --- Execute a shell commands
+---@async
 ---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
 ---@param callback function|nil: function to call when the command finishes.
 ---		- code: the exit code of the command
@@ -253,7 +255,7 @@ end
 --- @param path string
 --- @param browser string|nil
 function M.open_browser(path, browser)
-	if browser == "default" or #browser == 0 or browser == nil then
+	if browser == "default" or browser == nil or #browser == 0 then
 		vim.ui.open(path)
 	else
 		M.term_cmd(browser .. " " .. path)
