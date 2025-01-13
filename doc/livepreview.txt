@@ -102,6 +102,22 @@ See |livepreview-changelog|
 5. FAQ												   
 							    *livepreview-faq*
 
+THIS PLUGIN DOESN'T UPDATE HTML PREVIEW AS I TYPE, WHILE IT DOES WITH MARKDOWN ~
+
+That's true, unlike Markdown, AsciiDoc or SVG preview, `live-preview.nvim` doesn't
+update the HTML preview as you type, you need to save the file to see the
+change in the browser. You can add a mapping or an autocommand to make saving
+the file easier. Example: 
+>vim
+    " Map Ctrl-S to save the file
+    noremap <C-s> <cmd>wa<CR>
+    " Autosave the file when you leave insert mode
+    au InsertLeavePre * if &modifiable | silent! write | endif
+<
+The above code block is in Vimscript, but you can use them in Lua configuration 
+file with |vim.cmd()| function.
+
+
 WHY DOESN'T THE RELATIVE LINK (`../`) WORK? ~
 
 Make sure the webroot of the server is the same as the root directory of 
