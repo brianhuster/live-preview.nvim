@@ -221,6 +221,8 @@ function Server:stop()
 	if self._watcher then
 		self._watcher:close()
 	end
+	self.server = nil
+	self._watcher = nil
 	api.nvim_del_augroup_by_name("LivePreview")
 end
 

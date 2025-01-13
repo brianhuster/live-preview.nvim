@@ -21,6 +21,7 @@ M.serverObj = nil
 function M.close()
 	if M.serverObj then
 		M.serverObj:stop()
+		M.serverObj = nil
 	end
 end
 
