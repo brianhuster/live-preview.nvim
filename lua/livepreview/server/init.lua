@@ -142,6 +142,36 @@ end
 --- 	- on_events (table<string, function(client:userdata):void>)
 function Server:start(ip, port, opts)
 	self.server:bind(ip, port)
+	local on_events = opts.on_events
+	if on_events then
+		if on_events.LivePreviewDirChanged then
+			self:watch_dir()
+		end
+		for k, v in pairs(opts.on_events) do
+			if k:match("^LivePreview*") then
+				api.nvim_create_autocmd("User", {
+					group = "LivePreview",
+					pattern = k,
+					callback = function()
+						for _, client in ipairs(connecting_clients) do
+							v(client)
+						end
+					end,
+				})
+			else
+				api.nvim_create_autocmd(k, {
+					pattern = "*",
+					group = "LivePreview",
+					callback = function()
+						for _, client in ipairs(connecting_clients) do
+							v(client)
+						end
+					end,
+				})
+			end
+		end
+	end
+
 	self.server:listen(128, function(err)
 		if err then
 			print("Listen error: " .. err)
@@ -174,41 +204,6 @@ function Server:start(ip, port, opts)
 			end
 		end)
 		table.insert(connecting_clients, client)
-
-		--- Handle on_events
-		local on_events = opts.on_events
-
-		if on_events then
-			vim.schedule(function()
-				if on_events.LivePreviewDirChanged then
-					self:watch_dir()
-				end
-
-				for k, v in pairs(opts.on_events) do
-					if k:match("^LivePreview*") then
-						api.nvim_create_autocmd("User", {
-							group = "LivePreview",
-							pattern = k,
-							callback = function()
-								for _, client in ipairs(connecting_clients) do
-									v(client)
-								end
-							end,
-						})
-					else
-						api.nvim_create_autocmd(k, {
-							pattern = "*",
-							group = "LivePreview",
-							callback = function()
-								for _, client in ipairs(connecting_clients) do
-									v(client)
-								end
-							end,
-						})
-					end
-				end
-			end)
-		end
 	end)
 
 	print("Server listening on port " .. port)
@@ -226,6 +221,8 @@ function Server:stop()
 	if self._watcher then
 		self._watcher:close()
 	end
+	self.server = nil
+	self._watcher = nil
 	api.nvim_del_augroup_by_name("LivePreview")
 end
 

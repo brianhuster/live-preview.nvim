@@ -6,12 +6,12 @@ live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](http
 
 # Features :sparkles:
  
-* Supports markdown, HTML (with reference to CSS, JS), svg and AsciiDoc files 📄
-* Support Katex for rendering math equations in markdown and AsciiDoc files 🧮
-* Supports mermaid for rendering diagrams in markdown files 🖼️
+* Preview Markdown, AsciiDoc, SVG with live updates as you type 
+* Preview HTML (with CSS and JavaScript) with live updates as you save the file
+* Supports KaTeX and Mermaid for rendering math equations and diagrams in Markdown and AsciiDoc files
 * Syntax highlighting for code blocks in Markdown and AsciiDoc 🖍️
-* Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. (You need to enable `sync_scroll` in [setup](#setup). This feature should be used with [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim)) 🔄
-* Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick) for opening files to preview 📂
+* Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. 
+* Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick) 
 
 # Updates :loudspeaker:
  
@@ -103,18 +103,25 @@ You may need to run `helptags ALL` in Neovim to generate the help tags, if your 
 
 ### Note for HTML
 
-This plugin supports live-previewing Markdown, AsciiDoc and SVG files without the need to save the file. However, for HTML files, you need to save the file to see the changes. Hence, it is recommended to add the following lines to your config if you need to live-preview HTML files.
+This plugin supports live-previewing Markdown, AsciiDoc and SVG files without the need to save the file. However, for HTML files, the preview will only be updated when you save the file. 
+
+You can create an autocmd that auto save the file when you leave insert mode.
 
 ```lua
--- Automatically save the file when you leave insert mode, and in a few other situations
-vim.o.autowriteall = true  -- Or `:set autowriteall` in Vimscript
-
--- Disable swap files
-vim.o.swapfile = false -- Or `:set noswapfile` in Vimscript
+--- Lua
+vim.o.autowriteall = true
+vim.api.nvim_create_autocmd('InsertLeavePre', {
+    pattern = '*', callback = function()
+        vim.cmd('silent! write')
+    end
+})
 ```
-With these settings, whenever you leave insert mode, the file will be saved automatically, and the browser will update the changes.
 
-Alternatively, you can use plugins like [brianhuster/autosave.nvim](https://github.com/brianhuster/autosave.nvim) to automatically save the file when you type (similar to `Autosave` in VSCode).
+```vim
+" Vimscript
+set autowriteall
+autocmd InsertLeavePre * silent! write
+```
 
 # Configuration, usage, FAQ
 
