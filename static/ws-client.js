@@ -40,6 +40,7 @@ async function connectWebSocket() {
 			console.log("Reload message received");
 			if (livepreview_reload === 0) {
 				livepreview_reload = 1;
+				socket.close();
 				window.location.reload();
 				return;
 			}
