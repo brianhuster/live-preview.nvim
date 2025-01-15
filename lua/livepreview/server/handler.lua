@@ -77,7 +77,7 @@ function M.serve_file(client, file_path, if_none_match)
 		local etag = generate_etag(file_path)
 
 		if if_none_match and if_none_match == etag then
-			M.send_http_response(client, "304 Not Modified", get_content_type(file_path), "", {
+			M.send_http_response(client, "304 Not Modified", get_content_type(file_path) or "", "", {
 				["ETag"] = etag,
 			})
 			return
@@ -92,7 +92,7 @@ function M.serve_file(client, file_path, if_none_match)
 			end
 		end
 
-		M.send_http_response(client, "200 OK", get_content_type(file_path), body, {
+		M.send_http_response(client, "200 OK", get_content_type(file_path) or "", body, {
 			["ETag"] = etag,
 		})
 	end)

@@ -39,8 +39,8 @@ async function connectWebSocket() {
 		if (message.type === "reload") {
 			console.log("Reload message received");
 			if (livepreview_reload === 0) {
-				window.location.reload();
 				livepreview_reload = 1;
+				window.location.reload();
 			}
 		} else if (message.type === "update") {
 			console.log("Update message received");
