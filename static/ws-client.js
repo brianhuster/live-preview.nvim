@@ -34,12 +34,16 @@ async function connectWebSocket() {
 	};
 
 	socket.onmessage = (event) => {
+		if (!connected) {
+			return;
+		}
 		const message = JSON.parse(event.data);
 
 		if (message.type === "reload") {
 			console.log("Reload message received");
 			if (livepreview_reload === 0) {
 				livepreview_reload = 1;
+				connected = false;
 				socket.close();
 				window.location.reload();
 				return;
