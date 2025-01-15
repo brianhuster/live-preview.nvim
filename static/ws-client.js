@@ -38,10 +38,12 @@ async function connectWebSocket() {
 
 		if (message.type === "reload") {
 			console.log("Reload message received");
-			if (livepreview_reload === 0) {
-				window.location.reload();
-				livepreview_reload = 1;
-			}
+			// if (livepreview_reload === 0) {
+			livepreview_reload = 1;
+			connected = false;
+			socket.close();
+			// return;
+			// }
 		} else if (message.type === "update") {
 			console.log("Update message received");
 			let { filepath, content } = message;
@@ -96,6 +98,7 @@ async function connectWebSocket() {
 	socket.onclose = () => {
 		connected = false;
 		console.log("Disconnected from server");
+		window.location.reload();
 	};
 
 	socket.onerror = (error) => {
