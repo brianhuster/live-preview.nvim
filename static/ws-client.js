@@ -34,19 +34,19 @@ async function connectWebSocket() {
 	};
 
 	socket.onmessage = (event) => {
-		if (!connected) {
-			return;
-		}
 		const message = JSON.parse(event.data);
 
 		if (message.type === "reload") {
 			console.log("Reload message received");
-			if (livepreview_reload === 0) {
-				livepreview_reload = 1;
-				connected = false;
-				socket.close();
-				return;
+			// if (livepreview_reload === 0) {
+			livepreview_reload = 1;
+			connected = false;
+			socket.close();
+			socket.onclose = () => {
+				window.location.reload();
 			}
+			// return;
+			// }
 		} else if (message.type === "update") {
 			console.log("Update message received");
 			let { filepath, content } = message;
@@ -101,7 +101,6 @@ async function connectWebSocket() {
 	socket.onclose = () => {
 		connected = false;
 		console.log("Disconnected from server");
-		window.location.reload();
 	};
 
 	socket.onerror = (error) => {
