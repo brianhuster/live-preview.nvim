@@ -45,7 +45,6 @@ async function connectWebSocket() {
 				livepreview_reload = 1;
 				connected = false;
 				socket.close();
-				window.location.reload();
 				return;
 			}
 		} else if (message.type === "update") {
@@ -102,6 +101,7 @@ async function connectWebSocket() {
 	socket.onclose = () => {
 		connected = false;
 		console.log("Disconnected from server");
+		window.location.reload();
 	};
 
 	socket.onerror = (error) => {
