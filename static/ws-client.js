@@ -38,12 +38,12 @@ async function connectWebSocket() {
 
 		if (message.type === "reload") {
 			console.log("Reload message received");
-			// if (livepreview_reload === 0) {
-			livepreview_reload = 1;
-			connected = false;
-			socket.close();
-			// return;
-			// }
+			if (livepreview_reload === 0) {
+				livepreview_reload = 1;
+				connected = false;
+				socket.close();
+				return;
+			}
 		} else if (message.type === "update") {
 			console.log("Update message received");
 			let { filepath, content } = message;
