@@ -130,8 +130,8 @@ function M.help()
 	)
 	print_help([[  :%s close - Stop live-preview server]])
 	print_help([[  :%s pick - Select a file to preview (using a picker like telescope.nvim, fzf-lua or mini.pick)]])
-	print(":che[ckhealth] livepreview - Check the health of the plugin")
-	print(":h[elp] livepreview - Open the documentation")
+	print("  :che[ckhealth] livepreview - Check the health of the plugin")
+	print("  :h[elp] livepreview - Open the documentation")
 end
 
 --- @deprecated Use `require('livepreview.config').set(opts)` instead

@@ -82,7 +82,7 @@ body:
       value: |
         vim.cmd.set "rtp+=/path/to/live-preview.nvim"
 
-        require("live-preview").setup {
+        require("livepreview.config").set {
           --- Configuration here
         }
       render: lua
