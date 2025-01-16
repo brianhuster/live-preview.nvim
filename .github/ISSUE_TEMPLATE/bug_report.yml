@@ -78,7 +78,7 @@ body:
   - type: textarea
     attributes:
       label: Minimal config to reproduce
-      description: Minimal `init.lua` to reproduce this issue. Save as `repro.lua` and run with `nvim -u minimal_init.lua`
+      description: Minimal `init.lua` to reproduce this issue. Save as `minimal_init.lua` and run with `nvim -u minimal_init.lua`
       value: |
         vim.cmd.set "rtp+=/path/to/live-preview.nvim"
 
