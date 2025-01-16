@@ -134,7 +134,7 @@ function M.help()
 	print(":h[elp] livepreview - Open the documentation")
 end
 
---- @deprecated
+--- @deprecated Use `require('livepreview.config').set(opts)` instead
 function M.setup(opts)
 	config.set(opts)
 end
