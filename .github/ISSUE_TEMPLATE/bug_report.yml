@@ -53,10 +53,10 @@ body:
     attributes:
       label: Steps To Reproduce
       description: Steps to reproduce the behavior.
-      placeholder: |
-        1.
-        2.
-        3.
+      value: |
+        1. Clone the plugin `git clone https://github.com/brianhuster/live-preview.nvim`
+        2. Open Nvim with minimal repro file `nvim -u minimal_init.lua`
+        3. ...
     validations:
       required: true
 
@@ -77,22 +77,14 @@ body:
 
   - type: textarea
     attributes:
-      label: Repro
-      description: Minimal `init.lua` to reproduce this issue. Save as `repro.lua` and run with `nvim -u repro.lua`
+      label: Minimal config to reproduce
+      description: Minimal `init.lua` to reproduce this issue. Save as `repro.lua` and run with `nvim -u minimal_init.lua`
       value: |
-        vim.env.LAZY_STDPATH = ".repro"
-        load(vim.fn.system("curl -s https://raw.githubusercontent.com/folke/lazy.nvim/main/bootstrap.lua"))()
+        vim.cmd.set "rtp+=/path/to/live-preview.nvim"
 
-        require("lazy.minit").repro({
-            spec = {{
-                "brianhuster/live-preview.nvim",
-                config = function()
-                    require("live-preview").setup({
-                        -- Add your configuration here
-                    })
-                end,
-            }},
-        })
+        require("live-preview").setup {
+          --- Configuration here
+        }
       render: lua
     validations:
       required: true
