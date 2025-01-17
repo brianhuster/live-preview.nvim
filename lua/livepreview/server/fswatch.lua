@@ -78,8 +78,9 @@ function Watcher:start(callback)
 		if events.rename then
 			--- Check if the directory still exists
 			if not uv.fs_stat(self.directory) or uv.fs_stat(self.directory).type ~= "directory" then
-				self.watcher:close()
-				self = nil
+				self.watcher:close(function()
+					self.watcher = nil
+				end)
 				return
 			end
 
