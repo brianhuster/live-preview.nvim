@@ -100,17 +100,17 @@ function M.pick()
 		)
 	end
 
-	local pickers = {
-		["telescope"] = picker.telescope,
-		["fzf-lua"] = picker.fzflua,
-		["mini.pick"] = picker.minipick,
-	}
+	local picker_funcs = {}
+	for k, v in pairs(config.pickers) do
+		picker_funcs[v] = picker[k]
+	end
+
 	if config.config.picker then
-		if not pickers[config.config.picker] then
+		if not picker_funcs[config.config.picker] then
 			vim.notify("Error : picker opt invalid", vim.log.levels.ERROR)
 			return
 		end
-		local status, err = pcall(pickers[config.config.picker], pick_callback)
+		local status, err = pcall(picker_funcs[config.config.picker], pick_callback)
 		if not status then
 			vim.notify("live-preview.nvim : error calling picker " .. config.config.picker, vim.log.levels.ERROR)
 			vim.notify(err, vim.log.levels.ERROR)

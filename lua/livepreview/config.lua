@@ -1,7 +1,21 @@
 local M = {}
 
-M.config = {
-	picker = nil,
+---@enum Picker
+M.pickers = {
+	telescope = "telescope",
+	fzflua = "fzf-lua",
+	minipick = "mini.pick",
+}
+
+---@class Config
+---@field picker Picker? picker to use to quickly open HTML/Markdown/Asciidoc/SVG files and run live-preview server
+---@field autokill boolean? DEPRECATED
+---@field port number? port to run the server on
+---@field browser string? browser to open the preview in
+---@field dynamic_root boolean? Whether to use the basename of the file as the root
+---@field sync_scroll boolean? Whether to sync scroll the preview with the editor
+M.default_config = {
+	picker = "fzf-lua",
 	autokill = false,
 	port = 5500,
 	browser = "default",
@@ -9,8 +23,10 @@ M.config = {
 	sync_scroll = true,
 }
 
+M.config = vim.deepcopy(M.default_config)
+
 --- Configure live-preview.nvim
---- @param opts {port: number, browser: string, sync_scroll: boolean, dynamic_root: boolean, autokill: boolean, picker: string?}|nil
+--- @param opts Config?
 function M.set(opts)
 	M.config = vim.tbl_deep_extend("force", M.config, opts or {})
 end

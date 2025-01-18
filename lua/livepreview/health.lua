@@ -35,7 +35,7 @@ M.nvim_ver = string.format("%d.%d.%d", nvim_ver_table.major, nvim_ver_table.mino
 --- @return boolean: true if compatible, false otherwise
 local function is_compatible(ver, range)
 	local requirement = vim.version.range(range)
-	return requirement:has(ver)
+	return requirement and requirement:has(ver) or false
 end
 
 --- Check if the current Nvim version is compatible with Live Preview
@@ -74,17 +74,10 @@ local function checkhealth_port(port)
 	end
 end
 
+---@TODO: Will check if the config is valid (only has valid keys)
 local function check_config()
 	local config = require("livepreview.config").config
-	if not config then
-		vim.health.warn(
-			"Setup function not called",
-			"Please add `require('livepreview').setup()` to your Lua config or `lua require('livepreview').setup()` to your Vimscript config for Nvim"
-		)
-		return
-	else
-		vim.health.info(vim.inspect(config))
-	end
+	vim.health.info(vim.inspect(config))
 end
 
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
@@ -109,13 +102,7 @@ function M.check()
 		vim.health.ok(string.format("`%s` is available", shell))
 	end
 
-	--- Check dependant plugins
-	local dependencies = {
-		"telescope",
-		"fzf-lua",
-		"mini.pick",
-	}
-	for _, dep in ipairs(dependencies) do
+	for _, dep in pairs(require("livepreview.config").pickers) do
 		local ok, _ = pcall(require, dep)
 		if not ok then
 			vim.health.warn(string.format("`%s` (optional) is not installed", dep))

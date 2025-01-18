@@ -12,7 +12,7 @@ local template_path = vim.fs.joinpath(plugin_path, "lua/livepreview/template.lua
 --- Generate an ETag for a file
 --- The Etag is generated based on the modification time of the file
 --- @param file_path string: path to the file
---- @return string | nil: ETag
+--- @return string?: ETag
 function M.generate(file_path)
 	local etag
 	local attr = vim.uv.fs_stat(file_path)

@@ -7,19 +7,17 @@
 
 local M = {}
 
-local uv = vim.uv
-local fs = vim.fs
-local bit = require("bit")
-local api = vim.api
-
 --- Extract base path from a file path
 --- Example: ```lua
 --- get_relative_path("/home/user/.config/nvim/lua/livepreview/utils.lua", "/home/user/.config/nvim/")
 --- ```
 --- will return "lua/livepreview/utils.lua"
+---
+--- @TODO Use vim.fs.relpath
+---
 --- @param full_path string
 --- @param parent_path string
---- @return string
+--- @return string?
 function M.get_relative_path(full_path, parent_path)
 	if parent_path:sub(-1) ~= "/" then
 		parent_path = parent_path .. "/"
@@ -48,6 +46,7 @@ end
 --- find a html/md/adoc/svg buffer in buffer list
 --- @return string|nil
 function M.find_supported_buf()
+	local api = vim.api
 	for _, buf in ipairs(api.nvim_list_bufs()) do
 		if api.nvim_buf_is_loaded(buf) then
 			local buf_name = api.nvim_buf_get_name(buf)
@@ -64,7 +63,7 @@ end
 --- @return table: List of relative paths (compared to `directory`) of the supported files
 function M.list_supported_files(directory)
 	directory = vim.fn.fnamemodify(directory, ":p")
-	local files = fs.find(function(name, _)
+	local files = vim.fs.find(function(name, _)
 		return not not M.supported_filetype(name)
 	end, { limit = math.huge, type = "file" })
 	for i, file in ipairs(files) do
@@ -81,7 +80,7 @@ function M.get_plugin_path()
 	local full_path = source and source:sub(1, 1) == "@" and source:sub(2)
 	local subpath = "lua/livepreview/utils.lua"
 	local plugin_path = full_path and full_path:sub(1, -1 - #subpath)
-	return plugin_path and fs.normalize(plugin_path)
+	return plugin_path and vim.fs.normalize(plugin_path)
 end
 
 --- Read a file
@@ -102,6 +101,7 @@ end
 --- @param path string: path to the file
 --- @param callback function: function to call when the file is read
 function M.async_read_file(path, callback)
+	local uv = vim.uv
 	uv.fs_open(path, "r", 438, function(err_open, fd)
 		if err_open or not fd then
 			return callback(err_open)
@@ -118,6 +118,11 @@ function M.async_read_file(path, callback)
 	end)
 end
 
+---@return boolean
+function M.isWindows()
+	return vim.uv.os_uname().version:match("Windows")
+end
+
 --- Execute a shell commands
 ---@async
 ---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
@@ -128,7 +133,7 @@ end
 ---		- stderr: the standard error of the command
 function M.term_cmd(cmd, callback)
 	local shell = "sh"
-	if uv.os_uname().version:match("Windows") then
+	if M.isWindows() then
 		shell = "pwsh"
 	end
 
@@ -150,7 +155,7 @@ end
 ---@return {code: number, signal: number, stdout: string, stderr: string}: a table with fields code, stdout, stderr, signal
 function M.await_term_cmd(cmd)
 	local shell = "sh"
-	if uv.os_uname().version:match("Windows") then
+	if M.isWindows() then
 		shell = "pwsh"
 	end
 	local results = vim.system({ shell, "-c", cmd }, { text = true }):wait()
@@ -158,11 +163,14 @@ function M.await_term_cmd(cmd)
 end
 
 --- Compute the SHA1 hash of a string.
+---@copyright (C) 2007 [Free Software Foundation, Inc](https://fsf.org/).
+---@license [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html).
 ---
---- Copyright (C) 2007 [Free Software Foundation, Inc](https://fsf.org/).
 ---@param val string
 ---@return string: SHA1 hash
 function M.sha1(val)
+	local bit = require("bit")
+
 	local function to_32_bits_str(number)
 		return string.char(bit.band(bit.rshift(number, 24), 255))
 			.. string.char(bit.band(bit.rshift(number, 16), 255))
@@ -264,7 +272,7 @@ end
 
 --- Get a list of processes listening on a port
 --- @param port number
---- @return {name : string, pid : number}[]: a table with the processes listening on the port (except for the current process), including name and PID
+--- @return {name : string, pid : number}[]|{}: a table with the processes listening on the port (except for the current process), including name and PID
 function M.processes_listening_on_port(port)
 	local cmd
 	if vim.uv.os_uname().version:match("Windows") then
