@@ -55,18 +55,11 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 		end
 		filepath = fs.normalize(filepath)
 		lp.start(filepath, Config.port)
-		local urlpath =
-			(Config.dynamic_root 
-				and fs.basename(filepath) 
-				or utils.get_relative_path(filepath, fs.normalize(vim.uv.cwd() or "")))
-			:gsub(" ", "%%20")
-		utils.open_browser(
-			("http://localhost:%d/%s"):format(
-				Config.port,
-				urlpath
-			),
-			Config.browser
-		)
+		local urlpath = (Config.dynamic_root and fs.basename(filepath) or utils.get_relative_path(
+			filepath,
+			fs.normalize(vim.uv.cwd() or "")
+		)):gsub(" ", "%%20")
+		utils.open_browser(("http://localhost:%d/%s"):format(Config.port, urlpath), Config.browser)
 	elseif subcommand == "close" then
 		lp.close()
 		print("Live preview stopped")
