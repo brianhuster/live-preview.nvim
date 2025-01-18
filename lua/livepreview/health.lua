@@ -102,7 +102,7 @@ function M.check()
 		vim.health.ok(string.format("`%s` is available", shell))
 	end
 
-	for _, dep in pairs(require('livepreview.config').pickers) do
+	for _, dep in pairs(require("livepreview.config").pickers) do
 		local ok, _ = pcall(require, dep)
 		if not ok then
 			vim.health.warn(string.format("`%s` (optional) is not installed", dep))

@@ -15,7 +15,7 @@ M.pickers = {
 ---@field dynamic_root boolean? Whether to use the basename of the file as the root
 ---@field sync_scroll boolean? Whether to sync scroll the preview with the editor
 M.default_config = {
-	picker = 'fzf-lua',
+	picker = "fzf-lua",
 	autokill = false,
 	port = 5500,
 	browser = "default",
