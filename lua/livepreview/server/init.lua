@@ -22,7 +22,7 @@ Server.__index = Server
 local uv = vim.uv
 local need_scroll = false
 local filepath = ""
-local connecting_clients = {}
+M.connecting_clients = {}
 local cursor_line
 local operating_system = uv.os_uname().sysname
 
@@ -50,7 +50,7 @@ local function send_scroll()
 		filepath = filepath or "",
 		cursor = api.nvim_win_get_cursor(0),
 	}
-	for _, client in ipairs(connecting_clients) do
+	for _, client in ipairs(M.connecting_clients) do
 		websocket.send_json(client, message)
 	end
 	cursor_line = cursor[1]
@@ -76,7 +76,7 @@ function Server:new(webroot)
 			callback = function()
 				need_scroll = true
 				filepath = api.nvim_buf_get_name(0)
-				if #connecting_clients then
+				if #M.connecting_clients then
 					send_scroll()
 				end
 			end,
@@ -100,7 +100,7 @@ function Server:routes(path)
 	end
 end
 
---- Watch a directory for changes and send a message "reload" to a WebSocket client
+--- Watch a directory for changes and trigger an event
 function Server:watch_dir()
 	local callback = vim.schedule_wrap(function()
 		api.nvim_exec_autocmds("User", {
@@ -153,7 +153,7 @@ function Server:start(ip, port, opts)
 					group = "LivePreview",
 					pattern = k,
 					callback = function()
-						for _, client in ipairs(connecting_clients) do
+						for _, client in ipairs(M.connecting_clients) do
 							v(client)
 						end
 					end,
@@ -163,7 +163,7 @@ function Server:start(ip, port, opts)
 					pattern = "*",
 					group = "LivePreview",
 					callback = function()
-						for _, client in ipairs(connecting_clients) do
+						for _, client in ipairs(M.connecting_clients) do
 							v(client)
 						end
 					end,
@@ -174,20 +174,22 @@ function Server:start(ip, port, opts)
 
 	self.server:listen(128, function(err)
 		if err then
-			print("Listen error: " .. err)
-			return
 		end
 
 		--- Connect to client
 		local client = uv.new_tcp()
 		self.server:accept(client)
 		handler.client(client, function(error, request)
-			if error then
-				print(error)
-
+			if error or not request then
+				vim.notify(error and error, vim.log.levels.ERROR)
+				for i, c in ipairs(M.connecting_clients) do
+					if c == client then
+						client:close()
+						table.remove(M.connecting_clients, i)
+					end
+				end
 				return
-			end
-			if request then
+			else
 				local req_info = handler.request(client, request)
 				if req_info then
 					local path = req_info.path
@@ -195,15 +197,9 @@ function Server:start(ip, port, opts)
 					local file_path = self:routes(path)
 					handler.serve_file(client, file_path, if_none_match)
 				end
-			else
-				for i, c in ipairs(connecting_clients) do
-					if c == client then
-						table.remove(connecting_clients, i)
-					end
-				end
 			end
 		end)
-		table.insert(connecting_clients, client)
+		table.insert(M.connecting_clients, client)
 	end)
 
 	print("Server listening on port " .. port)
