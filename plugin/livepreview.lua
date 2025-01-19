@@ -38,7 +38,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 		if cmd_opts.fargs[2] ~= nil then
 			filepath = cmd_opts.fargs[2]
 			if not utils.is_absolute_path(filepath) then
-				filepath = utils.joinpath(vim.uv.cwd(), filepath)
+				filepath = fs.joinpath(vim.uv.cwd(), filepath)
 			end
 		else
 			filepath = api.nvim_buf_get_name(0)

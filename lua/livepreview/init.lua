@@ -70,7 +70,13 @@ function M.start(filepath, port)
 
 		M.serverObj:start("127.0.0.1", port, {
 			on_events = utils.supported_filetype(filepath) == "html" and {
-				LivePreviewDirChanged = function(client)
+				---@param client userdata
+				---@param data {filename: string, event: FsEvent}
+				LivePreviewDirChanged = function(client, data)
+					if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
+						return
+					end
+
 					server.websocket.send_json(client, { type = "reload" })
 				end,
 			} or {

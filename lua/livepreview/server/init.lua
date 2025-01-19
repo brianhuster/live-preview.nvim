@@ -12,6 +12,10 @@ local supported_filetype = require("livepreview.utils").supported_filetype
 local fswatch = require("livepreview.server.fswatch")
 local api = vim.api
 
+---@class FsEvent
+---@field change boolean
+---@field rename boolean
+
 ---@class Server
 ---To call this class, do
 ---```lua
@@ -147,7 +151,7 @@ end
 --- @param ip string: IP address to bind to
 --- @param port number: port to bind to
 --- @param opts ServerStartOptions: a table with the following fields
---- 	- on_events (table<string, function(client:userdata):void>)
+--- 	- on_events (table<string, function(client:userdata, data:{filename: string, events: FsEvent}):void>)
 function Server:start(ip, port, opts)
 	self.server:bind(ip, port)
 	local on_events = opts.on_events
@@ -161,11 +165,8 @@ function Server:start(ip, port, opts)
 					group = "LivePreview",
 					pattern = k,
 					callback = function(param)
-						if not param.data.filename:match("%.(html|css|js)$") then
-							return
-						end
 						for _, client in ipairs(M.connecting_clients) do
-							v(client)
+							v(client, param.data)
 						end
 					end,
 				})
@@ -184,9 +185,6 @@ function Server:start(ip, port, opts)
 	end
 
 	self.server:listen(128, function(err)
-		if err then
-		end
-
 		--- Connect to client
 		local client = uv.new_tcp()
 		self.server:accept(client)
