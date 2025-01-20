@@ -1,10 +1,14 @@
-*livepreview.txt*             For Nvim >=0.10.1       
+*livepreview.txt*             For Nvim >=0.10.1
 
+Author: Phạm Bình An
+Upstream: https://github.com/brianhuster/live-preview.nvim
+Copyright: (C) 2024 Phạm Bình An
+License: GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.html>
 
                                       Type |gO| to see the table of contents.
 
 ==============================================================================
-1. Introduction 
+1. Introduction
 								*livepreview*
 
 live-preview.nvim is a plugin for Neovim that allows you to view Markdown, HTML
@@ -16,18 +20,18 @@ functions.
 Link to repo https://github.com/brianhuster/live-preview.nvim
 
 ==============================================================================
-2. Configuration                                                   
+2. Configuration
 							    *livepreview-config*
 
 `live-preview.nvim` can be configured by passing a Lua table to the function
 `require('livepreview.config').set()`. Below is the default configuration: >lua
     require('livepreview.config').set({
-	port = 5500, 
-	autokill = false, 
-	browser = 'default', 
-	dynamic_root = false, 
-	sync_scroll = true, /
-	picker = nil, 
+	port = 5500,
+	autokill = false,
+	browser = 'default',
+	dynamic_root = false,
+	sync_scroll = true,
+	picker = nil,
     })
 <
 
@@ -49,8 +53,10 @@ instruction on how to call Lua function in Vimscript
 
 Use `:checkhealth livepreview` to see your configuration inside Neovim
 
+See also |LivePreview.config|
+
 ==============================================================================
-3. Usage                                                   
+3. Usage
 							    *livepreview-usage*
 
 							    *:LivePreview*
@@ -60,7 +66,7 @@ Use `:checkhealth livepreview` to see your configuration inside Neovim
 This command will open the current Markdown or HTML file in your default web
 browser and update it live as you write changes to your file.
 
-You can also parse a file path (either absolute or relative) as argument, for 
+You can also parse a file path (either absolute or relative) as argument, for
 example >vim
     :LivePreview start test/doc.md
 
@@ -82,7 +88,7 @@ PREVENT LOADING ~
 							*g:loaded_livepreview*
 
 If for some reason you don't want to load `live-preview.nvim` on startup, you
-can add the following line to your Neovim configuration file: 
+can add the following line to your Neovim configuration file:
 >vim
 	let g:loaded_livepreview = 1  " If you use Vimscript
 < >lua
@@ -92,14 +98,33 @@ can add the following line to your Neovim configuration file:
 Then, when you need to load the plugin, you can run this command: >vim
 	:runtime! plugin/livepreview.lua
 <
-
 ==============================================================================
-4. Change log                                         
-							*livepreview-change-log*
-See |livepreview-changelog|
+4. API
+							    *livepreview-api*
 
+LIVEPREVIEW GLOBAL VARIABLE				*lua-LivePreview*
+
+`LivePreview` is a global Lua variable that contains the API for
+`live-preview.nvim` to run in |cmdline|.
+
+It is defined when the plugin is loaded, so you shouldn't use it inside your
+configuration file.
+
+`LivePreview.config.<option>`				*LivePreview.config*
+
+    WARNING: This feature is experimental/unstable.
+
+    To set a configuration option for the current session, run: >vim
+	:lua LivePreview.config.<option> = <value>
+<
+    Example: >vim
+	:lua LivePreview.config.port = 8080
+<
+    To get the value of an option, run: >vim
+	:=LivePreview.config.<option>
+<
 ==============================================================================
-5. FAQ												   
+4. FAQ
 							    *livepreview-faq*
 
 THIS PLUGIN DOESN'T UPDATE HTML PREVIEW AS I TYPE, WHILE IT DOES WITH MARKDOWN ~
@@ -107,24 +132,24 @@ THIS PLUGIN DOESN'T UPDATE HTML PREVIEW AS I TYPE, WHILE IT DOES WITH MARKDOWN ~
 That's true, unlike Markdown, AsciiDoc or SVG preview, `live-preview.nvim` doesn't
 update the HTML preview as you type, you need to save the file to see the
 change in the browser. You can add a mapping or an autocommand to make saving
-the file easier. Example: 
+the file easier. Example:
 >vim
     " Map Ctrl-S to save the file
     noremap <C-s> <cmd>wa<CR>
     " Autosave the file when you leave insert mode
     au InsertLeavePre * if &modifiable | silent! write | endif
 <
-The above code block is in Vimscript, but you can use them in Lua configuration 
+The above code block is in Vimscript, but you can use them in Lua configuration
 file with |vim.cmd()| function.
 
 
 WHY DOESN'T THE RELATIVE LINK (`../`) WORK? ~
 
-Make sure the webroot of the server is the same as the root directory of 
+Make sure the webroot of the server is the same as the root directory of
 your project. To find the webroot of the server, run >vim
     :checkhealth livepreview
-< 
-The result is shown in the section `Server and process` of the checkhealth 
+<
+The result is shown in the section `Server and process` of the checkhealth
 buffer.
 
 Also, don't set `dynamic_root` to `true` when unnecessary. You can also see
@@ -134,7 +159,7 @@ live-preview.nvim config using `:checkhealth livepreview`
 HOW CAN I ADD DIAGRAMS TO ASCIIDOC? ~
 
 live-preview.nvim only supports `mermaid.js` for diagrams. You can add a `mermaid`
-diagram as a `[source,mermaid]` code block to your AsciiDoc file. Example: 
+diagram as a `[source,mermaid]` code block to your AsciiDoc file. Example:
 >asciidoc
     [source,mermaid]
     ----
@@ -144,26 +169,22 @@ diagram as a `[source,mermaid]` code block to your AsciiDoc file. Example:
 	B-->D;
 	C-->D;
     ----
-<
+<==============================================================================
+5. Change log
+							*livepreview-change-log*
+See |livepreview-changelog|
+
 
 ==============================================================================
-6. BUY ME A COFFEE!                                     
+6. BUY ME A COFFEE!
 							    *livepreview-donate*
 
- 
-Maintaining this project takes time and effort, especially as I am a student 
+Maintaining this project takes time and effort, especially as I am a student
 now. If you find this project helpful, please consider supporting me
 
 PAYPAL <https://paypal.me/brianphambinhan>
 
 VIETQR (Việt Nam)
 <https://img.vietqr.io/image/mb-9704229209586831984-print.png?addInfo=Donate%20for%20livepreview%20plugin%20nvim&accountName=PHAM%20BINH%20AN>
-
-==============================================================================
-6. License                                               *livepreview-license*
-
-This project is licensed under GPL-3.0.
-
-Copyright (C) 2024 Phạm Bình An
 
 vim:tw=78:ts=8:noet:ft=help:norl:
