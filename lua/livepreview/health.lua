@@ -76,7 +76,7 @@ end
 
 local function check_config()
 	local config = require("livepreview.config").config
-	local default_config = require 'livepreview.config'.default_config
+	local default_config = require("livepreview.config").default_config
 	local info = vim.health.info
 	local ok = true
 	for k, _ in pairs(config) do
@@ -86,9 +86,9 @@ local function check_config()
 		end
 	end
 	if not ok then
-		info 'Hint: see help doc of |livepreview-config| for guide on configuration\n'
+		info("Hint: see help doc of |livepreview-config| for guide on configuration\n")
 	end
-	info 'Your configuration table'
+	info("Your configuration table")
 	vim.health.info(vim.inspect(config))
 end
 

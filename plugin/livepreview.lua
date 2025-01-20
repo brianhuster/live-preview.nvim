@@ -87,24 +87,21 @@ end, {
 	end,
 })
 
-
 --- Public API
 LivePreview = {
-	config = require('livepreview.config').default_config
+	config = require("livepreview.config").default_config,
 }
 local configMetatable = {
 	__index = function(_, key)
 		if vim.fn.has_key(LivePreview.config, key) == 0 then
-			vim.notify(("Error: live-preview.nvim has no config option '%s'"):format(key),
-				vim.log.levels.ERROR)
+			vim.notify(("Error: live-preview.nvim has no config option '%s'"):format(key), vim.log.levels.ERROR)
 			return
 		end
 		return require("livepreview.config").config[key]
 	end,
 	__newindex = function(_, key, value)
 		if vim.fn.has_key(LivePreview.config, key) == 0 then
-			vim.notify(("Error: live-preview.nvim has no config option '%s'"):format(key),
-				vim.log.levels.ERROR)
+			vim.notify(("Error: live-preview.nvim has no config option '%s'"):format(key), vim.log.levels.ERROR)
 			return
 		end
 		require("livepreview.config").set({ [key] = value })
