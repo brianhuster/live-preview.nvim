@@ -77,47 +77,55 @@ end
 ---@TODO: Will check if the config is valid (only has valid keys)
 local function check_config()
 	local config = require("livepreview.config").config
+	local default_config = require 'livepreview.config'.default_config
+	for k, _ in pairs(config) do
+		if vim.fn.has_key(default_config, k) == 0 then
+			vim.health.warn(k .. " is not a config option")
+		end
+	end
+	vim.health.info('Run `:h livepreview-config` to see guide on configuration')
 	vim.health.info(vim.inspect(config))
 end
 
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()
-	vim.health.start("Check dependencies")
+	local health = vim.health
+	health.start "Check dependencies"
 	if not M.is_nvim_compatible() then
-		vim.health.error(
+		health.error(
 			"|live-preview.nvim| requires Nvim " .. M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver,
 			"Please upgrade your Nvim"
 		)
 	else
-		vim.health.ok("Nvim " .. M.nvim_ver .. " is compatible with Live Preview")
+		health.ok("Nvim " .. M.nvim_ver .. " is compatible with Live Preview")
 	end
 	-- Check if sh or pwsh is available
 	local shell = vim.uv.os_uname().sysname:match("Windows") and "powershell" or "sh"
 	if not vim.fn.executable(shell) then
-		vim.health.error(
+		health.error(
 			string.format("`%s` is not available", shell),
 			"Please make sure it is installed and available in your PATH"
 		)
 	else
-		vim.health.ok(string.format("`%s` is available", shell))
+		health.ok(string.format("`%s` is available", shell))
 	end
 
 	for _, dep in pairs(require("livepreview.config").pickers) do
 		local ok, _ = pcall(require, dep)
 		if not ok then
-			vim.health.warn(string.format("`%s` (optional) is not installed", dep))
+			health.warn(string.format("`%s` (optional) is not installed", dep))
 		else
-			vim.health.ok(string.format("`%s` is installed", dep))
+			health.ok(string.format("`%s` is installed", dep))
 		end
 	end
 
 	if require("livepreview.config").config.port then
-		vim.health.start("Checkhealth server and process")
-		vim.health.ok("This Nvim process's PID is " .. vim.uv.os_getpid())
+		health.start "Checkhealth server and process"
+		health.ok("This Nvim process's PID is " .. vim.uv.os_getpid())
 		checkhealth_port(require("livepreview.config").config.port)
 	end
 
-	vim.health.start("Check your live-preview.nvim config")
+	health.start "Check your live-preview.nvim config"
 	check_config()
 end
 
