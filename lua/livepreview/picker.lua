@@ -88,7 +88,7 @@ function M.pick(callback)
 	elseif pcall(require, "mini.pick") then
 		M.minipick(callback)
 	else
-		vim.api.nvim_err_writeln("No picker found. Please install telescope.nvim, fzf-lua or mini.pick")
+		vim.notify("No picker found. Please install telescope.nvim, fzf-lua or mini.pick", vim.log.levels.ERROR)
 	end
 end
 

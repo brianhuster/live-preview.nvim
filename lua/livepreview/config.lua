@@ -28,6 +28,22 @@ M.config = vim.deepcopy(M.default_config)
 --- Configure live-preview.nvim
 --- @param opts Config?
 function M.set(opts)
+	if not opts then
+		return
+	end
+	if opts.picker then
+		local ok = false
+		for _, picker in pairs(M.pickers) do
+			if picker == opts.picker then
+				ok = true
+				break
+			end
+		end
+		if not ok then
+			vim.notify("live-preview.nvim: Invalid 'picker' config option.", vim.log.levels.ERROR)
+			opts.picker = nil
+		end
+	end
 	M.config = vim.tbl_deep_extend("force", M.config, opts or {})
 end
 

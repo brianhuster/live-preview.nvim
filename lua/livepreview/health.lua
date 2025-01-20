@@ -74,16 +74,21 @@ local function checkhealth_port(port)
 	end
 end
 
----@TODO: Will check if the config is valid (only has valid keys)
 local function check_config()
 	local config = require("livepreview.config").config
-	local default_config = require("livepreview.config").default_config
+	local default_config = require 'livepreview.config'.default_config
+	local info = vim.health.info
+	local ok = true
 	for k, _ in pairs(config) do
 		if vim.fn.has_key(default_config, k) == 0 then
 			vim.health.warn(k .. " is not a config option")
+			ok = false
 		end
 	end
-	vim.health.info("Run `:h livepreview-config` to see guide on configuration")
+	if not ok then
+		info 'Hint: see help doc of |livepreview-config| for guide on configuration\n'
+	end
+	info 'Your configuration table'
 	vim.health.info(vim.inspect(config))
 end
 
