@@ -38,7 +38,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 		if cmd_opts.fargs[2] ~= nil then
 			filepath = cmd_opts.fargs[2]
 			if not utils.is_absolute_path(filepath) then
-				filepath = utils.joinpath(vim.uv.cwd(), filepath)
+				filepath = fs.joinpath(vim.uv.cwd(), filepath)
 			end
 		else
 			filepath = api.nvim_buf_get_name(0)
@@ -86,3 +86,25 @@ end, {
 		end
 	end,
 })
+
+--- Public API
+LivePreview = {
+	config = require("livepreview.config").default_config,
+}
+local configMetatable = {
+	__index = function(_, key)
+		if vim.fn.has_key(LivePreview.config, key) == 0 then
+			vim.notify(("Error: live-preview.nvim has no config option '%s'"):format(key), vim.log.levels.ERROR)
+			return
+		end
+		return require("livepreview.config").config[key]
+	end,
+	__newindex = function(_, key, value)
+		if vim.fn.has_key(LivePreview.config, key) == 0 then
+			vim.notify(("Error: live-preview.nvim has no config option '%s'"):format(key), vim.log.levels.ERROR)
+			return
+		end
+		require("livepreview.config").set({ [key] = value })
+	end,
+}
+setmetatable(LivePreview.config, configMetatable)

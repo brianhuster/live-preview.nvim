@@ -12,6 +12,10 @@ local supported_filetype = require("livepreview.utils").supported_filetype
 local fswatch = require("livepreview.server.fswatch")
 local api = vim.api
 
+---@class FsEvent
+---@field change boolean
+---@field rename boolean
+
 ---@class Server
 ---To call this class, do
 ---```lua
@@ -102,17 +106,25 @@ end
 
 --- Watch a directory for changes and trigger an event
 function Server:watch_dir()
-	local callback = vim.schedule_wrap(function()
-		api.nvim_exec_autocmds("User", {
-			pattern = "LivePreviewDirChanged",
-		})
-	end)
-	local function on_change(err, filename, event)
+	local callback = vim.schedule_wrap(
+		---@param filename string
+		---@param events {change: boolean, rename: boolean}
+		function(filename, events)
+			api.nvim_exec_autocmds("User", {
+				pattern = "LivePreviewDirChanged",
+				data = {
+					filename = filename,
+					events = events,
+				},
+			})
+		end
+	)
+	local function on_change(err, filename, events)
 		if err then
 			print("Watch error: " .. err)
 			return
 		end
-		callback()
+		callback(filename, events)
 	end
 	local function watch(path, recursive)
 		local handle = uv.new_fs_event()
@@ -129,7 +141,7 @@ function Server:watch_dir()
 	else
 		local watcherObj = fswatch.Watcher:new(self.webroot)
 		watcherObj:start(function(filename, events)
-			callback()
+			callback(filename, events)
 		end)
 		self._watcher = watcherObj
 	end
@@ -139,7 +151,7 @@ end
 --- @param ip string: IP address to bind to
 --- @param port number: port to bind to
 --- @param opts ServerStartOptions: a table with the following fields
---- 	- on_events (table<string, function(client:userdata):void>)
+--- 	- on_events (table<string, function(client:userdata, data:{filename: string, events: FsEvent}):void>)
 function Server:start(ip, port, opts)
 	self.server:bind(ip, port)
 	local on_events = opts.on_events
@@ -152,9 +164,9 @@ function Server:start(ip, port, opts)
 				api.nvim_create_autocmd("User", {
 					group = "LivePreview",
 					pattern = k,
-					callback = function()
+					callback = function(param)
 						for _, client in ipairs(M.connecting_clients) do
-							v(client)
+							v(client, param.data)
 						end
 					end,
 				})
@@ -173,9 +185,6 @@ function Server:start(ip, port, opts)
 	end
 
 	self.server:listen(128, function(err)
-		if err then
-		end
-
 		--- Connect to client
 		local client = uv.new_tcp()
 		self.server:accept(client)

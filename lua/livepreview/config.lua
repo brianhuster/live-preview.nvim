@@ -28,7 +28,10 @@ M.config = vim.deepcopy(M.default_config)
 --- Configure live-preview.nvim
 --- @param opts Config?
 function M.set(opts)
-	M.config = vim.tbl_deep_extend("force", M.config, opts or {})
+	if not opts then
+		return
+	end
+	M.config = vim.tbl_deep_extend("force", M.config, opts)
 end
 
 return M
