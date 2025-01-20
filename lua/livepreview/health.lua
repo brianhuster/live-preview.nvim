@@ -77,20 +77,20 @@ end
 ---@TODO: Will check if the config is valid (only has valid keys)
 local function check_config()
 	local config = require("livepreview.config").config
-	local default_config = require 'livepreview.config'.default_config
+	local default_config = require("livepreview.config").default_config
 	for k, _ in pairs(config) do
 		if vim.fn.has_key(default_config, k) == 0 then
 			vim.health.warn(k .. " is not a config option")
 		end
 	end
-	vim.health.info('Run `:h livepreview-config` to see guide on configuration')
+	vim.health.info("Run `:h livepreview-config` to see guide on configuration")
 	vim.health.info(vim.inspect(config))
 end
 
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()
 	local health = vim.health
-	health.start "Check dependencies"
+	health.start("Check dependencies")
 	if not M.is_nvim_compatible() then
 		health.error(
 			"|live-preview.nvim| requires Nvim " .. M.supported_nvim_ver_range .. ", but you are using " .. M.nvim_ver,
@@ -120,12 +120,12 @@ function M.check()
 	end
 
 	if require("livepreview.config").config.port then
-		health.start "Checkhealth server and process"
+		health.start("Checkhealth server and process")
 		health.ok("This Nvim process's PID is " .. vim.uv.os_getpid())
 		checkhealth_port(require("livepreview.config").config.port)
 	end
 
-	health.start "Check your live-preview.nvim config"
+	health.start("Check your live-preview.nvim config")
 	check_config()
 end
 
