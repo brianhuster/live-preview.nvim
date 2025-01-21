@@ -1,13 +1,3 @@
----@brief
---- This document is about API from live-preview.nvim, a plugin for live previewing markdown, asciidoc, and html files.
----
---- Note : these API are under development and may introduce breaking changes in the future.
----
---- To work with API from this plugin, require it in your Lua code:
---- ```lua
---- local livepreview = require('livepreview')
---- ```
-
 local M = {}
 
 local cmd = "LivePreview"
@@ -28,31 +18,32 @@ end
 --- Start live-preview server
 ---@param filepath string: path to the file
 ---@param port number: port to run the server on
+---@return boolean?
 function M.start(filepath, port)
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
 			if process.pid ~= vim.uv.os_getpid() then
-				if config.config.autokill and not process.name:match("vim") then
-					utils.kill(process.pid)
-				else
-					vim.print(
-						string.format(
-							"Port %d is being used by another process `%s` (PID %d). Run `:lua vim.uv.kill(%d)` to kill it.",
-							port,
-							process.name,
-							process.pid,
-							process.pid
-						),
-						vim.log.levels.WARN
-					)
-				end
+				-- local kill_confirm = vim.fn.confirm(
+				-- 	("Port %d is being listened by another process `%s` (PID %d). Kill it?"):format(port, process.name, process.pid),
+				-- 	"&Yes\n&No", 2)
+				-- if kill_confirm ~= 1 then return else utils.kill(process.pid) end
+				vim.notify(
+					("Port %d is being used by another process `%s` (PID %d). Run `:lua vim.uv.kill(%d)` to kill it or change the port with `:lua LivePreview.config.port = <new_port>`"):format(
+						port,
+						process.name,
+						process.pid,
+						process.pid
+					),
+					vim.log.levels.WARN
+				)
 			end
 		end
 	end
 	if M.serverObj then
 		M.serverObj:stop()
 	end
+
 	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
 	vim.wait(50, function()
 		local function onTextChanged(client)
@@ -89,6 +80,8 @@ function M.start(filepath, port)
 
 		return true
 	end, 98)
+
+	return true
 end
 
 function M.pick()
