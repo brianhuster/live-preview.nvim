@@ -319,8 +319,13 @@ end
 
 --- Kill a process by PID
 --- @param pid number
+--- @return boolean: whether the process was killed successfully
 function M.kill(pid)
-	vim.uv.kill(pid, 9) -- 9 is the signal number for SIGKILL
+	local success = vim.uv.kill(pid, 'sigterm') == 0
+	if not success then
+		success = vim.uv.kill(pid, 'sigkill') == 0
+	end
+	return success
 end
 
 --- Check if a path is absolute
