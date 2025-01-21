@@ -51,9 +51,7 @@ Explaination of each option:
 Note: If you wish to config the plugin in Vimscript, see |v:lua-call| for
 instruction on how to call Lua function in Vimscript
 
-Use `:checkhealth livepreview` to see your configuration inside Neovim
-
-See also |LivePreview.config|
+See also |livepreview-checkhealth| and |LivePreview.config|
 
 ==============================================================================
 3. Usage
@@ -82,6 +80,13 @@ example >vim
 This requires a picker to be installed (Telescope, fzf-lua or mini.pick). If
 you have multiple pickers installed, you can specify the picker to use by
 passing the picker name to the configuration table (see |livepreview-config|)
+
+							*livepreview-checkhealth*
+- To run |checkhealth| for `live-preview.nvim`, use the command: >vim
+    :checkhealth livepreview
+<
+This will check all the necessary dependencies. It also shows the full current
+configuration of the plugin and validate it
 
 
 PREVENT LOADING ~
@@ -120,9 +125,14 @@ configuration file.
     Example: >vim
 	:lua LivePreview.config.port = 8080
 <
-    To get the value of an option, run: >vim
+    To see the value of an option, run: >vim
+	:lua =LivePreview.config.<option>
+<
+    Since |:=| is shorthand for |:lua=|, you can also run: >vim
 	:= LivePreview.config.<option>
 <
+    Note: If you want to see the whole configuration, use
+    `:checkhealth livepreview` instead of |LivePreview.config|
 ==============================================================================
 4. FAQ
 							    *livepreview-faq*

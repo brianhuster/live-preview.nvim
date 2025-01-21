@@ -54,7 +54,10 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 			end
 		end
 		filepath = fs.normalize(filepath)
-		lp.start(filepath, Config.port)
+		if not lp.start(filepath, Config.port) then
+			return
+		end
+
 		local urlpath = (Config.dynamic_root and fs.basename(filepath) or utils.get_relative_path(
 			filepath,
 			fs.normalize(vim.uv.cwd() or "")
@@ -89,12 +92,8 @@ end, {
 
 --- Public API
 LivePreview = {
-	config = {},
+	config = require("livepreview.config").default,
 }
-
-for k, _ in pairs(require("livepreview.config").default) do
-	LivePreview.config[k] = nil
-end
 
 setmetatable(LivePreview.config, {
 	__index = function(_, key)

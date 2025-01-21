@@ -28,30 +28,27 @@ end
 --- Start live-preview server
 ---@param filepath string: path to the file
 ---@param port number: port to run the server on
+---@return boolean?
 function M.start(filepath, port)
+	if M.serverObj then
+		M.serverObj:stop()
+	end
+
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
 			if process.pid ~= vim.uv.os_getpid() then
-				if config.config.autokill and not process.name:match("vim") then
-					utils.kill(process.pid)
+				local kill_confirm = vim.fn.confirm(
+					("Port %d is being listened by another process `%s` (PID %d). Kill it?"):
+					format(port, process.name, process.pid),
+					"&Yes\n&No", 2, 'Info')
+				if kill_confirm ~= 1 then
+					return
 				else
-					vim.print(
-						string.format(
-							"Port %d is being used by another process `%s` (PID %d). Run `:lua vim.uv.kill(%d)` to kill it.",
-							port,
-							process.name,
-							process.pid,
-							process.pid
-						),
-						vim.log.levels.WARN
-					)
+					utils.kill(process.pid)
 				end
 			end
 		end
-	end
-	if M.serverObj then
-		M.serverObj:stop()
 	end
 	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
 	vim.wait(50, function()
@@ -70,17 +67,17 @@ function M.start(filepath, port)
 
 		M.serverObj:start("127.0.0.1", port, {
 			on_events = utils.supported_filetype(filepath) == "html"
-					and {
-						---@param client userdata
-						---@param data {filename: string, event: FsEvent}
-						LivePreviewDirChanged = function(client, data)
-							if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
-								return
-							end
+				and {
+					---@param client userdata
+					---@param data {filename: string, event: FsEvent}
+					LivePreviewDirChanged = function(client, data)
+						if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
+							return
+						end
 
-							server.websocket.send_json(client, { type = "reload" })
-						end,
-					}
+						server.websocket.send_json(client, { type = "reload" })
+					end,
+				}
 				or {
 					TextChanged = vim.schedule_wrap(onTextChanged),
 					TextChangedI = vim.schedule_wrap(onTextChanged),
@@ -89,6 +86,8 @@ function M.start(filepath, port)
 
 		return true
 	end, 98)
+
+	return true
 end
 
 function M.pick()

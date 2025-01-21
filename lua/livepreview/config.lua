@@ -25,6 +25,14 @@ M.default = {
 
 M.config = vim.deepcopy(M.default)
 
+---@param name string
+---@param value any
+---@return boolean ok
+---@return string? message
+---@return vim.log.levels? level
+function M.validate(name, value)
+end
+
 --- Configure live-preview.nvim
 --- @param opts Config?
 function M.set(opts)
