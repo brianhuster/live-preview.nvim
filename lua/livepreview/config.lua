@@ -9,14 +9,12 @@ M.pickers = {
 
 ---@class Config
 ---@field picker Picker? picker to use to quickly open HTML/Markdown/Asciidoc/SVG files and run live-preview server
----@field autokill boolean? DEPRECATED
 ---@field port number? port to run the server on
 ---@field browser string? browser to open the preview in
 ---@field dynamic_root boolean? Whether to use the basename of the file as the root
 ---@field sync_scroll boolean? Whether to sync scroll the preview with the editor
 M.default = {
 	picker = nil,
-	autokill = false,
 	port = 5500,
 	browser = "default",
 	dynamic_root = false,

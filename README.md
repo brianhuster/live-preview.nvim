@@ -110,7 +110,7 @@ You can create an autocmd that auto save the file when you leave insert mode.
 ```lua
 --- Lua
 vim.o.autowriteall = true
-vim.api.nvim_create_autocmd('InsertLeavePre', {
+vim.api.nvim_create_autocmd({ 'InsertLeavePre', 'TextChanged', 'TextChangedP' }, {
     pattern = '*', callback = function()
         vim.cmd('silent! write')
     end
@@ -120,12 +120,12 @@ vim.api.nvim_create_autocmd('InsertLeavePre', {
 ```vim
 " Vimscript
 set autowriteall
-autocmd InsertLeavePre * silent! write
+autocmd InsertLeavePre,TextChanged,TextChangedP * silent! write
 ```
 
 # Configuration, usage, FAQ
 
-You can configure this plugin by passing a table to the Lua function 
+You can configure this plugin by passing a table to the Lua function
 ```lua
 require('livepreview.config').set()
 ```
@@ -141,7 +141,7 @@ Since this is a young project, there should be a lot of rooms for improvements. 
 See [TODO](https://github.com/brianhuster/live-preview.nvim/milestone/1)
 
 # Acknowledgements 🙏
- 
+
 * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) and [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) for the idea inspiration
 * [glacambre/firenvim](https://github.com/glacambre/firenvim) for the sha1 function reference
 * [sindresorhus/github-markdown-css](https://github.com/sindresorhus/github-markdown-css) CSS style for Markdown files
@@ -152,7 +152,7 @@ See [TODO](https://github.com/brianhuster/live-preview.nvim/milestone/1)
 * [digitalmoksha/markdown-it-inject-linenumbers](https://github.com/digitalmoksha/markdown-it-inject-linenumbers) : A markdown-it plugin for injecting line numbers into html output
 
 # Buy me a coffee ☕
- 
+
 Maintaining this project takes time and effort, especially as I am a student now. If you find this project helpful, please consider supporting me :>
 
 <a href="https://paypal.me/brianphambinhan">

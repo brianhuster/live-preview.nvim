@@ -1,13 +1,3 @@
----@brief
---- This document is about API from live-preview.nvim, a plugin for live previewing markdown, asciidoc, and html files.
----
---- Note : these API are under development and may introduce breaking changes in the future.
----
---- To work with API from this plugin, require it in your Lua code:
---- ```lua
---- local livepreview = require('livepreview')
---- ```
-
 local M = {}
 
 local cmd = "LivePreview"
@@ -34,21 +24,18 @@ function M.start(filepath, port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
 			if process.pid ~= vim.uv.os_getpid() then
-				local kill_confirm = vim.fn.confirm(
-					("Port %d is being listened by another process `%s` (PID %d). Kill it?"):format(
+				-- local kill_confirm = vim.fn.confirm(
+				-- 	("Port %d is being listened by another process `%s` (PID %d). Kill it?"):format(port, process.name, process.pid),
+				-- 	"&Yes\n&No", 2)
+				-- if kill_confirm ~= 1 then return else utils.kill(process.pid) end
+				vim.notify(
+					("Port %d is being used by another process `%s` (PID %d). Run `:lua vim.uv.kill(%d)` to kill it or change the port with `:lua LivePreview.config.port = <new_port>`")
+					:format(
 						port,
 						process.name,
-						process.pid
-					),
-					"&Yes\n&No",
-					2,
-					"Info"
-				)
-				if kill_confirm ~= 1 then
-					return
-				else
-					utils.kill(process.pid)
-				end
+						process.pid,
+						process.pid),
+					vim.log.levels.WARN)
 			end
 		end
 	end

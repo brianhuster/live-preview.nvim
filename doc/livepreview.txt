@@ -27,7 +27,6 @@ Link to repo https://github.com/brianhuster/live-preview.nvim
 `require('livepreview.config').set()`. Below is the default configuration: >lua
     require('livepreview.config').set({
 	port = 5500,
-	autokill = false,
 	browser = 'default',
 	dynamic_root = false,
 	sync_scroll = true,
@@ -37,8 +36,6 @@ Link to repo https://github.com/brianhuster/live-preview.nvim
 
 Explaination of each option:
 - `port`: Port to run the live preview server on.
-- autokill: If true, the plugin will autokill other processes running on the
-  same port (except for Neovim) when starting the server.
 - `browser`: Terminal command to open the browser for live-previewing (eg.
   'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the
   system's default browser.
