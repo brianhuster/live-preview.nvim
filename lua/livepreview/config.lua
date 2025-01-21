@@ -14,8 +14,8 @@ M.pickers = {
 ---@field browser string? browser to open the preview in
 ---@field dynamic_root boolean? Whether to use the basename of the file as the root
 ---@field sync_scroll boolean? Whether to sync scroll the preview with the editor
-M.default_config = {
-	picker = "fzf-lua",
+M.default = {
+	picker = nil,
 	autokill = false,
 	port = 5500,
 	browser = "default",
@@ -23,7 +23,7 @@ M.default_config = {
 	sync_scroll = true,
 }
 
-M.config = vim.deepcopy(M.default_config)
+M.config = vim.deepcopy(M.default)
 
 --- Configure live-preview.nvim
 --- @param opts Config?

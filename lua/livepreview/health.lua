@@ -76,7 +76,7 @@ end
 
 local function check_config()
 	local config = require("livepreview.config").config
-	local default_config = require("livepreview.config").default_config
+	local default_config = require("livepreview.config").default
 	local info = vim.health.info
 	local ok = true
 	for k, _ in pairs(config) do

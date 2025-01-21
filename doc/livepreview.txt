@@ -121,7 +121,7 @@ configuration file.
 	:lua LivePreview.config.port = 8080
 <
     To get the value of an option, run: >vim
-	:=LivePreview.config.<option>
+	:= LivePreview.config.<option>
 <
 ==============================================================================
 4. FAQ
