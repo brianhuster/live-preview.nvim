@@ -30,10 +30,6 @@ end
 ---@param port number: port to run the server on
 ---@return boolean?
 function M.start(filepath, port)
-	if M.serverObj then
-		M.serverObj:stop()
-	end
-
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
@@ -56,6 +52,10 @@ function M.start(filepath, port)
 			end
 		end
 	end
+	if M.serverObj then
+		M.serverObj:stop()
+	end
+
 	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
 	vim.wait(50, function()
 		local function onTextChanged(client)
@@ -73,17 +73,17 @@ function M.start(filepath, port)
 
 		M.serverObj:start("127.0.0.1", port, {
 			on_events = utils.supported_filetype(filepath) == "html"
-					and {
-						---@param client userdata
-						---@param data {filename: string, event: FsEvent}
-						LivePreviewDirChanged = function(client, data)
-							if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
-								return
-							end
+				and {
+					---@param client userdata
+					---@param data {filename: string, event: FsEvent}
+					LivePreviewDirChanged = function(client, data)
+						if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
+							return
+						end
 
-							server.websocket.send_json(client, { type = "reload" })
-						end,
-					}
+						server.websocket.send_json(client, { type = "reload" })
+					end,
+				}
 				or {
 					TextChanged = vim.schedule_wrap(onTextChanged),
 					TextChangedI = vim.schedule_wrap(onTextChanged),
