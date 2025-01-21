@@ -30,8 +30,7 @@ M.config = vim.deepcopy(M.default)
 ---@return boolean ok
 ---@return string? message
 ---@return vim.log.levels? level
-function M.validate(name, value)
-end
+function M.validate(name, value) end
 
 --- Configure live-preview.nvim
 --- @param opts Config?

@@ -39,9 +39,15 @@ function M.start(filepath, port)
 		for _, process in ipairs(processes) do
 			if process.pid ~= vim.uv.os_getpid() then
 				local kill_confirm = vim.fn.confirm(
-					("Port %d is being listened by another process `%s` (PID %d). Kill it?"):
-					format(port, process.name, process.pid),
-					"&Yes\n&No", 2, 'Info')
+					("Port %d is being listened by another process `%s` (PID %d). Kill it?"):format(
+						port,
+						process.name,
+						process.pid
+					),
+					"&Yes\n&No",
+					2,
+					"Info"
+				)
 				if kill_confirm ~= 1 then
 					return
 				else
@@ -67,17 +73,17 @@ function M.start(filepath, port)
 
 		M.serverObj:start("127.0.0.1", port, {
 			on_events = utils.supported_filetype(filepath) == "html"
-				and {
-					---@param client userdata
-					---@param data {filename: string, event: FsEvent}
-					LivePreviewDirChanged = function(client, data)
-						if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
-							return
-						end
+					and {
+						---@param client userdata
+						---@param data {filename: string, event: FsEvent}
+						LivePreviewDirChanged = function(client, data)
+							if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
+								return
+							end
 
-						server.websocket.send_json(client, { type = "reload" })
-					end,
-				}
+							server.websocket.send_json(client, { type = "reload" })
+						end,
+					}
 				or {
 					TextChanged = vim.schedule_wrap(onTextChanged),
 					TextChangedI = vim.schedule_wrap(onTextChanged),
