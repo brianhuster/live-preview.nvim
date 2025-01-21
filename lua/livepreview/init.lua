@@ -29,13 +29,14 @@ function M.start(filepath, port)
 				-- 	"&Yes\n&No", 2)
 				-- if kill_confirm ~= 1 then return else utils.kill(process.pid) end
 				vim.notify(
-					("Port %d is being used by another process `%s` (PID %d). Run `:lua vim.uv.kill(%d)` to kill it or change the port with `:lua LivePreview.config.port = <new_port>`")
-					:format(
+					("Port %d is being used by another process `%s` (PID %d). Run `:lua vim.uv.kill(%d)` to kill it or change the port with `:lua LivePreview.config.port = <new_port>`"):format(
 						port,
 						process.name,
 						process.pid,
-						process.pid),
-					vim.log.levels.WARN)
+						process.pid
+					),
+					vim.log.levels.WARN
+				)
 			end
 		end
 	end
