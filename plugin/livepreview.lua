@@ -87,26 +87,25 @@ end, {
 	end,
 })
 
-
 --- Public API
 LivePreview = {
-	config = {}
+	config = {},
 }
 
-for k, _ in pairs(require 'livepreview.config'.default) do
+for k, _ in pairs(require("livepreview.config").default) do
 	LivePreview.config[k] = nil
 end
 
 setmetatable(LivePreview.config, {
 	__index = function(_, key)
-		if vim.fn.has_key(require 'livepreview.config'.default, key) == 0 then
+		if vim.fn.has_key(require("livepreview.config").default, key) == 0 then
 			vim.notify(("Error: live-preview.nvim has no config option '%s'"):format(key), vim.log.levels.ERROR)
 			return
 		end
 		return require("livepreview.config").config[key]
 	end,
 	__newindex = function(_, key, value)
-		if vim.fn.has_key(require 'livepreview.config'.default, key) == 0 then
+		if vim.fn.has_key(require("livepreview.config").default, key) == 0 then
 			vim.notify(("Error: live-preview.nvim has no config option '%s'"):format(key), vim.log.levels.ERROR)
 			return
 		end
