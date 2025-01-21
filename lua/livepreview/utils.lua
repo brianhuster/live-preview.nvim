@@ -321,9 +321,9 @@ end
 --- @param pid number
 --- @return boolean: whether the process was killed successfully
 function M.kill(pid)
-	local success = vim.uv.kill(pid, 'sigterm') == 0
+	local success = vim.uv.kill(pid, "sigterm") == 0
 	if not success then
-		success = vim.uv.kill(pid, 'sigkill') == 0
+		success = vim.uv.kill(pid, "sigkill") == 0
 	end
 	return success
 end
