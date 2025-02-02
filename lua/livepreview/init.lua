@@ -114,7 +114,7 @@ function M.pick()
 		picker_funcs[v] = picker[k]
 	end
 
-	if config.config.picker then
+	if config.config.picker and #config.config.picker > 0 then
 		if not picker_funcs[config.config.picker] then
 			vim.notify("live-preview.nvim: config option 'picker' invalid", vim.log.levels.ERROR)
 			return

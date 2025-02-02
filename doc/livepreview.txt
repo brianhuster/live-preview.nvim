@@ -30,7 +30,7 @@ Link to repo https://github.com/brianhuster/live-preview.nvim
 	browser = 'default',
 	dynamic_root = false,
 	sync_scroll = true,
-	picker = nil,
+	picker = "",
     })
 <
 

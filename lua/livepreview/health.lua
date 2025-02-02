@@ -84,7 +84,7 @@ local function check_config()
 	local info = vim.health.info
 	local ok = true
 	for k, _ in pairs(config) do
-		if vim.fn.has_key(default_config, k) == 0 then
+		if default_config[k] == nil then
 			vim.health.warn(k .. " is not a config option")
 			ok = false
 		end
@@ -95,6 +95,8 @@ local function check_config()
 	info("Your configuration table")
 	vim.health.info(vim.inspect(config))
 end
+
+check_config()
 
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()

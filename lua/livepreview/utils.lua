@@ -274,7 +274,7 @@ end
 --- @param port number
 --- @return {name : string, pid : number}[]|{}: a table with the processes listening on the port (except for the current process), including name and PID
 function M.processes_listening_on_port(port)
-	local cmd = ("lsof -i:%d | grep LISTEN | awk '{print $2}'"):format(port)
+	local cmd = ("lsof -i:%d | grep LISTEN | awk '{print $1, $2}'"):format(port)
 	if vim.uv.os_uname().version:match("Windows") then
 		cmd = ([[
 			Get-NetTCPConnection -LocalPort %d | Where-Object { $_.State -eq 'Listen' } | ForEach-Object {
@@ -287,6 +287,8 @@ function M.processes_listening_on_port(port)
 			]]):format(port)
 	end
 	local cmd_result = M.await_term_cmd(cmd)
+	print(cmd)
+	vim.print(cmd_result)
 	if not cmd_result then
 		print("Error getting processes listening on port " .. port)
 		return {}
