@@ -5,14 +5,24 @@ local server = require("livepreview.server")
 local utils = require("livepreview.utils")
 local config = require("livepreview.config")
 
+---@type LivePreviewServer?
 M.serverObj = nil
 
 --- Stop live-preview server
 function M.close()
 	if M.serverObj then
-		M.serverObj:stop()
+		M.serverObj:stop(function()
+			print("live-preview.nvim: Server closed")
+		end)
 		M.serverObj = nil
 	end
+end
+
+--- Check if there is a live-preview server process
+--- Note: this does not check if the server is running healthy
+--- @return boolean
+function M.is_running()
+	return not not (M.serverObj and M.serverObj.server)
 end
 
 --- Start live-preview server
@@ -40,9 +50,7 @@ function M.start(filepath, port)
 			end
 		end
 	end
-	if M.serverObj then
-		M.serverObj:stop()
-	end
+	M.close()
 
 	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
 	vim.wait(50, function()
@@ -62,7 +70,7 @@ function M.start(filepath, port)
 		M.serverObj:start("127.0.0.1", port, {
 			on_events = utils.supported_filetype(filepath) == "html"
 					and {
-						---@param client userdata
+						---@param client uv_tcp_t
 						---@param data {filename: string, event: FsEvent}
 						LivePreviewDirChanged = function(client, data)
 							if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
@@ -106,7 +114,7 @@ function M.pick()
 		picker_funcs[v] = picker[k]
 	end
 
-	if config.config.picker then
+	if config.config.picker and #config.config.picker > 0 then
 		if not picker_funcs[config.config.picker] then
 			vim.notify("live-preview.nvim: config option 'picker' invalid", vim.log.levels.ERROR)
 			return

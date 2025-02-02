@@ -16,7 +16,7 @@ local api = vim.api
 ---@field change boolean
 ---@field rename boolean
 
----@class Server
+---@class LivePreviewServer
 ---To call this class, do
 ---```lua
 ---local Server = require('livepreview.server').Server
@@ -211,22 +211,23 @@ function Server:start(ip, port, opts)
 		table.insert(M.connecting_clients, client)
 	end)
 
-	print("Server listening on port " .. port)
-	print("Webroot: " .. self.webroot)
 	uv.run()
 end
 
 --- Stop the server
-function Server:stop()
+--- @param callback? function: callback to run after the server is stopped
+function Server:stop(callback)
 	if self.server then
 		self.server:close(function()
-			print("Server closed")
+			self.server = nil
+			if callback then
+				callback()
+			end
 		end)
 	end
 	if self._watcher then
 		self._watcher:close()
 	end
-	self.server = nil
 	self._watcher = nil
 	api.nvim_del_augroup_by_name("LivePreview")
 end

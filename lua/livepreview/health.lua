@@ -54,7 +54,11 @@ local function checkhealth_port(port)
 	else
 		for _, process in ipairs(processes) do
 			if tonumber(process.pid) == vim.uv.os_getpid() then
-				vim.health.ok("Server is healthy on port " .. port)
+				if require("livepreview").is_running() then
+					vim.health.ok("Server is healthy on port " .. port)
+				else
+					vim.health.warn("Another plugin is using the port " .. port)
+				end
 				local serverObj = require("livepreview").serverObj
 				if serverObj and serverObj.webroot then
 					vim.health.ok("Server root: " .. serverObj.webroot)
@@ -80,7 +84,7 @@ local function check_config()
 	local info = vim.health.info
 	local ok = true
 	for k, _ in pairs(config) do
-		if vim.fn.has_key(default_config, k) == 0 then
+		if default_config[k] == nil then
 			vim.health.warn(k .. " is not a config option")
 			ok = false
 		end
@@ -91,6 +95,8 @@ local function check_config()
 	info("Your configuration table")
 	vim.health.info(vim.inspect(config))
 end
+
+check_config()
 
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()

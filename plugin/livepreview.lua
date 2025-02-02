@@ -62,7 +62,9 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 			filepath,
 			fs.normalize(vim.uv.cwd() or "")
 		)):gsub(" ", "%%20")
-		utils.open_browser(("http://localhost:%d/%s"):format(Config.port, urlpath), Config.browser)
+		local url = ("http://localhost:%d/%s"):format(Config.port, urlpath)
+		print("live-preview.nvim: Opening browser at " .. url)
+		utils.open_browser(url, Config.browser)
 	elseif subcommand == "close" then
 		lp.close()
 		print("Live preview stopped")
@@ -90,24 +92,25 @@ end, {
 	end,
 })
 
+local config = require("livepreview.config")
 --- Public API
 LivePreview = {
-	config = require("livepreview.config").default,
+	config = vim.deepcopy(config.default),
 }
 
 setmetatable(LivePreview.config, {
 	__index = function(_, key)
-		if vim.fn.has_key(require("livepreview.config").default, key) == 0 then
+		if config.default[key] == nil then
 			vim.notify(("Error: live-preview.nvim has no config option '%s'"):format(key), vim.log.levels.ERROR)
 			return
 		end
-		return require("livepreview.config").config[key]
+		return config.config[key]
 	end,
 	__newindex = function(_, key, value)
-		if vim.fn.has_key(require("livepreview.config").default, key) == 0 then
+		if config.default[key] == nil then
 			vim.notify(("Error: live-preview.nvim has no config option '%s'"):format(key), vim.log.levels.ERROR)
 			return
 		end
-		require("livepreview.config").set({ [key] = value })
+		config.set({ [key] = value })
 	end,
 })

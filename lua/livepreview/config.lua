@@ -5,16 +5,17 @@ M.pickers = {
 	telescope = "telescope",
 	fzflua = "fzf-lua",
 	minipick = "mini.pick",
+	default = "",
 }
 
----@class Config
+---@class LivePreviewConfig
 ---@field picker Picker? picker to use to quickly open HTML/Markdown/Asciidoc/SVG files and run live-preview server
 ---@field port number? port to run the server on
 ---@field browser string? browser to open the preview in
 ---@field dynamic_root boolean? Whether to use the basename of the file as the root
 ---@field sync_scroll boolean? Whether to sync scroll the preview with the editor
 M.default = {
-	picker = nil,
+	picker = "",
 	port = 5500,
 	browser = "default",
 	dynamic_root = false,
@@ -28,6 +29,8 @@ M.config = vim.deepcopy(M.default)
 ---@return boolean ok
 ---@return string? message
 ---@return vim.log.levels? level
+---
+---@diagnostic disable not right now
 function M.validate(name, value) end
 
 --- Configure live-preview.nvim
