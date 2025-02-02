@@ -16,7 +16,7 @@ local api = vim.api
 ---@field change boolean
 ---@field rename boolean
 
----@class Server
+---@class LivePreviewServer
 ---To call this class, do
 ---```lua
 ---local Server = require('livepreview.server').Server
@@ -107,8 +107,8 @@ end
 --- Watch a directory for changes and trigger an event
 function Server:watch_dir()
 	local callback = vim.schedule_wrap(
-		---@param filename string
-		---@param events {change: boolean, rename: boolean}
+	---@param filename string
+	---@param events {change: boolean, rename: boolean}
 		function(filename, events)
 			api.nvim_exec_autocmds("User", {
 				pattern = "LivePreviewDirChanged",
@@ -217,16 +217,19 @@ function Server:start(ip, port, opts)
 end
 
 --- Stop the server
-function Server:stop()
+--- @param callback? function: callback to run after the server is stopped
+function Server:stop(callback)
 	if self.server then
 		self.server:close(function()
-			print("Server closed")
+			self.server = nil
+			if callback then
+				callback()
+			end
 		end)
 	end
 	if self._watcher then
 		self._watcher:close()
 	end
-	self.server = nil
 	self._watcher = nil
 	api.nvim_del_augroup_by_name("LivePreview")
 end

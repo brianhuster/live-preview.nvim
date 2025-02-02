@@ -5,14 +5,24 @@ local server = require("livepreview.server")
 local utils = require("livepreview.utils")
 local config = require("livepreview.config")
 
+---@type LivePreviewServer?
 M.serverObj = nil
 
 --- Stop live-preview server
 function M.close()
 	if M.serverObj then
-		M.serverObj:stop()
+		M.serverObj:stop(function()
+			print("live-preview.nvim: Server closed")
+		end)
 		M.serverObj = nil
 	end
+end
+
+--- Check if there is a live-preview server process
+--- Note: this does not check if the server is running healthy
+--- @return boolean
+function M.is_running()
+	return not not (M.serverObj and M.serverObj.server)
 end
 
 --- Start live-preview server
@@ -29,7 +39,8 @@ function M.start(filepath, port)
 				-- 	"&Yes\n&No", 2)
 				-- if kill_confirm ~= 1 then return else utils.kill(process.pid) end
 				vim.notify(
-					("Port %d is being used by another process `%s` (PID %d). Run `:lua vim.uv.kill(%d)` to kill it or change the port with `:lua LivePreview.config.port = <new_port>`"):format(
+					("Port %d is being used by another process `%s` (PID %d). Run `:lua vim.uv.kill(%d)` to kill it or change the port with `:lua LivePreview.config.port = <new_port>`")
+					:format(
 						port,
 						process.name,
 						process.pid,
@@ -40,9 +51,7 @@ function M.start(filepath, port)
 			end
 		end
 	end
-	if M.serverObj then
-		M.serverObj:stop()
-	end
+	M.close()
 
 	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
 	vim.wait(50, function()
@@ -61,17 +70,17 @@ function M.start(filepath, port)
 
 		M.serverObj:start("127.0.0.1", port, {
 			on_events = utils.supported_filetype(filepath) == "html"
-					and {
-						---@param client userdata
-						---@param data {filename: string, event: FsEvent}
-						LivePreviewDirChanged = function(client, data)
-							if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
-								return
-							end
+				and {
+					---@param client userdata
+					---@param data {filename: string, event: FsEvent}
+					LivePreviewDirChanged = function(client, data)
+						if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
+							return
+						end
 
-							server.websocket.send_json(client, { type = "reload" })
-						end,
-					}
+						server.websocket.send_json(client, { type = "reload" })
+					end,
+				}
 				or {
 					TextChanged = vim.schedule_wrap(onTextChanged),
 					TextChangedI = vim.schedule_wrap(onTextChanged),
