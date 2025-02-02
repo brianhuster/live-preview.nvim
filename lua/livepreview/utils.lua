@@ -169,7 +169,7 @@ end
 ---@param val string
 ---@return string: SHA1 hash
 function M.sha1(val)
-	local bit = require("bit")
+	local bit = bit or require("bit")
 
 	local function to_32_bits_str(number)
 		return string.char(bit.band(bit.rshift(number, 24), 255))
@@ -287,8 +287,6 @@ function M.processes_listening_on_port(port)
 			]]):format(port)
 	end
 	local cmd_result = M.await_term_cmd(cmd)
-	print(cmd)
-	vim.print(cmd_result)
 	if not cmd_result then
 		print("Error getting processes listening on port " .. port)
 		return {}

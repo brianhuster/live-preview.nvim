@@ -211,8 +211,6 @@ function Server:start(ip, port, opts)
 		table.insert(M.connecting_clients, client)
 	end)
 
-	print("Server listening on port " .. port)
-	print("Webroot: " .. self.webroot)
 	uv.run()
 end
 

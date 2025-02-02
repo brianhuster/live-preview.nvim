@@ -5,7 +5,7 @@ M.pickers = {
 	telescope = "telescope",
 	fzflua = "fzf-lua",
 	minipick = "mini.pick",
-	default = ""
+	default = "",
 }
 
 ---@class LivePreviewConfig

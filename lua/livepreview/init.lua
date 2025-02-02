@@ -70,7 +70,7 @@ function M.start(filepath, port)
 		M.serverObj:start("127.0.0.1", port, {
 			on_events = utils.supported_filetype(filepath) == "html"
 					and {
-						---@param client userdata
+						---@param client uv_tcp_t
 						---@param data {filename: string, event: FsEvent}
 						LivePreviewDirChanged = function(client, data)
 							if not vim.regex([[\.\(html\|css\|js\)$]]):match_str(data.filename) then
