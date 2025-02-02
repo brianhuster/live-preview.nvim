@@ -54,7 +54,7 @@ local function checkhealth_port(port)
 	else
 		for _, process in ipairs(processes) do
 			if tonumber(process.pid) == vim.uv.os_getpid() then
-				if require('livepreview').is_running() then
+				if require("livepreview").is_running() then
 					vim.health.ok("Server is healthy on port " .. port)
 				else
 					vim.health.warn("Another plugin is using the port " .. port)
