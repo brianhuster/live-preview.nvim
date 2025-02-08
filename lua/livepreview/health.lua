@@ -124,7 +124,9 @@ function M.check()
 	for _, dep in pairs(require("livepreview.config").pickers) do
 		local ok, _ = pcall(require, dep)
 		if not ok then
-			health.warn(string.format("`%s` (optional) is not installed", dep))
+			if dep ~= "" then
+				health.warn(string.format("`%s` (optional) is not installed", dep))
+			end
 		else
 			health.ok(string.format("`%s` is installed", dep))
 		end
