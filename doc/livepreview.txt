@@ -39,6 +39,8 @@ Explaination of each option:
 - `browser`: Terminal command to open the browser for live-previewing (eg.
   'firefox', 'flatpak run com.vivaldi.Vivaldi'). By default, it will use the
   system's default browser.
+- `dynamic_root`: If true, the root directory of the server will be the parent
+  directory of the current file. Otherwise, it will be |current-directory|.
 - `sync_scroll`: If true, the plugin will sync the scrolling in the browser as
   you scroll in the Markdown files in Neovim.
 - `picker`: Picker to use for opening files. 3 choices are available: |telescope|,
