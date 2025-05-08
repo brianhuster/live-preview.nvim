@@ -19,6 +19,8 @@ local M = {}
 --- @param parent_path string
 --- @return string?
 function M.get_relative_path(full_path, parent_path)
+	full_path = vim.fs.normalize(full_path)
+	parent_path = vim.fs.normalize(parent_path)
 	if parent_path:sub(-1) ~= "/" then
 		parent_path = parent_path .. "/"
 	end
