@@ -125,6 +125,21 @@ function M.isWindows()
 	return vim.uv.os_uname().version:match("Windows")
 end
 
+--- Pick a PowerShell binary on Windows.
+---
+--- Tries `"pwsh"` (PowerShell 7 / Core) first, and if it isn’t on the PATH
+--- falls back to `"powershell"` (the classic PowerShell 5.1 that ships with
+--- every Windows 10/11 install).
+---
+---@return string: `"pwsh"` if available, otherwise `"powershell"`.
+local function pick_powershell()
+	if vim.fn.executable("pwsh") == 1 then
+		return "pwsh"
+	elseif vim.fn.executable("powershell") == 1 then
+		return "powershell"
+	end
+end
+
 --- Execute a shell commands
 ---@async
 ---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
@@ -136,7 +151,7 @@ end
 function M.term_cmd(cmd, callback)
 	local shell = "sh"
 	if M.isWindows() then
-		shell = "pwsh"
+		shell = pick_powershell()
 	end
 
 	local on_exit = function(result)
@@ -158,7 +173,7 @@ end
 function M.await_term_cmd(cmd)
 	local shell = "sh"
 	if M.isWindows() then
-		shell = "pwsh"
+		shell = pick_powershell()
 	end
 	local results = vim.system({ shell, "-c", cmd }, { text = true }):wait()
 	return results
