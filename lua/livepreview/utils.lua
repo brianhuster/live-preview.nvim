@@ -126,8 +126,7 @@ function M.isWindows()
 end
 
 ---@type pwsh|powershell
-local powershell_cmd = vim.fn.executable("pwsh") == 1 and "pwsh" 
-	or "powershell"
+local powershell_cmd = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell"
 
 --- Execute a shell commands
 ---@async
