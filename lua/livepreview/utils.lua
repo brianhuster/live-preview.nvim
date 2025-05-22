@@ -125,6 +125,10 @@ function M.isWindows()
 	return vim.uv.os_uname().version:match("Windows")
 end
 
+---@type pwsh|powershell
+local powershell_cmd = vim.fn.executable("pwsh") == 1 and "pwsh" 
+	or "powershell"
+
 --- Execute a shell commands
 ---@async
 ---@param cmd string: terminal command to execute. Term_cmd will use sh or pwsh depending on the OS
@@ -136,7 +140,7 @@ end
 function M.term_cmd(cmd, callback)
 	local shell = "sh"
 	if M.isWindows() then
-		shell = "pwsh"
+		shell = powershell_cmd
 	end
 
 	local on_exit = function(result)
@@ -158,7 +162,7 @@ end
 function M.await_term_cmd(cmd)
 	local shell = "sh"
 	if M.isWindows() then
-		shell = "pwsh"
+		shell = powershell_cmd
 	end
 	local results = vim.system({ shell, "-c", cmd }, { text = true }):wait()
 	return results
