@@ -1,16 +1,19 @@
 default:
-	just --choose
+    just --choose
 
 katex:
-	#!/usr/bin/env bash
-	curl -sL https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js > katex/katex.min.js
-	curl -sL https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css > katex/katex.min.css
+    #!/usr/bin/env bash
+    curl -sL https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js > katex/katex.min.js
+    curl -sL https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css > katex/katex.min.css
+    curl -sL https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js > katex/auto-render.min.js
+
+
 
 markdown:
-	#!/usr/bin/env bash
-	curl -sL https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js > markdown/markdown-it.min.js
-	curl -sL https://cdn.jsdelivr.net/npm/markdown-it-emoji@3.0.0/dist/markdown-it-emoji.min.js > markdown/markdown-it-emoji.min.js
+    #!/usr/bin/env bash
+    curl -sL https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js > markdown/markdown-it.min.js
+    curl -sL https://cdn.jsdelivr.net/npm/markdown-it-emoji@3.0.0/dist/markdown-it-emoji.min.js > markdown/markdown-it-emoji.min.js
 
 highlight:
-	#!/usr/bin/env bash
-	curl -sL https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/core.min.js > highlight/highlight.min.js
+    #!/usr/bin/env bash
+    curl -sL https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/core.min.js > highlight/highlight.min.js
