@@ -1,0 +1,7 @@
+default:
+	just --choose
+
+katex:
+	#!/usr/bin/env bash
+	curl -sL https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js > katex/katex.min.js
+	curl -sL https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css > katex/katex.min.css
