@@ -16,4 +16,4 @@ markdown:
 
 highlight:
     #!/usr/bin/env bash
-    curl -sL https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/lib/core.min.js > highlight/highlight.min.js
+    curl -sL https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js > highlight/highlight.min.js
