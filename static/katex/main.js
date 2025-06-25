@@ -6,7 +6,11 @@ function livepreview_renderKatex() {
 			{ left: '\\(', right: '\\)', display: false },
 			{ left: '\\[', right: '\\]', display: true }
 		],
-		throwOnError: false
+		throwOnError: false,
+		displayMode: true,
+		output: "html",
+		trust: true,
+		strict: false,
 	});
 }
 
