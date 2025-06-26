@@ -14,14 +14,9 @@ md.use(livepreview_injectLinenumbersPlugin);
 
 md.use(markdownitEmoji);
 
-const livepreview_render = (text) => {
-	const html = md.render(text);
-	console.log(html);
-	document.querySelector('.markdown-body').innerHTML = html;
+const livepreview_render = () => {
+	document.querySelector('.markdown-body').innerHTML = md.render(document.querySelector('.markdown-body').innerHTML);
 	hljs.highlightAll();
 }
 
-const markdownText = document.querySelector('.markdown-body').innerHTML;
-livepreview_render(markdownText);
-
-
+livepreview_render();
