@@ -10,6 +10,4 @@ mermaid.initialize({
 	theme: 'neutral',
 });
 
-
 livepreview_renderMermaid();
-

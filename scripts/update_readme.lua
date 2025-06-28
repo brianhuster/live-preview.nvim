@@ -1,5 +1,4 @@
 #!/usr/bin/env -S nvim -l
-local uv = vim.uv
 local read_file_sync = require("livepreview.utils").read_file
 
 local packspec = vim.json.decode(read_file_sync("pkg.json"))
