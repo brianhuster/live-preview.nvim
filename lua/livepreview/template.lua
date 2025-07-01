@@ -10,7 +10,7 @@ local html_template = function(body, stylesheet, script_tag)
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Live preview</title>
 ]] .. stylesheet .. [[
-            <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">	
+            <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">
             <script defer src="/live-preview.nvim/static/katex/katex.min.js"></script>
 			<script defer src="/live-preview.nvim/static/katex/auto-render.min.js"></script>
             <script src="/live-preview.nvim/static/mermaid/mermaid.min.js"></script>
