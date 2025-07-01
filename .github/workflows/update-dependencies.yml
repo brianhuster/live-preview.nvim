@@ -1,0 +1,68 @@
+name: Update Dependencies
+
+on:
+  schedule:
+    # Run every Sunday at 00:00 UTC
+    - cron: "0 0 * * 0"
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Just
+        uses: extractions/setup-just@v3
+        with:
+          just-version: "*"
+
+      - name: Run all justfile commands
+        run: |
+          just katex
+          just markdown
+          just highlight
+        working-directory: static
+
+      - name: Check for changes
+        id: verify-changed-files
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.verify-changed-files.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update external dependencies"
+          branch: update-dependencies
+          delete-branch: true
+          title: "chore: update external dependencies"
+          body: |
+            This PR was automatically generated to update external dependencies.
+            These files are downloaded from their respective CDNs to ensure we have the latest versions.
+            Please review the changes and merge if everything looks good.
+          labels: |
+            dependencies
+            automated
+            chore
+          draft: false
+
+      - name: Print summary
+        if: always()
+        run: |
+          if [ "${{ steps.verify-changed-files.outputs.changed }}" == "true" ]; then
+            echo "Dependencies updated and pull request created"
+          else
+            echo "No dependency updates needed"
+          fi
