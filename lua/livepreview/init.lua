@@ -96,7 +96,11 @@ function M.pick()
 	local picker = require("livepreview.picker")
 
 	local pick_callback = function(pick_value)
-		local filepath = pick_value
+		local filepath = pick_value or nil
+		if not filepath then
+			vim.notify("No file picked", vim.log.levels.INFO)
+			return
+		end
 		M.start(filepath, config.config.port)
 		vim.cmd.edit(filepath)
 		utils.open_browser(

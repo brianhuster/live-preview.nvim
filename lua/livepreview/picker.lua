@@ -17,7 +17,7 @@ function M.telescope(callback)
 	local actions = require("telescope.actions")
 	local action_state = require("telescope.actions.state")
 
-	local files = utils.list_supported_files(".")
+	local files = utils.list_supported_files(".") or { "" }
 	pickers
 		.new({}, {
 			prompt_title = "Live Preview",
@@ -43,7 +43,7 @@ end
 ---@param callback function: Callback function to run after selecting a file
 function M.fzflua(callback)
 	local fzf = require("fzf-lua")
-	local files = utils.list_supported_files(".")
+	local files = utils.list_supported_files(".") or { "" }
 	fzf.fzf_exec(files, {
 		prompt = "Live Preview> ",
 		previewer = "builtin",
@@ -60,7 +60,7 @@ end
 ---@param callback function: Callback function to run after selecting a file
 function M.minipick(callback)
 	local MiniPick = require("mini.pick")
-	local files = utils.list_supported_files(".")
+	local files = utils.list_supported_files(".") or { "" }
 
 	local source = {
 		items = files,
@@ -76,6 +76,30 @@ function M.minipick(callback)
 	})
 end
 
+---@brief Open a fallback picker to select a file, can indicate the picker
+---@param picker function: A picker function like vim.ui.select
+---@param callback function: Callback function to run after selecting a file
+function M.ui(callback, picker)
+	picker = picker or vim.ui.select
+	local files = utils.list_supported_files(".") or { "" }
+
+	local source = {
+		items = files,
+		preview = {
+			prompt = "Live Preview",
+			format_item = function(item)
+				return item
+			end,
+		},
+		choose = function(item)
+			callback(item)
+		end,
+	}
+
+	-- Call the picker function with correct argument order
+	picker(source.items, source.preview, source.choose)
+end
+
 ---@brief Open a picker to select a file.
 ---
 ---This function will try to use telescope.nvim, fzf-lua, or mini.pick to open a picker to select a file.
@@ -87,8 +111,15 @@ function M.pick(callback)
 		M.fzflua(callback)
 	elseif pcall(require, "mini.pick") then
 		M.minipick(callback)
+	elseif pcall(require, "snacks.picker") then
+		M.ui(callback, require("snacks.picker").select)
 	else
-		vim.notify("No picker found. Please install telescope.nvim, fzf-lua or mini.pick", vim.log.levels.ERROR)
+		-- fallback to vim.ui.select
+		M.ui(callback, vim.ui.select)
+		vim.notify(
+			"No picker found. Defaulting to vim.ui.select. Please install telescope.nvim, fzf-lua, mini.pick, or snacks.nvim.",
+			vim.log.levels.WARN
+		)
 	end
 end
 

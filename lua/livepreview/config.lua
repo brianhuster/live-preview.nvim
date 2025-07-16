@@ -5,6 +5,8 @@ M.pickers = {
 	telescope = "telescope",
 	fzflua = "fzf-lua",
 	minipick = "mini.pick",
+	snacks = "snacks.picker",
+	vimui = "vim.ui.select",
 	default = "",
 }
 
