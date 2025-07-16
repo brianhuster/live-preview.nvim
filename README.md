@@ -11,7 +11,7 @@ live-preview.nvim is a plugin for Neovim that allows you to view [Markdown](http
 * Supports KaTeX and Mermaid for rendering math equations and diagrams in Markdown and AsciiDoc files
 * Syntax highlighting for code blocks in Markdown and AsciiDoc 🖍️
 * Supports sync scrolling in the browser as you scroll in the Markdown files in Neovim. 
-* Integration with [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua) and [`mini.pick`](https://github.com/echasnovski/mini.pick) 
+* Integration with [`telescope.nvim`](https://github.com/nvim-telescope/telescope.nvim) 🔭, [`fzf-lua`](https://github.com/ibhagwan/fzf-lua), [`mini.pick`](https://github.com/echasnovski/mini.pick) and `vim.ui.select` meaning pickers like [`snacks.nvim`](https://gothub.com/folke/snacks.nvim) is supported
 
 # Updates :loudspeaker:
  
@@ -44,6 +44,7 @@ You can install this plugin using a plugin manager. Most plugin managers are sup
         'nvim-telescope/telescope.nvim',
         'ibhagwan/fzf-lua',
         'echasnovski/mini.pick',
+		'folke/snacks.nvim',
     },
 }
 ```
@@ -61,6 +62,7 @@ MiniDeps.add({
         'nvim-telescope/telescope.nvim',
         'ibhagwan/fzf-lua',
         'echasnovski/mini.pick',
+		'folke/snacks.nvim',
     }, 
 })
 ```
@@ -85,6 +87,7 @@ Plug 'brianhuster/live-preview.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'ibhagwan/fzf-lua'
 Plug 'echasnovski/mini.pick'
+Plog 'folke/snacks.nvim'
 ```
 
 </details>

@@ -43,8 +43,8 @@ Explaination of each option:
   directory of the current file. Otherwise, it will be |current-directory|.
 - `sync_scroll`: If true, the plugin will sync the scrolling in the browser as
   you scroll in the Markdown files in Neovim.
-- `picker`: Picker to use for opening files. 3 choices are available: |telescope|,
-  |fzf-lua|, |mini.pick|. If nil, the plugin look for the first available picker
+- `picker`: Picker to use for opening files. 5 choices are available: |telescope|,
+  |fzf-lua|, |mini.pick|, |snacks.picker| or |vim.ui.select|. If nil, the plugin look for the first available picker
   when you call the `pick` command.
 
 Note: If you wish to config the plugin in Vimscript, see |v:lua-call| for
@@ -76,7 +76,8 @@ example >vim
 - To see document about each subcommand, use the command: >vim
     :LivePreview help
 <
-This requires a picker to be installed (Telescope, fzf-lua or mini.pick). If
+Has a range of options (Telescope, fzf-lua, mini.pick,
+snacks.nvim or vim.ui.select as fallback). If
 you have multiple pickers installed, you can specify the picker to use by
 passing the picker name to the configuration table (see |livepreview-config|)
 
