@@ -79,7 +79,7 @@ end
 ---@brief Open a fallback picker to select a file, can indicate the picker
 ---@param picker function: A picker function like vim.ui.select
 ---@param callback function: Callback function to run after selecting a file
-function M.ui(callback, picker)
+function M.vimui(callback, picker)
 	picker = picker or vim.ui.select
 	local files = utils.list_supported_files(".") or { "" }
 
@@ -112,10 +112,10 @@ function M.pick(callback)
 	elseif pcall(require, "mini.pick") then
 		M.minipick(callback)
 	elseif pcall(require, "snacks.picker") then
-		M.ui(callback, require("snacks.picker").select)
+		M.vimui(callback, require("snacks.picker").select)
 	else
 		-- fallback to vim.ui.select
-		M.ui(callback, vim.ui.select)
+		M.vimui(callback, vim.ui.select)
 		vim.notify(
 			"No picker found. Defaulting to vim.ui.select. Please install telescope.nvim, fzf-lua, mini.pick, or snacks.nvim.",
 			vim.log.levels.WARN
