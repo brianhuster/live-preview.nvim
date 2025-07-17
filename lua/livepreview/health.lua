@@ -92,8 +92,7 @@ local function check_config()
 	if not ok then
 		info("Hint: see help doc of |livepreview-config| for guide on configuration\n")
 	end
-	info("Your configuration table")
-	vim.health.info(vim.inspect(config))
+	info("Your configuration table >lua\n" .. vim.inspect(config))
 end
 
 check_config()
