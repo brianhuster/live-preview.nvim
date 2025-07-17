@@ -93,10 +93,10 @@ end, {
 })
 
 local config = require("livepreview.config")
+
 --- Public API
-LivePreview = {
-	config = vim.deepcopy(config.default),
-}
+local LivePreview = {}
+LivePreview.config = vim.deepcopy(config.default)
 
 setmetatable(LivePreview.config, {
 	__index = function(_, key)

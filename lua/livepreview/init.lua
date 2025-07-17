@@ -30,6 +30,8 @@ end
 ---@param port number: port to run the server on
 ---@return boolean?
 function M.start(filepath, port)
+	filepath = filepath or vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":a")
+	port = port or 5000
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
