@@ -13,8 +13,6 @@ local M = {}
 --- ```
 --- will return "lua/livepreview/utils.lua"
 ---
---- @TODO Use vim.fs.relpath
----
 --- @param full_path string
 --- @param parent_path string
 --- @return string?
