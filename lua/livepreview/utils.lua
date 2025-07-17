@@ -25,8 +25,8 @@ end
 --- Check if file name has a supported filetype (html, markdown, asciidoc).
 ---@param file_name string
 ---@return string|nil
-function M.supported_filetype(file_name)
-	local file_name = file_name or ""
+function M.supported_filetype(full_file_name)
+	local file_name = full_file_name or ""
 	if file_name:match("%.html$") then
 		return "html"
 	elseif file_name:match("%.md$") or file_name:match("%.markdown$") then
