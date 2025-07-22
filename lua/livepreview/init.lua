@@ -31,7 +31,7 @@ end
 ---@return boolean?
 function M.start(filepath, port)
 	filepath = filepath or vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":a")
-	port = port or 5000
+	port = port or 5500
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
@@ -68,7 +68,6 @@ function M.start(filepath, port)
 			}
 			server.websocket.send_json(client, message)
 		end
-
 		M.serverObj:start("127.0.0.1", port, {
 			on_events = utils.supported_filetype(filepath) == "html"
 					and {
