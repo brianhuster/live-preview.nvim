@@ -13,13 +13,24 @@ local M = {}
 --- ```
 --- will return "lua/livepreview/utils.lua"
 ---
+--- @TODO Use vim.fs.relpath
+---
 --- @param full_path string
 --- @param parent_path string
 --- @return string?
 function M.get_relative_path(full_path, parent_path)
-	full_path = vim.uv.fs_realpath(full_path) or vim.fs.normalize(full_path)
-	parent_path = vim.uv.fs_realpath(parent_path) or vim.fs.normalize(parent_path)
-	return vim.fs.relpath(parent_path, full_path) or full_path
+	-- full_path = vim.uv.fs_realpath(full_path) or vim.fs.normalize(full_path)
+	-- parent_path = vim.uv.fs_realpath(parent_path) or vim.fs.normalize(parent_path)
+	-- return vim.fs.relpath(parent_path, full_path) or full_path
+	full_path = vim.fs.normalize(full_path)
+	parent_path = vim.fs.normalize(parent_path)
+	if parent_path:sub(-1) ~= "/" then
+		parent_path = parent_path .. "/"
+	end
+
+	if full_path:sub(1, #parent_path) == parent_path then
+		return full_path:sub(#parent_path + 1)
+	end
 end
 
 --- Check if file name has a supported filetype (html, markdown, asciidoc).
