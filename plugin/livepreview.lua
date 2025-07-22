@@ -35,8 +35,19 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 
 	if subcommand == "start" then
 		local filepath
-		if cmd_opts.fargs[2] ~= nil then
-			filepath = cmd_opts.fargs[2]
+		local port = Config.port or 5500
+
+		for i = 2, 3 do
+			local arg = cmd_opts.fargs[i]
+			if arg then
+				if tonumber(arg) then
+					port = tonumber(arg)
+				else
+					filepath = arg
+				end
+			end
+		end
+		if filepath then
 			if not utils.is_absolute_path(filepath) then
 				filepath = fs.joinpath(vim.uv.cwd(), filepath)
 			end
@@ -54,7 +65,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 			end
 		end
 		filepath = fs.normalize(filepath)
-		if not lp.start(filepath, Config.port) then
+		if not lp.start(filepath, port) then
 			return
 		end
 
@@ -62,7 +73,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 			filepath,
 			fs.normalize(vim.uv.cwd() or "")
 		)):gsub(" ", "%%20")
-		local url = ("http://localhost:%d/%s"):format(Config.port, urlpath)
+		local url = ("http://localhost:%d/%s"):format(port, urlpath)
 		print("live-preview.nvim: Opening browser at " .. url)
 		utils.open_browser(url, Config.browser)
 	elseif subcommand == "close" then
