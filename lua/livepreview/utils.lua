@@ -23,7 +23,7 @@ function M.get_relative_path(full_path, parent_path)
 	-- parent_path = vim.uv.fs_realpath(parent_path) or vim.fs.normalize(parent_path)
 	-- return vim.fs.relpath(parent_path, full_path) or full_path:sub(2)
 	full_path = vim.fs.normalize(full_path)
-	parent_path = vim.fs.normalize(parent_path)
+	parent_path = vim.fs.normalize(parent_path or vim.uv.cwd())
 	if parent_path:sub(-1) ~= "/" then
 		parent_path = parent_path .. "/"
 	end
