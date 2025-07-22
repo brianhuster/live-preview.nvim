@@ -9,7 +9,7 @@ function getWebSocketUrl() {
 	return `${protocol}//${hostname}${port}`;
 }
 
-/**
+/** 
  * Check if browser should handle websocket message from server
  * @param {string} filepath - The path of the file
  * @returns {boolean} - True if the browser should handle the message, false otherwise
@@ -50,11 +50,10 @@ async function connectWebSocket() {
 			if (isRightPath(filepath)) {
 				// Check if the render function is defined before calling it
 				if (typeof livepreview_render !== "undefined") {
-					document.querySelector('.markdown-body').innerHTML = content;
+					livepreview_render(content);
 					if (typeof livepreview_renderKatex !== "undefined") {
 						livepreview_renderKatex();
 					}
-					livepreview_render();
 					if (typeof livepreview_renderMermaid !== "undefined") {
 						livepreview_renderMermaid();
 					}

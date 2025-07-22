@@ -15,7 +15,7 @@ local uv = vim.uv
 
 ---@class Watcher
 ---@field directory string
----@field watcher uv.uv_fs_event_t
+---@field watcher uv_fs_event_t
 ---@field children Watcher[]
 ---To call this class, do:
 ---```lua
