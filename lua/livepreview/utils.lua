@@ -21,7 +21,7 @@ local M = {}
 function M.get_relative_path(full_path, parent_path)
 	-- full_path = vim.uv.fs_realpath(full_path) or vim.fs.normalize(full_path)
 	-- parent_path = vim.uv.fs_realpath(parent_path) or vim.fs.normalize(parent_path)
-	-- return vim.fs.relpath(parent_path, full_path) or full_path
+	-- return vim.fs.relpath(parent_path, full_path) or full_path:sub(2)
 	full_path = vim.fs.normalize(full_path)
 	parent_path = vim.fs.normalize(parent_path)
 	if parent_path:sub(-1) ~= "/" then
@@ -31,6 +31,7 @@ function M.get_relative_path(full_path, parent_path)
 	if full_path:sub(1, #parent_path) == parent_path then
 		return full_path:sub(#parent_path + 1)
 	end
+	return full_path:sub(2)
 end
 
 --- Check if file name has a supported filetype (html, markdown, asciidoc).
