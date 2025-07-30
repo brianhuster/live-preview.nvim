@@ -273,13 +273,10 @@ end
 --- @param path string
 --- @param browser string|nil
 function M.open_browser(path, browser)
-	path = vim.fn.shellescape(path) or nil
-	if path then
-		if browser == "default" or browser == nil or #browser == 0 then
-			vim.ui.open(path)
-		else
-			M.term_cmd(browser .. " " .. path)
-		end
+	if browser == "default" or browser == nil or #browser == 0 then
+		vim.ui.open(path)
+	else
+		M.term_cmd(browser .. " " .. vim.fn.shellescape(path))
 	end
 end
 
