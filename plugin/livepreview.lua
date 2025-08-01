@@ -35,7 +35,21 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 
 	if subcommand == "start" then
 		local filepath
-		if cmd_opts.fargs[2] ~= nil then
+		local port = Config.port
+
+		-- determines if the options given is a port or filepath
+		for i = 2, 3 do
+			local arg = cmd_opts.fargs[i]
+			if arg then
+				if tonumber(arg) then
+					port = tonumber(arg)
+				else
+					filepath = arg
+				end
+			end
+		end
+
+		if filepath ~= nil then
 			filepath = cmd_opts.fargs[2]
 			if not utils.is_absolute_path(filepath) then
 				filepath = fs.joinpath(vim.uv.cwd(), filepath)
@@ -54,7 +68,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 			end
 		end
 		filepath = fs.normalize(filepath)
-		if not lp.start(filepath, Config.port) then
+		if not lp.start(filepath, port) then
 			return
 		end
 
@@ -69,7 +83,17 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 		lp.close()
 		print("Live preview stopped")
 	elseif subcommand == "pick" then
-		lp.pick()
+		-- Create port option, with the default port, then if arguments were
+		-- given it checks that it is a valid number and then changes the port
+		-- option to the given argument
+		local port = Config.port
+		local opt = cmd_opts.fargs[2]
+		if opt ~= nil then
+			if tonumber(opt) then
+				port = tonumber(opt)
+			end
+		end
+		lp.pick(port)
 	else
 		lp.help()
 	end

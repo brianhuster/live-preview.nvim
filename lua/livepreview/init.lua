@@ -92,7 +92,11 @@ function M.start(filepath, port)
 	return true
 end
 
-function M.pick()
+--- Create picker object and open the picker
+---@param port number [Port number to open on, this is optional]
+function M.pick(port)
+	-- Adding port fallback if the parameter is nil
+	port = port or config.config.port
 	local picker = require("livepreview.picker")
 
 	local pick_callback = function(pick_value)
@@ -101,12 +105,12 @@ function M.pick()
 			vim.notify("No file picked", vim.log.levels.INFO)
 			return
 		end
-		M.start(filepath, config.config.port)
+		M.start(filepath, port)
 		vim.cmd.edit(filepath)
 		utils.open_browser(
 			string.format(
 				"http://localhost:%d/%s",
-				config.config.port,
+				port,
 				config.config.dynamic_root and vim.fs.basename(filepath) or filepath
 			),
 			config.config.browser
