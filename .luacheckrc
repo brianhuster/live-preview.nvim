@@ -24,3 +24,7 @@ ignore = {
 read_globals = { "vim" }
 
 exclude_files = {}
+
+globals = {
+	"LivePreview",
+}

@@ -34,7 +34,7 @@ end
 ---@param file_name string
 ---@return string|nil
 function M.supported_filetype(file_name)
-	local file_name = file_name or ""
+	file_name = file_name or ""
 	if file_name:match("%.html$") then
 		return "html"
 	elseif file_name:match("%.md$") or file_name:match("%.markdown$") then
