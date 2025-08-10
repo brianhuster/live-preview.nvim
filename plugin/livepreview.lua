@@ -3,6 +3,7 @@ if vim.g.loaded_livepreview then
 end
 
 vim.g.loaded_livepreview = true
+local PORT_PREFIX = "++port="
 
 local health = require("livepreview.health")
 local cmd = "LivePreview"
@@ -41,8 +42,9 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 		for i = 2, 3 do
 			local arg = cmd_opts.fargs[i]
 			if arg then
-				if tonumber(arg) then
-					port = tonumber(arg)
+				if arg:sub(1, #PORT_PREFIX) == PORT_PREFIX then
+					local numb = arg:sub(#PORT_PREFIX + 1)
+					port = tonumber(numb) and tonumber(numb)
 				else
 					filepath = arg
 				end
@@ -87,11 +89,10 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 		-- given it checks that it is a valid number and then changes the port
 		-- option to the given argument
 		local port = Config.port
-		local opt = cmd_opts.fargs[2]
-		if opt ~= nil then
-			if tonumber(opt) then
-				port = tonumber(opt)
-			end
+		local opt = cmd_opts.fargs[2] or ""
+		if opt:sub(1, #PORT_PREFIX) == PORT_PREFIX then
+			local numb = opt:sub(#PORT_PREFIX + 1)
+			port = tonumber(numb) and tonumber(numb)
 		end
 		lp.pick(port)
 	else
