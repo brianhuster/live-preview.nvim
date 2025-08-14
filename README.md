@@ -139,6 +139,25 @@ See [`:h livepreview`](./doc/livepreview.txt) for all configurations options, as
  
 Since this is a young project, there should be a lot of rooms for improvements. If you would like to contribute to this project, please feel free to open an issue or a pull request.
 
+## Development and Testing :wrench:
+
+This project uses functional tests that spawn child Neovim instances to test real plugin behavior. 
+
+### Running Tests
+
+```bash
+# Install test dependencies (plenary.nvim)
+git clone https://github.com/nvim-lua/plenary.nvim.git ~/.local/share/nvim/lazy/plenary.nvim
+
+# Run the full test suite
+make test
+
+# Run basic tests (fallback without plenary)
+make test_basic
+```
+
+See [TESTING.md](TESTING.md) for detailed testing information and setup instructions.
+
 # Roadmap :rocket:
 
 See [TODO](https://github.com/brianhuster/live-preview.nvim/milestone/1)
