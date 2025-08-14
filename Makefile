@@ -17,7 +17,13 @@ update_readme:
 
 .PHONY: test
 test: 
-	@nvim -c "nvim -c 'lua vim.opt.rtp:append(vim.uv.cwd())' -l tests/utils_spec.lua"
+	@echo "Running functional tests with plenary..."
+	@nvim --headless -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/minimal_init.lua'}" -c "qa!"
+
+.PHONY: test_basic
+test_basic:
+	@echo "Running basic tests without plenary (fallback)..."
+	@nvim --headless -u tests/minimal_init.lua -c "lua dofile('tests/test_runner.lua')" -c "qa!"
 
 .PHONY: test_html
 test_html:
