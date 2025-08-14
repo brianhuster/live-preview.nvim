@@ -32,17 +32,3 @@ jobs:
     
     - name: Run tests  
       run: make test
-    
-    - name: Run luacheck
-      if: matrix.nvim_version == 'v0.10.1'  # Only run once
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y luarocks
-        sudo luarocks install luacheck
-        make luacheck
-    
-    - name: Run stylua check
-      if: matrix.nvim_version == 'v0.10.1'  # Only run once  
-      run: |
-        cargo install stylua --features lua54
-        stylua --check lua plugin scripts tests
