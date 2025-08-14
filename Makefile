@@ -17,13 +17,18 @@ update_readme:
 
 .PHONY: test
 test: 
-	@echo "Running functional tests with plenary..."
-	@nvim --headless -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/minimal_init.lua'}" -c "qa!"
+	@echo "Running functional tests with pytest..."
+	@cd tests && python -m pytest test_livepreview.py -v
+
+.PHONY: test_install_deps
+test_install_deps:
+	@echo "Installing Python test dependencies..."
+	@pip3 install -r tests/requirements.txt
 
 .PHONY: test_basic
 test_basic:
-	@echo "Running basic tests without plenary (fallback)..."
-	@nvim --headless -u tests/minimal_init.lua -c "lua dofile('tests/test_runner.lua')" -c "qa!"
+	@echo "Running basic tests with Python fallback..."
+	@cd tests && python test_livepreview.py
 
 .PHONY: test_html
 test_html:

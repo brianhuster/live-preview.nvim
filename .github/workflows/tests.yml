@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        nvim-version: ['v0.10.1', 'nightly']
+        nvim_version: ['v0.10.1', 'nightly']
     
     steps:
     - uses: actions/checkout@v4
@@ -22,16 +22,19 @@ jobs:
         neovim: true
         version: ${{ matrix.nvim_version }}
     
-    - name: Install plenary.nvim
-      run: |
-        mkdir -p ~/.local/share/nvim/lazy
-        git clone https://github.com/nvim-lua/plenary.nvim.git ~/.local/share/nvim/lazy/plenary.nvim
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+    
+    - name: Install Python test dependencies
+      run: make test_install_deps
     
     - name: Run tests  
       run: make test
     
     - name: Run luacheck
-      if: matrix.nvim-version == 'v0.10.1'  # Only run once
+      if: matrix.nvim_version == 'v0.10.1'  # Only run once
       run: |
         sudo apt-get update
         sudo apt-get install -y luarocks
@@ -39,7 +42,7 @@ jobs:
         make luacheck
     
     - name: Run stylua check
-      if: matrix.nvim-version == 'v0.10.1'  # Only run once  
+      if: matrix.nvim_version == 'v0.10.1'  # Only run once  
       run: |
         cargo install stylua --features lua54
         stylua --check lua plugin scripts tests
