@@ -17,9 +17,10 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Install Neovim
-      uses: rhymond/setup-neovim@v1
+      uses: rhysd/action-setup-vim@v1
       with:
-        neovim-version: ${{ matrix.nvim-version }}
+        neovim: true
+        version: ${{ matrix.nvim_version }}
     
     - name: Install plenary.nvim
       run: |
