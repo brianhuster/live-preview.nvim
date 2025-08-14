@@ -23,23 +23,8 @@ ignore = {
 
 read_globals = { "vim" }
 
-exclude_files = {
-	"tests/test with space.md",
-	"tests/test.adoc",
-}
+exclude_files = {}
 
 globals = {
 	"LivePreview",
-}
-
-files["tests/"] = {
-	read_globals = { 
-		"vim", 
-		"describe", 
-		"it", 
-		"before_each", 
-		"after_each", 
-		"pending",
-		"assert"
-	}
 }
