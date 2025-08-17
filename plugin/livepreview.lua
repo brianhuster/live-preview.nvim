@@ -3,6 +3,7 @@ if vim.g.loaded_livepreview then
 end
 
 vim.g.loaded_livepreview = true
+local PORT_PREFIX = "++port="
 
 local health = require("livepreview.health")
 local cmd = "LivePreview"
@@ -35,7 +36,30 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 
 	if subcommand == "start" then
 		local filepath
-		if cmd_opts.fargs[2] ~= nil then
+		local port = Config.port
+
+		-- determines if the options given is a port or filepath
+		for i = 2, 3 do
+			local arg = cmd_opts.fargs[i]
+			if arg then
+				if arg:sub(1, #PORT_PREFIX) == PORT_PREFIX then
+					-- If the substring is not a number, this returns nil
+					local numb = tonumber(arg:sub(#PORT_PREFIX + 1))
+					if numb then
+						port = numb
+					else
+						vim.notify(
+							"Error: LivePreview couldnt parse ++port option. Invalid Number.",
+							vim.log.levels.WARN
+						)
+					end
+				else
+					filepath = arg
+				end
+			end
+		end
+
+		if filepath ~= nil then
 			filepath = cmd_opts.fargs[2]
 			if not utils.is_absolute_path(filepath) then
 				filepath = fs.joinpath(vim.uv.cwd(), filepath)
@@ -54,7 +78,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 			end
 		end
 		filepath = fs.normalize(filepath)
-		if not lp.start(filepath, Config.port) then
+		if not lp.start(filepath, port) then
 			return
 		end
 
@@ -69,7 +93,27 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 		lp.close()
 		print("Live preview stopped")
 	elseif subcommand == "pick" then
-		lp.pick()
+		-- Create port option, with the default port, then if arguments were
+		-- given it checks that it is a valid number and then changes the port
+		-- option to the given argument
+		local port = Config.port
+		-- Must set opt to "" as default else the sub statement returns an error
+		local opt = cmd_opts.fargs[2] or ""
+		if opt:sub(1, #PORT_PREFIX) == PORT_PREFIX then
+			-- If the substring is not a number, this returns nil
+			local numb = tonumber(opt:sub(#PORT_PREFIX + 1))
+			if numb then
+				port = numb
+			else
+				vim.notify("Error: LivePreview couldnt parse ++port option. Invalid Number.", vim.log.levels.WARN)
+			end
+		else
+			vim.notify(
+				"Error: LivePreview couldnt parse parameter. Parameters should start be [++port=number].",
+				vim.log.levels.WARN
+			)
+		end
+		lp.pick(port)
 	else
 		lp.help()
 	end
