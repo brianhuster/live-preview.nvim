@@ -87,7 +87,7 @@ Plug 'brianhuster/live-preview.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'ibhagwan/fzf-lua'
 Plug 'echasnovski/mini.pick'
-Plog 'folke/snacks.nvim'
+Plug 'folke/snacks.nvim'
 ```
 
 </details>
