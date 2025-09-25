@@ -62,7 +62,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 			filepath,
 			fs.normalize(vim.uv.cwd() or "")
 		)):gsub(" ", "%%20")
-		local url = ("http://localhost:%d/%s"):format(Config.port, urlpath)
+		local url = ("http://%s:%d/%s"):format(Config.address, Config.port, urlpath)
 		print("live-preview.nvim: Opening browser at " .. url)
 		utils.open_browser(url, Config.browser)
 	elseif subcommand == "close" then

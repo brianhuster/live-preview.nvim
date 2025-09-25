@@ -31,6 +31,7 @@ Link to repo https://github.com/brianhuster/live-preview.nvim
 	dynamic_root = false,
 	sync_scroll = true,
 	picker = "",
+	address = '127.0.0.1',
     })
 <
 
@@ -46,6 +47,7 @@ Explaination of each option:
 - `picker`: Picker to use for opening files. 5 choices are available: |telescope|,
   |fzf-lua|, |mini.pick|, |snacks.picker| or |vim.ui.select|. If nil, the plugin look for the first available picker
   when you call the `pick` command.
+- `address`: Hostname/IP-address to bind the server to. Default: `127.0.0.1`.
 
 Note: If you wish to config the plugin in Vimscript, see |v:lua-call| for
 instruction on how to call Lua function in Vimscript

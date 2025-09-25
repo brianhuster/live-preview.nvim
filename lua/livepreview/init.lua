@@ -67,7 +67,7 @@ function M.start(filepath, port)
 			server.websocket.send_json(client, message)
 		end
 
-		M.serverObj:start("127.0.0.1", port, {
+		M.serverObj:start(config.config.address, port, {
 			on_events = utils.supported_filetype(filepath) == "html"
 					and {
 						---@param client uv_tcp_t
@@ -105,7 +105,8 @@ function M.pick()
 		vim.cmd.edit(filepath)
 		utils.open_browser(
 			string.format(
-				"http://localhost:%d/%s",
+				"http://%s:%d/%s",
+				config.config.address,
 				config.config.port,
 				config.config.dynamic_root and vim.fs.basename(filepath) or filepath
 			),
