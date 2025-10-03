@@ -21,7 +21,7 @@ const livepreview_render = (text) => {
 	hljs.highlightAll();
 }
 
-const markdownText = document.querySelector('.markdown-body').innerHTML;
+const markdownText = document.querySelector('.markdown-body').textContent;
 livepreview_render(markdownText);
 
 
