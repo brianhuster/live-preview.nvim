@@ -49,6 +49,8 @@ function M.start(filepath, port)
 				)
 			end
 		end
+	else
+		return false
 	end
 	M.close()
 
