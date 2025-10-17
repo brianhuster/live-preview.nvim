@@ -295,15 +295,15 @@ function M.processes_listening_on_port(port)
 	local cmd_result = M.await_term_cmd(cmd)
 	if not cmd_result then
 		print("Error getting processes listening on port " .. port)
-		return {}
+		return nil
 	end
 	if cmd_result.code ~= 0 then
 		print("Error getting processes listening on port " .. port .. ": " .. cmd_result.stderr)
-		return {}
+		return nil
 	end
 	local cmd_stdout = cmd_result.stdout
 	if not cmd_stdout or cmd_stdout == "" then
-		return {}
+		return nil
 	end
 	local processes = {}
 	local lines = vim.split(cmd_stdout, "\n")

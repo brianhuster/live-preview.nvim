@@ -31,7 +31,10 @@ end
 ---@return boolean?
 function M.start(filepath, port)
 	local processes = utils.processes_listening_on_port(port)
-	if #processes > 0 then
+	if not process then
+		return false
+	end 
+	if #processes > 0  then
 		for _, process in ipairs(processes) do
 			if process.pid ~= vim.uv.os_getpid() then
 				-- local kill_confirm = vim.fn.confirm(
