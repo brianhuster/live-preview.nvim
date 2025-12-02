@@ -29,9 +29,10 @@ const normalizePath = (filepath) => {
  * @returns {boolean} - True if the browser should handle the message, false otherwise
  */
 const isRightPath = (filepath) => {
-	console.log("Checking path:", filepath, "against", window.location.pathname);
+	const decodedPath = decodeURIComponent(window.location.pathname)
+	console.log("Checking path:", filepath, "against", decodedPath);
     const normalized = normalizePath(filepath);
-    return normalized.endsWith(window.location.pathname);
+    return normalized.endsWith(decodedPath);
 };
 
 let livepreview_reload
