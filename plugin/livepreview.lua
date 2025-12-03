@@ -25,17 +25,6 @@ api.nvim_create_autocmd("VimLeavePre", {
 	end,
 })
 
---- Percent-encode a path string
----@param str string
----@return string
-local function encode_path(str)
-	return (
-		str:gsub("([^%w%$%&%+%,%.%/%;%=%@%!%'%(%)%-%[%]%^%_%`%{%}%~])", function(char)
-			return string.format("%%%02X", string.byte(char))
-		end)
-	)
-end
-
 api.nvim_create_user_command(cmd, function(cmd_opts)
 	local utils = require("livepreview.utils")
 	local lp = require("livepreview")
@@ -71,7 +60,7 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 
 		local urlpath = Config.dynamic_root and fs.basename(filepath)
 			or utils.get_relative_path(filepath, fs.normalize(vim.uv.cwd() or ""))
-		local urlpath_encoded = urlpath and encode_path(urlpath)
+		local urlpath_encoded = urlpath and vim.uri_encode(urlpath)
 		local url = ("http://%s:%d/%s"):format(Config.address, Config.port, urlpath_encoded)
 		print("live-preview.nvim: Opening browser at " .. url)
 		utils.open_browser(url, Config.browser)

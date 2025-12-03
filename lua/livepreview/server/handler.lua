@@ -43,15 +43,6 @@ function M.send_http_response(client, status, content_type, body, headers)
 	client:write(response)
 end
 
---- Decode a percent-encoded path string
----@param str string
----@return string
-local function decode_path(str)
-	return (str:gsub("%%(%x%x)", function(hex)
-		return string.char(tonumber(hex, 16))
-	end))
-end
-
 --- Handle an HTTP request
 --- If the request is a websocket upgrade request, it will call websocket handshake
 --- Otherwise, if it is a GET request, return the path from it
@@ -63,7 +54,7 @@ function M.request(client, request)
 		return
 	end
 	local path = request:match("GET ([^%s]+) HTTP/1.1")
-	local path_decoded = path and decode_path(path) or "/"
+	local path_decoded = path and vim.uri_decode(path) or "/"
 
 	local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
 
