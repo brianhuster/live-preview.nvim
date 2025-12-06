@@ -54,12 +54,12 @@ function M.request(client, request)
 		return
 	end
 	local path = request:match("GET ([^%s]+) HTTP/1.1")
-	path = path and path:gsub("%%20", " ") or "/"
+	local path_decoded = path and vim.uri_decode(path) or "/"
 
 	local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
 
 	return {
-		path = path,
+		path = path_decoded,
 		if_none_match = if_none_match,
 	}
 end
