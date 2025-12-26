@@ -95,8 +95,6 @@ local function check_config()
 	info("Your configuration table >lua\n" .. vim.inspect(config))
 end
 
-check_config()
-
 --- Run checkhealth for Live Preview. This can also be called using `:checkhealth livepreview`
 function M.check()
 	local health = vim.health
