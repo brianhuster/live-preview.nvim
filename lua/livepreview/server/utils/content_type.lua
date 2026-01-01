@@ -393,7 +393,7 @@ M.mime = {
 	["jpgm"] = "video/jpm",
 	["jpgv"] = "video/jpeg",
 	["jpm"] = "video/jpm",
-	["json"] = "application/json; charset=UTF-8",
+	["json"] = "application/json",
 	["jsonml"] = "application/jsonml+json",
 	["js"] = "text/javascript; charset=UTF-8",
 	["kar"] = "audio/midi",
