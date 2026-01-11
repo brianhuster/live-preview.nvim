@@ -1,7 +1,12 @@
 # like to contribute to this project, please feel free to open an issue
-    $E = mc^2$
 
-```mermaid 
+$E = mc^2$
+
+$$ a(t) = \frac{d^2x(t)}{dt^2} $$
+
+$$ x(t) = \int \int a(t) \ dt^2 $$
+
+```mermaid
 graph TD;
     A-->B;
     A-->C;
