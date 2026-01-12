@@ -1,10 +1,12 @@
 # like to contribute to this project, please feel free to open an issue
 
 $E = mc^2$
-
-$$ a(t) = \frac{d^2x(t)}{dt^2} $$
-
-$$ x(t) = \int \int a(t) \ dt^2 $$
+$$
+\begin{cases}
+r_{i,k} &=& \Phi_i + (k-1)T_i \\
+d_{i,k} &=& r_{i,k} + D_i
+\end{cases}
+$$
 
 ```mermaid
 graph TD;
