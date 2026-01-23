@@ -1,6 +1,17 @@
 local M = {}
 
+local config = require("livepreview.config")
+
 local html_template = function(body, stylesheet, script_tag)
+	local macros = config.config.katex_macros
+	local macros_json = macros and vim.json.encode(macros) or "{}"
+
+	local katex_macros_script = ([[
+      <script>
+        window.LIVE_PREVIEW_KATEX_MACROS = %s;
+      </script>
+  ]]):format(macros_json)
+
 	return [[
         <!DOCTYPE html>
         <html lang="en">
@@ -16,6 +27,7 @@ local html_template = function(body, stylesheet, script_tag)
             <script src="/live-preview.nvim/static/mermaid/mermaid.min.js"></script>
 			<link rel="stylesheet" href="/live-preview.nvim/static/highlight/main.css">
 			<script defer src="/live-preview.nvim/static/highlight/highlight.min.js"></script>
+]] .. katex_macros_script .. [[
 ]] .. script_tag .. [[
 			<script defer src='/live-preview.nvim/static/ws-client.js'></script>
         </head>

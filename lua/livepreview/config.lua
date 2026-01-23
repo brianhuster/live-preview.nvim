@@ -17,6 +17,7 @@ M.pickers = {
 ---@field browser string? browser to open the preview in
 ---@field dynamic_root boolean? Whether to use the basename of the file as the root
 ---@field sync_scroll boolean? Whether to sync scroll the preview with the editor
+---@field katex_macros table<string, string>? KaTeX macros passed to renderMathInElement as `macros`
 M.default = {
 	picker = "",
 	address = "127.0.0.1",
@@ -24,6 +25,7 @@ M.default = {
 	browser = "default",
 	dynamic_root = false,
 	sync_scroll = true,
+	katex_macros = nil,
 }
 
 M.config = vim.deepcopy(M.default)

@@ -1,4 +1,8 @@
 function livepreview_renderKatex() {
+	const macros = (window.LIVE_PREVIEW_KATEX_MACROS && typeof window.LIVE_PREVIEW_KATEX_MACROS === "object")
+		? window.LIVE_PREVIEW_KATEX_MACROS
+		: {};
+
 	renderMathInElement(document.body, {
 		delimiters: [
 			{ left: '$$', right: '$$', display: true },
@@ -6,7 +10,8 @@ function livepreview_renderKatex() {
 			{ left: '\\(', right: '\\)', display: false },
 			{ left: '\\[', right: '\\]', display: true }
 		],
-		throwOnError: false
+		throwOnError: false,
+		macros
 	});
 }
 

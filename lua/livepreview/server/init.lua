@@ -108,8 +108,8 @@ end
 --- Watch a directory for changes and trigger an event
 function Server:watch_dir()
 	local callback = vim.schedule_wrap(
-		---@param filename string
-		---@param events {change: boolean, rename: boolean}
+	---@param filename string
+	---@param events {change: boolean, rename: boolean}
 		function(filename, events)
 			api.nvim_exec_autocmds("User", {
 				pattern = "LivePreviewDirChanged",
