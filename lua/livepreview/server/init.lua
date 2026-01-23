@@ -203,8 +203,9 @@ function Server:start(ip, port, opts)
 				if req_info then
 					local path = req_info.path
 					local if_none_match = req_info.if_none_match
+					local accept = req_info.accept
 					local file_path = self:routes(path)
-					handler.serve_file(client, file_path, if_none_match)
+					handler.serve_file(client, file_path, if_none_match, accept)
 				end
 			end
 		end)

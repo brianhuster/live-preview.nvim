@@ -47,7 +47,7 @@ end
 --- If the request is a websocket upgrade request, it will call websocket handshake
 --- Otherwise, if it is a GET request, return the path from it
 ---@param request string: HTTP request
----@return {path: string, if_none_match: string} | nil : path to the file and If-None-Match header
+---@return {path: string, if_none_match: string, accept: string} | nil : path to the file and If-None-Match header
 function M.request(client, request)
 	if request:match("Upgrade: websocket") then
 		websocket.handshake(client, request)
@@ -57,17 +57,21 @@ function M.request(client, request)
 	local path_decoded = path and vim.uri_decode(path) or "/"
 
 	local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
+	local accept = request:match("Accept: ([^\r\n]+)") or ""
 
 	return {
 		path = path_decoded,
 		if_none_match = if_none_match,
+		accept = accept,
 	}
 end
 
 --- Serve a file to the client
 --- @param client uv_tcp_t: client connection
 --- @param file_path string: path to the file
-function M.serve_file(client, file_path, if_none_match)
+--- @param if_none_match string|nil: If-None-Match header value
+--- @param accept string|nil: Accept header value
+function M.serve_file(client, file_path, if_none_match, accept)
 	read_file(file_path, function(_, body)
 		if not body then
 			M.send_http_response(client, "404 Not Found", "text/plain", "404 Not Found")
@@ -84,15 +88,21 @@ function M.serve_file(client, file_path, if_none_match)
 		end
 
 		local filetype = supported_filetype(file_path)
-		if filetype then
+		local content_type = get_content_type(file_path) or ""
+
+		-- Only convert to HTML if the client accepts text/html
+		-- This prevents converting SVG files that are referenced by <img> tags
+		local accepts_html = accept and accept:match("text/html")
+		if filetype and accepts_html then
 			if filetype ~= "html" then
 				body = toHTML(body, filetype)
 			else
 				body = handle_body(body)
 			end
+			content_type = "text/html; charset=UTF-8"
 		end
 
-		M.send_http_response(client, "200 OK", get_content_type(file_path) or "", body, {
+		M.send_http_response(client, "200 OK", content_type, body, {
 			["ETag"] = etag,
 		})
 	end)

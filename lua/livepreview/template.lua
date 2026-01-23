@@ -56,24 +56,23 @@ M.adoc2html = function(adoc)
 end
 
 M.svg2html = function(svg)
-	svg = svg:gsub(
-		"</svg>",
-		"<script href='/live-preview.nvim/static/ws-client.js' type='application/ecmascript'></script></svg>"
-	)
+	svg = svg:gsub("<%?xml[^>]*%?>%s*", "")
 	return [[
-		<!DOCTYPE html>
-		<html lang="en">
-
-		<head>
-		</head>
-
-		<body>
-			<div class='markdown-body'>
-]] .. svg .. [[
-			</div>
-		</body>
-		</html>
-	]]
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Live preview</title>
+              <script defer="defer" src='/live-preview.nvim/static/ws-client.js'></script>
+          </head>
+          <body>
+              <div class='markdown-body'>
+  ]] .. svg .. [[
+              </div>
+          </body>
+          </html>
+      ]]
 end
 
 M.toHTML = function(text, filetype)
