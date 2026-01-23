@@ -77,6 +77,8 @@ md.use(livepreview_injectLinenumbersPlugin);
 
 md.use(markdownitEmoji);
 
+md.use(window.markdownitGithubAlerts);
+
 const livepreview_render = (text) => {
 	const html = md.render(text);
 	console.log(html);

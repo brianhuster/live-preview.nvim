@@ -48,10 +48,14 @@ M.md2html = function(md)
 		<script defer src="/live-preview.nvim/static/markdown/line-numbers.js"></script>
 		<script defer src="/live-preview.nvim/static/markdown/markdown-it-emoji.min.js"></script>
 		<script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script>
+		<script type="module" src="/live-preview.nvim/static/markdown/markdown-it-github-alerts-loader.js"></script>
 		<script defer src='/live-preview.nvim/static/markdown/main.js'></script>
 	]]
 	local stylesheet = [[
         <link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">
+		<link rel="stylesheet" href="/live-preview.nvim/static/markdown/markdown-it-github-alerts/styles/github-base.css">
+		<link rel="stylesheet" href="/live-preview.nvim/static/markdown/markdown-it-github-alerts/styles/github-colors-light.css">
+		<link rel="stylesheet" href="/live-preview.nvim/static/markdown/markdown-it-github-alerts/styles/github-colors-dark-media.css">
     ]]
 	return html_template(md, stylesheet, script)
 end
