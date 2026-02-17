@@ -38,10 +38,6 @@ local html_template = function(body, stylesheet, script_tag)
 				.katex-display {
 					margin: 1em 0;
 					text-align: center;
-				}
-				.katex-display > .katex {
-					display: inline-block;
-					max-width: 100%;
 					overflow-x: auto;
 					overflow-y: hidden;
 				}
