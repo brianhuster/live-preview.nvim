@@ -34,7 +34,17 @@ const livepreview_render = (text) => {
 	console.log("=== About to call KaTeX render ===");
 }
 
-const markdownText = document.querySelector('.markdown-body').textContent;
+const markdownBody = document.querySelector('.markdown-body');
+const markdownText = markdownBody.textContent;
+
+console.log("=== RAW HTML CONTENT (innerHTML) ===");
+console.log(markdownBody.innerHTML);
+console.log("=== TEXT CONTENT (after HTML entity decoding) ===");
+console.log(markdownText);
+console.log("=== Checking backslashes in textContent ===");
+console.log("Contains \\ :", markdownText.includes("\\"));
+console.log("Contains \\begin:", markdownText.includes("\\begin"));
+
 livepreview_render(markdownText);
 
 // Render KaTeX after markdown is processed
