@@ -36,10 +36,14 @@ local html_template = function(body, stylesheet, script_tag)
 			<style>
 				/* Fix for KaTeX cases environment and stretchy delimiters */
 				.katex-display {
-					overflow-x: auto;
-					overflow-y: hidden;
 					margin: 1em 0;
 					text-align: center;
+				}
+				.katex-display > .katex {
+					display: inline-block;
+					max-width: 100%;
+					overflow-x: auto;
+					overflow-y: hidden;
 				}
 				.katex {
 					font-size: 1.21em;
