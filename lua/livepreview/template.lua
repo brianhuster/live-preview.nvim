@@ -1,5 +1,23 @@
 local M = {}
 
+-- HTML escape function to preserve special characters in markdown
+-- This prevents the browser's HTML parser from stripping backslashes in LaTeX code
+local function html_escape(text)
+	if not text then
+		return ""
+	end
+
+	local result = text
+	-- Process & first to avoid double-escaping
+	result = result:gsub("&", "&amp;")
+	result = result:gsub("<", "&lt;")
+	result = result:gsub(">", "&gt;")
+	result = result:gsub('"', "&quot;")
+	result = result:gsub("'", "&#39;")
+
+	return result
+end
+
 local html_template = function(body, stylesheet, script_tag)
 	return [[
         <!DOCTYPE html>
@@ -41,7 +59,7 @@ M.md2html = function(md)
 	local stylesheet = [[
         <link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">
     ]]
-	return html_template(md, stylesheet, script)
+	return html_template(html_escape(md), stylesheet, script)
 end
 
 M.adoc2html = function(adoc)
