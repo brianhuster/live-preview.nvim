@@ -33,6 +33,37 @@ local html_template = function(body, stylesheet, script_tag)
             <script src="/live-preview.nvim/static/mermaid/mermaid.min.js"></script>
 			<link rel="stylesheet" href="/live-preview.nvim/static/highlight/main.css">
 			<script defer src="/live-preview.nvim/static/highlight/highlight.min.js"></script>
+			<style>
+				/* Fix for KaTeX cases environment and stretchy delimiters */
+				.katex-display {
+					overflow-x: auto;
+					overflow-y: hidden;
+					margin: 1em 0;
+					text-align: center;
+				}
+				.katex {
+					font-size: 1.21em;
+				}
+				/* Ensure cases environment displays properly */
+				.katex .array {
+					border-collapse: collapse;
+				}
+				.katex .array > tbody > tr > td {
+					padding: 0;
+				}
+				/* Fix for stretchy delimiters in cases environment */
+				.katex .delimsizing {
+					font-family: 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3', 'KaTeX_Size4', serif;
+				}
+				.katex .sizing {
+					position: relative;
+				}
+				/* Ensure proper vertical alignment in cases */
+				.katex .mtable .vertical-separator {
+					display: inline-block;
+					vertical-align: middle;
+				}
+			</style>
 ]] .. script_tag .. [[
 			<script defer src='/live-preview.nvim/static/ws-client.js'></script>
         </head>

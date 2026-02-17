@@ -148,12 +148,12 @@
         md.renderer.rules.math_block = function (tokens, idx) {
             const content = tokens[idx].content;
             try {
-                return katex.renderToString(content, {
+                return `<div class="katex-display">${katex.renderToString(content, {
                     throwOnError: false,
                     displayMode: true
-                });
+                })}</div>`;
             } catch (error) {
-                return `<div class="katex-error">${content}</div>`;
+                return `<div class="katex-display katex-error">${content}</div>`;
             }
         };
     };
