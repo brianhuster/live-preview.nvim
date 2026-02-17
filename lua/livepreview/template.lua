@@ -14,8 +14,6 @@ local function html_escape(text)
 	result = result:gsub(">", "&gt;")
 	result = result:gsub('"', "&quot;")
 	result = result:gsub("'", "&#39;")
-	-- Escape backslashes to prevent markdown-it from interpreting them as escape sequences
-	result = result:gsub("\\", "&#92;")
 
 	return result
 end
@@ -30,9 +28,8 @@ local html_template = function(body, stylesheet, script_tag)
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Live preview</title>
 ]] .. stylesheet .. [[
-            <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">	
+			<link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">	
             <script defer src="/live-preview.nvim/static/katex/katex.min.js"></script>
-			<script defer src="/live-preview.nvim/static/katex/auto-render.min.js"></script>
             <script src="/live-preview.nvim/static/mermaid/mermaid.min.js"></script>
 			<link rel="stylesheet" href="/live-preview.nvim/static/highlight/main.css">
 			<script defer src="/live-preview.nvim/static/highlight/highlight.min.js"></script>
@@ -52,10 +49,10 @@ end
 
 M.md2html = function(md)
 	local script = [[
-		<script defer src="/live-preview.nvim/static/katex/main.js"></script>
 		<script defer src="/live-preview.nvim/static/markdown/line-numbers.js"></script>
 		<script defer src="/live-preview.nvim/static/markdown/markdown-it-emoji.min.js"></script>
 		<script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script>
+		<script defer src='/live-preview.nvim/static/markdown/markdown-it-katex.js'></script>
 		<script defer src='/live-preview.nvim/static/markdown/main.js'></script>
 	]]
 	local stylesheet = [[
