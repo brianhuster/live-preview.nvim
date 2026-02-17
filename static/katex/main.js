@@ -10,6 +10,5 @@ function livepreview_renderKatex() {
 	});
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-	livepreview_renderKatex();
-});
+// Note: This function is called from markdown/main.js after rendering
+// DOMContentLoaded event has already fired before deferred scripts execute
