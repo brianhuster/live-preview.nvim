@@ -14,6 +14,8 @@ local function html_escape(text)
 	result = result:gsub(">", "&gt;")
 	result = result:gsub('"', "&quot;")
 	result = result:gsub("'", "&#39;")
+	-- Escape backslashes to prevent markdown-it from interpreting them as escape sequences
+	result = result:gsub("\\", "&#92;")
 
 	return result
 end
