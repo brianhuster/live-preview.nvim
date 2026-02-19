@@ -4,12 +4,21 @@ function livepreview_renderMermaid() {
 	});
 }
 
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
 mermaid.initialize({
 	startOnLoad: false,
 	securityLevel: 'loose',
-	theme: 'neutral',
+	theme: prefersDark ? 'dark' : 'default',
 });
 
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+	mermaid.initialize({
+		startOnLoad: false,
+		securityLevel: 'loose',
+		theme: e.matches ? 'dark' : 'default',
+	});
+	livepreview_renderMermaid();
+});
 
 livepreview_renderMermaid();
-
