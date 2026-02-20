@@ -1,5 +1,22 @@
 local M = {}
 
+-- HTML escape function using table-based substitution for better performance
+local html_escapes = {
+	["&"] = "&amp;",
+	["<"] = "&lt;",
+	[">"] = "&gt;",
+	['"'] = "&quot;",
+	["'"] = "&#39;"
+}
+
+local function html_escape(text)
+	if not text or text == "" then
+		return ""
+	end
+	-- Use table lookup which is faster than multiple gsub calls
+	return (text:gsub("[&<>\"']", html_escapes))
+end
+
 local html_template = function(body, stylesheet, script_tag)
 	return [[
         <!DOCTYPE html>
@@ -10,12 +27,18 @@ local html_template = function(body, stylesheet, script_tag)
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Live preview</title>
 ]] .. stylesheet .. [[
-            <link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">	
+			<link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">	
             <script defer src="/live-preview.nvim/static/katex/katex.min.js"></script>
-			<script defer src="/live-preview.nvim/static/katex/auto-render.min.js"></script>
             <script src="/live-preview.nvim/static/mermaid/mermaid.min.js"></script>
 			<link rel="stylesheet" href="/live-preview.nvim/static/highlight/main.css">
 			<script defer src="/live-preview.nvim/static/highlight/highlight.min.js"></script>
+			<style>
+				.katex-display{margin:1em 0;text-align:center;overflow-x:auto;overflow-y:hidden}
+				.katex{font-size:1.21em}
+				.katex .array{border-collapse:collapse}
+				.katex .array>tbody>tr>td{padding:0}
+				.katex .delimsizing{font-family:KaTeX_Size1,KaTeX_Size2,KaTeX_Size3,KaTeX_Size4,serif}
+			</style>
 ]] .. script_tag .. [[
 			<script defer src='/live-preview.nvim/static/ws-client.js'></script>
         </head>
@@ -24,7 +47,6 @@ local html_template = function(body, stylesheet, script_tag)
             <div class="markdown-body">
 ]] .. body .. [[
             </div>
-			<script defer src="/live-preview.nvim/static/katex/main.js"></script>
             <script defer src="/live-preview.nvim/static/mermaid/main.js"></script>
         </body>
         </html>
@@ -32,47 +54,19 @@ local html_template = function(body, stylesheet, script_tag)
 end
 
 M.md2html = function(md)
-	local script = [[
-		<script defer src="/live-preview.nvim/static/markdown/line-numbers.js"></script>
-		<script defer src="/live-preview.nvim/static/markdown/markdown-it-emoji.min.js"></script>
-		<script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script>
-		<script defer src='/live-preview.nvim/static/markdown/main.js'></script>
-	]]
-	local stylesheet = [[
-        <link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">
-    ]]
-	return html_template(md, stylesheet, script)
+	local script = [[<script defer src="/live-preview.nvim/static/markdown/line-numbers.js"></script><script defer src="/live-preview.nvim/static/markdown/markdown-it-emoji.min.js"></script><script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script><script defer src='/live-preview.nvim/static/markdown/markdown-it-katex.js'></script><script defer src='/live-preview.nvim/static/markdown/main.js'></script>]]
+	local stylesheet = [[<link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">]]
+	return html_template(html_escape(md), stylesheet, script)
 end
 
 M.adoc2html = function(adoc)
-	local script = [[
-		<script defer src="/live-preview.nvim/static/asciidoc/asciidoctor.min.js"></script>
-        <script defer src='/live-preview.nvim/static/asciidoc/main.js'></script>
-    ]]
-	local stylesheet = [[
-        <link rel="stylesheet" href="/live-preview.nvim/static/asciidoc/asciidoctor.min.css">
-    ]]
+	local script = [[<script defer src="/live-preview.nvim/static/asciidoc/asciidoctor.min.js"></script><script defer src='/live-preview.nvim/static/asciidoc/main.js'></script>]]
+	local stylesheet = [[<link rel="stylesheet" href="/live-preview.nvim/static/asciidoc/asciidoctor.min.css">]]
 	return html_template(adoc, stylesheet, script)
 end
 
 M.svg2html = function(svg)
-	svg = svg:gsub("<%?xml[^>]*%?>%s*", "")
-	return [[
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Live preview</title>
-              <script defer src='/live-preview.nvim/static/ws-client.js'></script>
-          </head>
-          <body>
-              <div class='markdown-body'>
-  ]] .. svg .. [[
-              </div>
-          </body>
-          </html>
-      ]]
+	return [[<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Live preview</title><script defer src='/live-preview.nvim/static/ws-client.js'></script></head><body><div class='markdown-body'>]] .. svg:gsub("<%?xml[^>]*%?>%s*", "") .. [[</div></body></html>]]
 end
 
 M.toHTML = function(text, filetype)

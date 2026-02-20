@@ -14,9 +14,12 @@ md.use(livepreview_injectLinenumbersPlugin);
 
 md.use(markdownitEmoji);
 
+// Use markdown-it-katex plugin to handle math rendering during markdown parsing
+// This prevents markdown-it from corrupting LaTeX syntax before KaTeX can render it
+md.use(markdownitKatex);
+
 const livepreview_render = (text) => {
 	const html = md.render(text);
-	console.log(html);
 	document.querySelector('.markdown-body').innerHTML = html;
 	hljs.highlightAll();
 }
