@@ -6,7 +6,7 @@ local html_escapes = {
 	["<"] = "&lt;",
 	[">"] = "&gt;",
 	['"'] = "&quot;",
-	["'"] = "&#39;"
+	["'"] = "&#39;",
 }
 
 local function html_escape(text)
@@ -54,19 +54,23 @@ local html_template = function(body, stylesheet, script_tag)
 end
 
 M.md2html = function(md)
-	local script = [[<script defer src="/live-preview.nvim/static/markdown/line-numbers.js"></script><script defer src="/live-preview.nvim/static/markdown/markdown-it-emoji.min.js"></script><script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script><script defer src='/live-preview.nvim/static/markdown/markdown-it-katex.js'></script><script defer src='/live-preview.nvim/static/markdown/main.js'></script>]]
+	local script =
+		[[<script defer src="/live-preview.nvim/static/markdown/line-numbers.js"></script><script defer src="/live-preview.nvim/static/markdown/markdown-it-emoji.min.js"></script><script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script><script defer src='/live-preview.nvim/static/markdown/markdown-it-katex.js'></script><script defer src='/live-preview.nvim/static/markdown/main.js'></script>]]
 	local stylesheet = [[<link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">]]
 	return html_template(html_escape(md), stylesheet, script)
 end
 
 M.adoc2html = function(adoc)
-	local script = [[<script defer src="/live-preview.nvim/static/asciidoc/asciidoctor.min.js"></script><script defer src='/live-preview.nvim/static/asciidoc/main.js'></script>]]
+	local script =
+		[[<script defer src="/live-preview.nvim/static/asciidoc/asciidoctor.min.js"></script><script defer src='/live-preview.nvim/static/asciidoc/main.js'></script>]]
 	local stylesheet = [[<link rel="stylesheet" href="/live-preview.nvim/static/asciidoc/asciidoctor.min.css">]]
 	return html_template(adoc, stylesheet, script)
 end
 
 M.svg2html = function(svg)
-	return [[<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Live preview</title><script defer src='/live-preview.nvim/static/ws-client.js'></script></head><body><div class='markdown-body'>]] .. svg:gsub("<%?xml[^>]*%?>%s*", "") .. [[</div></body></html>]]
+	return [[<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Live preview</title><script defer src='/live-preview.nvim/static/ws-client.js'></script></head><body><div class='markdown-body'>]]
+		.. svg:gsub("<%?xml[^>]*%?>%s*", "")
+		.. [[</div></body></html>]]
 end
 
 M.toHTML = function(text, filetype)
