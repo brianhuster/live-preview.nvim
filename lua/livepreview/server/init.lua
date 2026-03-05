@@ -211,8 +211,6 @@ function Server:start(ip, port, opts)
 		end)
 		table.insert(M.connecting_clients, client)
 	end)
-
-	uv.run()
 end
 
 --- Stop the server
