@@ -53,18 +53,18 @@ function M.start(filepath, port)
 	M.close()
 
 	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
-		local function onTextChanged(client)
-			local bufname = vim.api.nvim_buf_get_name(0)
-			if not utils.supported_filetype(bufname) or utils.supported_filetype(bufname) == "html" then
-				return
-			end
-			local message = {
-				filepath = bufname,
-				type = "update",
-				content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n"),
-			}
-			server.websocket.send_json(client, message)
+	local function onTextChanged(client)
+		local bufname = vim.api.nvim_buf_get_name(0)
+		if not utils.supported_filetype(bufname) or utils.supported_filetype(bufname) == "html" then
+			return
 		end
+		local message = {
+			filepath = bufname,
+			type = "update",
+			content = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n"),
+		}
+		server.websocket.send_json(client, message)
+	end
 
 	M.serverObj:start(config.config.address, port, {
 		on_events = utils.supported_filetype(filepath) == "html"
