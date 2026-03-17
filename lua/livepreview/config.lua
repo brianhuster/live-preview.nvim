@@ -10,6 +10,10 @@ M.pickers = {
 	default = "",
 }
 
+---@class LivePreviewMermaidConfig
+---@field renderer "default"|"beautiful" Renderer to use for mermaid diagrams (default: "default")
+---@field theme string beautiful-mermaid theme name (only used when renderer = "beautiful")
+
 ---@class LivePreviewConfig
 ---@field picker Picker? picker to use to quickly open HTML/Markdown/Asciidoc/SVG files and run live-preview server
 ---@field port number? port to run the server on
@@ -17,6 +21,7 @@ M.pickers = {
 ---@field browser string? browser to open the preview in
 ---@field dynamic_root boolean? Whether to use the basename of the file as the root
 ---@field sync_scroll boolean? Whether to sync scroll the preview with the editor
+---@field mermaid LivePreviewMermaidConfig? Mermaid rendering options
 M.default = {
 	picker = "",
 	address = "127.0.0.1",
@@ -24,6 +29,10 @@ M.default = {
 	browser = "default",
 	dynamic_root = false,
 	sync_scroll = true,
+	mermaid = {
+		renderer = "default",
+		theme = "github-light",
+	},
 }
 
 M.config = vim.deepcopy(M.default)
@@ -33,9 +42,14 @@ M.config = vim.deepcopy(M.default)
 ---@return boolean ok
 ---@return string? message
 ---@return vim.log.levels? level
----
----@diagnostic disable not right now
-function M.validate(name, value) end
+function M.validate(name, value)
+	if name == "mermaid" then
+		if value.renderer and value.renderer ~= "default" and value.renderer ~= "beautiful" then
+			return false, "mermaid.renderer must be 'default' or 'beautiful'", vim.log.levels.ERROR
+		end
+	end
+	return true
+end
 
 --- Configure live-preview.nvim
 --- @param opts Config?
