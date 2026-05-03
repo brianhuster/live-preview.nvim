@@ -49,6 +49,6 @@ const livepreview_render = (text) => {
 }
 
 const markdownText = document.querySelector('.markdown-body').textContent;
-livepreview_render(markdownText);
+livepreview_render(markdownText.trim());
 
 
