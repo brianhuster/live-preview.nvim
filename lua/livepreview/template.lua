@@ -1,4 +1,5 @@
 local M = {}
+local config = require("livepreview.config")
 
 -- HTML escape function using table-based substitution for better performance
 local html_escapes = {
@@ -18,6 +19,20 @@ local function html_escape(text)
 end
 
 local html_template = function(body, stylesheet, script_tag)
+	local mermaid_renderer = config.config.mermaid.renderer
+	local mermaid_theme = config.config.mermaid.theme
+
+	local mermaid_config_script = string.format(
+		"<script>window.__livepreview_mermaid_config = { renderer: %q, theme: %q };</script>",
+		mermaid_renderer,
+		mermaid_theme
+	)
+
+	local beautiful_mermaid_script = ""
+	if mermaid_renderer == "beautiful" then
+		beautiful_mermaid_script = '<script src="/live-preview.nvim/static/mermaid/beautiful-mermaid.js"></script>'
+	end
+
 	return [[
         <!DOCTYPE html>
         <html lang="en">
@@ -29,6 +44,7 @@ local html_template = function(body, stylesheet, script_tag)
 ]] .. stylesheet .. [[
 			<link rel="stylesheet" href="/live-preview.nvim/static/katex/katex.min.css">	
             <script defer src="/live-preview.nvim/static/katex/katex.min.js"></script>
+]] .. beautiful_mermaid_script .. [[
             <script src="/live-preview.nvim/static/mermaid/mermaid.min.js"></script>
 			<link rel="stylesheet" href="/live-preview.nvim/static/highlight/main.css">
 			<script defer src="/live-preview.nvim/static/highlight/highlight.min.js"></script>
@@ -38,8 +54,9 @@ local html_template = function(body, stylesheet, script_tag)
 				.katex .array{border-collapse:collapse}
 				.katex .array>tbody>tr>td{padding:0}
 				.katex .delimsizing{font-family:KaTeX_Size1,KaTeX_Size2,KaTeX_Size3,KaTeX_Size4,serif}
+				pre[class*="language-mermaid"],code[class*="language-mermaid"]{background:transparent !important;border:0;margin:0;padding:0}
 			</style>
-]] .. script_tag .. [[
+]] .. mermaid_config_script .. script_tag .. [[
 			<script defer src='/live-preview.nvim/static/ws-client.js'></script>
         </head>
 

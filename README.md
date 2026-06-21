@@ -135,6 +135,23 @@ require('livepreview.config').set()
 
 See [`:h livepreview`](./doc/livepreview.txt) for all configurations options, as well as usage and FAQ.
 
+## Mermaid Rendering
+
+By default, the plugin uses [mermaid.js](https://github.com/mermaid-js/mermaid) for rendering diagrams. You can switch to [beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid) for improved aesthetics:
+
+```lua
+require('livepreview.config').set({
+    mermaid = {
+        renderer = "beautiful",  -- "default" (mermaid.js) or "beautiful" (beautiful-mermaid)
+        theme = "github-light",   -- beautiful-mermaid theme (default: github-light)
+    }
+})
+```
+
+Available beautiful-mermaid themes: `zinc-light`, `zinc-dark`, `tokyo-night`, `tokyo-night-storm`, `tokyo-night-light`, `catppuccin-mocha`, `catppuccin-latte`, `nord`, `nord-light`, `dracula`, `github-light`, `github-dark`, `solarized-light`, `solarized-dark`, `one-dark`.
+
+> **Note**: beautiful-mermaid supports 6 diagram types (flowchart, state, sequence, class, ER, xychart). Some mermaid.js diagrams may not render with this renderer.
+
 # Contributing :handshake:
  
 Since this is a young project, there should be a lot of rooms for improvements. If you would like to contribute to this project, please feel free to open an issue or a pull request.
@@ -152,6 +169,7 @@ See [TODO](https://github.com/brianhuster/live-preview.nvim/milestone/1)
 * [asciidoctor/asciidoctor.js](https://github.com/asciidoctor/asciidoctor.js) for parsing AsciiDoc files
 * [KaTeX](https://github.com/KaTeX/KaTeX) for rendering math equations
 * [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) for rendering diagrams
+* [lukilabs/beautiful-mermaid](https://github.com/lukilabs/beautiful-mermaid) for beautiful diagram rendering
 * [digitalmoksha/markdown-it-inject-linenumbers](https://github.com/digitalmoksha/markdown-it-inject-linenumbers) : A markdown-it plugin for injecting line numbers into html output
 
 # Buy me a coffee ☕
