@@ -64,6 +64,7 @@ end
 --- Constructor
 --- @param webroot string|nil: path to the webroot
 function Server:new(webroot)
+	self = setmetatable({}, Server)
 	self.server = uv.new_tcp()
 	self.webroot = webroot or uv.cwd()
 	api.nvim_create_augroup("LivePreview", {
