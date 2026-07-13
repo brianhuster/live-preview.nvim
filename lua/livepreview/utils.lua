@@ -283,7 +283,7 @@ function M.processes_listening_on_port(port)
 	local cmd = ("lsof -i:%d | grep LISTEN | awk '{print $1, $2}'"):format(port)
 	if vim.uv.os_uname().version:match("Windows") then
 		cmd = ([[
-			Get-NetTCPConnection -LocalPort %d | Where-Object { $_.State -eq 'Listen' } | ForEach-Object {
+			Get-NetTCPConnection | Where-Object { $_.LocalPort -eq %d -and $_.State -eq 'Listen' } | ForEach-Object {
 				$procID = $_.OwningProcess
 				$process = Get-Process -Id $procID -ErrorAction SilentlyContinue
 				if ($process) {
