@@ -41,6 +41,18 @@ function M.send_http_response(client, status, content_type, body, headers)
 	response = response .. "\r\n" .. body
 
 	client:write(response)
+
+	-- M.client has already called read_stop(), so the EOF branch that would
+	-- close this socket can never fire: without an explicit close every request
+	-- leaks a descriptor in CLOSE_WAIT until the process hits EMFILE.
+	-- shutdown() rather than close() so the queued body is not truncated.
+	if not client:is_closing() then
+		client:shutdown(function()
+			if not client:is_closing() then
+				client:close()
+			end
+		end)
+	end
 end
 
 --- Handle an HTTP request
