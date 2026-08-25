@@ -61,6 +61,20 @@ local function send_scroll()
 	need_scroll = false
 end
 
+--- Drop a client from the broadcast list and close its socket
+--- @param client uv_tcp_t: client connection
+function M.forget_client(client)
+	for i, c in ipairs(M.connecting_clients) do
+		if c == client then
+			table.remove(M.connecting_clients, i)
+			break
+		end
+	end
+	if not client:is_closing() then
+		client:close()
+	end
+end
+
 --- Constructor
 --- @param webroot string|nil: path to the webroot
 function Server:new(webroot)
@@ -192,12 +206,7 @@ function Server:start(ip, port, opts)
 		handler.client(client, function(error, request)
 			if error or not request then
 				vim.notify(error and error, vim.log.levels.ERROR)
-				for i, c in ipairs(M.connecting_clients) do
-					if c == client then
-						client:close()
-						table.remove(M.connecting_clients, i)
-					end
-				end
+				M.forget_client(client)
 				return
 			else
 				local req_info = handler.request(client, request)
@@ -206,17 +215,34 @@ function Server:start(ip, port, opts)
 					local if_none_match = req_info.if_none_match
 					local accept = req_info.accept
 					local file_path = self:routes(path)
+					-- serve_file closes the connection once the response is sent
 					handler.serve_file(client, file_path, if_none_match, accept)
+				elseif not client:is_closing() then
+					-- handler.request returns nil only after a WebSocket
+					-- upgrade, and broadcasts must reach nothing else.
+					table.insert(M.connecting_clients, client)
+					-- Reads were stopped once the upgrade request was buffered,
+					-- so a closed tab would go unnoticed. Clients never send
+					-- frames upstream, so any read event means it is over.
+					client:read_start(function(read_err, chunk)
+						if read_err or not chunk then
+							M.forget_client(client)
+						end
+					end)
 				end
 			end
 		end)
-		table.insert(M.connecting_clients, client)
 	end)
 end
 
 --- Stop the server
 --- @param callback? function: callback to run after the server is stopped
 function Server:stop(callback)
+	-- Closing the listener alone leaves the still-open WebSocket sockets
+	-- behind, holding their file descriptors until Neovim exits.
+	for i = #M.connecting_clients, 1, -1 do
+		M.forget_client(M.connecting_clients[i])
+	end
 	if self.server then
 		self.server:close(function()
 			self.server = nil
