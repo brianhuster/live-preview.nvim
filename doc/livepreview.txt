@@ -32,6 +32,10 @@ Link to repo https://github.com/brianhuster/live-preview.nvim
 	sync_scroll = true,
 	picker = "",
 	address = '127.0.0.1',
+	mermaid = {
+		renderer = 'default',
+		theme = 'github-light',
+	},
     })
 <
 
@@ -48,6 +52,15 @@ Explaination of each option:
   |fzf-lua|, |mini.pick|, |snacks.picker| or |vim.ui.select|. If nil, the plugin look for the first available picker
   when you call the `pick` command.
 - `address`: Hostname/IP-address to bind the server to. Default: `127.0.0.1`.
+- `mermaid`: Options for mermaid diagram rendering.
+  - `renderer`: Renderer to use. Use "default" for mermaid.js or "beautiful" for
+    beautiful-mermaid. Default: "default".
+  - `theme`: Theme to use when renderer is "beautiful". Default: `github-light`.
+    Available themes: `zinc-light`, `zinc-dark`, `tokyo-night`, `tokyo-night-storm`,
+    `tokyo-night-light`, `catppuccin-mocha`, `catppuccin-latte`, `nord`, `nord-light`,
+    `dracula`, `github-light`, `github-dark`, `solarized-light`, `solarized-dark`, `one-dark`.
+    Note: beautiful-mermaid only supports 6 diagram types (flowchart, state,
+    sequence, class, ER, xychart).
 
 Note: If you wish to config the plugin in Vimscript, see |v:lua-call| for
 instruction on how to call Lua function in Vimscript
