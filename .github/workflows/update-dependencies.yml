@@ -28,6 +28,7 @@ jobs:
           just katex
           just markdown
           just highlight
+          just mermaid
         working-directory: static
 
       - name: Check for changes
