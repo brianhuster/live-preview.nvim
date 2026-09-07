@@ -9,14 +9,16 @@ const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 mermaid.initialize({
 	startOnLoad: false,
 	securityLevel: 'loose',
-	theme: prefersDark ? 'dark' : 'default',
+	look: 'neo',
+	theme: prefersDark ? 'neo-dark' : 'neo',
 });
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
 	mermaid.initialize({
 		startOnLoad: false,
 		securityLevel: 'loose',
-		theme: e.matches ? 'dark' : 'default',
+		look: 'neo',
+		theme: e.matches ? 'neo-dark' : 'neo',
 	});
 	livepreview_renderMermaid();
 });
