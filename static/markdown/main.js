@@ -18,8 +18,12 @@ md.use(markdownitEmoji);
 // This prevents markdown-it from corrupting LaTeX syntax before KaTeX can render it
 md.use(markdownitKatex);
 
+// Only the fences are replaced so that line numbers for sync scroll stay the same
+const livepreview_frontmatter = (text) =>
+	text.replace(/^(\n?)---(\r?\n[\s\S]*?\r?\n)(?:---|\.\.\.)(?=\r?\n|$)/, '$1```yaml$2```');
+
 const livepreview_render = (text) => {
-	const html = md.render(text);
+	const html = md.render(livepreview_frontmatter(text));
 	document.querySelector('.markdown-body').innerHTML = html;
 	hljs.highlightAll();
 }
