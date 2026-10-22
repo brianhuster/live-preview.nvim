@@ -66,7 +66,7 @@ function M.start(filepath, port)
 		server.websocket.send_json(client, message)
 	end
 
-	M.serverObj:start(config.config.address, port, {
+	local ok, err = M.serverObj:start(config.config.address, port, {
 		on_events = utils.supported_filetype(filepath) == "html" and {
 			---@param client uv_tcp_t
 			---@param data {filename: string, event: FsEvent}
@@ -82,6 +82,16 @@ function M.start(filepath, port)
 			TextChangedI = vim.schedule_wrap(onTextChanged),
 		},
 	})
+	if not ok then
+		-- Otherwise the browser would open on whatever else answers on that port
+		vim.notify(
+			("live-preview.nvim: cannot listen on %s:%d: %s"):format(config.config.address, port, err),
+			vim.log.levels.ERROR
+		)
+		M.serverObj:stop()
+		M.serverObj = nil
+		return false
+	end
 
 	return true
 end
@@ -95,7 +105,9 @@ function M.pick()
 			vim.notify("No file picked", vim.log.levels.INFO)
 			return
 		end
-		M.start(filepath, config.config.port)
+		if not M.start(filepath, config.config.port) then
+			return
+		end
 		vim.cmd.edit(filepath)
 		utils.open_browser(
 			string.format(
