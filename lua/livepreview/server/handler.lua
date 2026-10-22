@@ -130,19 +130,22 @@ function M.client(client, callback)
 	local buffer = ""
 
 	client:read_start(function(err, chunk)
-		if err then
-			client:close()
-			callback(err, nil)
+		if err or not chunk then
+			-- A read error comes with a nil chunk, so falling through to the
+			-- EOF branch would close the socket a second time and raise.
+			if not client:is_closing() then
+				client:close()
+			end
+			if err then
+				callback(err, nil)
+			end
+			return
 		end
 
-		if chunk then
-			buffer = buffer .. chunk
-			if buffer:match("\r\n\r\n$") then
-				client:read_stop()
-				callback(nil, buffer)
-			end
-		else
-			client:close()
+		buffer = buffer .. chunk
+		if buffer:match("\r\n\r\n$") then
+			client:read_stop()
+			callback(nil, buffer)
 		end
 	end)
 end
