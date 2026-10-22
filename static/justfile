@@ -17,3 +17,7 @@ markdown:
 highlight:
     #!/usr/bin/env bash
     curl -sL https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js > highlight/highlight.min.js
+
+mermaid:
+    #!/usr/bin/env bash
+    curl -sL https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js > mermaid/mermaid.min.js
