@@ -205,7 +205,9 @@ function Server:start(ip, port, opts)
 		self.server:accept(client)
 		handler.client(client, function(error, request)
 			if error or not request then
-				vim.notify(error and error, vim.log.levels.ERROR)
+				-- The peer dropped the connection mid-request (e.g. ECONNRESET
+				-- when a browser cancels it): nothing to report, and vim.notify
+				-- would raise E5560 in this fast event context anyway.
 				M.forget_client(client)
 				return
 			else
