@@ -107,11 +107,8 @@ end
 
 --- Handle routes
 --- @param path string: path from the http request
---- @return string|nil: path to the file, nil if it is outside the root
+--- @return string|nil: path to the file or directory, nil if it is outside the root
 function Server:routes(path)
-	if path == "/" then
-		path = "/index.html"
-	end
 	local plugin_req = "/live-preview.nvim/"
 	local root = self.webroot
 	if path:sub(1, #plugin_req) == plugin_req then
@@ -120,7 +117,7 @@ function Server:routes(path)
 	root = vim.fs.normalize(root)
 	local file_path = vim.fs.normalize(vim.fs.joinpath(root, path))
 	-- normalize() resolves "..", so this refuses paths that would escape the root
-	if get_relative_path(file_path, root) then
+	if file_path == root or get_relative_path(file_path, root) then
 		return file_path
 	end
 end
@@ -223,9 +220,12 @@ function Server:start(ip, port, opts)
 					local if_none_match = req_info.if_none_match
 					local accept = req_info.accept
 					local file_path = self:routes(path)
+					local stat = file_path and uv.fs_stat(file_path)
 					-- The handlers close the connection once the response is sent
 					if not file_path then
 						handler.send_http_response(client, "404 Not Found", "text/plain", "404 Not Found")
+					elseif stat and stat.type == "directory" then
+						handler.serve_dir(client, file_path, path, if_none_match, accept)
 					else
 						handler.serve_file(client, file_path, if_none_match, accept)
 					end
