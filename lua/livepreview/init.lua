@@ -26,7 +26,7 @@ function M.is_running()
 end
 
 --- Start live-preview server
----@param filepath string: path to the file
+---@param filepath string: path to the file or folder
 ---@param port number: port to run the server on
 ---@return boolean?
 function M.start(filepath, port)
@@ -52,7 +52,9 @@ function M.start(filepath, port)
 	end
 	M.close()
 
-	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
+	-- With dynamic_root, a folder is served from itself rather than from its parent
+	local dynamic_root = vim.fn.isdirectory(filepath) == 1 and filepath or vim.fs.dirname(filepath)
+	M.serverObj = server.Server:new(config.config.dynamic_root and dynamic_root or nil)
 	local function onTextChanged(client)
 		local bufname = vim.api.nvim_buf_get_name(0)
 		if not utils.supported_filetype(bufname) or utils.supported_filetype(bufname) == "html" then
@@ -134,7 +136,7 @@ function M.help()
 	end
 	print("live-preview.nvim commands:")
 	print_help(
-		[[  :%s start [filepath] - Start live-preview server and open browser. If no filepath is given, preview the current buffer.]]
+		[[  :%s start [filepath] - Start live-preview server and open browser. filepath can be a file or a folder. If no filepath is given, preview the current buffer, or the folder shown in a folder view (oil.nvim, netrw).]]
 	)
 	print_help([[  :%s close - Stop live-preview server]])
 	print_help([[  :%s pick - Select a file to preview (using a picker like telescope.nvim, fzf-lua or mini.pick)]])

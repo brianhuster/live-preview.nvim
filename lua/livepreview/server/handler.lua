@@ -9,6 +9,7 @@ local read_file = require("livepreview.utils").async_read_file
 local supported_filetype = require("livepreview.utils").supported_filetype
 local toHTML = require("livepreview.template").toHTML
 local handle_body = require("livepreview.template").handle_body
+local dir2html = require("livepreview.template").dir2html
 local get_content_type = require("livepreview.server.utils.content_type").get
 local generate_etag = require("livepreview.server.utils.etag").generate
 
@@ -118,6 +119,50 @@ function M.serve_file(client, file_path, if_none_match, accept)
 			["ETag"] = etag,
 		})
 	end)
+end
+
+--- Serve a directory to the client: its index.html if it has one, otherwise a
+--- listing of its entries
+--- @param client uv_tcp_t: client connection
+--- @param dir_path string: path to the directory
+--- @param url_path string: path of the directory in the request
+--- @param if_none_match string|nil: If-None-Match header value
+--- @param accept string|nil: Accept header value
+function M.serve_dir(client, dir_path, url_path, if_none_match, accept)
+	-- Without the trailing slash, relative links in the page would resolve
+	-- against the parent directory
+	if url_path:sub(-1) ~= "/" then
+		M.send_http_response(client, "302 Found", "text/plain", "", {
+			["Location"] = vim.uri_encode(url_path .. "/"),
+		})
+		return
+	end
+
+	local index = vim.fs.joinpath(dir_path, "index.html")
+	if vim.uv.fs_stat(index) then
+		M.serve_file(client, index, if_none_match, accept)
+		return
+	end
+
+	local entries = {}
+	for name, type in vim.fs.dir(dir_path) do
+		if name:sub(1, 1) ~= "." then
+			-- Follow symlinks, so that linked directories are listed as directories
+			if type == "link" then
+				local stat = vim.uv.fs_stat(vim.fs.joinpath(dir_path, name))
+				type = stat and stat.type
+			end
+			table.insert(entries, { name = name, is_dir = type == "directory" })
+		end
+	end
+	table.sort(entries, function(a, b)
+		if a.is_dir ~= b.is_dir then
+			return a.is_dir
+		end
+		return a.name:lower() < b.name:lower()
+	end)
+
+	M.send_http_response(client, "200 OK", "text/html; charset=UTF-8", dir2html(url_path, entries))
 end
 
 --- Handle a client connection, read the request and send a response

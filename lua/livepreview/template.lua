@@ -73,6 +73,29 @@ M.svg2html = function(svg)
 		.. [[</div></body></html>]]
 end
 
+--- @param url_path string: path of the directory in the request, ending with "/"
+--- @param entries {name: string, is_dir: boolean}[]: entries of the directory
+M.dir2html = function(url_path, entries)
+	local items = {}
+	if url_path ~= "/" then
+		table.insert(items, '<li><a href="../">../</a></li>')
+	end
+	for _, entry in ipairs(entries) do
+		local name = entry.is_dir and entry.name .. "/" or entry.name
+		-- "./" keeps a name like "a:b" from being read as a URL scheme
+		local href = "./" .. vim.uri_encode(name)
+		table.insert(items, ('<li><a href="%s">%s</a></li>'):format(html_escape(href), html_escape(name)))
+	end
+	local title = html_escape(url_path)
+	return [[<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>]]
+		.. title
+		.. [[</title><link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css"></head><body><div class="markdown-body"><h1>Index of ]]
+		.. title
+		.. "</h1><ul>"
+		.. table.concat(items)
+		.. [[</ul></div></body></html>]]
+end
+
 M.toHTML = function(text, filetype)
 	if filetype == "markdown" then
 		return M.md2html(text)
