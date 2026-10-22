@@ -33,11 +33,23 @@ local html_template = function(body, stylesheet, script_tag)
 			<link rel="stylesheet" href="/live-preview.nvim/static/highlight/main.css">
 			<script defer src="/live-preview.nvim/static/highlight/highlight.min.js"></script>
 			<style>
-				.katex-display{margin:1em 0;text-align:center;overflow-x:auto;overflow-y:hidden}
+				.katex-display{margin:1em 0;text-align:center;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:transparent transparent}
+				.katex-display:hover{scrollbar-color:rgba(0,0,0,0.2) transparent}
+				.katex-display::-webkit-scrollbar{height:4px}
+				.katex-display::-webkit-scrollbar-thumb{background:transparent;border-radius:2px}
+				.katex-display:hover::-webkit-scrollbar-thumb{background:rgba(128,128,128,0.4)}
+				@media(prefers-color-scheme:dark){.katex-display:hover{scrollbar-color:rgba(200,200,200,0.3) transparent}.katex-display:hover::-webkit-scrollbar-thumb{background:rgba(200,200,200,0.3)}}
 				.katex{font-size:1.21em}
 				.katex .array{border-collapse:collapse}
 				.katex .array>tbody>tr>td{padding:0}
 				.katex .delimsizing{font-family:KaTeX_Size1,KaTeX_Size2,KaTeX_Size3,KaTeX_Size4,serif}
+				.frontmatter-block{border:1px solid #d0d7de;border-radius:6px;padding:8px 12px;margin-bottom:16px}
+				.frontmatter-block summary{cursor:pointer;font-weight:600;list-style:none;user-select:none}
+				.frontmatter-block summary::-webkit-details-marker{display:none}
+				.frontmatter-block summary::before{content:"▶ "}
+				.frontmatter-block[open] summary::before{content:"▼ "}
+				.frontmatter-block pre{margin:8px 0 0 0;background:transparent}
+				@media(prefers-color-scheme:dark){.frontmatter-block{border-color:#30363d}}
 			</style>
 ]] .. script_tag .. [[
 			<script defer src='/live-preview.nvim/static/ws-client.js'></script>
@@ -55,7 +67,7 @@ end
 
 M.md2html = function(md)
 	local script =
-		[[<script defer src="/live-preview.nvim/static/markdown/line-numbers.js"></script><script defer src="/live-preview.nvim/static/markdown/markdown-it-emoji.min.js"></script><script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script><script defer src='/live-preview.nvim/static/markdown/markdown-it-katex.js'></script><script defer src='/live-preview.nvim/static/markdown/main.js'></script>]]
+		[[<script defer src="/live-preview.nvim/static/markdown/line-numbers.js"></script><script defer src="/live-preview.nvim/static/markdown/markdown-it-emoji.min.js"></script><script defer src='/live-preview.nvim/static/markdown/markdown-it.min.js'></script><script defer src='/live-preview.nvim/static/markdown/markdown-it-katex.js'></script><script defer src='/live-preview.nvim/static/markdown/markdown-it-front-matter.min.js'></script><script defer src='/live-preview.nvim/static/markdown/main.js'></script>]]
 	local stylesheet = [[<link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css">]]
 	return html_template(html_escape(md), stylesheet, script)
 end

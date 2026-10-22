@@ -3,5 +3,5 @@ package-lock.json
 package.json
 test.*
 doc/tags
-
+.opencode/
 
