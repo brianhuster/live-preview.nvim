@@ -61,6 +61,25 @@ function M.find_supported_buf()
 	return nil
 end
 
+--- Get the folder shown in a folder view buffer: oil.nvim, netrw, or a buffer
+--- named after a folder (e.g. `nvim .` without a file explorer)
+--- @param buf integer: buffer handle, 0 for the current buffer
+--- @return string|nil
+function M.buf_dir(buf)
+	local filetype = vim.bo[buf].filetype
+	if filetype == "oil" then
+		local ok, oil = pcall(require, "oil")
+		return ok and oil.get_current_dir(buf) or nil
+	elseif filetype == "netrw" then
+		-- netrw buffers are not always named after the folder they show
+		return vim.b[buf].netrw_curdir
+	end
+	local name = vim.api.nvim_buf_get_name(buf)
+	if name ~= "" and vim.fn.isdirectory(name) == 1 then
+		return name
+	end
+end
+
 --- Find supported files in a directory and its subdirectories
 --- @param directory string
 --- @return table: List of relative paths (compared to `directory`) of the supported files
