@@ -51,19 +51,27 @@ const isRenderedPage = () =>
 	typeof livepreview_render !== "undefined" || window.location.pathname.endsWith(".svg");
 
 /**
+ * Render markdown or asciidoc source with the page's renderer
+ * @param {string} content - The source of the file
+ */
+const renderSource = (content) => {
+	livepreview_render(content);
+	if (typeof livepreview_renderKatex !== "undefined") {
+		livepreview_renderKatex();
+	}
+	if (typeof livepreview_renderMermaid !== "undefined") {
+		livepreview_renderMermaid();
+	}
+};
+
+/**
  * Render the source of the previewed file into the page
  * @param {string} content - The source of the file
  */
 const renderContent = (content) => {
 	// Check if the render function is defined before calling it
 	if (typeof livepreview_render !== "undefined") {
-		livepreview_render(content);
-		if (typeof livepreview_renderKatex !== "undefined") {
-			livepreview_renderKatex();
-		}
-		if (typeof livepreview_renderMermaid !== "undefined") {
-			livepreview_renderMermaid();
-		}
+		renderSource(content);
 	} else if (window.location.pathname.endsWith(".svg")) {
 		// Check if viewing svg
 		document.querySelector('.markdown-body').innerHTML = content;
@@ -107,13 +115,21 @@ async function resync() {
 		if (!res.ok || etag === sourceEtag) {
 			return;
 		}
+		if (updatedSinceReconnect) {
+			return;
+		}
+		if (typeof livepreview_render === "undefined") {
+			// An SVG page: reload rather than insert fetched markup into it
+			window.location.reload();
+			return;
+		}
 		const content = await res.text();
 		if (updatedSinceReconnect) {
 			return;
 		}
 		sourceEtag = etag;
 		console.log("File changed while disconnected, rendering it again");
-		renderContent(content);
+		renderSource(content);
 	} catch (error) {
 		console.error("Resync failed:", error);
 	}
