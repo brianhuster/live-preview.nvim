@@ -10,40 +10,30 @@ local plugin_path = require("livepreview.utils").get_plugin_path()
 local template_path = vim.fs.joinpath(plugin_path, "lua/livepreview/template.lua")
 
 --- Generate an ETag for a file
---- The Etag is generated based on the modification time of the file
+--- The ETag is built from the identity, size and modification time of the file, and the
+--- modification time of the template the file is rendered with. Files of different folders
+--- served at the same URL in turn must not share an ETag, or the browser keeps the page of
+--- the previous folder.
 --- @param file_path string: path to the file
+--- @param variant string|nil: (optional) representation of the file, e.g. "html" for the page rendered from it
 --- @return string?: ETag
-function M.generate(file_path)
-	local etag
+function M.generate(file_path, variant)
 	local attr = vim.uv.fs_stat(file_path)
-	local template_mtime
 	if not attr then
 		return nil
 	end
-	local modification_time = attr.mtime
 	local template_stat = vim.uv.fs_stat(template_path)
-	if not template_stat then
-		template_mtime = { sec = 0, nsec = 0 }
-	else
-		template_mtime = template_stat.mtime
-	end
-
-	local function mtime_compare(mtime1, mtime2)
-		if mtime1.sec > mtime2.sec then
-			return true
-		elseif mtime1.sec == mtime2.sec then
-			return mtime1.nsec > mtime2.nsec
-		else
-			return false
-		end
-	end
-
-	if mtime_compare(modification_time, template_mtime) then
-		etag = modification_time.sec .. "." .. modification_time.nsec
-	else
-		etag = template_mtime.sec .. "." .. template_mtime.nsec
-	end
-	return etag
+	local template_mtime = template_stat and template_stat.mtime or { sec = 0, nsec = 0 }
+	return ('"%d-%d-%d-%d.%d-%d.%d%s"'):format(
+		attr.dev,
+		attr.ino,
+		attr.size,
+		attr.mtime.sec,
+		attr.mtime.nsec,
+		template_mtime.sec,
+		template_mtime.nsec,
+		variant and "-" .. variant or ""
+	)
 end
 
 return M
