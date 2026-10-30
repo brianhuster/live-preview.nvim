@@ -1,6 +1,14 @@
 const wsUrl = getWebSocketUrl();
-let socket = new WebSocket(wsUrl);
-let connected = true;
+let socket = null;
+// Whether the socket has opened at least once since the page loaded
+let everConnected = false;
+// Whether the socket dropped, so updates may have been missed
+let disconnected = false;
+// ETag of the previewed file when the page last matched it on disk. Rendered pages
+// carry it, so a page the browser restored from its cache is checked against the file.
+let sourceEtag = document.querySelector('meta[name="livepreview-etag"]')?.content ?? null;
+// An update from Neovim is newer than the file on disk, so it wins over a resync
+let updatedSinceReconnect = false;
 
 function getWebSocketUrl() {
 	const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
@@ -35,19 +43,101 @@ const isRightPath = (filepath) => {
     return normalized.endsWith(decodedPath);
 };
 
-let livepreview_reload
+/**
+ * Check if the page renders its source in the browser (markdown, asciidoc, svg),
+ * so it can be updated in place rather than reloaded
+ * @returns {boolean}
+ */
+const isRenderedPage = () =>
+	typeof livepreview_render !== "undefined" || window.location.pathname.endsWith(".svg");
 
-async function connectWebSocket() {
+/**
+ * Render markdown or asciidoc source with the page's renderer
+ * @param {string} content - The source of the file
+ */
+const renderSource = (content) => {
+	livepreview_render(content);
+	if (typeof livepreview_renderKatex !== "undefined") {
+		livepreview_renderKatex();
+	}
+	if (typeof livepreview_renderMermaid !== "undefined") {
+		livepreview_renderMermaid();
+	}
+};
+
+/**
+ * Render the source of the previewed file into the page
+ * @param {string} content - The source of the file
+ */
+const renderContent = (content) => {
+	// Check if the render function is defined before calling it
+	if (typeof livepreview_render !== "undefined") {
+		renderSource(content);
+	} else if (window.location.pathname.endsWith(".svg")) {
+		// Check if viewing svg
+		document.querySelector('.markdown-body').innerHTML = content;
+	} else {
+		console.error("livepreview_render function is not defined");
+	}
+};
+
+/**
+ * Fetch the previewed file. Without text/html in Accept, the server sends its
+ * source as is rather than wrapped in a page.
+ * @returns {Promise<Response>}
+ */
+const fetchSource = () =>
+	fetch(window.location.href, { cache: "no-store", headers: { Accept: "*/*" } });
+
+/**
+ * Bring the page up to date with the file, after a reconnect or when the page came
+ * from the browser cache. Reloading would lose the scroll position, and browsers
+ * drop the socket whenever a background tab is frozen.
+ */
+async function resync() {
+	if (!isRenderedPage()) {
+		// HTML pages can't be patched in place, and their CSS or JS may have changed too
+		window.location.reload();
+		return;
+	}
+	try {
+		const res = await fetchSource();
+		const etag = res.headers.get("ETag");
+		if (!res.ok || etag === sourceEtag) {
+			return;
+		}
+		if (updatedSinceReconnect) {
+			return;
+		}
+		if (typeof livepreview_render === "undefined") {
+			// An SVG page: reload rather than insert fetched markup into it
+			window.location.reload();
+			return;
+		}
+		const content = await res.text();
+		if (updatedSinceReconnect) {
+			return;
+		}
+		sourceEtag = etag;
+		console.log("File changed since the page was rendered, rendering it again");
+		renderSource(content);
+	} catch (error) {
+		console.error("Resync failed:", error);
+	}
+}
+
+function connectWebSocket() {
 	socket = new WebSocket(wsUrl);
 
 	socket.onopen = () => {
-		if (!connected) {
-			window.location.reload();
-		}
-		connected = true;
 		console.log("Connected to server");
-		console.log("connected: ", connected);
-		livepreview_reload = 0;
+		// HTML pages carry no ETag: they were just loaded, so only a disconnect resyncs them
+		if (disconnected || (!everConnected && sourceEtag !== null)) {
+			updatedSinceReconnect = false;
+			resync();
+		}
+		everConnected = true;
+		disconnected = false;
 	};
 
 	socket.onmessage = (event) => {
@@ -55,37 +145,13 @@ async function connectWebSocket() {
 
 		if (message.type === "reload") {
 			console.log("Reload message received");
-			if (livepreview_reload === 0) {
-				livepreview_reload = 1;
-				connected = false;
-				socket.close();
-				return;
-			}
+			window.location.reload();
 		} else if (message.type === "update") {
 			console.log("Update message received");
 			let { filepath, content } = message;
 			if (isRightPath(filepath)) {
-				// Check if the render function is defined before calling it
-				if (typeof livepreview_render !== "undefined") {
-					livepreview_render(content);
-					if (typeof livepreview_renderKatex !== "undefined") {
-						livepreview_renderKatex();
-					}
-					if (typeof livepreview_renderMermaid !== "undefined") {
-						livepreview_renderMermaid();
-					}
-				} else {
-					// Check if viewing svg
-					if (window.location.pathname.endsWith(".svg")) {
-						const livepreview_render = (text) => {
-							document.querySelector('.markdown-body').innerHTML = text;
-						}
-						livepreview_render(content);
-					}
-					else {
-						console.error("livepreview_render function is not defined");
-					}
-				}
+				updatedSinceReconnect = true;
+				renderContent(content);
 			}
 		} else if (message.type === "scroll") {
 			console.log("Scroll message received");
@@ -113,9 +179,8 @@ async function connectWebSocket() {
 	};
 
 	socket.onclose = () => {
-		connected = false;
 		console.log("Disconnected from server");
-		window.location.reload();
+		disconnected = true;
 	};
 
 	socket.onerror = (error) => {
@@ -123,12 +188,21 @@ async function connectWebSocket() {
 	};
 }
 
+function reconnect() {
+	// Leave a socket that is still connecting or closing alone
+	if (socket && socket.readyState !== WebSocket.CLOSED) {
+		return;
+	}
+	connectWebSocket();
+}
+
 window.onload = () => {
 	connectWebSocket();
-	setInterval(() => {
-		if (!connected) {
-			connectWebSocket();
+	setInterval(reconnect, 1000);
+	// Timers barely run in a background tab, so don't wait for one on return
+	document.addEventListener("visibilitychange", () => {
+		if (document.visibilityState === "visible") {
+			reconnect();
 		}
-	}, 1000);
+	});
 };
-

@@ -108,6 +108,12 @@ function M.serve_file(client, file_path, if_none_match, accept)
 		if filetype and accepts_html then
 			if filetype ~= "html" then
 				body = toHTML(body, filetype)
+				-- ws-client.js checks the page against the file on disk with it
+				if etag then
+					body = body:gsub("<head>", function()
+						return ('<head><meta name="livepreview-etag" content="%s">'):format((etag:gsub('"', "&quot;")))
+					end, 1)
+				end
 			else
 				body = handle_body(body)
 			end
