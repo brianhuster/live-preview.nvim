@@ -162,7 +162,10 @@ function M.serve_dir(client, dir_path, url_path, if_none_match, accept)
 		return a.name:lower() < b.name:lower()
 	end)
 
-	M.send_http_response(client, "200 OK", "text/html; charset=UTF-8", dir2html(url_path, entries))
+	-- no-store: Back and Forward would otherwise show a cached listing
+	M.send_http_response(client, "200 OK", "text/html; charset=UTF-8", dir2html(url_path, entries), {
+		["Cache-Control"] = "no-store",
+	})
 end
 
 --- Handle a client connection, read the request and send a response

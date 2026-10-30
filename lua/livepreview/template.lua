@@ -87,9 +87,10 @@ M.dir2html = function(url_path, entries)
 		table.insert(items, ('<li><a href="%s">%s</a></li>'):format(html_escape(href), html_escape(name)))
 	end
 	local title = html_escape(url_path)
+	-- The listing doesn't update live, so a copy restored by Back or Forward would be stale
 	return [[<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>]]
 		.. title
-		.. [[</title><link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css"></head><body><div class="markdown-body"><h1>Index of ]]
+		.. [[</title><link rel="stylesheet" href="/live-preview.nvim/static/markdown/github-markdown.min.css"><script>addEventListener("pageshow", (e) => e.persisted && location.reload());</script></head><body><div class="markdown-body"><h1>Index of ]]
 		.. title
 		.. "</h1><ul>"
 		.. table.concat(items)
