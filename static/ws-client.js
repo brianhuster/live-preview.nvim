@@ -4,8 +4,9 @@ let socket = null;
 let everConnected = false;
 // Whether the socket dropped, so updates may have been missed
 let disconnected = false;
-// ETag of the previewed file when the page last matched it on disk
-let sourceEtag = null;
+// ETag of the previewed file when the page last matched it on disk. Rendered pages
+// carry it, so a page the browser restored from its cache is checked against the file.
+let sourceEtag = document.querySelector('meta[name="livepreview-etag"]')?.content ?? null;
 // An update from Neovim is newer than the file on disk, so it wins over a resync
 let updatedSinceReconnect = false;
 
@@ -88,20 +89,10 @@ const renderContent = (content) => {
 const fetchSource = () =>
 	fetch(window.location.href, { cache: "no-store", headers: { Accept: "*/*" } });
 
-async function recordEtag() {
-	try {
-		const res = await fetchSource();
-		if (res.ok) {
-			sourceEtag = res.headers.get("ETag");
-		}
-	} catch (error) {
-		console.error("Could not fetch the ETag:", error);
-	}
-}
-
 /**
- * Bring the page up to date after a reconnect. Reloading would lose the scroll
- * position, and browsers drop the socket whenever a background tab is frozen.
+ * Bring the page up to date with the file, after a reconnect or when the page came
+ * from the browser cache. Reloading would lose the scroll position, and browsers
+ * drop the socket whenever a background tab is frozen.
  */
 async function resync() {
 	if (!isRenderedPage()) {
@@ -128,7 +119,7 @@ async function resync() {
 			return;
 		}
 		sourceEtag = etag;
-		console.log("File changed while disconnected, rendering it again");
+		console.log("File changed since the page was rendered, rendering it again");
 		renderSource(content);
 	} catch (error) {
 		console.error("Resync failed:", error);
@@ -140,13 +131,12 @@ function connectWebSocket() {
 
 	socket.onopen = () => {
 		console.log("Connected to server");
-		if (!everConnected) {
-			everConnected = true;
-			recordEtag();
-		} else if (disconnected) {
+		// HTML pages carry no ETag: they were just loaded, so only a disconnect resyncs them
+		if (disconnected || (!everConnected && sourceEtag !== null)) {
 			updatedSinceReconnect = false;
 			resync();
 		}
+		everConnected = true;
 		disconnected = false;
 	};
 
