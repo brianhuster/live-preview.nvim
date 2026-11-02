@@ -121,6 +121,42 @@ function M.serve_file(client, file_path, if_none_match, accept)
 	end)
 end
 
+--- Compare two names in natural order, ignoring case: runs of digits compare as
+--- numbers, so "2.md" sorts before "10.md"
+--- @param a string
+--- @param b string
+--- @return boolean: whether `a` sorts before `b`
+local function natural_less(a, b)
+	local la, lb = a:lower(), b:lower()
+	local i, j = 1, 1
+	while i <= #la and j <= #lb do
+		local da, db = la:match("^%d+", i), lb:match("^%d+", j)
+		if da and db then
+			-- Compare without leading zeros: longer means larger, then digit by digit.
+			-- Works for numbers of any size, unlike tonumber()
+			local na, nb = da:gsub("^0+", ""), db:gsub("^0+", "")
+			if na ~= nb then
+				if #na ~= #nb then
+					return #na < #nb
+				end
+				return na < nb
+			end
+			i, j = i + #da, j + #db
+		else
+			local ca, cb = la:sub(i, i), lb:sub(j, j)
+			if ca ~= cb then
+				return ca < cb
+			end
+			i, j = i + 1, j + 1
+		end
+	end
+	if i <= #la or j <= #lb then
+		return i > #la
+	end
+	-- Equal apart from case or leading zeros: keep the order total
+	return a < b
+end
+
 --- Serve a directory to the client: its index.html if it has one, otherwise a
 --- listing of its entries
 --- @param client uv_tcp_t: client connection
@@ -159,7 +195,7 @@ function M.serve_dir(client, dir_path, url_path, if_none_match, accept)
 		if a.is_dir ~= b.is_dir then
 			return a.is_dir
 		end
-		return a.name:lower() < b.name:lower()
+		return natural_less(a.name, b.name)
 	end)
 
 	-- no-store: Back and Forward would otherwise show a cached listing
