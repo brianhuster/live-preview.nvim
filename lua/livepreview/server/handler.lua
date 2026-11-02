@@ -9,6 +9,7 @@ local read_file = require("livepreview.utils").async_read_file
 local supported_filetype = require("livepreview.utils").supported_filetype
 local toHTML = require("livepreview.template").toHTML
 local handle_body = require("livepreview.template").handle_body
+local dir2html = require("livepreview.template").dir2html
 local get_content_type = require("livepreview.server.utils.content_type").get
 local generate_etag = require("livepreview.server.utils.etag").generate
 
@@ -118,6 +119,89 @@ function M.serve_file(client, file_path, if_none_match, accept)
 			["ETag"] = etag,
 		})
 	end)
+end
+
+--- Compare two names in natural order, ignoring case: runs of digits compare as
+--- numbers, so "2.md" sorts before "10.md"
+--- @param a string
+--- @param b string
+--- @return boolean: whether `a` sorts before `b`
+local function natural_less(a, b)
+	local la, lb = a:lower(), b:lower()
+	local i, j = 1, 1
+	while i <= #la and j <= #lb do
+		local da, db = la:match("^%d+", i), lb:match("^%d+", j)
+		if da and db then
+			-- Compare without leading zeros: longer means larger, then digit by digit.
+			-- Works for numbers of any size, unlike tonumber()
+			local na, nb = da:gsub("^0+", ""), db:gsub("^0+", "")
+			if na ~= nb then
+				if #na ~= #nb then
+					return #na < #nb
+				end
+				return na < nb
+			end
+			i, j = i + #da, j + #db
+		else
+			local ca, cb = la:sub(i, i), lb:sub(j, j)
+			if ca ~= cb then
+				return ca < cb
+			end
+			i, j = i + 1, j + 1
+		end
+	end
+	if i <= #la or j <= #lb then
+		return i > #la
+	end
+	-- Equal apart from case or leading zeros: keep the order total
+	return a < b
+end
+
+--- Serve a directory to the client: its index.html if it has one, otherwise a
+--- listing of its entries
+--- @param client uv_tcp_t: client connection
+--- @param dir_path string: path to the directory
+--- @param url_path string: path of the directory in the request
+--- @param if_none_match string|nil: If-None-Match header value
+--- @param accept string|nil: Accept header value
+function M.serve_dir(client, dir_path, url_path, if_none_match, accept)
+	-- Without the trailing slash, relative links in the page would resolve
+	-- against the parent directory
+	if url_path:sub(-1) ~= "/" then
+		M.send_http_response(client, "302 Found", "text/plain", "", {
+			["Location"] = vim.uri_encode(url_path .. "/"),
+		})
+		return
+	end
+
+	local index = vim.fs.joinpath(dir_path, "index.html")
+	if vim.uv.fs_stat(index) then
+		M.serve_file(client, index, if_none_match, accept)
+		return
+	end
+
+	local entries = {}
+	for name, type in vim.fs.dir(dir_path) do
+		if name:sub(1, 1) ~= "." then
+			-- Follow symlinks, so that linked directories are listed as directories
+			if type == "link" then
+				local stat = vim.uv.fs_stat(vim.fs.joinpath(dir_path, name))
+				type = stat and stat.type
+			end
+			table.insert(entries, { name = name, is_dir = type == "directory" })
+		end
+	end
+	table.sort(entries, function(a, b)
+		if a.is_dir ~= b.is_dir then
+			return a.is_dir
+		end
+		return natural_less(a.name, b.name)
+	end)
+
+	-- no-store: Back and Forward would otherwise show a cached listing
+	M.send_http_response(client, "200 OK", "text/html; charset=UTF-8", dir2html(url_path, entries), {
+		["Cache-Control"] = "no-store",
+	})
 end
 
 --- Handle a client connection, read the request and send a response

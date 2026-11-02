@@ -7,6 +7,7 @@
 local M = {}
 local handler = require("livepreview.server.handler")
 local get_plugin_path = require("livepreview.utils").get_plugin_path
+local get_relative_path = require("livepreview.utils").get_relative_path
 local websocket = require("livepreview.server.websocket")
 local supported_filetype = require("livepreview.utils").supported_filetype
 local fswatch = require("livepreview.server.fswatch")
@@ -106,16 +107,18 @@ end
 
 --- Handle routes
 --- @param path string: path from the http request
---- @return string: path to the file
+--- @return string|nil: path to the file or directory, nil if it is outside the root
 function Server:routes(path)
-	if path == "/" then
-		path = "/index.html"
-	end
 	local plugin_req = "/live-preview.nvim/"
+	local root = self.webroot
 	if path:sub(1, #plugin_req) == plugin_req then
-		return vim.fs.joinpath(get_plugin_path(), path:sub(#plugin_req + 1))
-	else
-		return vim.fs.joinpath(self.webroot, path)
+		root, path = get_plugin_path(), path:sub(#plugin_req + 1)
+	end
+	root = vim.fs.normalize(root)
+	local file_path = vim.fs.normalize(vim.fs.joinpath(root, path))
+	-- normalize() resolves "..", so this refuses paths that would escape the root
+	if file_path == root or get_relative_path(file_path, root) then
+		return file_path
 	end
 end
 
@@ -217,8 +220,15 @@ function Server:start(ip, port, opts)
 					local if_none_match = req_info.if_none_match
 					local accept = req_info.accept
 					local file_path = self:routes(path)
-					-- serve_file closes the connection once the response is sent
-					handler.serve_file(client, file_path, if_none_match, accept)
+					local stat = file_path and uv.fs_stat(file_path)
+					-- The handlers close the connection once the response is sent
+					if not file_path then
+						handler.send_http_response(client, "404 Not Found", "text/plain", "404 Not Found")
+					elseif stat and stat.type == "directory" then
+						handler.serve_dir(client, file_path, path, if_none_match, accept)
+					else
+						handler.serve_file(client, file_path, if_none_match, accept)
+					end
 				elseif not client:is_closing() then
 					-- handler.request returns nil only after a WebSocket
 					-- upgrade, and broadcasts must reach nothing else.

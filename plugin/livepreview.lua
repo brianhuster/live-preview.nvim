@@ -41,15 +41,19 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 				filepath = fs.joinpath(vim.uv.cwd(), filepath)
 			end
 		else
-			filepath = api.nvim_buf_get_name(0)
-			if not utils.supported_filetype(filepath) then
-				filepath = utils.find_supported_buf()
-				if not filepath then
-					vim.notify(
-						"live-preview.nvim only supports markdown, asciidoc, svg and html files",
-						vim.log.levels.ERROR
-					)
-					return
+			-- In a folder view (oil.nvim, netrw), preview the folder
+			filepath = utils.buf_dir(0)
+			if not filepath then
+				filepath = api.nvim_buf_get_name(0)
+				if not utils.supported_filetype(filepath) then
+					filepath = utils.find_supported_buf()
+					if not filepath then
+						vim.notify(
+							"live-preview.nvim only supports markdown, asciidoc, svg and html files",
+							vim.log.levels.ERROR
+						)
+						return
+					end
 				end
 			end
 		end
@@ -58,8 +62,17 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 			return
 		end
 
-		local urlpath = Config.dynamic_root and fs.basename(filepath)
-			or utils.get_relative_path(filepath, fs.normalize(vim.uv.cwd() or ""))
+		local urlpath
+		local cwd = fs.normalize(vim.uv.cwd() or "")
+		if vim.fn.isdirectory(filepath) == 0 then
+			urlpath = Config.dynamic_root and fs.basename(filepath) or utils.get_relative_path(filepath, cwd)
+		elseif Config.dynamic_root or filepath == cwd then
+			-- The folder is the server root
+			urlpath = ""
+		else
+			local relpath = utils.get_relative_path(filepath, cwd)
+			urlpath = relpath and relpath .. "/"
+		end
 		local urlpath_encoded = urlpath and vim.uri_encode(urlpath)
 		local url = ("http://%s:%d/%s"):format(Config.address, Config.port, urlpath_encoded)
 		print("live-preview.nvim: Opening browser at " .. url)

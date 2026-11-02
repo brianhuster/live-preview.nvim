@@ -68,6 +68,11 @@ browser and update it live as you write changes to your file.
 You can also parse a file path (either absolute or relative) as argument, for
 example >vim
     :LivePreview start test/doc.md
+<
+A folder opens its `index.html`, or a listing of its files if it has none.
+Pass it as argument, or run the command from a folder view (oil.nvim, netrw) to
+preview the folder it shows >vim
+    :LivePreview start test/
 
 - To stop the live preview server, use the command: >vim
     :LivePreview close
