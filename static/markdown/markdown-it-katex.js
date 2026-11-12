@@ -9,15 +9,12 @@
     'use strict';
 
     // Pre-compiled regex for better performance
-    const RE_VALID_PREV=/[\w\d]/;
-    const RE_VALID_NEXT=/[\w\d]/;
-    const RE_NOT_WS=/\S/;
+    // As in pandoc, a digit after the closing $ rejects math,
+    // so "$5 and $10" stays text while H$_2$O renders
+    const RE_INVALID_NEXT=/\d/;
 
     function math_inline(state,silent){
         if(state.src.charCodeAt(state.pos)!==36)return false; // 36 is '$'
-
-        const prev=state.src[state.pos-1];
-        if(prev&&RE_NOT_WS.test(prev)&&RE_VALID_PREV.test(prev))return false;
 
         const start=state.pos+1;
         let match=start;
@@ -37,7 +34,7 @@
         if(match>=len)return false;
 
         const next=src[match+1];
-        if(next&&RE_VALID_NEXT.test(next))return false;
+        if(next&&RE_INVALID_NEXT.test(next))return false;
 
         if(!silent){
             const token=state.push('math_inline','math',0);
