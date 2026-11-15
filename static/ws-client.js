@@ -95,8 +95,11 @@ async function showSource(show) {
 		if (!sourceView) {
 			sourceView = document.createElement("pre");
 			sourceView.className = "livepreview-source";
+			// The Markdown stylesheet sets the dark mode background on body, but the text
+			// color only on .markdown-body: take it from the variable both are based on
 			sourceView.style.cssText =
 				"margin:0;padding:16px 32px;white-space:pre-wrap;overflow-wrap:anywhere;" +
+				"color:var(--fgColor-default,inherit);" +
 				"font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace";
 			rendering.after(sourceView);
 		}
