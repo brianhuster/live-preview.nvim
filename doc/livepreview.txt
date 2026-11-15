@@ -68,6 +68,13 @@ browser and update it live as you write changes to your file.
 You can also parse a file path (either absolute or relative) as argument, for
 example >vim
     :LivePreview start test/doc.md
+<
+To see the source of a page instead of its rendering, for example to copy the
+Markdown, add `?raw` to its URL in the browser: >
+    http://localhost:5500/test/doc.md?raw
+<
+On a Markdown, AsciiDoc or SVG page, press `r` to switch between the rendering
+and the source in place. The source follows your changes like the rendering.
 
 - To stop the live preview server, use the command: >vim
     :LivePreview close

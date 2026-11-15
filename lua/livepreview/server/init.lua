@@ -216,9 +216,10 @@ function Server:start(ip, port, opts)
 					local path = req_info.path
 					local if_none_match = req_info.if_none_match
 					local accept = req_info.accept
+					local raw = req_info.raw
 					local file_path = self:routes(path)
 					-- serve_file closes the connection once the response is sent
-					handler.serve_file(client, file_path, if_none_match, accept)
+					handler.serve_file(client, file_path, if_none_match, accept, raw)
 				elseif not client:is_closing() then
 					-- handler.request returns nil only after a WebSocket
 					-- upgrade, and broadcasts must reach nothing else.

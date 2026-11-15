@@ -59,14 +59,19 @@ end
 --- If the request is a websocket upgrade request, it will call websocket handshake
 --- Otherwise, if it is a GET request, return the path from it
 ---@param request string: HTTP request
----@return {path: string, if_none_match: string, accept: string} | nil : path to the file and If-None-Match header
+---@return {path: string, if_none_match: string, accept: string, raw: boolean} | nil : path to the file, If-None-Match header and whether the source is asked for
 function M.request(client, request)
 	if request:match("Upgrade: websocket") then
 		websocket.handshake(client, request)
 		return
 	end
-	local path = request:match("GET ([^%s]+) HTTP/1.1")
-	local path_decoded = path and vim.uri_decode(path) or "/"
+	-- The query string is not part of the file path. Split before decoding,
+	-- so that an encoded "?" (%3F) stays in the file name
+	local target = request:match("GET ([^%s]+) HTTP/1.1") or "/"
+	local path, query = target:match("^([^?]*)%??(.*)$")
+	local path_decoded = path ~= "" and vim.uri_decode(path) or "/"
+	-- `?raw` asks for the source of a page instead of its rendering
+	local raw = ("&" .. query .. "&"):find("&raw[=&]") ~= nil
 
 	local if_none_match = request:match("If%-None%-Match: ([^\r\n]+)")
 	local accept = request:match("Accept: ([^\r\n]+)") or ""
@@ -75,6 +80,7 @@ function M.request(client, request)
 		path = path_decoded,
 		if_none_match = if_none_match,
 		accept = accept,
+		raw = raw,
 	}
 end
 
@@ -83,7 +89,8 @@ end
 --- @param file_path string: path to the file
 --- @param if_none_match string|nil: If-None-Match header value
 --- @param accept string|nil: Accept header value
-function M.serve_file(client, file_path, if_none_match, accept)
+--- @param raw boolean|nil: send the source of a page instead of its rendering
+function M.serve_file(client, file_path, if_none_match, accept, raw)
 	read_file(file_path, function(_, body)
 		if not body then
 			M.send_http_response(client, "404 Not Found", "text/plain", "404 Not Found")
@@ -105,13 +112,16 @@ function M.serve_file(client, file_path, if_none_match, accept)
 		-- Only convert to HTML if the client accepts text/html
 		-- This prevents converting SVG files that are referenced by <img> tags
 		local accepts_html = accept and accept:match("text/html")
-		if filetype and accepts_html then
+		if filetype and accepts_html and not raw then
 			if filetype ~= "html" then
 				body = toHTML(body, filetype)
 			else
 				body = handle_body(body)
 			end
 			content_type = "text/html; charset=UTF-8"
+		elseif filetype and raw then
+			-- Browsers download text/markdown and render text/html: plain text is shown as is
+			content_type = "text/plain; charset=UTF-8"
 		end
 
 		M.send_http_response(client, "200 OK", content_type, body, {

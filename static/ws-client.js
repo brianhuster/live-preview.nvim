@@ -37,6 +37,104 @@ const isRightPath = (filepath) => {
 
 let livepreview_reload
 
+// Session storage key that keeps the source view across reloads of the page
+const sourceViewKey = `livepreview-source:${window.location.pathname}`;
+// Latest source sent by Neovim: newer than the file on disk while the buffer is unsaved
+let latestSource = null;
+// <pre> that shows the source in place of the rendering, created on first use
+let sourceView = null;
+
+/**
+ * Check if the page is rendered from its source in the browser (markdown, asciidoc, svg)
+ * @returns {boolean}
+ */
+const hasSourceView = () =>
+	typeof livepreview_render !== "undefined" || window.location.pathname.endsWith(".svg");
+
+/** @returns {boolean} - True if the source is shown instead of the rendering */
+const isSourceShown = () => sourceView !== null && sourceView.style.display !== "none";
+
+/**
+ * Keep the source view in step with the source the page renders
+ * @param {string} content - The source of the file
+ */
+const updateSourceView = (content) => {
+	latestSource = content;
+	if (sourceView) {
+		sourceView.textContent = content;
+	}
+};
+
+/**
+ * Show the source of the page in place of its rendering, or the rendering again
+ * @param {boolean} show - True to show the source
+ */
+async function showSource(show) {
+	const rendering = document.querySelector(".markdown-body");
+	if (!rendering) {
+		return;
+	}
+	if (show) {
+		let source = latestSource;
+		if (source === null) {
+			// ?raw makes the server send the file as is
+			const url = new URL(window.location.href);
+			url.searchParams.set("raw", "");
+			url.hash = "";
+			try {
+				const res = await fetch(url, { cache: "no-cache" });
+				if (!res.ok) {
+					return;
+				}
+				source = await res.text();
+			} catch (error) {
+				console.error("Fetching the source failed:", error);
+				return;
+			}
+		}
+		if (!sourceView) {
+			sourceView = document.createElement("pre");
+			sourceView.className = "livepreview-source";
+			sourceView.style.cssText =
+				"margin:0;padding:16px 32px;white-space:pre-wrap;overflow-wrap:anywhere;" +
+				"font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace";
+			rendering.after(sourceView);
+		}
+		// An update may have arrived during the fetch
+		sourceView.textContent = latestSource ?? source;
+		sessionStorage.setItem(sourceViewKey, "1");
+	} else {
+		sessionStorage.removeItem(sourceViewKey);
+	}
+	// Hidden content is left out of select all and copy
+	rendering.style.display = show ? "none" : "";
+	if (sourceView) {
+		sourceView.style.display = show ? "" : "none";
+	}
+}
+
+// "r" toggles between the rendering and the source, e.g. to copy the Markdown
+document.addEventListener("keydown", (event) => {
+	if (event.key !== "r" || event.ctrlKey || event.metaKey || event.altKey || event.repeat) {
+		return;
+	}
+	const target = event.target;
+	if (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) {
+		return;
+	}
+	if (!hasSourceView()) {
+		return;
+	}
+	event.preventDefault();
+	showSource(!isSourceShown());
+});
+
+window.addEventListener("load", () => {
+	if (hasSourceView() && sessionStorage.getItem(sourceViewKey)) {
+		showSource(true);
+	}
+});
+
 async function connectWebSocket() {
 	socket = new WebSocket(wsUrl);
 
@@ -65,6 +163,7 @@ async function connectWebSocket() {
 			console.log("Update message received");
 			let { filepath, content } = message;
 			if (isRightPath(filepath)) {
+				updateSourceView(content);
 				// Check if the render function is defined before calling it
 				if (typeof livepreview_render !== "undefined") {
 					livepreview_render(content);
