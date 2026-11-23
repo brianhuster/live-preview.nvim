@@ -28,8 +28,21 @@ end
 --- Start live-preview server
 ---@param filepath string: path to the file
 ---@param port number: port to run the server on
----@return boolean?
+---@return string? url: the page previewing the file, nil if the server did not start
 function M.start(filepath, port)
+	local cwd = vim.uv.cwd()
+	if filepath:sub(1, 2) == "~/" then
+		filepath = vim.uv.os_homedir() .. filepath:sub(2)
+	elseif not utils.is_absolute_path(filepath) then
+		-- Not fnamemodify(":p"), which resolves symlinked folders and would move a file under cwd outside it
+		filepath = vim.fs.joinpath(cwd or ".", filepath)
+	end
+	filepath = vim.fs.normalize(filepath)
+	if not vim.uv.fs_stat(filepath) then
+		vim.notify(("live-preview.nvim: cannot preview %s: no such file"):format(filepath), vim.log.levels.ERROR)
+		return
+	end
+
 	local processes = utils.processes_listening_on_port(port)
 	if #processes > 0 then
 		for _, process in ipairs(processes) do
@@ -52,7 +65,12 @@ function M.start(filepath, port)
 	end
 	M.close()
 
-	M.serverObj = server.Server:new(config.config.dynamic_root and vim.fs.dirname(filepath) or nil)
+	-- Serving cwd keeps links across the project working, but cannot reach a file outside it
+	local urlpath = cwd and not config.config.dynamic_root and utils.get_relative_path(filepath, vim.fs.normalize(cwd))
+	local root = urlpath and cwd or vim.fs.dirname(filepath)
+	urlpath = urlpath or vim.fs.basename(filepath)
+
+	M.serverObj = server.Server:new(root)
 	local function onTextChanged(client)
 		local bufname = vim.api.nvim_buf_get_name(0)
 		if not utils.supported_filetype(bufname) or utils.supported_filetype(bufname) == "html" then
@@ -83,7 +101,7 @@ function M.start(filepath, port)
 		},
 	})
 
-	return true
+	return ("http://%s:%d/%s"):format(config.config.address, port, vim.uri_encode(urlpath))
 end
 
 function M.pick()
@@ -95,17 +113,12 @@ function M.pick()
 			vim.notify("No file picked", vim.log.levels.INFO)
 			return
 		end
-		M.start(filepath, config.config.port)
+		local url = M.start(filepath, config.config.port)
+		if not url then
+			return
+		end
 		vim.cmd.edit(filepath)
-		utils.open_browser(
-			string.format(
-				"http://%s:%d/%s",
-				config.config.address,
-				config.config.port,
-				config.config.dynamic_root and vim.fs.basename(filepath) or filepath
-			),
-			config.config.browser
-		)
+		utils.open_browser(url, config.config.browser)
 	end
 
 	local picker_funcs = {}

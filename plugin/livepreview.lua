@@ -29,7 +29,6 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 	local utils = require("livepreview.utils")
 	local lp = require("livepreview")
 	local Config = require("livepreview.config").config
-	local fs = vim.fs
 
 	local subcommand = cmd_opts.fargs[1]
 
@@ -37,9 +36,6 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 		local filepath
 		if cmd_opts.fargs[2] ~= nil then
 			filepath = cmd_opts.fargs[2]
-			if not utils.is_absolute_path(filepath) then
-				filepath = fs.joinpath(vim.uv.cwd(), filepath)
-			end
 		else
 			filepath = api.nvim_buf_get_name(0)
 			if not utils.supported_filetype(filepath) then
@@ -53,15 +49,10 @@ api.nvim_create_user_command(cmd, function(cmd_opts)
 				end
 			end
 		end
-		filepath = fs.normalize(filepath)
-		if not lp.start(filepath, Config.port) then
+		local url = lp.start(filepath, Config.port)
+		if not url then
 			return
 		end
-
-		local urlpath = Config.dynamic_root and fs.basename(filepath)
-			or utils.get_relative_path(filepath, fs.normalize(vim.uv.cwd() or ""))
-		local urlpath_encoded = urlpath and vim.uri_encode(urlpath)
-		local url = ("http://%s:%d/%s"):format(Config.address, Config.port, urlpath_encoded)
 		print("live-preview.nvim: Opening browser at " .. url)
 		utils.open_browser(url, Config.browser)
 	elseif subcommand == "close" then
